@@ -1,21 +1,23 @@
 require('./bootstrap');
 
 import { createApp } from 'vue'
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import store from "./store/";
 import routes from "./routes";
 
-import exampleComponent from "./components/ExampleComponent";
+import App from "./App.vue";
+
 
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes
 })
 
 
-const app = createApp({})
+const app = createApp(App)
     .use(store)
-    .use(router)
-    .component('example', exampleComponent)
-    .mount('#app');
+    .use(router);
+
+app.mixin(require('./mixins/asset.js'));
+app.mount('#app');

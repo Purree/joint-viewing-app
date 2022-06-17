@@ -1,15 +1,16 @@
+import Register from "../views/Register.vue";
+
 const routes = [
-    // {
-    //     path: '/',
-    //     name: 'blog.index',
-    //     component: BlogIndex, // without webpack code splitting
-    // },
-    // {
-    //     path: '/post/:slug',
-    //     name: 'blog.show',
-    //     // with webpack code splitting (best for larger apps, it can lazy load then):
-    //     component: () => import(/* webpackChunkName: "blog-show" */ '../components/blog/views/SinglePost.vue')
-    // },
+    {
+        path: '/login',
+        name: 'Login',
+        component: () => import('../views/Login.vue')
+    },
+    {
+        path: '/register',
+        name: 'Register',
+        component: Register
+    }
 ];
 
 export default routes;
