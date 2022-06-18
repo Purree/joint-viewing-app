@@ -34,10 +34,15 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.pending === false) {
         this.pending = true;
-        axios__WEBPACK_IMPORTED_MODULE_0___default().post(_api_auth__WEBPACK_IMPORTED_MODULE_1__.API_LOGIN_URL, this.form).then(function (response) {
-          _this.loggedIn = true;
-        })["catch"](function (errors) {}).then(function () {
-          _this.pending = false;
+        axios__WEBPACK_IMPORTED_MODULE_0___default().get('/sanctum/csrf-cookie').then(function (response) {
+          axios__WEBPACK_IMPORTED_MODULE_0___default().post(_api_auth__WEBPACK_IMPORTED_MODULE_1__.API_LOGIN_URL, _this.form).then(function (response) {
+            console.log(response);
+            _this.loggedIn = true;
+          })["catch"](function (errors) {
+            console.log(errors.response);
+          }).then(function () {
+            _this.pending = false;
+          });
         });
       }
     }
@@ -101,6 +106,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , _hoisted_5)]);
 }
+
+/***/ }),
+
+/***/ "./resources/js/api/auth.js":
+/*!**********************************!*\
+  !*** ./resources/js/api/auth.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "API_LOGIN_URL": () => (/* binding */ API_LOGIN_URL),
+/* harmony export */   "API_REGISTRATION_URL": () => (/* binding */ API_REGISTRATION_URL)
+/* harmony export */ });
+var API_LOGIN_URL = '/api/login';
+var API_REGISTRATION_URL = '/api/registration';
 
 /***/ }),
 

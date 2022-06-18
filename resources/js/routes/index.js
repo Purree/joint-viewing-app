@@ -1,5 +1,3 @@
-import Register from "../views/Register.vue";
-
 const routes = [
     {
         path: '/login',
@@ -9,8 +7,17 @@ const routes = [
     {
         path: '/register',
         name: 'Register',
-        component: Register
-    }
+        component: () => import('../views/Register.vue')
+    },
+    {
+        path: '/404',
+        name: 'PageNotExist',
+        component: () => import('../views/Login.vue'),
+    },
+    {
+        path: "/:catchAll(.*)", // Unrecognized path automatically matches 404
+        redirect: '/404',
+    },
 ];
 
 export default routes;

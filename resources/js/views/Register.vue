@@ -35,7 +35,9 @@ export default {
                     .then(response => {
                         this.registered = true;
                     })
-                    .catch(errors => {})
+                    .catch(errors => {
+                        console.log(errors.response)
+                    })
                     .then(() => {
                         this.pending = false;
                     });

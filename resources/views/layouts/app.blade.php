@@ -23,7 +23,6 @@
     <script>
         window._asset = '{{ asset('') }}';
     </script>
-    @csrf
     @yield('content')
 </body>
 </html>

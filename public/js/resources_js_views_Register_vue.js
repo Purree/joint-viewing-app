@@ -38,7 +38,9 @@ __webpack_require__.r(__webpack_exports__);
         this.pending = true;
         axios__WEBPACK_IMPORTED_MODULE_0___default().post(_api_auth__WEBPACK_IMPORTED_MODULE_1__.API_REGISTRATION_URL, this.form).then(function (response) {
           _this.registered = true;
-        })["catch"](function (errors) {}).then(function () {
+        })["catch"](function (errors) {
+          console.log(errors.response);
+        }).then(function () {
           _this.pending = false;
         });
       }

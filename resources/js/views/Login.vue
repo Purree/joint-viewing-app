@@ -1,7 +1,6 @@
 <template>
     <div>
         <span v-if="loggedIn">Successfully logged in</span><br>
-        <span v-if="error">Error {{ error }}</span><br>
         <input type="text" v-model="form.email" placeholder="Email"><br>
         <input type="password" v-model="form.password" placeholder="Password"><br>
         <button @click="sendForm" :disabled="pending">Login</button>
@@ -28,14 +27,19 @@ export default {
         sendForm() {
             if (this.pending === false) {
                 this.pending = true;
-                axios.post(API_LOGIN_URL, this.form)
-                    .then(response => {
-                        this.loggedIn = true;
-                    })
-                    .catch(errors => {})
-                    .then(() => {
-                        this.pending = false;
-                    });
+                axios.get('/sanctum/csrf-cookie').then(response => {
+                    axios.post(API_LOGIN_URL, this.form)
+                        .then(response => {
+                            console.log(response)
+                            this.loggedIn = true;
+                        })
+                        .catch(errors => {
+                            console.log(errors.response)
+                        })
+                        .then(() => {
+                            this.pending = false;
+                        });
+                })
             }
         }
     }
