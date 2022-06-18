@@ -5,8 +5,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 /* Oruga */
 import Oruga from '@oruga-ui/oruga-next'
-import '@oruga-ui/oruga-next/dist/oruga-full.css'
+
+import { bulmaConfig } from '@oruga-ui/theme-bulma'
+import '../sass/bulma/bulma.scss'
+
 /* Oruga */
+
 
 /* Font awesome */
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -32,6 +36,7 @@ const app = createApp(App)
     .use(store)
     .use(router)
     .use(Oruga, {
+        ...bulmaConfig,
         iconPack: 'fas',
         iconComponent: 'vue-fontawesome'
     });
