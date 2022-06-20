@@ -9,7 +9,7 @@
                 </ul>
             </div>
 
-            <slot/>
+            <slot></slot>
         </div>
     </form>
 </template>
@@ -19,17 +19,17 @@ export default {
     name: "AuthenticationLayout",
     data() {
         return {
-            routes: ['Login', 'Register']
+            routes: ['Login', 'Register'],
         }
     }
 }
 </script>
 
 <style scoped>
-    .auth-form {
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        max-width: 700px;
-    }
+.auth-form {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    max-width: 700px;
+}
 </style>
