@@ -1,22 +1,16 @@
 <template>
-    <div class="box">
+    <section class="box">
         <span v-if="loggedIn">Successfully logged in</span><br>
-        <div class="field">
-            <label class="label">Email</label>
-            <div class="control">
-                <input class="input" v-model="form.email" type="email" placeholder="e.g. alex@example.com">
-            </div>
-        </div>
+        <o-field label="Email">
+            <o-input v-model="form.email" type="email" placeholder="e.g. alex@example.com"></o-input>
+        </o-field>
 
-        <div class="field">
-            <label class="label">Password</label>
-            <div class="control">
-                <input class="input" v-model="form.password" type="password" placeholder="********">
-            </div>
-        </div>
+        <o-field label="Password">
+            <o-input v-model="form.password" type="password" placeholder="********"></o-input>
+        </o-field>
 
         <button class="button is-primary" @click="sendForm" :disabled="pending">Sign in</button>
-    </div>
+    </section>
 </template>
 
 <script>

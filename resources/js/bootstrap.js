@@ -1,8 +1,8 @@
 window._ = require('lodash');
 
-try {
-    require('bootstrap');
-} catch (e) {}
+// try {
+//     require('bootstrap');
+// } catch (e) {}
 
 
 window.axios = require('axios');
