@@ -1,16 +1,18 @@
 <template>
     <main>
-        <router-view v-slot="{ Component, route }">
-            <transition :name="route.meta.transition || 'fade'">
-                <component :is="Component" />
-            </transition>
-        </router-view>
+        <AppLayout>
+            <router-view v-slot="{ Component, route }">
+                <transition :name="route.meta.transition || 'fade'">
+                    <component :is="Component" />
+                </transition>
+            </router-view>
+        </AppLayout>
     </main>
 </template>
 
 <script>
     export default {
-        name: "App"
+        name: 'App',
     }
 </script>
 

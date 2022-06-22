@@ -2,12 +2,18 @@ const routes = [
     {
         path: '/login',
         name: 'Login',
-        component: () => import('../views/authentication/Login.vue')
+        component: () => import('../views/authentication/Login.vue'),
+        meta: {
+            layout: 'AuthenticationLayout'
+        }
     },
     {
         path: '/register',
         name: 'Register',
-        component: () => import('../views/authentication/Register.vue')
+        component: () => import('../views/authentication/Register.vue'),
+        meta: {
+            layout: 'AuthenticationLayout'
+        }
     },
     {
         path: '/404',

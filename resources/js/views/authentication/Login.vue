@@ -1,13 +1,11 @@
 <template>
-    <AuthenticationLayout>
-        <FormInput :label="'Email'" v-model:model-value="form.email" :placeholder="'alex@example.com'"
-                   :type="'email'"/>
+    <FormInput :label="'Email'" v-model:model-value="form.email" :placeholder="'alex@example.com'"
+               :type="'email'"/>
 
-        <FormInput :label="'Password'" v-model:model-value="form.password" :placeholder="'******'"
-                   :type="'password'"/>
+    <FormInput :label="'Password'" v-model:model-value="form.password" :placeholder="'******'"
+               :type="'password'"/>
 
-        <SubmitButton :sendForm="sendForm" :pending="pending" :form="form" :text="'Login'"/>
-    </AuthenticationLayout>
+    <SubmitButton :sendForm="sendForm" :pending="pending" :form="form" :text="'Login'"/>
 </template>
 
 <script>

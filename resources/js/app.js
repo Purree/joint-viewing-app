@@ -1,3 +1,5 @@
+import AppLayout from "./layouts/AppLayout";
+
 require('./bootstrap');
 
 import { createApp } from 'vue'
@@ -43,4 +45,5 @@ const app = createApp(App)
 
 app.mixin(require('./mixins/asset.js'));
 app.component("VueFontawesome", FontAwesomeIcon);
+app.component('AppLayout', AppLayout);
 app.mount('#app');

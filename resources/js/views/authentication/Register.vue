@@ -1,21 +1,19 @@
 <template>
-    <AuthenticationLayout>
-        <span v-if="registered">Successfully registered</span><br>
+    <span v-if="registered">Successfully registered</span><br>
 
-        <FormInput :label="'Username'" v-model="form.name" :placeholder="'pure'"
-                   :type="'text'"/>
+    <FormInput :label="'Username'" v-model="form.name" :placeholder="'pure'"
+               :type="'text'"/>
 
-        <FormInput :label="'Email'" v-model:model-value="form.email" :placeholder="'alex@example.com'"
-                   :type="'email'"/>
+    <FormInput :label="'Email'" v-model:model-value="form.email" :placeholder="'alex@example.com'"
+               :type="'email'"/>
 
-        <FormInput :label="'Password'" v-model:model-value="form.password" :placeholder="'******'"
-                   :type="'password'"/>
+    <FormInput :label="'Password'" v-model:model-value="form.password" :placeholder="'******'"
+               :type="'password'"/>
 
-        <FormInput :label="'Password Confirmation'" v-model:model-value="form.password_confirmation" :placeholder="'******'"
-                   :type="'password'"/>
+    <FormInput :label="'Password Confirmation'" v-model:model-value="form.password_confirmation" :placeholder="'******'"
+               :type="'password'"/>
 
-        <SubmitButton :sendForm="sendForm" :pending="pending" :form="form" :text="'Register'"/>
-    </AuthenticationLayout>
+    <SubmitButton :sendForm="sendForm" :pending="pending" :form="form" :text="'Register'"/>
 </template>
 
 <script>

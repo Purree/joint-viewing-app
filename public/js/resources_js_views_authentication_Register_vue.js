@@ -280,63 +280,56 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_SubmitButton = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("SubmitButton");
 
-  var _component_AuthenticationLayout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AuthenticationLayout");
-
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AuthenticationLayout, null, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$data.registered ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_1, "Successfully registered")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_FormInput, {
-        label: 'Username',
-        modelValue: $data.form.name,
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-          return $data.form.name = $event;
-        }),
-        placeholder: 'pure',
-        type: 'text'
-      }, null, 8
-      /* PROPS */
-      , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_FormInput, {
-        label: 'Email',
-        "model-value": $data.form.email,
-        "onUpdate:model-value": _cache[1] || (_cache[1] = function ($event) {
-          return $data.form.email = $event;
-        }),
-        placeholder: 'alex@example.com',
-        type: 'email'
-      }, null, 8
-      /* PROPS */
-      , ["model-value", "placeholder"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_FormInput, {
-        label: 'Password',
-        "model-value": $data.form.password,
-        "onUpdate:model-value": _cache[2] || (_cache[2] = function ($event) {
-          return $data.form.password = $event;
-        }),
-        placeholder: '******',
-        type: 'password'
-      }, null, 8
-      /* PROPS */
-      , ["model-value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_FormInput, {
-        label: 'Password Confirmation',
-        "model-value": $data.form.password_confirmation,
-        "onUpdate:model-value": _cache[3] || (_cache[3] = function ($event) {
-          return $data.form.password_confirmation = $event;
-        }),
-        placeholder: '******',
-        type: 'password'
-      }, null, 8
-      /* PROPS */
-      , ["model-value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SubmitButton, {
-        sendForm: $options.sendForm,
-        pending: $data.pending,
-        form: $data.form,
-        text: 'Register'
-      }, null, 8
-      /* PROPS */
-      , ["sendForm", "pending", "form"])];
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [$data.registered ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_1, "Successfully registered")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_FormInput, {
+    label: 'Username',
+    modelValue: $data.form.name,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.form.name = $event;
     }),
-    _: 1
-    /* STABLE */
-
-  });
+    placeholder: 'pure',
+    type: 'text'
+  }, null, 8
+  /* PROPS */
+  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_FormInput, {
+    label: 'Email',
+    "model-value": $data.form.email,
+    "onUpdate:model-value": _cache[1] || (_cache[1] = function ($event) {
+      return $data.form.email = $event;
+    }),
+    placeholder: 'alex@example.com',
+    type: 'email'
+  }, null, 8
+  /* PROPS */
+  , ["model-value", "placeholder"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_FormInput, {
+    label: 'Password',
+    "model-value": $data.form.password,
+    "onUpdate:model-value": _cache[2] || (_cache[2] = function ($event) {
+      return $data.form.password = $event;
+    }),
+    placeholder: '******',
+    type: 'password'
+  }, null, 8
+  /* PROPS */
+  , ["model-value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_FormInput, {
+    label: 'Password Confirmation',
+    "model-value": $data.form.password_confirmation,
+    "onUpdate:model-value": _cache[3] || (_cache[3] = function ($event) {
+      return $data.form.password_confirmation = $event;
+    }),
+    placeholder: '******',
+    type: 'password'
+  }, null, 8
+  /* PROPS */
+  , ["model-value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SubmitButton, {
+    sendForm: $options.sendForm,
+    pending: $data.pending,
+    form: $data.form,
+    text: 'Register'
+  }, null, 8
+  /* PROPS */
+  , ["sendForm", "pending", "form"])], 64
+  /* STABLE_FRAGMENT */
+  );
 }
 
 /***/ }),
