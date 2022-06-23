@@ -1,11 +1,16 @@
 <template>
-    <component :is="layout">
-        <slot />
-    </component>
+    <Transition :name="this.$route.meta.transition || 'fade'">
+        <div :key="this.$route.name">
+            <component :is="layout">
+                <slot/>
+            </component>
+        </div>
+    </Transition>
 </template>
 
 <script>
 import AppLayoutDefault from './AppLayoutDefault'
+
 export default {
     name: "AppLayout",
     data: () => ({
