@@ -10,11 +10,12 @@
 
 <script>
 import AppLayoutDefault from './AppLayoutDefault'
+import {shallowRef} from 'vue';
 
 export default {
     name: "AppLayout",
     data: () => ({
-        layout: AppLayoutDefault
+        layout: shallowRef(AppLayoutDefault)
     }),
     watch: {
         $route: {
@@ -22,9 +23,9 @@ export default {
             async handler(route) {
                 try {
                     const component = await import(`./${route.meta.layout}.vue`)
-                    this.layout = component?.default || AppLayoutDefault
+                    this.layout = shallowRef(component?.default || AppLayoutDefault)
                 } catch (e) {
-                    this.layout = AppLayoutDefault
+                    this.layout = shallowRef(AppLayoutDefault);
                 }
             }
         }
