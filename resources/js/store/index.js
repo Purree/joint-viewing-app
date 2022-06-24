@@ -2,14 +2,19 @@ import {createStore} from "vuex";
 
 const store = createStore({
     state: {
-        posts: [],
+        user: null
     },
     getters: {
-        allPosts(state) {
-            return state.posts
-        },
+        getAuthUser(state) {
+            return state.user;
+        }
+
     },
-    mutations: {},
+    mutations: {
+        setAuthUser(state, user) {
+            state.user = user;
+        }
+    },
     actions: {},
     modules: {}
 })

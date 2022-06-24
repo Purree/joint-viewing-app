@@ -39,6 +39,7 @@ export default {
                 axios.get('/sanctum/csrf-cookie').then(response => {
                     axios.post(API_LOGIN_URL, this.form)
                         .then(response => {
+                            this.$store.commit('setAuthUser', response.data.token);
                             this.loggedIn = true;
                         })
                         .catch(errors => {
