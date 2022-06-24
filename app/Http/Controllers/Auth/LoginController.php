@@ -14,11 +14,12 @@ class LoginController extends Controller
     {
         if (Auth::attempt($request->validated())) {
             $token = Auth::user()->createToken('api');
+
             return response()->json([
-                'token' => $token->plainTextToken
+                'token' => $token->plainTextToken,
             ]);
         }
 
-        return response()->json([], Response::HTTP_UNAUTHORIZED);
+        return response()->json(['errors' => ['auth' => ['Incorrect user or password.']]], Response::HTTP_UNAUTHORIZED);
     }
 }
