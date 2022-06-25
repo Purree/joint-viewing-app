@@ -90,6 +90,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_authentication_SubmitButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/authentication/SubmitButton */ "./resources/js/components/authentication/SubmitButton.vue");
 /* harmony import */ var _components_authentication_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/authentication/FormInput */ "./resources/js/components/authentication/FormInput.vue");
 /* harmony import */ var _components_ErrorMessage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/ErrorMessage */ "./resources/js/components/ErrorMessage.vue");
+/* harmony import */ var _api_users__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../api/users */ "./resources/js/api/users.js");
+
 
 
 
@@ -123,9 +125,9 @@ __webpack_require__.r(__webpack_exports__);
         this.pending = true;
         axios__WEBPACK_IMPORTED_MODULE_0___default().get('/sanctum/csrf-cookie').then(function (response) {
           axios__WEBPACK_IMPORTED_MODULE_0___default().post(_api_auth__WEBPACK_IMPORTED_MODULE_1__.API_LOGIN_URL, _this.form).then(function (response) {
-            _this.$store.commit('setAuthUser', response.data.token);
+            localStorage.setItem('auth-token', response.data.token);
 
-            _this.loggedIn = true;
+            _this.$store.commit('setUserToken', response.data.token);
           })["catch"](function (errors) {
             console.log(errors.response);
             _this.errors = errors.response.data.errors;
@@ -402,6 +404,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var API_LOGIN_URL = '/api/login';
 var API_REGISTRATION_URL = '/api/registration';
+
+/***/ }),
+
+/***/ "./resources/js/api/users.js":
+/*!***********************************!*\
+  !*** ./resources/js/api/users.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "API_CURRENT_USER_URL": () => (/* binding */ API_CURRENT_USER_URL)
+/* harmony export */ });
+var API_CURRENT_USER_URL = '/api/users/me';
 
 /***/ }),
 

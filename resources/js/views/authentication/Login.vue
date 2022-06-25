@@ -17,6 +17,7 @@ import AuthenticationLayout from "../../layouts/AuthenticationLayout";
 import SubmitButton from "../../components/authentication/SubmitButton";
 import FormInput from "../../components/authentication/FormInput";
 import ErrorMessage from "../../components/ErrorMessage";
+import {API_CURRENT_USER_URL} from "../../api/users";
 
 export default {
     name: 'Login',
@@ -39,8 +40,8 @@ export default {
                 axios.get('/sanctum/csrf-cookie').then(response => {
                     axios.post(API_LOGIN_URL, this.form)
                         .then(response => {
-                            this.$store.commit('setAuthUser', response.data.token);
-                            this.loggedIn = true;
+                            localStorage.setItem('auth-token', response.data.token)
+                            this.$store.commit('setUserToken', response.data.token);
                         })
                         .catch(errors => {
                             console.log(errors.response)
