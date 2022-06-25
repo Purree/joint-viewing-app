@@ -16,8 +16,7 @@ import { API_LOGIN_URL } from '../../api/auth';
 import AuthenticationLayout from "../../layouts/AuthenticationLayout";
 import SubmitButton from "../../components/authentication/SubmitButton";
 import FormInput from "../../components/authentication/FormInput";
-import ErrorMessage from "../../components/ErrorMessage";
-import {API_CURRENT_USER_URL} from "../../api/users";
+import ErrorMessage from "../../components/errors/ErrorMessage";
 
 export default {
     name: 'Login',

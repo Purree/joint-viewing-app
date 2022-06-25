@@ -21,7 +21,10 @@ const routes = [
     {
         path: '/404',
         name: 'PageNotExist',
-        component: () => import('../views/authentication/Login.vue'),
+        component: () => import('../views/errors/404.vue'),
+        meta: {
+            layout: 'ErrorLayout'
+        }
     },
     {
         path: '/',
@@ -46,6 +49,7 @@ router.beforeEach((to, from, next) => {
         if (!store.getters.isLoggedIn) {
             return next({
                 name: 'Login',
+                query: { redirect: to.fullPath },
                 replace: true
             })
         }

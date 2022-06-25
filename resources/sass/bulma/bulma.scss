@@ -1,7 +1,12 @@
 @import "~bulma/sass/utilities/_all";
 
-
-
 @import "~bulma/bulma";
 @import "../bulma/bulma-prefers-dark.sass";
 @import '@oruga-ui/theme-bulma/dist/scss/bulma';
+
+.is-absolute-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
