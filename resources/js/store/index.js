@@ -7,8 +7,10 @@ const store = createStore({
     getters: {
         getUserToken(state) {
             return state.userToken;
+        },
+        isLoggedIn(state) {
+            return !!state.userToken
         }
-
     },
     mutations: {
         setUserToken(state, token) {

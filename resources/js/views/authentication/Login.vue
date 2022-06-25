@@ -42,6 +42,12 @@ export default {
                         .then(response => {
                             localStorage.setItem('auth-token', response.data.token)
                             this.$store.commit('setUserToken', response.data.token);
+
+                            if (this.$route.query.redirect) {
+                                this.$router.push(this.$route.query.redirect)
+                            } else {
+                                this.$router.push('/')
+                            }
                         })
                         .catch(errors => {
                             console.log(errors.response)

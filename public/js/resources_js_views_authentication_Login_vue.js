@@ -128,6 +128,12 @@ __webpack_require__.r(__webpack_exports__);
             localStorage.setItem('auth-token', response.data.token);
 
             _this.$store.commit('setUserToken', response.data.token);
+
+            if (_this.$route.query.redirect) {
+              _this.$router.push(_this.$route.query.redirect);
+            } else {
+              _this.$router.push('/');
+            }
           })["catch"](function (errors) {
             console.log(errors.response);
             _this.errors = errors.response.data.errors;

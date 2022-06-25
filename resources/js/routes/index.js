@@ -1,3 +1,6 @@
+import {createRouter, createWebHistory} from "vue-router";
+import store from "../store";
+
 const routes = [
     {
         path: '/login',
@@ -21,9 +24,39 @@ const routes = [
         component: () => import('../views/authentication/Login.vue'),
     },
     {
+        path: '/',
+        name: 'Home',
+        redirect: '/404'
+    },
+    {
         path: "/:catchAll(.*)", // Unrecognized path automatically matches 404
         redirect: '/404',
     },
 ];
 
-export default routes;
+const router = createRouter({
+    history: createWebHistory(),
+    routes
+})
+
+const authRouteNames = ['Login', 'Register']
+
+router.beforeEach((to, from, next) => {
+    if (!authRouteNames.includes(to.name)) {
+        if (!store.getters.isLoggedIn) {
+            return next({
+                name: 'Login',
+                replace: true
+            })
+        }
+    } else if (store.getters.isLoggedIn) {
+        return next({
+            name: 'Home'
+        })
+    }
+
+    return next()
+})
+
+
+export default router;

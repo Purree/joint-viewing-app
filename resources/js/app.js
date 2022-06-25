@@ -3,7 +3,6 @@ import AppLayout from "./layouts/AppLayout";
 require('./bootstrap');
 
 import { createApp } from 'vue'
-import { createRouter, createWebHistory } from 'vue-router'
 
 /* Oruga */
 import Oruga from '@oruga-ui/oruga-next'
@@ -23,15 +22,10 @@ library.add(fas);
 /* Font awesome */
 
 import store from "./store/";
-import routes from "./routes";
+import router from "./routes";
 
 import App from "./App.vue";
 
-
-const router = createRouter({
-    history: createWebHistory(),
-    routes
-})
 
 
 const app = createApp(App)
