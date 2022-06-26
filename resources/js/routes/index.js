@@ -29,7 +29,10 @@ const routes = [
     {
         path: '/',
         name: 'Home',
-        redirect: '/404'
+        component: () => import('../views/Menu/Index'),
+        meta: {
+            layout: 'MenuLayout'
+        }
     },
     {
         path: "/:catchAll(.*)", // Unrecognized path automatically matches 404

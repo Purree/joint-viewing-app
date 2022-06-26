@@ -8,7 +8,6 @@ import { createApp } from 'vue'
 import Oruga from '@oruga-ui/oruga-next'
 
 import { bulmaConfig } from '@oruga-ui/theme-bulma'
-import '../sass/bulma/bulma.scss'
 
 /* Oruga */
 

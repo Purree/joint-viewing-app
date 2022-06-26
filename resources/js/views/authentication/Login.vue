@@ -39,7 +39,6 @@ export default {
                 axios.get('/sanctum/csrf-cookie').then(response => {
                     axios.post(API_LOGIN_URL, this.form)
                         .then(response => {
-                            localStorage.setItem('auth-token', response.data.token)
                             this.$store.commit('setUserToken', response.data.token);
 
                             if (this.$route.query.redirect) {

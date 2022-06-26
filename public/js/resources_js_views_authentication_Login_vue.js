@@ -123,8 +123,6 @@ __webpack_require__.r(__webpack_exports__);
         this.pending = true;
         axios__WEBPACK_IMPORTED_MODULE_0___default().get('/sanctum/csrf-cookie').then(function (response) {
           axios__WEBPACK_IMPORTED_MODULE_0___default().post(_api_auth__WEBPACK_IMPORTED_MODULE_1__.API_LOGIN_URL, _this.form).then(function (response) {
-            localStorage.setItem('auth-token', response.data.token);
-
             _this.$store.commit('setUserToken', response.data.token);
 
             if (_this.$route.query.redirect) {

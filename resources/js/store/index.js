@@ -14,6 +14,7 @@ const store = createStore({
     },
     mutations: {
         setUserToken(state, token) {
+            localStorage.setItem('auth-token', token)
             state.userToken = token;
         }
     },
