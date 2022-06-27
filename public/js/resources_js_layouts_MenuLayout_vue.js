@@ -12,7 +12,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Header"
+  name: "Header",
+  data: function data() {
+    return {
+      isDropdownActive: false
+    };
+  }
 });
 
 /***/ }),
@@ -51,34 +56,55 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "navbar is-fixed-top",
+  "class": "navbar is-fixed-top has-shadow",
   role: "navigation",
   "aria-label": "main navigation"
 };
-
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_2 = {
   "class": "navbar-brand"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-  role: "button",
-  "class": "navbar-burger",
-  "aria-label": "menu",
-  "aria-expanded": "false",
-  "data-target": "menuNavbar"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+};
+
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "aria-hidden": "true"
-}), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "aria-hidden": "true"
-}), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "aria-hidden": "true"
-})])], -1
+}, null, -1
 /* HOISTED */
 );
 
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div id=\"menuNavbar\" class=\"navbar-menu container\"><div class=\"navbar-start\"><a class=\"navbar-item\"> Home </a><a class=\"navbar-item\"> Documentation </a></div><div class=\"navbar-end\"><div class=\"navbar-item\"> Nickname </div><div class=\"navbar-item\"><div class=\"buttons\"><a class=\"button is-light\"> Logout </a></div></div></div></div>", 1);
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "aria-hidden": "true"
+}, null, -1
+/* HOISTED */
+);
 
-var _hoisted_4 = [_hoisted_2, _hoisted_3];
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "aria-hidden": "true"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_6 = [_hoisted_3, _hoisted_4, _hoisted_5];
+
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"navbar-start\"><a class=\"navbar-item is-tab is-active\"> Home </a><a class=\"navbar-item is-tab\"> Documentation </a></div><div class=\"navbar-end\"><div class=\"navbar-item\"> Nickname </div><div class=\"navbar-item\"><div class=\"buttons\"><a class=\"button is-light\"> Logout </a></div></div></div>", 2);
+
+var _hoisted_9 = [_hoisted_7];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_1, _hoisted_4);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    role: "button",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $data.isDropdownActive = !$data.isDropdownActive;
+    }),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["navbar-burger", $data.isDropdownActive ? 'is-active' : '']),
+    "aria-label": "menu",
+    "aria-expanded": "false",
+    "data-target": "menuNavbar"
+  }, _hoisted_6, 2
+  /* CLASS */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    id: "menuNavbar",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["navbar-menu container", $data.isDropdownActive ? 'is-active' : 'is-hidden-mobile'])
+  }, _hoisted_9, 2
+  /* CLASS */
+  )]);
 }
 
 /***/ }),

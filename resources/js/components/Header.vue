@@ -1,20 +1,21 @@
 <template>
-    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-fixed-top has-shadow" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="menuNavbar">
+            <a role="button" @click="isDropdownActive=!isDropdownActive" class="navbar-burger" aria-label="menu"
+               aria-expanded="false" data-target="menuNavbar" :class="isDropdownActive ? 'is-active' : ''">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
         </div>
 
-        <div id="menuNavbar" class="navbar-menu container">
+        <div id="menuNavbar" class="navbar-menu container" :class="isDropdownActive ? 'is-active' : 'is-hidden-mobile'">
             <div class="navbar-start">
-                <a class="navbar-item">
+                <a class="navbar-item is-tab is-active">
                     Home
                 </a>
 
-                <a class="navbar-item">
+                <a class="navbar-item is-tab">
                     Documentation
                 </a>
             </div>
@@ -37,7 +38,12 @@
 
 <script>
 export default {
-    name: "Header"
+    name: "Header",
+    data() {
+        return {
+            isDropdownActive: false
+        }
+    }
 }
 </script>
 
