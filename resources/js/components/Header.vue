@@ -9,21 +9,15 @@
             </a>
         </div>
 
-        <div id="menuNavbar" class="navbar-menu container" :class="isDropdownActive ? 'is-active' : 'is-hidden-mobile'">
+        <div id="menuNavbar" class="navbar-menu container" :class="isDropdownActive ? 'is-active' : 'is-hidden-touch'">
             <div class="navbar-start">
-                <a class="navbar-item is-tab is-active">
-                    Home
-                </a>
-
-                <a class="navbar-item is-tab">
-                    Documentation
-                </a>
+                <router-link v-for="tab in tabs" class="navbar-item is-tab" :to="{name: tab['route-name']}"
+                            :class="tab['route-name'] === $route.name ? 'is-active' : ''">
+                    {{ tab.text }}
+                </router-link>
             </div>
 
             <div class="navbar-end">
-                <div class="navbar-item">
-                    Nickname
-                </div>
                 <div class="navbar-item">
                     <div class="buttons">
                         <a class="button is-light">
@@ -41,7 +35,19 @@ export default {
     name: "Header",
     data() {
         return {
-            isDropdownActive: false
+            isDropdownActive: false,
+            tabs: {
+                'Rooms':
+                    {
+                        'route-name': 'Rooms',
+                        'text': 'Rooms'
+                    },
+                'Settings':
+                    {
+                        'route-name': 'Settings',
+                        'text': 'Settings'
+                    }
+            }
         }
     }
 }

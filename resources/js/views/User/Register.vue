@@ -24,11 +24,11 @@
 
 <script>
 import axios from 'axios';
-import {API_REGISTRATION_URL} from '../../api/auth';
-import AuthenticationLayout from "../../layouts/AuthenticationLayout";
-import SubmitButton from "../../components/authentication/SubmitButton";
-import FormInput from "../../components/authentication/FormInput";
-import ErrorMessage from "../../components/errors/ErrorMessage";
+import {API_REGISTRATION_URL} from '@/api/auth';
+import AuthenticationLayout from "@/layouts/AuthenticationLayout";
+import SubmitButton from "@/components/authentication/SubmitButton";
+import FormInput from "@/components/authentication/FormInput";
+import ErrorMessage from "@/components/errors/ErrorMessage";
 
 export default {
     name: 'Register',

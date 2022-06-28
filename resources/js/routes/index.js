@@ -1,11 +1,11 @@
 import {createRouter, createWebHistory} from "vue-router";
-import store from "../store";
+import store from "@/store";
 
 const routes = [
     {
         path: '/login',
         name: 'Login',
-        component: () => import('../views/authentication/Login.vue'),
+        component: () => import('@/views/User/Login.vue'),
         meta: {
             layout: 'AuthenticationLayout'
         }
@@ -13,7 +13,7 @@ const routes = [
     {
         path: '/register',
         name: 'Register',
-        component: () => import('../views/authentication/Register.vue'),
+        component: () => import('@/views/User/Register.vue'),
         meta: {
             layout: 'AuthenticationLayout'
         }
@@ -21,7 +21,7 @@ const routes = [
     {
         path: '/404',
         name: 'PageNotExist',
-        component: () => import('../views/errors/404.vue'),
+        component: () => import('@/views/Errors/404.vue'),
         meta: {
             layout: 'ErrorLayout'
         }
@@ -29,14 +29,32 @@ const routes = [
     {
         path: '/',
         name: 'Home',
-        component: () => import('../views/Menu/Index'),
+        redirect: {'name': 'Menu'}
+    },
+    {
+        path: '/menu',
+        name: 'Menu',
+        component: () => import('@/views/Menu/Index'),
+        redirect: {'name': 'Rooms'},
+        children: [
+            {
+                path: 'settings',
+                name: 'Settings',
+                component: () => import('@/views/User/Settings.vue'),
+            },
+            {
+                path: 'rooms',
+                name: 'Rooms',
+                component: () => import('@/views/Menu/Rooms.vue'),
+            },
+        ],
         meta: {
-            layout: 'MenuLayout'
-        }
+            layout: 'MainLayout'
+        },
     },
     {
         path: "/:catchAll(.*)", // Unrecognized path automatically matches 404
-        redirect: '/404',
+        redirect: {'name': 'PageNotExist'}
     },
 ];
 
@@ -52,7 +70,7 @@ router.beforeEach((to, from, next) => {
         if (!store.getters.isLoggedIn) {
             return next({
                 name: 'Login',
-                query: { redirect: to.fullPath },
+                query: {redirect: to.fullPath},
                 replace: true
             })
         }

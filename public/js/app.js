@@ -35685,14 +35685,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store */ "./resources/js/store/index.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/store */ "./resources/js/store/index.js");
 
 
 var routes = [{
   path: '/login',
   name: 'Login',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ "resources_js_views_authentication_Login_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/authentication/Login.vue */ "./resources/js/views/authentication/Login.vue"));
+    return __webpack_require__.e(/*! import() */ "resources_js_views_User_Login_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/views/User/Login.vue */ "./resources/js/views/User/Login.vue"));
   },
   meta: {
     layout: 'AuthenticationLayout'
@@ -35701,7 +35701,7 @@ var routes = [{
   path: '/register',
   name: 'Register',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ "resources_js_views_authentication_Register_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/authentication/Register.vue */ "./resources/js/views/authentication/Register.vue"));
+    return __webpack_require__.e(/*! import() */ "resources_js_views_User_Register_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/views/User/Register.vue */ "./resources/js/views/User/Register.vue"));
   },
   meta: {
     layout: 'AuthenticationLayout'
@@ -35710,7 +35710,7 @@ var routes = [{
   path: '/404',
   name: 'PageNotExist',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ "resources_js_views_errors_404_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/errors/404.vue */ "./resources/js/views/errors/404.vue"));
+    return __webpack_require__.e(/*! import() */ "resources_js_views_Errors_404_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/views/Errors/404.vue */ "./resources/js/views/Errors/404.vue"));
   },
   meta: {
     layout: 'ErrorLayout'
@@ -35718,16 +35718,40 @@ var routes = [{
 }, {
   path: '/',
   name: 'Home',
+  redirect: {
+    'name': 'Menu'
+  }
+}, {
+  path: '/menu',
+  name: 'Menu',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ "resources_js_views_Menu_Index_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/Menu/Index */ "./resources/js/views/Menu/Index.vue"));
+    return __webpack_require__.e(/*! import() */ "resources_js_views_Menu_Index_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/views/Menu/Index */ "./resources/js/views/Menu/Index.vue"));
   },
+  redirect: {
+    'name': 'Rooms'
+  },
+  children: [{
+    path: 'settings',
+    name: 'Settings',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_User_Settings_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/views/User/Settings.vue */ "./resources/js/views/User/Settings.vue"));
+    }
+  }, {
+    path: 'rooms',
+    name: 'Rooms',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_Menu_Rooms_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/views/Menu/Rooms.vue */ "./resources/js/views/Menu/Rooms.vue"));
+    }
+  }],
   meta: {
-    layout: 'MenuLayout'
+    layout: 'MainLayout'
   }
 }, {
   path: "/:catchAll(.*)",
   // Unrecognized path automatically matches 404
-  redirect: '/404'
+  redirect: {
+    'name': 'PageNotExist'
+  }
 }];
 var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_1__.createRouter)({
   history: (0,vue_router__WEBPACK_IMPORTED_MODULE_1__.createWebHistory)(),
@@ -59093,9 +59117,9 @@ var map = {
 		"./resources/js/layouts/ErrorLayout.vue",
 		"resources_js_layouts_ErrorLayout_vue"
 	],
-	"./MenuLayout.vue": [
-		"./resources/js/layouts/MenuLayout.vue",
-		"resources_js_layouts_MenuLayout_vue"
+	"./MainLayout.vue": [
+		"./resources/js/layouts/MainLayout.vue",
+		"resources_js_layouts_MainLayout_vue"
 	]
 };
 function webpackAsyncContext(req) {
@@ -75762,7 +75786,7 @@ var index = {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_layouts_AuthenticationLayout_vue":1,"resources_js_layouts_ErrorLayout_vue":1,"resources_js_layouts_MenuLayout_vue":1,"resources_js_views_authentication_Login_vue":1,"resources_js_views_authentication_Register_vue":1,"resources_js_views_errors_404_vue":1,"resources_js_views_Menu_Index_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_layouts_AuthenticationLayout_vue":1,"resources_js_layouts_ErrorLayout_vue":1,"resources_js_layouts_MainLayout_vue":1,"resources_js_views_User_Login_vue":1,"resources_js_views_User_Register_vue":1,"resources_js_views_Errors_404_vue":1,"resources_js_views_Menu_Index_vue":1,"resources_js_views_User_Settings_vue":1,"resources_js_views_Menu_Rooms_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

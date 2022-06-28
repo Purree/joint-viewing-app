@@ -6,10 +6,10 @@
 </template>
 
 <script>
-import Header from "../components/Header";
+import Header from "@/components/Header";
 
 export default {
-    name: "MenuLayout",
+    name: "MainLayout",
     components: {Header}
 }
 </script>

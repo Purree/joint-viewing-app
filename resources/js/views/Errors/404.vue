@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import HttpError from "../../components/errors/HttpError";
+import HttpError from "@/components/errors/HttpError";
 export default {
     name: "404",
     components: {HttpError}
