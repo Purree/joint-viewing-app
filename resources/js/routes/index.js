@@ -1,23 +1,11 @@
 import {createRouter, createWebHistory} from "vue-router";
 import store from "@/store";
+import authRoutes from "@/routes/auth-routes";
+import menuRoutes from "@/routes/menu-routes";
+
 
 const routes = [
-    {
-        path: '/login',
-        name: 'Login',
-        component: () => import('@/views/User/Login.vue'),
-        meta: {
-            layout: 'AuthenticationLayout'
-        }
-    },
-    {
-        path: '/register',
-        name: 'Register',
-        component: () => import('@/views/User/Register.vue'),
-        meta: {
-            layout: 'AuthenticationLayout'
-        }
-    },
+    ...authRoutes,
     {
         path: '/404',
         name: 'PageNotExist',
@@ -26,32 +14,7 @@ const routes = [
             layout: 'ErrorLayout'
         }
     },
-    {
-        path: '/',
-        name: 'Home',
-        redirect: {'name': 'Menu'}
-    },
-    {
-        path: '/menu',
-        name: 'Menu',
-        component: () => import('@/views/Menu/Index'),
-        redirect: {'name': 'Rooms'},
-        children: [
-            {
-                path: 'settings',
-                name: 'Settings',
-                component: () => import('@/views/User/Settings.vue'),
-            },
-            {
-                path: 'rooms',
-                name: 'Rooms',
-                component: () => import('@/views/Menu/Rooms.vue'),
-            },
-        ],
-        meta: {
-            layout: 'MainLayout'
-        },
-    },
+    ...menuRoutes,
     {
         path: "/:catchAll(.*)", // Unrecognized path automatically matches 404
         redirect: {'name': 'PageNotExist'}

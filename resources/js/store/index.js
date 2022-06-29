@@ -9,12 +9,17 @@ const store = createStore({
             return state.userToken;
         },
         isLoggedIn(state) {
-            return !!state.userToken
+            return !!state.userToken && state.userToken !== 'null'
         }
     },
     mutations: {
         setUserToken(state, token) {
-            localStorage.setItem('auth-token', token)
+            if (token !== null) {
+                localStorage.setItem('auth-token', token)
+            } else {
+                localStorage.removeItem('auth-token')
+            }
+
             state.userToken = token;
         }
     },

@@ -35423,7 +35423,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   name: "AppLayout",
   data: function data() {
     return {
-      layout: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_AppLayoutDefault__WEBPACK_IMPORTED_MODULE_0__["default"])
+      layout: (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_AppLayoutDefault__WEBPACK_IMPORTED_MODULE_0__["default"]),
+      previousLayout: null
     };
   },
   watch: {
@@ -35439,26 +35440,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               switch (_context.prev = _context.next) {
                 case 0:
                   _context.prev = 0;
-                  _context.next = 3;
-                  return __webpack_require__("./resources/js/layouts lazy recursive ^\\.\\/.*\\.vue$")("./".concat(route.meta.layout, ".vue"));
+
+                  if (!(_this.previousLayout === route.meta.layout)) {
+                    _context.next = 3;
+                    break;
+                  }
+
+                  return _context.abrupt("return");
 
                 case 3:
+                  _this.previousLayout = route.meta.layout;
+                  _context.next = 6;
+                  return __webpack_require__("./resources/js/layouts lazy recursive ^\\.\\/.*\\.vue$")("./".concat(route.meta.layout, ".vue"));
+
+                case 6:
                   component = _context.sent;
                   _this.layout = (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)((component === null || component === void 0 ? void 0 : component["default"]) || _AppLayoutDefault__WEBPACK_IMPORTED_MODULE_0__["default"]);
-                  _context.next = 10;
+                  _context.next = 13;
                   break;
 
-                case 7:
-                  _context.prev = 7;
+                case 10:
+                  _context.prev = 10;
                   _context.t0 = _context["catch"](0);
                   _this.layout = (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(_AppLayoutDefault__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
-                case 10:
+                case 13:
                 case "end":
                   return _context.stop();
               }
             }
-          }, _callee, null, [[0, 7]]);
+          }, _callee, null, [[0, 10]]);
         }))();
       }
     }
@@ -35534,8 +35545,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: this.$route.meta.transition || 'fade'
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      var _this$$route, _this$$route$matched$;
+
       return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-        key: _this.$route.name
+        key: ((_this$$route = _this.$route) === null || _this$$route === void 0 ? void 0 : (_this$$route$matched$ = _this$$route.matched[0]) === null || _this$$route$matched$ === void 0 ? void 0 : _this$$route$matched$.name) || Math.random()
       }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDynamicComponent)(_ctx.layout), null, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")];
@@ -35673,10 +35686,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./resources/js/routes/index.js":
-/*!**************************************!*\
-  !*** ./resources/js/routes/index.js ***!
-  \**************************************/
+/***/ "./resources/js/routes/auth-routes.js":
+/*!********************************************!*\
+  !*** ./resources/js/routes/auth-routes.js ***!
+  \********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -35684,11 +35697,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/store */ "./resources/js/store/index.js");
-
-
-var routes = [{
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{
   path: '/login',
   name: 'Login',
   component: function component() {
@@ -35706,7 +35715,42 @@ var routes = [{
   meta: {
     layout: 'AuthenticationLayout'
   }
-}, {
+}]);
+
+/***/ }),
+
+/***/ "./resources/js/routes/index.js":
+/*!**************************************!*\
+  !*** ./resources/js/routes/index.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/store */ "./resources/js/store/index.js");
+/* harmony import */ var _routes_auth_routes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/routes/auth-routes */ "./resources/js/routes/auth-routes.js");
+/* harmony import */ var _routes_menu_routes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/routes/menu-routes */ "./resources/js/routes/menu-routes.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
+
+
+
+var routes = [].concat(_toConsumableArray(_routes_auth_routes__WEBPACK_IMPORTED_MODULE_1__["default"]), [{
   path: '/404',
   name: 'PageNotExist',
   component: function component() {
@@ -35715,7 +35759,53 @@ var routes = [{
   meta: {
     layout: 'ErrorLayout'
   }
-}, {
+}], _toConsumableArray(_routes_menu_routes__WEBPACK_IMPORTED_MODULE_2__["default"]), [{
+  path: "/:catchAll(.*)",
+  // Unrecognized path automatically matches 404
+  redirect: {
+    'name': 'PageNotExist'
+  }
+}]);
+var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_3__.createRouter)({
+  history: (0,vue_router__WEBPACK_IMPORTED_MODULE_3__.createWebHistory)(),
+  routes: routes
+});
+var authRouteNames = ['Login', 'Register'];
+router.beforeEach(function (to, from, next) {
+  if (!authRouteNames.includes(to.name)) {
+    if (!_store__WEBPACK_IMPORTED_MODULE_0__["default"].getters.isLoggedIn) {
+      return next({
+        name: 'Login',
+        query: {
+          redirect: to.fullPath
+        },
+        replace: true
+      });
+    }
+  } else if (_store__WEBPACK_IMPORTED_MODULE_0__["default"].getters.isLoggedIn) {
+    return next({
+      name: 'Home'
+    });
+  }
+
+  return next();
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
+
+/***/ }),
+
+/***/ "./resources/js/routes/menu-routes.js":
+/*!********************************************!*\
+  !*** ./resources/js/routes/menu-routes.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{
   path: '/',
   name: 'Home',
   redirect: {
@@ -35744,40 +35834,11 @@ var routes = [{
     }
   }],
   meta: {
-    layout: 'MainLayout'
+    layout: 'MainLayout',
+    transition: 'none',
+    childTransition: 'slide-down'
   }
-}, {
-  path: "/:catchAll(.*)",
-  // Unrecognized path automatically matches 404
-  redirect: {
-    'name': 'PageNotExist'
-  }
-}];
-var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_1__.createRouter)({
-  history: (0,vue_router__WEBPACK_IMPORTED_MODULE_1__.createWebHistory)(),
-  routes: routes
-});
-var authRouteNames = ['Login', 'Register'];
-router.beforeEach(function (to, from, next) {
-  if (!authRouteNames.includes(to.name)) {
-    if (!_store__WEBPACK_IMPORTED_MODULE_0__["default"].getters.isLoggedIn) {
-      return next({
-        name: 'Login',
-        query: {
-          redirect: to.fullPath
-        },
-        replace: true
-      });
-    }
-  } else if (_store__WEBPACK_IMPORTED_MODULE_0__["default"].getters.isLoggedIn) {
-    return next({
-      name: 'Home'
-    });
-  }
-
-  return next();
-});
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
+}]);
 
 /***/ }),
 
@@ -35803,12 +35864,17 @@ var store = (0,vuex__WEBPACK_IMPORTED_MODULE_0__.createStore)({
       return state.userToken;
     },
     isLoggedIn: function isLoggedIn(state) {
-      return !!state.userToken;
+      return !!state.userToken && state.userToken !== 'null';
     }
   },
   mutations: {
     setUserToken: function setUserToken(state, token) {
-      localStorage.setItem('auth-token', token);
+      if (token !== null) {
+        localStorage.setItem('auth-token', token);
+      } else {
+        localStorage.removeItem('auth-token');
+      }
+
       state.userToken = token;
     }
   },
@@ -75786,7 +75852,7 @@ var index = {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_layouts_AuthenticationLayout_vue":1,"resources_js_layouts_ErrorLayout_vue":1,"resources_js_layouts_MainLayout_vue":1,"resources_js_views_User_Login_vue":1,"resources_js_views_User_Register_vue":1,"resources_js_views_Errors_404_vue":1,"resources_js_views_Menu_Index_vue":1,"resources_js_views_User_Settings_vue":1,"resources_js_views_Menu_Rooms_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_layouts_AuthenticationLayout_vue":1,"resources_js_layouts_ErrorLayout_vue":1,"resources_js_layouts_MainLayout_vue":1,"resources_js_views_Errors_404_vue":1,"resources_js_views_User_Login_vue":1,"resources_js_views_User_Register_vue":1,"resources_js_views_Menu_Index_vue":1,"resources_js_views_User_Settings_vue":1,"resources_js_views_Menu_Rooms_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

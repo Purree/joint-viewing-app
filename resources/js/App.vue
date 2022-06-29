@@ -12,7 +12,7 @@ export default {
     name: 'App',
     beforeCreate() {
         this.$store.commit('setUserToken', localStorage.getItem('auth-token'));
-    }
+    },
 }
 </script>
 
