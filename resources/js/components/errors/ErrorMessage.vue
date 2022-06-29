@@ -1,7 +1,7 @@
 <template>
     <article class="message is-danger" v-if="Object.keys(errors).length">
         <div class="message-header">
-            <p>Error!</p>
+            <p>{{ errorHeader || 'Error!' }}</p>
         </div>
         <div class="message-body">
             <ul>
@@ -23,7 +23,7 @@
 <script>
 export default {
     name: "ErrorMessage",
-    props: ['errors']
+    props: ['errors', 'errorHeader']
 }
 </script>
 

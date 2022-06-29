@@ -18,11 +18,12 @@
             </div>
 
             <div class="navbar-end">
+                <div class="navbar-item header-nickname">
+                    {{ $store.getters.getUser.name || 'Undefined user' }}
+                </div>
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a class="button is-light">
-                            Logout
-                        </a>
+                        <logout-button/>
                     </div>
                 </div>
             </div>
@@ -31,8 +32,10 @@
 </template>
 
 <script>
+import LogoutButton from "@/components/authentication/LogoutButton";
 export default {
     name: "Header",
+    components: {LogoutButton},
     data() {
         return {
             isDropdownActive: false,
@@ -54,5 +57,8 @@ export default {
 </script>
 
 <style scoped>
-
+    .header-nickname {
+        max-width: 20ch;
+        overflow: hidden;
+    }
 </style>
