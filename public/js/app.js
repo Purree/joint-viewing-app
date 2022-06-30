@@ -35430,8 +35430,52 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api/auth */ "./resources/js/api/auth.js");
+
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "LogoutButton"
+  name: "LogoutButton",
+  props: ['changeStatus'],
+  data: function data() {
+    return {
+      pending: false
+    };
+  },
+  methods: {
+    logout: function logout() {
+      var _this = this;
+
+      if (this.pending === false) {
+        this.pending = true;
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post(_api_auth__WEBPACK_IMPORTED_MODULE_1__.API_LOGOUT_URL).then(function (response) {
+          _this.$store.commit('setUserToken', null);
+
+          if (_this.changeStatus) {
+            _this.changeStatus = !_this.changeStatus;
+          }
+
+          _this.$router.push({
+            name: 'Login'
+          });
+        })["catch"](function (error) {
+          console.log(error.response.data);
+          _this.pending = false;
+
+          for (error in error.response.data.errors) {
+            _this.$oruga.notification.open({
+              message: error[0],
+              position: 'top',
+              variant: 'danger',
+              duration: 5000,
+              closable: false
+            });
+          }
+        });
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -35628,11 +35672,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = {
-  "class": "button is-light"
-};
+
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Logout");
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", _hoisted_1, " Logout ");
+  var _component_o_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("o-button");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_o_button, {
+    disabled: $data.pending,
+    variant: "light",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.pending ? 'is-loading' : ''),
+    onClick: $options.logout
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [_hoisted_1];
+    }),
+    _: 1
+    /* STABLE */
+
+  }, 8
+  /* PROPS */
+  , ["disabled", "class", "onClick"]);
 }
 
 /***/ }),
@@ -35720,10 +35780,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "error-header": 'Unable to determine user',
         errors: {
           'error': ['Unable to sign in to your account, please try again later or sign out and sign in again.']
-        }
+        },
+        "change-status": $props.isModalActive
       }, null, 8
       /* PROPS */
-      , ["errors"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_logout_button)])];
+      , ["errors", "change-status"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_logout_button)])];
     }),
     _: 1
     /* STABLE */
@@ -35794,6 +35855,25 @@ __webpack_require__.r(__webpack_exports__);
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default");
 }
+
+/***/ }),
+
+/***/ "./resources/js/api/auth.js":
+/*!**********************************!*\
+  !*** ./resources/js/api/auth.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "API_LOGIN_URL": () => (/* binding */ API_LOGIN_URL),
+/* harmony export */   "API_LOGOUT_URL": () => (/* binding */ API_LOGOUT_URL),
+/* harmony export */   "API_REGISTRATION_URL": () => (/* binding */ API_REGISTRATION_URL)
+/* harmony export */ });
+var API_LOGIN_URL = '/api/login';
+var API_REGISTRATION_URL = '/api/registration';
+var API_LOGOUT_URL = '/api/logout';
 
 /***/ }),
 

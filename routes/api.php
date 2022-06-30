@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\AuthorizationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,10 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/registration', [RegisterController::class, 'registration']);
+Route::post('/login', [AuthorizationController::class, 'login']);
+Route::post('/registration', [AuthorizationController::class, 'registration']);
+Route::post('/logout', [AuthorizationController::class, 'logout']);
 
 Route::middleware('auth:sanctum')->group(static function () {
+
     Route::name('users.')->prefix('users')->group(static function () {
         Route::get('/me', [UserController::class, 'show_authenticated'])->name('me');
     });

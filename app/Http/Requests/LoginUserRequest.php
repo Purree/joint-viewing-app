@@ -10,7 +10,7 @@ class LoginUserRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return Auth::guest();
+        return Auth('sanctum')->guest();
     }
 
     #[ArrayShape(['email' => "string", 'password' => "string"])] public function rules(): array
