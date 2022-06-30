@@ -17,6 +17,7 @@ import AuthenticationLayout from "@/layouts/AuthenticationLayout";
 import SubmitButton from "@/components/authentication/SubmitButton";
 import FormInput from "@/components/authentication/FormInput";
 import ErrorMessage from "@/components/errors/ErrorMessage";
+import {API_CURRENT_USER_URL} from "@/api/users";
 
 export default {
     name: 'Login',
@@ -41,11 +42,15 @@ export default {
                         .then(response => {
                             this.$store.commit('setUserToken', response.data.token);
 
-                            if (this.$route.query.redirect) {
-                                this.$router.push(this.$route.query.redirect)
-                            } else {
-                                this.$router.push('/')
-                            }
+                            axios.get(API_CURRENT_USER_URL).then((response) => {
+                                this.$store.commit('setUser', response.data)
+
+                                if (this.$route.query.redirect) {
+                                    this.$router.push(this.$route.query.redirect)
+                                } else {
+                                    this.$router.push('/')
+                                }
+                            })
                         })
                         .catch(errors => {
                             console.log(errors.response)
