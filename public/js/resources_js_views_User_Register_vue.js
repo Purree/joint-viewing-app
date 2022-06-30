@@ -29,7 +29,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['pending', 'form', 'sendForm', 'text'],
+  props: ['pending', 'form', 'sendForm', 'text', 'isLoading'],
   name: "SubmitButton"
 });
 
@@ -183,7 +183,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_o_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("o-button");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_o_button, {
-    "class": "is-primary",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["is-primary", $props.isLoading ? 'is-loading' : '']),
     onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($props.sendForm, ["prevent"]),
     disabled: $props.pending || Object.values($props.form).some(function (el) {
       return el == null;
@@ -199,7 +199,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["onClick", "disabled"]);
+  , ["onClick", "disabled", "class"]);
 }
 
 /***/ }),
@@ -343,13 +343,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8
   /* PROPS */
   , ["model-value", "error-condition"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SubmitButton, {
+    "is-loading": $data.pending,
     sendForm: $options.sendForm,
     pending: $data.pending,
     form: $data.form,
     text: 'Register'
   }, null, 8
   /* PROPS */
-  , ["sendForm", "pending", "form"])], 64
+  , ["is-loading", "sendForm", "pending", "form"])], 64
   /* STABLE_FRAGMENT */
   );
 }
