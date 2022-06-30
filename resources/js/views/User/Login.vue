@@ -7,7 +7,7 @@
     <FormInput :label="'Password'" v-model:model-value="form.password" :placeholder="'******'"
                :type="'password'" :error-condition="'password' in errors"/>
 
-    <SubmitButton :sendForm="sendForm" :pending="pending" :form="form" :text="'Login'"/>
+    <SubmitButton :is-loading="pending" :sendForm="sendForm" :pending="pending" :form="form" :text="'Login'"/>
 </template>
 
 <script>

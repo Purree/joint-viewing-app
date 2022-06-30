@@ -19,7 +19,7 @@
     <FormInput :label="'Password Confirmation'" v-model:model-value="form.password_confirmation" :placeholder="'******'"
                :type="'password'" :error-condition="'password_confirmation' in errors"/>
 
-    <SubmitButton :sendForm="sendForm" :pending="pending" :form="form" :text="'Register'"/>
+    <SubmitButton :is-loading="pending" :sendForm="sendForm" :pending="pending" :form="form" :text="'Register'"/>
 </template>
 
 <script>

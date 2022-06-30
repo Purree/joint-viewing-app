@@ -29,7 +29,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['pending', 'form', 'sendForm', 'text'],
+  props: ['pending', 'form', 'sendForm', 'text', 'isLoading'],
   name: "SubmitButton"
 });
 
@@ -73,6 +73,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_authentication_SubmitButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/authentication/SubmitButton */ "./resources/js/components/authentication/SubmitButton.vue");
 /* harmony import */ var _components_authentication_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/authentication/FormInput */ "./resources/js/components/authentication/FormInput.vue");
 /* harmony import */ var _components_errors_ErrorMessage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/errors/ErrorMessage */ "./resources/js/components/errors/ErrorMessage.vue");
+/* harmony import */ var _api_users__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/api/users */ "./resources/js/api/users.js");
+
 
 
 
@@ -108,11 +110,15 @@ __webpack_require__.r(__webpack_exports__);
           axios__WEBPACK_IMPORTED_MODULE_0___default().post(_api_auth__WEBPACK_IMPORTED_MODULE_1__.API_LOGIN_URL, _this.form).then(function (response) {
             _this.$store.commit('setUserToken', response.data.token);
 
-            if (_this.$route.query.redirect) {
-              _this.$router.push(_this.$route.query.redirect);
-            } else {
-              _this.$router.push('/');
-            }
+            axios__WEBPACK_IMPORTED_MODULE_0___default().get(_api_users__WEBPACK_IMPORTED_MODULE_6__.API_CURRENT_USER_URL).then(function (response) {
+              _this.$store.commit('setUser', response.data);
+
+              if (_this.$route.query.redirect) {
+                _this.$router.push(_this.$route.query.redirect);
+              } else {
+                _this.$router.push('/');
+              }
+            });
           })["catch"](function (errors) {
             console.log(errors.response);
             _this.errors = errors.response.data.errors;
@@ -187,7 +193,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_o_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("o-button");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_o_button, {
-    "class": "is-primary",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["is-primary", $props.isLoading ? 'is-loading' : '']),
     onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($props.sendForm, ["prevent"]),
     disabled: $props.pending || Object.values($props.form).some(function (el) {
       return el == null;
@@ -203,7 +209,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["onClick", "disabled"]);
+  , ["onClick", "disabled", "class"]);
 }
 
 /***/ }),
@@ -313,13 +319,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8
   /* PROPS */
   , ["model-value", "error-condition"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SubmitButton, {
+    "is-loading": $data.pending,
     sendForm: $options.sendForm,
     pending: $data.pending,
     form: $data.form,
     text: 'Login'
   }, null, 8
   /* PROPS */
-  , ["sendForm", "pending", "form"])], 64
+  , ["is-loading", "sendForm", "pending", "form"])], 64
   /* STABLE_FRAGMENT */
   );
 }
