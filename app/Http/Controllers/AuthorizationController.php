@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
+use App\Services\Results\ResponseResult;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -19,12 +20,13 @@ class AuthorizationController extends Controller
         if (Auth::attempt($request->validated())) {
             $token = Auth::user()->createToken('api');
 
-            return response()->json([
+            return ResponseResult::success([
                 'token' => $token->plainTextToken,
-            ]);
+            ])->returnValue;
         }
 
-        return response()->json(['errors' => ['auth' => ['Incorrect user or password.']]], Response::HTTP_UNAUTHORIZED);
+        return ResponseResult::error(['auth' => ['Incorrect user or password.']], Response::HTTP_UNAUTHORIZED)
+            ->error;
     }
 
     public function registration(RegisterUserRequest $request): JsonResponse
@@ -36,14 +38,11 @@ class AuthorizationController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
-            return response()->json([], Response::HTTP_OK);
+            return ResponseResult::success()->returnValue;
         } catch (\Exception $e) {
             Log::error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
 
-            return response()->json(
-                ['errors' => ['server' => ['Some problems. Try again later.']]],
-                Response::HTTP_INTERNAL_SERVER_ERROR
-            );
+            return ResponseResult::error()->error;
         }
     }
 
@@ -51,21 +50,17 @@ class AuthorizationController extends Controller
     {
         try {
             $token = auth()->user()->currentAccessToken();
-            if($token && method_exists(auth()->user()->currentAccessToken(), 'delete'))
-            {
+            if ($token && method_exists($token, 'delete')) {
                 auth()->user()->currentAccessToken()->delete();
             }
 
             auth()->guard('web')->logout();
 
-            return response()->json([], Response::HTTP_OK);
+            return ResponseResult::success()->returnValue;
         } catch (\Exception $e) {
             Log::error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
 
-            return response()->json(
-                ['errors' => ['server' => ['Some problems. Try again later.']]],
-                Response::HTTP_INTERNAL_SERVER_ERROR
-            );
+            return ResponseResult::error()->error;
         }
     }
 }
