@@ -22,6 +22,7 @@ export default {
                 localStorage.removeItem('auth-token')
             }
 
+            window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
             state.userToken = token;
         },
         setUser(state, user) {

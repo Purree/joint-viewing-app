@@ -36239,6 +36239,7 @@ __webpack_require__.r(__webpack_exports__);
         localStorage.removeItem('auth-token');
       }
 
+      window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
       state.userToken = token;
     },
     setUser: function setUser(state, user) {

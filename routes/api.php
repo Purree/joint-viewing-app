@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthorizationController::class, 'login']);
 Route::post('/registration', [AuthorizationController::class, 'registration']);
-Route::post('/logout', [AuthorizationController::class, 'logout']);
 
 Route::middleware('auth:sanctum')->group(static function () {
+    Route::post('/logout', [AuthorizationController::class, 'logout']);
 
     Route::name('users.')->prefix('users')->group(static function () {
         Route::get('/me', [UserController::class, 'show_authenticated'])->name('me');

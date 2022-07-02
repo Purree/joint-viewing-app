@@ -6,12 +6,14 @@ use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
 use App\Services\Results\ResponseResult;
+use App\Services\SecretPhrase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 class AuthorizationController extends Controller
 {
@@ -32,13 +34,16 @@ class AuthorizationController extends Controller
     public function registration(RegisterUserRequest $request): JsonResponse
     {
         try {
+            $secret_phrase = SecretPhrase::create();
+
             User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'secret' => Hash::make($secret_phrase)
             ]);
 
-            return ResponseResult::success()->returnValue;
+            return ResponseResult::success(['secret_phrase' => $secret_phrase])->returnValue;
         } catch (\Exception $e) {
             Log::error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
 

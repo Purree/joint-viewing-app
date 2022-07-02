@@ -12,7 +12,7 @@
 
 <script>
 import axios from 'axios';
-import { API_LOGIN_URL } from '@/api/auth';
+import {API_LOGIN_URL} from '@/api/auth';
 import AuthenticationLayout from "@/layouts/AuthenticationLayout";
 import SubmitButton from "@/components/authentication/SubmitButton";
 import FormInput from "@/components/authentication/FormInput";
@@ -50,6 +50,8 @@ export default {
                                 } else {
                                     this.$router.push('/')
                                 }
+                            }).catch(errors => {
+                                console.log(errors.response)
                             })
                         })
                         .catch(errors => {

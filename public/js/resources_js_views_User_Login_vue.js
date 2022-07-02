@@ -118,6 +118,8 @@ __webpack_require__.r(__webpack_exports__);
               } else {
                 _this.$router.push('/');
               }
+            })["catch"](function (errors) {
+              console.log(errors.response);
             });
           })["catch"](function (errors) {
             console.log(errors.response);
