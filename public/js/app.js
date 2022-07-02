@@ -35389,6 +35389,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _api_users__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api/users */ "./resources/js/api/users.js");
 /* harmony import */ var _components_errors_UnableToAuthenticateModal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/errors/UnableToAuthenticateModal */ "./resources/js/components/errors/UnableToAuthenticateModal.vue");
+/* harmony import */ var _mixins_changeTheme__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/mixins/changeTheme */ "./resources/js/mixins/changeTheme.js");
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -35396,10 +35398,16 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     UnableToAuthenticateModal: _components_errors_UnableToAuthenticateModal__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
+  mixins: [_mixins_changeTheme__WEBPACK_IMPORTED_MODULE_2__["default"]],
   data: function data() {
     return {
       isUnableToAuthenticate: false
     };
+  },
+  mounted: function mounted() {
+    if (localStorage.getItem('theme') === 'dark' || localStorage.getItem('theme') !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      this.changeTheme();
+    }
   },
   beforeCreate: function beforeCreate() {
     var _this = this;
@@ -35943,7 +35951,6 @@ var app = (0,vue__WEBPACK_IMPORTED_MODULE_1__.createApp)(_App_vue__WEBPACK_IMPOR
   iconPack: 'fas',
   iconComponent: 'vue-fontawesome'
 }));
-app.mixin(__webpack_require__(/*! ./mixins/asset.js */ "./resources/js/mixins/asset.js"));
 app.component("VueFontawesome", _fortawesome_vue_fontawesome__WEBPACK_IMPORTED_MODULE_3__.FontAwesomeIcon);
 app.component('AppLayout', _layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"]);
 app.mount('#app');
@@ -35974,20 +35981,30 @@ window.axios.defaults.withCredentials = true; // import Echo from 'laravel-echo'
 
 /***/ }),
 
-/***/ "./resources/js/mixins/asset.js":
-/*!**************************************!*\
-  !*** ./resources/js/mixins/asset.js ***!
-  \**************************************/
-/***/ ((module) => {
+/***/ "./resources/js/mixins/changeTheme.js":
+/*!********************************************!*\
+  !*** ./resources/js/mixins/changeTheme.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-module.exports = {
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
-    asset: function asset(path) {
-      var base_path = window._asset || '';
-      return base_path + path;
+    changeTheme: function changeTheme() {
+      var page = document.documentElement;
+
+      if (page.hasAttribute('data-theme') && page.attributes['data-theme'].value === 'dark') {
+        this.$store.commit('setTheme', 'light');
+      } else {
+        this.$store.commit('setTheme', 'dark');
+      }
     }
   }
-};
+});
 
 /***/ }),
 
@@ -36158,9 +36175,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var _store_userStore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/store/userStore */ "./resources/js/store/userStore.js");
 
-var store = (0,vuex__WEBPACK_IMPORTED_MODULE_0__.createStore)({
+
+var store = (0,vuex__WEBPACK_IMPORTED_MODULE_1__.createStore)({
+  state: {
+    theme: 'light'
+  },
+  getters: {
+    getTheme: function getTheme(state) {
+      return state.theme;
+    }
+  },
+  mutations: {
+    setTheme: function setTheme(state, theme) {
+      localStorage.setItem('theme', theme);
+      state.theme = theme;
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+  },
+  actions: {},
+  modules: {
+    userStore: _store_userStore__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (store);
+
+/***/ }),
+
+/***/ "./resources/js/store/userStore.js":
+/*!*****************************************!*\
+  !*** ./resources/js/store/userStore.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: {
     userToken: null,
     user: {}
@@ -36189,11 +36244,8 @@ var store = (0,vuex__WEBPACK_IMPORTED_MODULE_0__.createStore)({
     setUser: function setUser(state, user) {
       state.user = user;
     }
-  },
-  actions: {},
-  modules: {}
+  }
 });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (store);
 
 /***/ }),
 

@@ -1,8 +1,8 @@
 // Bulma
-@import "bulma/bulma";
+@import "@@/bulma/bulma";
 
 // Components
-@import "components";
+@import "@@/components";
 
 // Bulma dark + dark components inside
-@import "bulma/bulma-prefers-dark.sass";
+@import "@@/bulma/bulma-prefers-dark.sass";

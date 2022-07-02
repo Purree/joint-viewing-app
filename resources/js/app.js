@@ -26,7 +26,6 @@ import router from "./routes";
 import App from "./App.vue";
 
 
-
 const app = createApp(App)
     .use(store)
     .use(router)
@@ -36,7 +35,6 @@ const app = createApp(App)
         iconComponent: 'vue-fontawesome'
     });
 
-app.mixin(require('./mixins/asset.js'));
 app.component("VueFontawesome", FontAwesomeIcon);
 app.component('AppLayout', AppLayout);
 app.mount('#app');

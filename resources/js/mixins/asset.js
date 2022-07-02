@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     methods: {
         asset(path) {
             const base_path = window._asset || '';

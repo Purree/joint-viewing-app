@@ -23,6 +23,7 @@
                 </div>
                 <div class="navbar-item">
                     <div class="buttons">
+                        <change-theme-button></change-theme-button>
                         <logout-button/>
                     </div>
                 </div>
@@ -33,9 +34,10 @@
 
 <script>
 import LogoutButton from "@/components/authentication/LogoutButton";
+import ChangeThemeButton from "@/components/ChangeThemeButton";
 export default {
     name: "Header",
-    components: {LogoutButton},
+    components: {ChangeThemeButton, LogoutButton},
     data() {
         return {
             isDropdownActive: false,

@@ -11,13 +11,20 @@
 
 import {API_CURRENT_USER_URL} from "@/api/users";
 import UnableToAuthenticateModal from "@/components/errors/UnableToAuthenticateModal";
+import changeTheme from "@/mixins/changeTheme";
 
 export default {
     name: 'App',
     components: {UnableToAuthenticateModal},
+    mixins: [changeTheme],
     data() {
         return {
             isUnableToAuthenticate: false
+        }
+    },
+    mounted() {
+        if (localStorage.getItem('theme') === 'dark' || (localStorage.getItem('theme') !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            this.changeTheme();
         }
     },
     beforeCreate() {
