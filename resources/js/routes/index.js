@@ -1,6 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
-import store from "@/store";
-import authRoutes from "@/routes/auth-routes";
+import authRoutes, {addUnknownUsersRedirect} from "@/routes/auth-routes";
 import menuRoutes from "@/routes/menu-routes";
 
 
@@ -26,25 +25,7 @@ const router = createRouter({
     routes
 })
 
-const authRouteNames = ['Login', 'Register']
-
-router.beforeEach((to, from, next) => {
-    if (!authRouteNames.includes(to.name)) {
-        if (!store.getters.isLoggedIn) {
-            return next({
-                name: 'Login',
-                query: {redirect: to.fullPath},
-                replace: true
-            })
-        }
-    } else if (store.getters.isLoggedIn) {
-        return next({
-            name: 'Home'
-        })
-    }
-
-    return next()
-})
+addUnknownUsersRedirect(router)
 
 
 export default router;

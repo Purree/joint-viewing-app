@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginUserRequest;
+use App\Http\Requests\RecoveryPasswordRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
 use App\Services\Results\ResponseResult;
-use App\Services\SecretPhrase;
+use App\Services\Secret;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -34,15 +35,15 @@ class AuthorizationController extends Controller
     public function registration(RegisterUserRequest $request): JsonResponse
     {
         try {
-            $secret_phrase = SecretPhrase::create();
+            $secret = Secret::create();
             User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'secret' => Hash::make($secret_phrase)
+                'secret' => $secret['hash'],
             ]);
 
-            return ResponseResult::success(['secret_phrase' => $secret_phrase])->returnValue;
+            return ResponseResult::success(['secret_phrase' => $secret['phrase']])->returnValue;
         } catch (\Exception $e) {
             Log::error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
 
@@ -61,6 +62,32 @@ class AuthorizationController extends Controller
             auth()->guard('web')->logout();
 
             return ResponseResult::success()->returnValue;
+        } catch (\Exception $e) {
+            Log::error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
+
+            return ResponseResult::error()->error;
+        }
+    }
+
+    public function recoveryPassword(RecoveryPasswordRequest $request): JsonResponse
+    {
+        try {
+            $user = User::where('email', $request->email)->first();
+
+            if (!Hash::check($request->secret, $user->secret)) {
+                return ResponseResult::error(
+                    ['secret' => ['Incorrect secret']],
+                    Response::HTTP_UNPROCESSABLE_ENTITY
+                )->error;
+            }
+
+            $secret = Secret::create();
+
+            $user->secret = $secret['hash'];
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            return ResponseResult::success(['new_secret_phrase' => $secret['phrase']])->returnValue;
         } catch (\Exception $e) {
             Log::error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
 

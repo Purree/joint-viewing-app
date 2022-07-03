@@ -7,13 +7,19 @@
     <FormInput :label="'Password'" v-model:model-value="form.password" :placeholder="'******'"
                :type="'password'" :error-condition="'password' in errors"/>
 
-    <SubmitButton :is-loading="pending" :sendForm="sendForm" :pending="pending" :form="form" :text="'Login'"/>
+    <div class="field is-grouped is-align-items-center">
+        <p class="control">
+            <SubmitButton :is-loading="pending" :sendForm="sendForm" :pending="pending" :form="form" :text="'Login'"/>
+        </p>
+        <p class="control">
+            <router-link :to="{ 'name': 'ForgotPassword' }">Forgot password</router-link>
+        </p>
+    </div>
 </template>
 
 <script>
 import axios from 'axios';
 import {API_LOGIN_URL} from '@/api/auth';
-import AuthenticationLayout from "@/layouts/AuthenticationLayout";
 import SubmitButton from "@/components/authentication/SubmitButton";
 import FormInput from "@/components/authentication/FormInput";
 import ErrorMessage from "@/components/errors/ErrorMessage";
@@ -21,7 +27,7 @@ import {API_CURRENT_USER_URL} from "@/api/users";
 
 export default {
     name: 'Login',
-    components: {SubmitButton, AuthenticationLayout, FormInput, ErrorMessage},
+    components: {SubmitButton, FormInput, ErrorMessage},
     data() {
         return {
             pending: false,
