@@ -70,7 +70,7 @@ export default {
                     .catch(errors => {
                         console.log(errors.response)
                         this.registered = false;
-                        this.errors = errors.response.data.errors;
+                        this.errors = errors.response.data?.errors || {'server': [errors.response.data.message]};
                     })
                     .then(() => {
                         this.pending = false;
