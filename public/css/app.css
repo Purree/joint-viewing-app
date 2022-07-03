@@ -18736,7 +18736,7 @@ html[data-theme=dark] .modal-card-foot {
 }
 html[data-theme=dark] .modal-card-body {
   -webkit-overflow-scrolling: touch;
-  background-color: hsl(0deg, 0%, 100%);
+  background-color: hsl(0deg, 0%, 14%);
 }
 html[data-theme=dark] .navbar {
   background-color: #17181c;

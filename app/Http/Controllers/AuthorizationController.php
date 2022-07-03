@@ -35,7 +35,6 @@ class AuthorizationController extends Controller
     {
         try {
             $secret_phrase = SecretPhrase::create();
-
             User::create([
                 'name' => $request->name,
                 'email' => $request->email,

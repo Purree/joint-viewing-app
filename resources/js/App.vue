@@ -10,7 +10,7 @@
 <script>
 
 import {API_CURRENT_USER_URL} from "@/api/users";
-import UnableToAuthenticateModal from "@/components/errors/UnableToAuthenticateModal";
+import UnableToAuthenticateModal from "@/components/modals/UnableToAuthenticateModal";
 import changeTheme from "@/mixins/changeTheme";
 
 export default {

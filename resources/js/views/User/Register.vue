@@ -29,10 +29,11 @@ import AuthenticationLayout from "@/layouts/AuthenticationLayout";
 import SubmitButton from "@/components/authentication/SubmitButton";
 import FormInput from "@/components/authentication/FormInput";
 import ErrorMessage from "@/components/errors/ErrorMessage";
+import UserSecretModal from "@/components/modals/UserSecretModal";
 
 export default {
     name: 'Register',
-    components: {ErrorMessage, FormInput, SubmitButton, AuthenticationLayout},
+    components: {ErrorMessage, FormInput, SubmitButton, AuthenticationLayout, UserSecretModal},
     data() {
         return {
             pending: false,
@@ -47,6 +48,16 @@ export default {
         }
     },
     methods: {
+        promptModal(secret) {
+            this.$oruga.modal.open({
+                component: UserSecretModal,
+                props: {
+                    secret: secret
+                },
+                trapFocus: true,
+                canCancel: false
+            })
+        },
         sendForm() {
             if (this.pending === false) {
                 this.pending = true;
@@ -54,6 +65,7 @@ export default {
                     .then(response => {
                         this.registered = true;
                         this.errors = {};
+                        this.promptModal(response.data.secret_phrase)
                     })
                     .catch(errors => {
                         console.log(errors.response)

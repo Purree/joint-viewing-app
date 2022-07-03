@@ -35388,7 +35388,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _api_users__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api/users */ "./resources/js/api/users.js");
-/* harmony import */ var _components_errors_UnableToAuthenticateModal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/errors/UnableToAuthenticateModal */ "./resources/js/components/errors/UnableToAuthenticateModal.vue");
+/* harmony import */ var _components_modals_UnableToAuthenticateModal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/modals/UnableToAuthenticateModal */ "./resources/js/components/modals/UnableToAuthenticateModal.vue");
 /* harmony import */ var _mixins_changeTheme__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/mixins/changeTheme */ "./resources/js/mixins/changeTheme.js");
 
 
@@ -35396,7 +35396,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'App',
   components: {
-    UnableToAuthenticateModal: _components_errors_UnableToAuthenticateModal__WEBPACK_IMPORTED_MODULE_1__["default"]
+    UnableToAuthenticateModal: _components_modals_UnableToAuthenticateModal__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   mixins: [_mixins_changeTheme__WEBPACK_IMPORTED_MODULE_2__["default"]],
   data: function data() {
@@ -35506,9 +35506,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/errors/UnableToAuthenticateModal.vue?vue&type=script&lang=js":
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/UnableToAuthenticateModal.vue?vue&type=script&lang=js":
 /*!**************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/errors/UnableToAuthenticateModal.vue?vue&type=script&lang=js ***!
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/UnableToAuthenticateModal.vue?vue&type=script&lang=js ***!
   \**************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -35754,9 +35754,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/errors/UnableToAuthenticateModal.vue?vue&type=template&id=cafd769e":
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/UnableToAuthenticateModal.vue?vue&type=template&id=c5737128":
 /*!******************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/errors/UnableToAuthenticateModal.vue?vue&type=template&id=cafd769e ***!
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/UnableToAuthenticateModal.vue?vue&type=template&id=c5737128 ***!
   \******************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -54187,9 +54187,9 @@ if (false) {}
 
 /***/ }),
 
-/***/ "./resources/js/components/errors/UnableToAuthenticateModal.vue":
+/***/ "./resources/js/components/modals/UnableToAuthenticateModal.vue":
 /*!**********************************************************************!*\
-  !*** ./resources/js/components/errors/UnableToAuthenticateModal.vue ***!
+  !*** ./resources/js/components/modals/UnableToAuthenticateModal.vue ***!
   \**********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -54198,15 +54198,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _UnableToAuthenticateModal_vue_vue_type_template_id_cafd769e__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UnableToAuthenticateModal.vue?vue&type=template&id=cafd769e */ "./resources/js/components/errors/UnableToAuthenticateModal.vue?vue&type=template&id=cafd769e");
-/* harmony import */ var _UnableToAuthenticateModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UnableToAuthenticateModal.vue?vue&type=script&lang=js */ "./resources/js/components/errors/UnableToAuthenticateModal.vue?vue&type=script&lang=js");
+/* harmony import */ var _UnableToAuthenticateModal_vue_vue_type_template_id_c5737128__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UnableToAuthenticateModal.vue?vue&type=template&id=c5737128 */ "./resources/js/components/modals/UnableToAuthenticateModal.vue?vue&type=template&id=c5737128");
+/* harmony import */ var _UnableToAuthenticateModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UnableToAuthenticateModal.vue?vue&type=script&lang=js */ "./resources/js/components/modals/UnableToAuthenticateModal.vue?vue&type=script&lang=js");
 /* harmony import */ var D_Download_OpenServer_OpenServerNew54_domains_joint_viewing_app_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,D_Download_OpenServer_OpenServerNew54_domains_joint_viewing_app_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_UnableToAuthenticateModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_UnableToAuthenticateModal_vue_vue_type_template_id_cafd769e__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/errors/UnableToAuthenticateModal.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_Download_OpenServer_OpenServerNew54_domains_joint_viewing_app_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_UnableToAuthenticateModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_UnableToAuthenticateModal_vue_vue_type_template_id_c5737128__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/modals/UnableToAuthenticateModal.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -54319,9 +54319,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/errors/UnableToAuthenticateModal.vue?vue&type=script&lang=js":
+/***/ "./resources/js/components/modals/UnableToAuthenticateModal.vue?vue&type=script&lang=js":
 /*!**********************************************************************************************!*\
-  !*** ./resources/js/components/errors/UnableToAuthenticateModal.vue?vue&type=script&lang=js ***!
+  !*** ./resources/js/components/modals/UnableToAuthenticateModal.vue?vue&type=script&lang=js ***!
   \**********************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -54330,7 +54330,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_UnableToAuthenticateModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_UnableToAuthenticateModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./UnableToAuthenticateModal.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/errors/UnableToAuthenticateModal.vue?vue&type=script&lang=js");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_UnableToAuthenticateModal_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./UnableToAuthenticateModal.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/UnableToAuthenticateModal.vue?vue&type=script&lang=js");
  
 
 /***/ }),
@@ -54415,18 +54415,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/errors/UnableToAuthenticateModal.vue?vue&type=template&id=cafd769e":
+/***/ "./resources/js/components/modals/UnableToAuthenticateModal.vue?vue&type=template&id=c5737128":
 /*!****************************************************************************************************!*\
-  !*** ./resources/js/components/errors/UnableToAuthenticateModal.vue?vue&type=template&id=cafd769e ***!
+  !*** ./resources/js/components/modals/UnableToAuthenticateModal.vue?vue&type=template&id=c5737128 ***!
   \****************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_UnableToAuthenticateModal_vue_vue_type_template_id_cafd769e__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_UnableToAuthenticateModal_vue_vue_type_template_id_c5737128__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_UnableToAuthenticateModal_vue_vue_type_template_id_cafd769e__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./UnableToAuthenticateModal.vue?vue&type=template&id=cafd769e */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/errors/UnableToAuthenticateModal.vue?vue&type=template&id=cafd769e");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_UnableToAuthenticateModal_vue_vue_type_template_id_c5737128__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./UnableToAuthenticateModal.vue?vue&type=template&id=c5737128 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/modals/UnableToAuthenticateModal.vue?vue&type=template&id=c5737128");
 
 
 /***/ }),

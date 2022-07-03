@@ -15,6 +15,6 @@ class SecretPhrase
 
     public static function create(): string
     {
-        return Factory::create(config('faker_locale'))->realText(50);
+        return Factory::create(config('app.faker_locale'))->realText(50);
     }
 }
