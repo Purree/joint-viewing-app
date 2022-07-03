@@ -1,6 +1,7 @@
 @import "variables";
 
-@import "scrollbar";
+@import "@@/scrollbar";
+@import "@@/devider";
 
 .is-absolute-center {
     position: absolute;

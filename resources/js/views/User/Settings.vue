@@ -1,5 +1,5 @@
 <template>
-    вфывфыфыв
+    <div class="divider">OR</div>
 </template>
 
 <script>

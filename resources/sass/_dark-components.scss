@@ -1,1 +1,8 @@
+$divider-background-color: $border-dark;
 
+.divider {
+    &::after,
+    &::before {
+        background-color: $divider-background-color !important;
+    }
+}

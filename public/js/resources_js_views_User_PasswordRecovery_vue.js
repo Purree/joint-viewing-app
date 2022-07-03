@@ -134,9 +134,13 @@ __webpack_require__.r(__webpack_exports__);
 
           _this.promptModal(response.data.new_secret_phrase);
         })["catch"](function (errors) {
+          var _errors$response$data;
+
           console.log(errors.response);
           _this.recovery = false;
-          _this.errors = errors.response.data.errors;
+          _this.errors = ((_errors$response$data = errors.response.data) === null || _errors$response$data === void 0 ? void 0 : _errors$response$data.errors) || {
+            'server': [errors.response.data.message]
+          };
         }).then(function () {
           _this.pending = false;
         });
