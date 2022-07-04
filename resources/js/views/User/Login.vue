@@ -20,7 +20,7 @@
 <script>
 import axios from 'axios';
 import {API_LOGIN_URL} from '@/api/auth';
-import SubmitButton from "@/components/authentication/SubmitButton";
+import SubmitButton from "@/components/SubmitButton";
 import FormInput from "@/components/authentication/FormInput";
 import ErrorMessage from "@/components/errors/ErrorMessage";
 import {API_CURRENT_USER_URL} from "@/api/users";
@@ -46,10 +46,10 @@ export default {
                 axios.get('/sanctum/csrf-cookie').then(response => {
                     axios.post(API_LOGIN_URL, this.form)
                         .then(response => {
-                            this.$store.commit('setUserToken', response.data.token);
+                            this.$store.commit('auth/setUserToken', response.data.token);
 
                             axios.get(API_CURRENT_USER_URL).then((response) => {
-                                this.$store.commit('setUser', response.data)
+                                this.$store.commit('auth/setUser', response.data)
 
                                 if (this.$route.query.redirect) {
                                     this.$router.push(this.$route.query.redirect)

@@ -35412,11 +35412,11 @@ __webpack_require__.r(__webpack_exports__);
   beforeCreate: function beforeCreate() {
     var _this = this;
 
-    this.$store.commit('setUserToken', localStorage.getItem('auth-token'));
+    this.$store.commit('auth/setUserToken', localStorage.getItem('auth-token'));
 
-    if (this.$store.getters.isLoggedIn) {
+    if (this.$store.getters['auth/isLoggedIn']) {
       axios.get(_api_users__WEBPACK_IMPORTED_MODULE_0__.API_CURRENT_USER_URL).then(function (response) {
-        _this.$store.commit('setUser', response.data);
+        _this.$store.commit('auth/setUser', response.data);
       })["catch"](function (error) {
         console.log(error.response);
         _this.isUnableToAuthenticate = true;
@@ -35458,7 +35458,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.pending === false) {
         this.pending = true;
         axios__WEBPACK_IMPORTED_MODULE_0___default().post(_api_auth__WEBPACK_IMPORTED_MODULE_1__.API_LOGOUT_URL).then(function (response) {
-          _this.$store.commit('setUserToken', null);
+          _this.$store.commit('auth/setUserToken', null);
 
           if (_this.changeStatus) {
             _this.changeStatus = !_this.changeStatus;
@@ -36058,7 +36058,7 @@ function addUnknownUsersRedirect(router) {
   var authRouteNames = ['Login', 'Register', 'ForgotPassword'];
   router.beforeEach(function (to, from, next) {
     if (!authRouteNames.includes(to.name)) {
-      if (!_store__WEBPACK_IMPORTED_MODULE_0__["default"].getters.isLoggedIn) {
+      if (!_store__WEBPACK_IMPORTED_MODULE_0__["default"].getters["auth/isLoggedIn"]) {
         return next({
           name: 'Login',
           query: {
@@ -36067,7 +36067,7 @@ function addUnknownUsersRedirect(router) {
           replace: true
         });
       }
-    } else if (_store__WEBPACK_IMPORTED_MODULE_0__["default"].getters.isLoggedIn) {
+    } else if (_store__WEBPACK_IMPORTED_MODULE_0__["default"].getters["auth/isLoggedIn"]) {
       return next({
         name: 'Home'
       });
@@ -36214,7 +36214,7 @@ var store = (0,vuex__WEBPACK_IMPORTED_MODULE_1__.createStore)({
   },
   actions: {},
   modules: {
-    userStore: _store_userStore__WEBPACK_IMPORTED_MODULE_0__["default"]
+    auth: _store_userStore__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (store);
@@ -36238,12 +36238,6 @@ __webpack_require__.r(__webpack_exports__);
     user: {}
   },
   getters: {
-    getUserToken: function getUserToken(state) {
-      return state.userToken;
-    },
-    getUser: function getUser(state) {
-      return state.user;
-    },
     isLoggedIn: function isLoggedIn(state) {
       return !!state.userToken && state.userToken !== 'null';
     }
@@ -36262,7 +36256,8 @@ __webpack_require__.r(__webpack_exports__);
     setUser: function setUser(state, user) {
       state.user = user;
     }
-  }
+  },
+  namespaced: true
 });
 
 /***/ }),

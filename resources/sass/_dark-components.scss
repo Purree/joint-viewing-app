@@ -6,3 +6,9 @@ $divider-background-color: $border-dark;
         background-color: $divider-background-color !important;
     }
 }
+
+.is-spoiler {
+    &:focus, &:active {
+        color: $white;
+    }
+}

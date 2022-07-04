@@ -4,12 +4,6 @@ export default {
         user: {}
     },
     getters: {
-        getUserToken(state) {
-            return state.userToken;
-        },
-        getUser(state) {
-            return state.user;
-        },
         isLoggedIn(state) {
             return !!state.userToken && state.userToken !== 'null';
         }
@@ -28,5 +22,6 @@ export default {
         setUser(state, user) {
             state.user = user
         }
-    }
+    },
+    namespaced: true
 }

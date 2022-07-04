@@ -28,11 +28,11 @@ export default {
         }
     },
     beforeCreate() {
-        this.$store.commit('setUserToken', localStorage.getItem('auth-token'));
+        this.$store.commit('auth/setUserToken', localStorage.getItem('auth-token'));
 
-        if (this.$store.getters.isLoggedIn) {
+        if (this.$store.getters['auth/isLoggedIn']) {
             axios.get(API_CURRENT_USER_URL).then((response) => {
-                this.$store.commit('setUser', response.data)
+                this.$store.commit('auth/setUser', response.data)
             }).catch((error) => {
                 console.log(error.response)
                 this.isUnableToAuthenticate = true

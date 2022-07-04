@@ -19,7 +19,7 @@
 
             <div class="navbar-end">
                 <div class="navbar-item header-nickname">
-                    {{ $store.getters.getUser.name || 'Undefined user' }}
+                    {{ this.user.name || 'Undefined user' }}
                 </div>
                 <div class="navbar-item">
                     <div class="buttons">
@@ -35,6 +35,7 @@
 <script>
 import LogoutButton from "@/components/authentication/LogoutButton";
 import ChangeThemeButton from "@/components/ChangeThemeButton";
+import {mapState} from "vuex";
 export default {
     name: "Header",
     components: {ChangeThemeButton, LogoutButton},
@@ -54,6 +55,9 @@ export default {
                     }
             }
         }
+    },
+    computed: {
+        ...mapState('auth', ['user'])
     }
 }
 </script>

@@ -20,7 +20,7 @@ export default {
                 this.pending = true;
                 axios.post(API_LOGOUT_URL).then(
                     (response) => {
-                        this.$store.commit('setUserToken', null);
+                        this.$store.commit('auth/setUserToken', null);
 
                         if (this.changeStatus) {
                             this.changeStatus = !this.changeStatus

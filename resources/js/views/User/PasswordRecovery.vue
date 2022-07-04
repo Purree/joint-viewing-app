@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import SubmitButton from "@/components/authentication/SubmitButton";
+import SubmitButton from "@/components/SubmitButton";
 import FormInput from "@/components/authentication/FormInput";
 import ErrorMessage from "@/components/errors/ErrorMessage";
 import UserSecretModal from "@/components/modals/UserSecretModal";

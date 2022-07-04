@@ -15096,6 +15096,23 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   padding-top: 4.25rem;
 }
 
+.is-spoiler {
+  color: hsl(0deg, 0%, 14%);
+  background: hsl(0deg, 0%, 14%);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.is-spoiler:focus, .is-spoiler:active {
+  -webkit-user-select: auto;
+     -moz-user-select: auto;
+      -ms-user-select: auto;
+          user-select: auto;
+  color: hsl(0deg, 0%, 4%);
+  background: none;
+}
+
 html[data-theme=dark] {
   background-color: #17181c;
 }
@@ -21347,4 +21364,7 @@ html[data-theme=dark] .footer {
 }
 html[data-theme=dark] .divider::after, html[data-theme=dark] .divider::before {
   background-color: hsl(0deg, 0%, 21%) !important;
+}
+html[data-theme=dark] .is-spoiler:focus, html[data-theme=dark] .is-spoiler:active {
+  color: hsl(0deg, 0%, 100%);
 }

@@ -25,3 +25,15 @@
 .is-under-header {
     padding-top: $navbar-height+1;
 }
+
+.is-spoiler {
+    color: $black-ter;
+    background: $black-ter;
+    user-select: none;
+
+    &:focus, &:active {
+        user-select: auto;
+        color: $black;
+        background: none;
+    }
+}

@@ -33,14 +33,14 @@ export function addUnknownUsersRedirect (router) {
 
     router.beforeEach((to, from, next) => {
         if (!authRouteNames.includes(to.name)) {
-            if (!store.getters.isLoggedIn) {
+            if (!store.getters['auth/isLoggedIn']) {
                 return next({
                     name: 'Login',
                     query: {redirect: to.fullPath},
                     replace: true
                 })
             }
-        } else if (store.getters.isLoggedIn) {
+        } else if (store.getters['auth/isLoggedIn']) {
             return next({
                 name: 'Home'
             })
