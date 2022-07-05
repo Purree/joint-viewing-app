@@ -34,64 +34,46 @@ class AuthorizationController extends Controller
 
     public function registration(RegisterUserRequest $request): JsonResponse
     {
-        try {
-            $secret = Secret::create();
-            User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'secret' => $secret['hash'],
-            ]);
+        $secret = Secret::create();
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'secret' => $secret['hash'],
+        ]);
 
-            return ResponseResult::success(['secret_phrase' => $secret['phrase']])->returnValue;
-        } catch (\Exception $e) {
-            Log::error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
-
-            return ResponseResult::error()->error;
-        }
+        return ResponseResult::success(['secret_phrase' => $secret['phrase']])->returnValue;
     }
 
     public function logout(Request $request): JsonResponse
     {
-        try {
-            $token = auth()->user()->currentAccessToken();
-            if ($token && method_exists($token, 'delete')) {
-                auth()->user()->currentAccessToken()->delete();
-            }
-
-            auth()->guard('web')->logout();
-
-            return ResponseResult::success()->returnValue;
-        } catch (\Exception $e) {
-            Log::error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
-
-            return ResponseResult::error()->error;
+        $token = auth()->user()->currentAccessToken();
+        if ($token && method_exists($token, 'delete')) {
+            auth()->user()->currentAccessToken()->delete();
         }
+
+        auth()->guard('web')->logout();
+
+        return ResponseResult::success()->returnValue;
     }
 
     public function recoveryPassword(RecoveryPasswordRequest $request): JsonResponse
     {
-        try {
-            $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
-            if (!Hash::check($request->secret, $user->secret)) {
-                return ResponseResult::error(
-                    ['secret' => ['Incorrect secret']],
-                    Response::HTTP_UNPROCESSABLE_ENTITY
-                )->error;
-            }
-
-            $secret = Secret::create();
-
-            $user->secret = $secret['hash'];
-            $user->password = Hash::make($request->password);
-            $user->save();
-
-            return ResponseResult::success(['new_secret_phrase' => $secret['phrase']])->returnValue;
-        } catch (\Exception $e) {
-            Log::error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
-
-            return ResponseResult::error()->error;
+        if (!Hash::check($request->secret, $user->secret)) {
+            return ResponseResult::error(
+                ['secret' => ['Incorrect secret']],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            )->error;
         }
+
+        $secret = Secret::create();
+
+        $user->secret = $secret['hash'];
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return ResponseResult::success(['new_secret_phrase' => $secret['phrase']])->returnValue;
     }
 }

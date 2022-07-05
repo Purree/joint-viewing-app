@@ -5,6 +5,9 @@
     <ErrorMessage :errors="errors"></ErrorMessage>
     <SuccessfulArticle :show-when="successed" :text="'Successfully change password'"></SuccessfulArticle>
 
+    <settings-row :property-name="'Old password'">
+        <o-input type="password" v-model="form.old_password"></o-input>
+    </settings-row>
     <settings-row :property-name="'New password'">
         <o-input type="password" v-model="form.password"></o-input>
     </settings-row>
@@ -31,6 +34,7 @@ export default {
     data() {
         return {
             form: {
+                old_password: null,
                 password: null,
                 password_confirmation: null,
             },
