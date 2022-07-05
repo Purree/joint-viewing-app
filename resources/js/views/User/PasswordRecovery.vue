@@ -1,11 +1,7 @@
 <template>
     <ErrorMessage :errors="errors"></ErrorMessage>
 
-    <article v-if="recovery" class="message is-primary">
-        <div class="message-body">
-            Successfully recovered
-        </div>
-    </article>
+    <successful-article :show-when="recovery" :text="'Successfully recovered'"></successful-article>
 
     <FormInput :label="'Secret'" v-model:model-value="form.secret" :placeholder="'I love beautiful women'"
                :type="'text'" :error-condition="'secret' in errors"/>
@@ -29,10 +25,11 @@ import ErrorMessage from "@/components/errors/ErrorMessage";
 import UserSecretModal from "@/components/modals/UserSecretModal";
 import axios from "axios";
 import {API_PASSWORD_RECOVERY_URL} from "@/api/auth";
+import SuccessfulArticle from "@/components/SuccessfulArticle";
 
 export default {
     name: "PasswordRecovery",
-    components: {SubmitButton, FormInput, ErrorMessage},
+    components: {SubmitButton, FormInput, ErrorMessage, SuccessfulArticle},
     data() {
         return {
             pending: false,

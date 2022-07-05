@@ -33,5 +33,9 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('register', static function (Request $request) {
             return Limit::perHour(1);
         });
+
+        RateLimiter::for('change_name', static function (Request $request) {
+            return Limit::perHour(10);
+        });
     }
 }

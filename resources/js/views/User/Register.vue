@@ -1,11 +1,7 @@
 <template>
     <ErrorMessage :errors="errors"></ErrorMessage>
 
-    <article v-if="registered" class="message is-primary">
-        <div class="message-body">
-            Successfully registered
-        </div>
-    </article>
+    <successful-article :show-when="registered" :text="'Successfully registered'"></successful-article>
 
     <FormInput :label="'Username'" v-model="form.name" :placeholder="'pure'"
                :type="'text'" :error-condition="'name' in errors"/>
@@ -30,10 +26,11 @@ import SubmitButton from "@/components/SubmitButton";
 import FormInput from "@/components/authentication/FormInput";
 import ErrorMessage from "@/components/errors/ErrorMessage";
 import UserSecretModal from "@/components/modals/UserSecretModal";
+import SuccessfulArticle from "@/components/SuccessfulArticle";
 
 export default {
     name: 'Register',
-    components: {ErrorMessage, FormInput, SubmitButton, AuthenticationLayout, UserSecretModal},
+    components: {SuccessfulArticle, ErrorMessage, FormInput, SubmitButton, AuthenticationLayout, UserSecretModal},
     data() {
         return {
             pending: false,

@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterUserRequest extends FormRequest
+class ChangeNameRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class RegisterUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth('sanctum')->guest();
+        return Auth('sanctum')->check();
     }
 
     /**
@@ -25,9 +24,7 @@ class RegisterUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:30',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed',
+            'nickname' => 'required|max:30'
         ];
     }
 }

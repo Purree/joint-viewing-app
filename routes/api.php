@@ -25,6 +25,10 @@ Route::middleware('auth:sanctum')->group(static function () {
     Route::post('/logout', [AuthorizationController::class, 'logout']);
 
     Route::name('users.')->prefix('users')->group(static function () {
-        Route::get('/me', [UserController::class, 'show_authenticated'])->name('me');
+        Route::get('/me', [UserController::class, 'showAuthenticated'])->name('me');
+
+        Route::patch('/change-name', [UserController::class, 'changeName'])->name('change-name')->middleware(
+            'throttle:change_name'
+        );
     });
 });
