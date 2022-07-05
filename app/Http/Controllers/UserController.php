@@ -43,4 +43,9 @@ class UserController extends Controller
             return ResponseResult::error()->error;
         }
     }
+
+    public function changePassword(Request $request): JsonResponse
+    {
+
+    }
 }
