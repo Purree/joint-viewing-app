@@ -35881,9 +35881,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "API_REGISTRATION_URL": () => (/* binding */ API_REGISTRATION_URL)
 /* harmony export */ });
 var API_LOGIN_URL = '/api/login';
-var API_REGISTRATION_URL = '/api/registration';
+var API_REGISTRATION_URL = '/api/users';
 var API_LOGOUT_URL = '/api/logout';
-var API_PASSWORD_RECOVERY_URL = '/api/forgot-password';
+var API_PASSWORD_RECOVERY_URL = '/api/users/password';
 
 /***/ }),
 
@@ -35901,8 +35901,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "API_CURRENT_USER_URL": () => (/* binding */ API_CURRENT_USER_URL)
 /* harmony export */ });
 var API_CURRENT_USER_URL = '/api/users/me';
-var API_CHANGE_NICKNAME_URL = '/api/users/change-name';
-var API_CHANGE_PASSWORD_URL = '/api/users/change-password';
+var API_CHANGE_NICKNAME_URL = '/api/users/name/{id}';
+var API_CHANGE_PASSWORD_URL = '/api/users/password/{id}';
 
 /***/ }),
 

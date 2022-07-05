@@ -27,6 +27,7 @@ import SettingsRow from "@/components/settings/SettingsRow";
 import ErrorMessage from "@/components/errors/ErrorMessage";
 import axios from "axios";
 import {API_CHANGE_PASSWORD_URL} from "@/api/users";
+import {mapState} from "vuex";
 
 export default {
     name: "PasswordSettingsBlock",
@@ -48,7 +49,7 @@ export default {
             if (this.pending === false) {
                 this.pending = true;
                 this.successed = false;
-                axios.patch(API_CHANGE_PASSWORD_URL, this.form)
+                axios.put(API_CHANGE_PASSWORD_URL.replace('{id}', this.user.id), this.form)
                     .then(response => {
                         this.errors = {};
                         this.successed = true;
@@ -62,6 +63,9 @@ export default {
                     });
             }
         }
+    },
+    computed: {
+        ...mapState('auth', ['user'])
     }
 }
 </script>

@@ -44,7 +44,7 @@ export default {
             if (this.pending === false) {
                 this.pending = true;
                 this.successed = false;
-                axios.patch(API_CHANGE_NICKNAME_URL, this.form)
+                axios.put(API_CHANGE_NICKNAME_URL.replace('{id}', this.user.id), this.form)
                     .then(response => {
                         this.$store.commit('auth/setUser', response.data);
 

@@ -91,7 +91,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.pending === false) {
         this.pending = true;
         this.successed = false;
-        axios__WEBPACK_IMPORTED_MODULE_4___default().patch(_api_users__WEBPACK_IMPORTED_MODULE_5__.API_CHANGE_NICKNAME_URL, this.form).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_4___default().put(_api_users__WEBPACK_IMPORTED_MODULE_5__.API_CHANGE_NICKNAME_URL.replace('{id}', this.user.id), this.form).then(function (response) {
           _this.$store.commit('auth/setUser', response.data);
 
           _this.errors = {};
@@ -140,6 +140,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _api_users__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/api/users */ "./resources/js/api/users.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 
@@ -157,6 +165,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       form: {
+        old_password: null,
         password: null,
         password_confirmation: null
       },
@@ -172,7 +181,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.pending === false) {
         this.pending = true;
         this.successed = false;
-        axios__WEBPACK_IMPORTED_MODULE_4___default().patch(_api_users__WEBPACK_IMPORTED_MODULE_5__.API_CHANGE_PASSWORD_URL, this.form).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_4___default().put(_api_users__WEBPACK_IMPORTED_MODULE_5__.API_CHANGE_PASSWORD_URL.replace('{id}', this.user.id), this.form).then(function (response) {
           _this.errors = {};
           _this.successed = true;
         })["catch"](function (errors) {
@@ -187,7 +196,8 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     }
-  }
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapState)('auth', ['user']))
 });
 
 /***/ }),
@@ -438,13 +448,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8
   /* PROPS */
   , ["show-when"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_settings_row, {
+    "property-name": 'Old password'
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_o_input, {
+        type: "password",
+        modelValue: $data.form.old_password,
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+          return $data.form.old_password = $event;
+        })
+      }, null, 8
+      /* PROPS */
+      , ["modelValue"])];
+    }),
+    _: 1
+    /* STABLE */
+
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_settings_row, {
     "property-name": 'New password'
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_o_input, {
         type: "password",
         modelValue: $data.form.password,
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
           return $data.form.password = $event;
         })
       }, null, 8
@@ -461,7 +488,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_o_input, {
         type: "password",
         modelValue: $data.form.password_confirmation,
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
           return $data.form.password_confirmation = $event;
         })
       }, null, 8

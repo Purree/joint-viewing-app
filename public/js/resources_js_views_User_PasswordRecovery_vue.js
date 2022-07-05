@@ -148,7 +148,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.pending === false) {
         this.pending = true;
-        axios__WEBPACK_IMPORTED_MODULE_4___default().post(_api_auth__WEBPACK_IMPORTED_MODULE_5__.API_PASSWORD_RECOVERY_URL, this.form).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_4___default().put(_api_auth__WEBPACK_IMPORTED_MODULE_5__.API_PASSWORD_RECOVERY_URL, this.form).then(function (response) {
           _this.recovery = true;
           _this.errors = {};
 

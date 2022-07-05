@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Services\Results\ResponseResult;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -30,26 +31,21 @@ class UserController extends Controller
         return $this->show($request, Auth::user()->id);
     }
 
-    public function changeName(ChangeNameRequest $request, User $user = null): JsonResponse
+    public function changeName(ChangeNameRequest $request, User $user): JsonResponse
     {
-        if ($user === null) {
-            $user = Auth::user();
-        }
-
         $user->name = $request->nickname;
         $user->save();
 
         return $this->show($request, $user->id);
     }
 
-    public function changePassword(ChangePasswordRequest $request, User $user = null): JsonResponse
+    public function changePassword(ChangePasswordRequest $request, User $user): JsonResponse
     {
-        if ($user === null) {
-            $user = Auth::user();
-        }
-
         if (!Hash::check($request->old_password, $user->password)) {
-            return ResponseResult::error(['password' => ['Incorrect old password']])->error;
+            return ResponseResult::error(
+                ['password' => ['Incorrect old password']],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            )->error;
         }
 
         $user->password = Hash::make($request->password);

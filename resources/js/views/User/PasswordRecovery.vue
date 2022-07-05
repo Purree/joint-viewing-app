@@ -57,7 +57,7 @@ export default {
         sendForm() {
             if (this.pending === false) {
                 this.pending = true;
-                axios.post(API_PASSWORD_RECOVERY_URL, this.form)
+                axios.put(API_PASSWORD_RECOVERY_URL, this.form)
                     .then(response => {
                         this.recovery = true;
                         this.errors = {};

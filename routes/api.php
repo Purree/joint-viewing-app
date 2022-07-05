@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthorizationController;
+use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,8 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('throttle:auth')->group(static function () {
     Route::post('/login', [AuthorizationController::class, 'login']);
-    Route::post('/registration', [AuthorizationController::class, 'registration'])->middleware('throttle:register');
-    Route::post('/forgot-password', [AuthorizationController::class, 'recoveryPassword']);
+    Route::post('/users', [AuthorizationController::class, 'registration'])->middleware('throttle:register');
+    Route::put('/users/password', [AuthorizationController::class, 'recoveryPassword']);
 });
 
 Route::middleware('auth:sanctum')->group(static function () {
@@ -27,12 +28,16 @@ Route::middleware('auth:sanctum')->group(static function () {
     Route::name('users.')->prefix('users')->group(static function () {
         Route::get('/me', [UserController::class, 'showAuthenticated'])->name('me');
 
-        Route::patch('/change-name', [UserController::class, 'changeName'])->name('change-name')->middleware(
-            'throttle:change_name'
+        Route::put('/name/{user}', [UserController::class, 'changeName'])->name('change-name')->middleware(
+            ['throttle:change_name', 'can:use-authenticated-route,user']
         );
 
-        Route::patch('/change-password', [UserController::class, 'changePassword'])->name(
+        Route::put('/password/{user}', [UserController::class, 'changePassword'])->name(
             'change-password'
-        )->middleware('throttle:change_password');
+        )->middleware(['throttle:change_password', 'can:use-authenticated-route,user']);
+    });
+
+    Route::name('tokens.')->prefix('tokens')->group(static function () {
+        Route::get('/{id}', [TokenController::class, 'getAllTokens'])->name('get-all-tokens');
     });
 });
