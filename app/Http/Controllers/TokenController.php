@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class TokenController extends Controller
 {
-    public function getAllTokens(Request $request, int $id) {
-
+    public function getAllTokens(Request $request, int $id)
+    {
     }
 }

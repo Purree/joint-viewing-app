@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use JetBrains\PhpStorm\ArrayShape;
 
 class LoginUserRequest extends FormRequest
@@ -13,7 +12,8 @@ class LoginUserRequest extends FormRequest
         return Auth('sanctum')->guest();
     }
 
-    #[ArrayShape(['email' => "string", 'password' => "string"])] public function rules(): array
+    #[ArrayShape(['email' => 'string', 'password' => 'string'])]
+    public function rules(): array
     {
         return [
             'email' => 'required|email',

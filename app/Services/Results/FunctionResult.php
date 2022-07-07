@@ -5,7 +5,9 @@ namespace App\Services\Results;
 class FunctionResult
 {
     public bool $success;
+
     public mixed $returnValue;
+
     public mixed $error;
 
     /**
@@ -20,13 +22,16 @@ class FunctionResult
         $result = new self();
         $result->success = true;
         $result->returnValue = $returnValue;
+
         return $result;
     }
+
     public static function error(string|array $error): FunctionResult
     {
         $result = new self();
         $result->success = false;
         $result->error = $error;
+
         return $result;
     }
 }

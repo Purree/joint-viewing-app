@@ -24,8 +24,7 @@ class ResponseResult extends FunctionResult
 
         $result->error = response()->json(
             [
-                'errors' =>
-                    is_array($error) ? $error : ['server' => [$error]],
+                'errors' => is_array($error) ? $error : ['server' => [$error]],
             ],
             $errorCode
         );

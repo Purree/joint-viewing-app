@@ -11,9 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-
-use function PHPUnit\Framework\returnValue;
 
 class UserController extends Controller
 {
@@ -41,7 +38,7 @@ class UserController extends Controller
 
     public function changePassword(ChangePasswordRequest $request, User $user): JsonResponse
     {
-        if (!Hash::check($request->old_password, $user->password)) {
+        if (! Hash::check($request->old_password, $user->password)) {
             return ResponseResult::error(
                 ['password' => ['Incorrect old password']],
                 Response::HTTP_UNPROCESSABLE_ENTITY

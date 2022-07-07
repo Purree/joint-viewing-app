@@ -13,8 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Testing\Fluent\Concerns\Has;
 
 class AuthorizationController extends Controller
 {
@@ -61,7 +59,7 @@ class AuthorizationController extends Controller
     {
         $user = User::where('email', $request->email)->first();
 
-        if (!Hash::check($request->secret, $user->secret)) {
+        if (! Hash::check($request->secret, $user->secret)) {
             return ResponseResult::error(
                 ['secret' => ['Incorrect secret']],
                 Response::HTTP_UNPROCESSABLE_ENTITY

@@ -26,7 +26,7 @@ class RecoveryPasswordRequest extends FormRequest
         return [
             'email' => 'required|email|exists:users',
             'secret' => 'required',
-            'password' => 'required|confirmed'
+            'password' => 'required|confirmed',
         ];
     }
 }

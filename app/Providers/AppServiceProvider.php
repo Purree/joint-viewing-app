@@ -26,19 +26,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        RateLimiter::for('auth', static function (Request $request) {
+        RateLimiter::for('auth', static function () {
             return Limit::perMinute(5);
         });
 
-        RateLimiter::for('register', static function (Request $request) {
+        RateLimiter::for('register', static function () {
             return Limit::perHour(1);
         });
 
-        RateLimiter::for('change_name', static function (Request $request) {
+        RateLimiter::for('change_name', static function () {
             return Limit::perHour(10);
         });
 
-        RateLimiter::for('change_password', static function (Request $request) {
+        RateLimiter::for('change_password', static function () {
             return Limit::perMinute(10);
         });
     }

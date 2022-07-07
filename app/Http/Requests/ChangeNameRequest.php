@@ -24,7 +24,7 @@ class ChangeNameRequest extends FormRequest
     public function rules()
     {
         return [
-            'nickname' => 'required|max:30'
+            'nickname' => 'required|max:30',
         ];
     }
 }
