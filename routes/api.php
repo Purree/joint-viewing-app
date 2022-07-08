@@ -28,16 +28,15 @@ Route::middleware('auth:sanctum')->group(static function () {
     Route::name('users.')->prefix('users')->group(static function () {
         Route::get('/me', [UserController::class, 'showAuthenticated'])->name('me');
 
-        Route::put('/name/{user}', [UserController::class, 'changeName'])->name('change-name')->middleware(
+        Route::put('{user}/name/', [UserController::class, 'changeName'])->name('change-name')->middleware(
             ['throttle:change_name', 'can:use-authenticated-route,user']
         );
 
-        Route::put('/password/{user}', [UserController::class, 'changePassword'])->name(
+        Route::put('{user}/password/', [UserController::class, 'changePassword'])->name(
             'change-password'
         )->middleware(['throttle:change_password', 'can:use-authenticated-route,user']);
-    });
 
-    Route::name('tokens.')->prefix('tokens')->group(static function () {
-        Route::get('/{id}', [TokenController::class, 'getAllTokens'])->name('get-all-tokens');
+        Route::get('/{user}/tokens', [TokenController::class, 'getAllTokens'])->name('get-all-tokens')
+            ->middleware(['can:use-authenticated-route,user']);
     });
 });
