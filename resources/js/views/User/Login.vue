@@ -24,6 +24,7 @@ import SubmitButton from "@/components/SubmitButton";
 import FormInput from "@/components/authentication/FormInput";
 import ErrorMessage from "@/components/errors/ErrorMessage";
 import {API_CURRENT_USER_URL} from "@/api/users";
+import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
 
 export default {
     name: 'Login',
@@ -61,8 +62,7 @@ export default {
                             })
                         })
                         .catch(errors => {
-                            console.log(errors.response)
-                            this.errors = errors.response.data?.errors || {'server': [errors.response.data.message]};
+                            this.errors = getErrorsFromResponse(errors);
                         })
                         .then(() => {
                             this.pending = false;

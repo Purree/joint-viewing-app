@@ -126,6 +126,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_errors_ErrorMessage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/components/errors/ErrorMessage */ "./resources/js/components/errors/ErrorMessage.vue");
 /* harmony import */ var _components_modals_UserSecretModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/components/modals/UserSecretModal */ "./resources/js/components/modals/UserSecretModal.vue");
 /* harmony import */ var _components_SuccessfulArticle__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/components/SuccessfulArticle */ "./resources/js/components/SuccessfulArticle.vue");
+/* harmony import */ var _mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/mixins/getErrorsFromResponse */ "./resources/js/mixins/getErrorsFromResponse.js");
+
 
 
 
@@ -179,13 +181,8 @@ __webpack_require__.r(__webpack_exports__);
 
           _this.promptModal(response.data.secret_phrase);
         })["catch"](function (errors) {
-          var _errors$response$data;
-
-          console.log(errors.response);
           _this.registered = false;
-          _this.errors = ((_errors$response$data = errors.response.data) === null || _errors$response$data === void 0 ? void 0 : _errors$response$data.errors) || {
-            'server': [errors.response.data.message]
-          };
+          _this.errors = (0,_mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_8__["default"])(errors);
         }).then(function () {
           _this.pending = false;
         });
@@ -214,7 +211,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_o_button, {
     variant: $props.variant || 'primary',
     onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($props.sendForm, ["prevent"]),
-    disabled: $props.pending || Object.values($props.form).some(function (el) {
+    disabled: $props.pending || $props.form && Object.values($props.form).some(function (el) {
       return el === null;
     }),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($props.isLoading ? 'is-loading ' : '')
@@ -547,6 +544,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* STABLE_FRAGMENT */
   );
 }
+
+/***/ }),
+
+/***/ "./resources/js/mixins/getErrorsFromResponse.js":
+/*!******************************************************!*\
+  !*** ./resources/js/mixins/getErrorsFromResponse.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (function (errors) {
+  var _errors$response$data;
+
+  console.log(errors.response);
+  return ((_errors$response$data = errors.response.data) === null || _errors$response$data === void 0 ? void 0 : _errors$response$data.errors) || {
+    'server': [errors.response.data.message]
+  };
+});
 
 /***/ }),
 

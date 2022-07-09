@@ -27,6 +27,7 @@ import FormInput from "@/components/authentication/FormInput";
 import ErrorMessage from "@/components/errors/ErrorMessage";
 import UserSecretModal from "@/components/modals/UserSecretModal";
 import SuccessfulArticle from "@/components/SuccessfulArticle";
+import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
 
 export default {
     name: 'Register',
@@ -65,9 +66,8 @@ export default {
                         this.promptModal(response.data.secret_phrase)
                     })
                     .catch(errors => {
-                        console.log(errors.response)
                         this.registered = false;
-                        this.errors = errors.response.data?.errors || {'server': [errors.response.data.message]};
+                        this.errors = getErrorsFromResponse(errors);
                     })
                     .then(() => {
                         this.pending = false;

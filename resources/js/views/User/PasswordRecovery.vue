@@ -26,6 +26,7 @@ import UserSecretModal from "@/components/modals/UserSecretModal";
 import axios from "axios";
 import {API_PASSWORD_RECOVERY_URL} from "@/api/auth";
 import SuccessfulArticle from "@/components/SuccessfulArticle";
+import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
 
 export default {
     name: "PasswordRecovery",
@@ -64,9 +65,8 @@ export default {
                         this.promptModal(response.data.new_secret_phrase)
                     })
                     .catch(errors => {
-                        console.log(errors.response)
                         this.recovery = false;
-                        this.errors = errors.response.data?.errors || {'server': [errors.response.data.message]};
+                        this.errors = getErrorsFromResponse(errors);
                     })
                     .then(() => {
                         this.pending = false;

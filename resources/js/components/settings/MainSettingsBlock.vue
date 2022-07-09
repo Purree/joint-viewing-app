@@ -25,6 +25,7 @@ import ErrorMessage from "@/components/errors/ErrorMessage";
 import axios from "axios";
 import {API_CHANGE_NICKNAME_URL} from "@/api/users";
 import {mapState} from "vuex";
+import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
 
 export default {
     name: "MainSettingsBlock",
@@ -52,8 +53,7 @@ export default {
                         this.successed = true;
                     })
                     .catch(errors => {
-                        console.log(errors.response)
-                        this.errors = errors.response.data?.errors || {'server': [errors.response.data.message]};
+                        this.errors = getErrorsFromResponse(errors);
                     })
                     .then(() => {
                         this.pending = false;
