@@ -1,6 +1,5 @@
 <template>
     <main>
-        <unable-to-authenticate-modal :is-modal-active="isUnableToAuthenticate"/>
         <AppLayout>
             <router-view></router-view>
         </AppLayout>
@@ -10,18 +9,11 @@
 <script>
 
 import {API_CURRENT_USER_URL} from "@/api/users";
-import UnableToAuthenticateModal from "@/components/modals/UnableToAuthenticateModal";
 import changeTheme from "@/mixins/changeTheme";
 
 export default {
     name: 'App',
-    components: {UnableToAuthenticateModal},
     mixins: [changeTheme],
-    data() {
-        return {
-            isUnableToAuthenticate: false
-        }
-    },
     mounted() {
         if (localStorage.getItem('theme') === 'dark' || (localStorage.getItem('theme') !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             this.changeTheme();
@@ -35,10 +27,11 @@ export default {
                 this.$store.commit('auth/setUser', response.data)
             }).catch((error) => {
                 console.log(error.response)
-                this.isUnableToAuthenticate = true
+
+                this.$store.dispatch('auth/logout');
             })
         }
-    },
+    }
 }
 </script>
 

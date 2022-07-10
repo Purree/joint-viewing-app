@@ -16,4 +16,11 @@ class TokenController extends Controller
             TokenResource::collection($user->tokens()->get())
         )->returnValue;
     }
+
+    public function revokeAllTokens(Request $request, User $user): JsonResponse
+    {
+        $user->tokens()->delete();
+
+        return ResponseResult::success()->returnValue;
+    }
 }

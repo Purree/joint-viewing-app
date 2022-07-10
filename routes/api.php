@@ -28,15 +28,18 @@ Route::middleware('auth:sanctum')->group(static function () {
     Route::name('users.')->prefix('users')->group(static function () {
         Route::get('/me', [UserController::class, 'showAuthenticated'])->name('me');
 
-        Route::put('{user}/name/', [UserController::class, 'changeName'])->name('change-name')->middleware(
-            ['throttle:change_name', 'can:use-authenticated-route,user']
-        );
+        Route::middleware('can:use-authenticated-route,user')->group(static function () {
+            Route::put('{user}/name/', [UserController::class, 'changeName'])->name('change-name')->middleware(
+                ['throttle:change_name']
+            );
 
-        Route::put('{user}/password/', [UserController::class, 'changePassword'])->name(
-            'change-password'
-        )->middleware(['throttle:change_password', 'can:use-authenticated-route,user']);
+            Route::put('{user}/password/', [UserController::class, 'changePassword'])->name(
+                'change-password'
+            )->middleware(['throttle:change_password']);
 
-        Route::get('/{user}/tokens', [TokenController::class, 'getAllTokens'])->name('get-all-tokens')
-            ->middleware(['can:use-authenticated-route,user']);
+            Route::get('/{user}/tokens', [TokenController::class, 'getAllTokens'])->name('get-all-tokens');
+
+            Route::delete('/{user}/tokens', [TokenController::class, 'revokeAllTokens'])->name('get-all-tokens');
+        });
     });
 });

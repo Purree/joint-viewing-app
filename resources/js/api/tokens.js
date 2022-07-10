@@ -1,1 +1,2 @@
-export const API_PASSWORD_RECOVERY_URL = '/api/users/{id}/tokens'
+export const API_SHOW_ALL_TOKENS_URL = '/api/users/{id}/tokens'
+export const API_DELETE_ALL_TOKENS_URL = '/api/users/{id}/tokens'

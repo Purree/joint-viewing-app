@@ -1,3 +1,7 @@
+import axios from "axios";
+import {API_LOGOUT_URL} from "@/api/auth";
+import router from "@/routes";
+
 export default {
     state: {
         userToken: null,
@@ -21,6 +25,18 @@ export default {
         },
         setUser(state, user) {
             state.user = user
+        }
+    },
+    actions: {
+        logout({ commit }) {
+            axios.post(API_LOGOUT_URL)
+                .catch((error) => {
+                    console.log(error.response.data)
+                }).then((response) => {
+                    commit('setUserToken', null);
+
+                    router.push({ name: 'Login' });
+                })
         }
     },
     namespaced: true

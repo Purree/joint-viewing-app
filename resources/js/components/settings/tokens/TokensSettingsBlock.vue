@@ -5,22 +5,26 @@
 
     <tokens-container v-if="tokens && tokens.length !== 0" :tokens="tokens"></tokens-container>
 
+    <div class="is-flex-desktop">
     <submit-button :pending="isTokensLoading" :text="buttonText"
                    class="is-fullwidth" :is-loading="isTokensLoading" :variant="'basic'"
                    :send-form="loadTokens"></submit-button>
+    <logout-all-tokens-button/>
+    </div>
 </template>
 
 <script>
 import SubmitButton from "@/components/SubmitButton";
-import {API_PASSWORD_RECOVERY_URL} from "@/api/tokens";
+import {API_SHOW_ALL_TOKENS_URL} from "@/api/tokens";
 import {mapState} from "vuex";
 import ErrorMessage from "@/components/errors/ErrorMessage";
 import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
 import TokensContainer from "@/components/settings/tokens/TokensContainer";
+import LogoutAllTokensButton from "@/components/settings/tokens/LogoutAllTokensButton";
 
 export default {
     name: "TokensSettingsBlock",
-    components: {TokensContainer, SubmitButton, ErrorMessage},
+    components: {LogoutAllTokensButton, TokensContainer, SubmitButton, ErrorMessage},
     mixins: [getErrorsFromResponse],
     data() {
         return {
@@ -34,7 +38,7 @@ export default {
         loadTokens() {
             if (!this.isTokensLoading) {
                 this.isTokensLoading = true
-                axios.get(API_PASSWORD_RECOVERY_URL.replace('{id}', this.user.id))
+                axios.get(API_SHOW_ALL_TOKENS_URL.replace('{id}', this.user.id))
                     .then(response => {
                         this.tokens = response.data
                         this.errors = {}
