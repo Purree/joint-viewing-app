@@ -27,13 +27,16 @@ class TokenController extends Controller
 
     public function revokeToken(Request $request, User $user, int $tokenId): JsonResponse
     {
-        $token = $user->tokens()->where('id', $tokenId);
+        $token = $user->tokens()->where('id', $tokenId)->first();
 
-        if ($token->first() === null) {
+        if ($token === null) {
             return ResponseResult::error(['token' => ['Token not found']], Response::HTTP_NOT_FOUND)->error;
         }
 
         $token->delete();
-        return ResponseResult::success()->returnValue;
+
+        return ResponseResult::success(
+            ['logout' => $token->token === auth()->user()->currentAccessToken()->token]
+        )->returnValue;
     }
 }

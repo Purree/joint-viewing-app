@@ -35922,7 +35922,7 @@ __webpack_require__.r(__webpack_exports__);
   meta: {
     layout: 'MainLayout',
     transition: 'none',
-    childTransition: 'slide-down'
+    childTransition: 'slide'
   }
 }]);
 

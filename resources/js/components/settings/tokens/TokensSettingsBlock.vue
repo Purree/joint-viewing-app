@@ -3,13 +3,13 @@
 
     <ErrorMessage :errors="errors"></ErrorMessage>
 
-    <tokens-container v-if="tokens && tokens.length !== 0" :tokens="tokens"></tokens-container>
+    <tokens-container @update-tokens="loadTokens" v-if="tokens && tokens.length !== 0" :tokens="tokens"></tokens-container>
 
     <div class="is-flex-desktop">
-    <submit-button :pending="isTokensLoading" :text="buttonText"
-                   class="is-fullwidth" :is-loading="isTokensLoading" :variant="'basic'"
-                   :send-form="loadTokens"></submit-button>
-    <logout-all-tokens-button/>
+        <submit-button :pending="isTokensLoading" :text="buttonText"
+                       class="is-fullwidth" :is-loading="isTokensLoading" :variant="'basic'"
+                       :send-form="loadTokens"></submit-button>
+        <logout-all-tokens-button/>
     </div>
 </template>
 

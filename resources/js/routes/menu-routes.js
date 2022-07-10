@@ -24,7 +24,7 @@ export default [
         meta: {
             layout: 'MainLayout',
             transition: 'none',
-            childTransition: 'slide-down'
+            childTransition: 'slide'
         },
     }
 ]
