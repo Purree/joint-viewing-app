@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\TokenResource;
 use App\Models\User;
 use App\Services\Results\ResponseResult;
+use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,18 @@ class TokenController extends Controller
     {
         $user->tokens()->delete();
 
+        return ResponseResult::success()->returnValue;
+    }
+
+    public function revokeToken(Request $request, User $user, int $tokenId): JsonResponse
+    {
+        $token = $user->tokens()->where('id', $tokenId);
+
+        if ($token->first() === null) {
+            return ResponseResult::error(['token' => ['Token not found']], Response::HTTP_NOT_FOUND)->error;
+        }
+
+        $token->delete();
         return ResponseResult::success()->returnValue;
     }
 }
