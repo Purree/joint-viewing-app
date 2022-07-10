@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthorizationController;
+use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +43,16 @@ Route::middleware('auth:sanctum')->group(static function () {
             Route::delete('/{user}/tokens', [TokenController::class, 'revokeAllTokens'])->name('revoke-all-tokens');
 
             Route::delete('/{user}/tokens/{token}', [TokenController::class, 'revokeToken'])->name('revoke-token');
+
+            Route::get('/{user}/sessions', [SessionController::class, 'getAllSessions'])->name('get-all-sessions');
+
+            Route::delete('/{user}/sessions', [SessionController::class, 'revokeAllSessions'])->name(
+                'revoke-all-sessions'
+            );
+
+            Route::delete('/{user}/sessions/{session}', [SessionController::class, 'revokeSession'])->name(
+                'revoke-session'
+            );
         });
     });
 });

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Http\Resources\UserResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Notifications\Notifiable;
@@ -47,8 +48,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $with = ['sessions'];
+
     public function getValidatedData(): JsonResource
     {
         return new UserResource($this);
+    }
+
+    public function sessions(): HasMany
+    {
+        return $this->hasMany(Session::class);
     }
 }
