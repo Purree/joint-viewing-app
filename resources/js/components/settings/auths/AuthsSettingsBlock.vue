@@ -10,7 +10,7 @@
         <submit-button :pending="isAuthsLoading" :text="buttonText"
                        class="is-fullwidth" :is-loading="isAuthsLoading" :variant="'basic'"
                        :send-form="loadAuths"></submit-button>
-        <logout-all-tokens-button/>
+        <logout-all-auths-button/>
     </div>
 </template>
 
@@ -21,13 +21,13 @@ import {mapState} from "vuex";
 import ErrorMessage from "@/components/errors/ErrorMessage";
 import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
 import TokensContainer from "@/components/settings/auths/TokensContainer";
-import LogoutAllTokensButton from "@/components/settings/auths/LogoutAllTokensButton";
+import LogoutAllAuthsButton from "@/components/settings/auths/LogoutAllAuthsButton";
 import {API_SHOW_ALL_SESSIONS_URL} from "@/api/sessions";
 import replaceDataInUri from "@/mixins/replaceDataInUri";
 
 export default {
     name: "AuthsSettingsBlock",
-    components: {LogoutAllTokensButton, TokensContainer, SubmitButton, ErrorMessage},
+    components: {LogoutAllAuthsButton, TokensContainer, SubmitButton, ErrorMessage},
     mixins: [getErrorsFromResponse, replaceDataInUri],
     data() {
         return {

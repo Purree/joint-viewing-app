@@ -9,9 +9,10 @@ import SubmitButton from "@/components/SubmitButton";
 import {API_DELETE_ALL_TOKENS_URL} from "@/api/tokens";
 import {mapState} from "vuex";
 import replaceDataInUri from "@/mixins/replaceDataInUri";
+import {API_DELETE_ALL_SESSIONS_URL} from "@/api/sessions";
 
 export default {
-    name: "LogoutAllTokensButton",
+    name: "LogoutAllAuthsButton",
     components: {SubmitButton},
     mixins: [replaceDataInUri],
     data() {
@@ -20,17 +21,26 @@ export default {
         }
     },
     methods: {
-        logout() {
+        async logout() {
             if (this.pending === false) {
                 this.pending = true;
-                axios.delete(replaceDataInUri(API_DELETE_ALL_TOKENS_URL, {'id': this.user.id})).then(() => {
-                    this.$store.dispatch('auth/logout')
 
-                    this.$router.push({ name: 'Login' })
-                }).catch( errors => {
-                    console.log(errors.response)
-                })
+                await Promise.all([this.logoutTokens(), this.logoutSessions()])
+
+                this.$store.dispatch('auth/logout')
+
+                this.$router.push({ name: 'Login' })
             }
+        },
+        logoutTokens() {
+            return axios.delete(replaceDataInUri(API_DELETE_ALL_TOKENS_URL, {'id': this.user.id})).catch(errors => {
+                console.log(errors.response)
+            })
+        },
+        logoutSessions() {
+            return axios.delete(replaceDataInUri(API_DELETE_ALL_SESSIONS_URL, {'id': this.user.id})).catch(errors => {
+                console.log(errors.response)
+            })
         }
     },
     computed: {
