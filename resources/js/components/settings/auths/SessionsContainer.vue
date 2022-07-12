@@ -1,7 +1,7 @@
 <template>
     <div class="divider">Sessions</div>
 
-    <columns :columns="['IP', 'User Agent', 'Last activity']"></columns>
+    <columns :columns="['IP', 'User Agent', 'Last activity', 'Actions']"></columns>
     <div v-for="session in sessions" :key="session.id">
         <hr/>
         <columns :columns="[

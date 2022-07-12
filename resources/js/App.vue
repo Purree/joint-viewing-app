@@ -10,6 +10,7 @@
 
 import {API_CURRENT_USER_URL} from "@/api/users";
 import changeTheme from "@/mixins/changeTheme";
+import {mapState} from "vuex";
 
 export default {
     name: 'App',
@@ -18,11 +19,10 @@ export default {
         if (localStorage.getItem('theme') === 'dark' || (localStorage.getItem('theme') !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             this.changeTheme();
         }
-    },
-    beforeCreate() {
-        this.$store.commit('auth/setUserToken', localStorage.getItem('auth-token'));
 
-        if (this.$store.getters['auth/isLoggedIn']) {
+        this.$store.commit('auth/setIsLoggedIn', localStorage.getItem('isLoggedIn'));
+
+        if (this.isLoggedIn) {
             axios.get(API_CURRENT_USER_URL).then((response) => {
                 this.$store.commit('auth/setUser', response.data)
             }).catch((error) => {
@@ -31,6 +31,9 @@ export default {
                 this.$store.dispatch('auth/logout');
             })
         }
+    },
+    computed: {
+        ...mapState('auth', ['isLoggedIn'])
     }
 }
 </script>

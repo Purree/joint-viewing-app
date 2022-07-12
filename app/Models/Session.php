@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 class Session extends Model
 {
     protected $appends = ['expires_at'];
+    protected $keyType = 'string';
 
     public function isExpired(): bool
     {

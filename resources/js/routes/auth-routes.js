@@ -1,5 +1,4 @@
 import store from "@/store";
-import router from "@/routes/index";
 
 export default [
     {

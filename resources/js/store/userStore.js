@@ -4,27 +4,23 @@ import router from "@/routes";
 
 export default {
     state: {
-        userToken: null,
+        isLoggedIn: false,
         user: {}
+    },
+    mutations: {
+        setUser(state, user) {
+            state.user = user
+        },
+        setIsLoggedIn(state, isLoggedIn = !state.isLoggedIn) {
+            isLoggedIn = typeof isLoggedIn === 'string' ? isLoggedIn === 'true' : !!isLoggedIn
+
+            localStorage.setItem('isLoggedIn', `${isLoggedIn}`)
+            state.isLoggedIn = isLoggedIn
+        }
     },
     getters: {
         isLoggedIn(state) {
-            return !!state.userToken && state.userToken !== 'null';
-        }
-    },
-    mutations: {
-        setUserToken(state, token) {
-            if (token !== null) {
-                localStorage.setItem('auth-token', token)
-            } else {
-                localStorage.removeItem('auth-token')
-            }
-
-            window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-            state.userToken = token;
-        },
-        setUser(state, user) {
-            state.user = user
+            return state.isLoggedIn
         }
     },
     actions: {
@@ -32,8 +28,8 @@ export default {
             axios.post(API_LOGOUT_URL)
                 .catch((error) => {
                     console.log(error.response.data)
-                }).then((response) => {
-                    commit('setUserToken', null);
+                }).then(() => {
+                    commit('setIsLoggedIn', false);
 
                     router.push({ name: 'Login' });
                 })

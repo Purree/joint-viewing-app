@@ -25,7 +25,7 @@ class SessionController extends Controller
         return ResponseResult::success()->returnValue;
     }
 
-    public function revoke(Request $request, User $user, int $sessionId): JsonResponse
+    public function revoke(Request $request, User $user, string $sessionId): JsonResponse
     {
         $session = $user->sessions()->where('id', $sessionId)->first();
 
