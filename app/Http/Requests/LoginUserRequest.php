@@ -12,12 +12,13 @@ class LoginUserRequest extends FormRequest
         return Auth('sanctum')->guest();
     }
 
-    #[ArrayShape(['email' => 'string', 'password' => 'string'])]
+    #[ArrayShape(['email' => 'string', 'password' => 'string', 'token' => 'string'])]
     public function rules(): array
     {
         return [
             'email' => 'required|email',
             'password' => 'required',
+            'token' => ''
         ];
     }
 }

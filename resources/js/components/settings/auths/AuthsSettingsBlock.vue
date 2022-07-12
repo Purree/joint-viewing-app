@@ -6,6 +6,10 @@
     <tokens-container @update-tokens="loadTokens" v-if="auths.tokens && auths.tokens.length !== 0"
                       :tokens="auths.tokens"></tokens-container>
 
+    <sessions-container @update-sessions="loadSessions"
+                        v-if="auths.sessions && auths.sessions.length !== 0"
+                        :sessions="auths.sessions"></sessions-container>
+
     <div class="is-flex-desktop">
         <submit-button :pending="isAuthsLoading" :text="buttonText"
                        class="is-fullwidth" :is-loading="isAuthsLoading" :variant="'basic'"
@@ -24,10 +28,11 @@ import TokensContainer from "@/components/settings/auths/TokensContainer";
 import LogoutAllAuthsButton from "@/components/settings/auths/LogoutAllAuthsButton";
 import {API_SHOW_ALL_SESSIONS_URL} from "@/api/sessions";
 import replaceDataInUri from "@/mixins/replaceDataInUri";
+import SessionsContainer from "@/components/settings/auths/SessionsContainer";
 
 export default {
     name: "AuthsSettingsBlock",
-    components: {LogoutAllAuthsButton, TokensContainer, SubmitButton, ErrorMessage},
+    components: {SessionsContainer, LogoutAllAuthsButton, TokensContainer, SubmitButton, ErrorMessage},
     mixins: [getErrorsFromResponse, replaceDataInUri],
     data() {
         return {
