@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Resources\TokenResource;
 use App\Models\User;
 use App\Services\Results\ResponseResult;
-use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class TokenController extends Controller
 {

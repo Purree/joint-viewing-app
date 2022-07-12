@@ -103,7 +103,7 @@ __webpack_require__.r(__webpack_exports__);
         this.pending = true;
         axios__WEBPACK_IMPORTED_MODULE_0___default().get('/sanctum/csrf-cookie').then(function (response) {
           axios__WEBPACK_IMPORTED_MODULE_0___default().post(_api_auth__WEBPACK_IMPORTED_MODULE_1__.API_LOGIN_URL, _this.form).then(function (response) {
-            _this.$store.commit('auth/setUserToken', response.data.token);
+            _this.$store.commit('auth/setIsLoggedIn', true);
 
             axios__WEBPACK_IMPORTED_MODULE_0___default().get(_api_users__WEBPACK_IMPORTED_MODULE_5__.API_CURRENT_USER_URL).then(function (response) {
               _this.$store.commit('auth/setUser', response.data);

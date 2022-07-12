@@ -257,6 +257,81 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/auths/AuthContainer.vue?vue&type=script&lang=js":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/auths/AuthContainer.vue?vue&type=script&lang=js ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _components_settings_auths_RevokeAuthButton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/settings/auths/RevokeAuthButton */ "./resources/js/components/settings/auths/RevokeAuthButton.vue");
+/* harmony import */ var _components_Columns__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/Columns */ "./resources/js/components/Columns.vue");
+/* harmony import */ var _mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/mixins/getErrorsFromResponse */ "./resources/js/mixins/getErrorsFromResponse.js");
+/* harmony import */ var _mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/mixins/replaceDataInUri */ "./resources/js/mixins/replaceDataInUri.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "AuthContainer",
+  components: {
+    Columns: _components_Columns__WEBPACK_IMPORTED_MODULE_1__["default"],
+    RevokeAuthButton: _components_settings_auths_RevokeAuthButton__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  emits: ['delete', 'update'],
+  props: ['auths', 'deletingAuths', 'dividerText', 'headerColumns', 'arrayKeys', 'deleteRequestParams'],
+  methods: {
+    deleteAuth: function deleteAuth(id) {
+      var _this = this;
+
+      if (!this.deletingAuths.includes(id)) {
+        this.deletingAuths.push(id);
+
+        if (this.deleteRequestParams) {
+          axios["delete"]((0,_mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_3__["default"])(this.deleteRequestParams.uri, {
+            'userId': this.user.id,
+            'authId': id
+          })).then(function (response) {
+            if (response.data.logout) {
+              _this.$store.dispatch('auth/logout');
+            }
+
+            _this.$emit('update');
+          })["catch"](function (errors) {
+            Object.values((0,_mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_2__["default"])(errors)).forEach(function (error) {
+              _this.$oruga.notification.open({
+                duration: 15000,
+                message: error[0],
+                position: 'bottom-right',
+                variant: 'danger',
+                closable: true
+              });
+            });
+          }).then(function () {
+            _this.deletingAuths.splice(_this.deletingAuths.indexOf(id), 1);
+          });
+        } else {
+          this.$emit('delete', id);
+        }
+      }
+    }
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapState)('auth', ['user']))
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/auths/AuthsSettingsBlock.vue?vue&type=script&lang=js":
 /*!***************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/auths/AuthsSettingsBlock.vue?vue&type=script&lang=js ***!
@@ -522,20 +597,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _components_settings_auths_RevokeAuthButton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/settings/auths/RevokeAuthButton */ "./resources/js/components/settings/auths/RevokeAuthButton.vue");
-/* harmony import */ var _components_Columns__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/Columns */ "./resources/js/components/Columns.vue");
-/* harmony import */ var _mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/mixins/replaceDataInUri */ "./resources/js/mixins/replaceDataInUri.js");
-/* harmony import */ var _mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/mixins/getErrorsFromResponse */ "./resources/js/mixins/getErrorsFromResponse.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
-/* harmony import */ var _api_sessions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/api/sessions */ "./resources/js/api/sessions.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
+/* harmony import */ var _mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/mixins/replaceDataInUri */ "./resources/js/mixins/replaceDataInUri.js");
+/* harmony import */ var _api_sessions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api/sessions */ "./resources/js/api/sessions.js");
+/* harmony import */ var _components_settings_auths_AuthContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/settings/auths/AuthContainer */ "./resources/js/components/settings/auths/AuthContainer.vue");
+/* harmony import */ var _mixins_formatDate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/mixins/formatDate */ "./resources/js/mixins/formatDate.js");
 
 
 
@@ -543,51 +608,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "SessionsContainer",
   components: {
-    Columns: _components_Columns__WEBPACK_IMPORTED_MODULE_1__["default"],
-    RevokeAuthButton: _components_settings_auths_RevokeAuthButton__WEBPACK_IMPORTED_MODULE_0__["default"]
+    AuthContainer: _components_settings_auths_AuthContainer__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   emits: ['updateSessions'],
   props: ['sessions'],
-  mixins: [_mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_2__["default"]],
+  mixins: [_mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_0__["default"], _mixins_formatDate__WEBPACK_IMPORTED_MODULE_3__["default"]],
   data: function data() {
     return {
-      deletingSessions: []
+      deletingSessions: [],
+      deleteUri: _api_sessions__WEBPACK_IMPORTED_MODULE_1__.API_DELETE_SESSIONS_URL
     };
-  },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapState)('auth', ['user'])),
-  methods: {
-    formatDate: function formatDate(dateString) {
-      return new Date(dateString * 1000).toLocaleString();
-    },
-    deleteSession: function deleteSession(id) {
-      var _this = this;
-
-      if (!this.deletingSessions.includes(id)) {
-        this.deletingSessions.push(id);
-        axios["delete"]((0,_mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_2__["default"])(_api_sessions__WEBPACK_IMPORTED_MODULE_4__.API_DELETE_SESSIONS_URL, {
-          'userId': this.user.id,
-          'sessionId': id
-        })).then(function (response) {
-          if (response.data.logout) {
-            _this.$store.dispatch('auth/logout');
-          }
-
-          _this.$emit('updateSessions');
-        })["catch"](function (errors) {
-          Object.values((0,_mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_3__["default"])(errors)).forEach(function (error) {
-            _this.$oruga.notification.open({
-              duration: 15000,
-              message: error[0],
-              position: 'bottom-right',
-              variant: 'danger',
-              closable: true
-            });
-          });
-        }).then(function () {
-          _this.deletingSessions.splice(_this.deletingSessions.indexOf(id), 1);
-        });
-      }
-    }
   }
 });
 
@@ -603,20 +633,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _components_settings_auths_RevokeAuthButton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/settings/auths/RevokeAuthButton */ "./resources/js/components/settings/auths/RevokeAuthButton.vue");
-/* harmony import */ var _components_Columns__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/Columns */ "./resources/js/components/Columns.vue");
-/* harmony import */ var _mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/mixins/replaceDataInUri */ "./resources/js/mixins/replaceDataInUri.js");
+/* harmony import */ var _mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/mixins/replaceDataInUri */ "./resources/js/mixins/replaceDataInUri.js");
+/* harmony import */ var _components_settings_auths_AuthContainer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/settings/auths/AuthContainer */ "./resources/js/components/settings/auths/AuthContainer.vue");
+/* harmony import */ var _mixins_formatDate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/mixins/formatDate */ "./resources/js/mixins/formatDate.js");
 /* harmony import */ var _api_tokens__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/api/tokens */ "./resources/js/api/tokens.js");
-/* harmony import */ var _mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/mixins/getErrorsFromResponse */ "./resources/js/mixins/getErrorsFromResponse.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
 
 
 
@@ -624,51 +644,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "TokensContainer",
   components: {
-    Columns: _components_Columns__WEBPACK_IMPORTED_MODULE_1__["default"],
-    RevokeAuthButton: _components_settings_auths_RevokeAuthButton__WEBPACK_IMPORTED_MODULE_0__["default"]
+    AuthContainer: _components_settings_auths_AuthContainer__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   emits: ['updateTokens'],
   props: ['tokens'],
-  mixins: [_mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_2__["default"]],
+  mixins: [_mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_0__["default"], _mixins_formatDate__WEBPACK_IMPORTED_MODULE_2__["default"]],
   data: function data() {
     return {
-      deletingTokens: []
+      deletingTokens: [],
+      deleteUri: _api_tokens__WEBPACK_IMPORTED_MODULE_3__.API_DELETE_TOKEN_URL
     };
-  },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapState)('auth', ['user'])),
-  methods: {
-    formatDate: function formatDate(dateString) {
-      return new Date(dateString).toLocaleString();
-    },
-    deleteToken: function deleteToken(id) {
-      var _this = this;
-
-      if (!this.deletingTokens.includes(id)) {
-        this.deletingTokens.push(id);
-        axios["delete"]((0,_mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_2__["default"])(_api_tokens__WEBPACK_IMPORTED_MODULE_3__.API_DELETE_TOKEN_URL, {
-          'userId': this.user.id,
-          'tokenId': id
-        })).then(function (response) {
-          if (response.data.logout) {
-            _this.$store.dispatch('auth/logout');
-          }
-
-          _this.$emit('updateTokens');
-        })["catch"](function (errors) {
-          Object.values((0,_mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_4__["default"])(errors)).forEach(function (error) {
-            _this.$oruga.notification.open({
-              duration: 15000,
-              message: error[0],
-              position: 'bottom-right',
-              variant: 'danger',
-              closable: true
-            });
-          });
-        }).then(function () {
-          _this.deletingTokens.splice(_this.deletingTokens.indexOf(id), 1);
-        });
-      }
-    }
   }
 });
 
@@ -1081,6 +1066,78 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/auths/AuthContainer.vue?vue&type=template&id=41af2db4":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/auths/AuthContainer.vue?vue&type=template&id=41af2db4 ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+
+var _hoisted_1 = {
+  "class": "divider"
+};
+
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_3 = {
+  "class": "column"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_columns = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("columns");
+
+  var _component_revoke_auth_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("revoke-auth-button");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.dividerText), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_columns, {
+    columns: $props.headerColumns
+  }, null, 8
+  /* PROPS */
+  , ["columns"]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.auths, function (auth) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: auth.id
+    }, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_columns, {
+      columns: $props.arrayKeys.map(function (el) {
+        if (typeof el === 'string') return auth[el];
+
+        if (_typeof(el) === 'object') {
+          return el.action(auth[el.name]);
+        }
+      })
+    }, {
+      "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_revoke_auth_button, {
+          "deleting-auths": $props.deletingAuths,
+          onDelete: $options.deleteAuth,
+          "auth-id": auth.id
+        }, null, 8
+        /* PROPS */
+        , ["deleting-auths", "onDelete", "auth-id"])])];
+      }),
+      _: 2
+      /* DYNAMIC */
+
+    }, 1032
+    /* PROPS, DYNAMIC_SLOTS */
+    , ["columns"])]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))], 64
+  /* STABLE_FRAGMENT */
+  );
+}
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/auths/AuthsSettingsBlock.vue?vue&type=template&id=8e588598":
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/auths/AuthsSettingsBlock.vue?vue&type=template&id=8e588598 ***!
@@ -1216,55 +1273,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "divider"
-}, "Sessions", -1
-/* HOISTED */
-);
-
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1
-/* HOISTED */
-);
-
-var _hoisted_3 = {
-  "class": "column"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
 
-  var _component_columns = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("columns");
+  var _component_auth_container = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("auth-container");
 
-  var _component_revoke_auth_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("revoke-auth-button");
-
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_columns, {
-    columns: ['IP', 'User Agent', 'Last activity', 'Actions']
-  }), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.sessions, function (session) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: session.id
-    }, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_columns, {
-      columns: [session.ip_address, session.user_agent, _this.formatDate(session.last_activity)]
-    }, {
-      "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_revoke_auth_button, {
-          "deleting-auths": $data.deletingSessions,
-          onDelete: $options.deleteSession,
-          "auth-id": session.id
-        }, null, 8
-        /* PROPS */
-        , ["deleting-auths", "onDelete", "auth-id"])])];
-      }),
-      _: 2
-      /* DYNAMIC */
-
-    }, 1032
-    /* PROPS, DYNAMIC_SLOTS */
-    , ["columns"])]);
-  }), 128
-  /* KEYED_FRAGMENT */
-  ))], 64
-  /* STABLE_FRAGMENT */
-  );
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_auth_container, {
+    "divider-text": 'Sessions',
+    "header-columns": ['IP', 'User Agent', 'Last activity', 'Actions'],
+    "array-keys": ['ip_address', 'user_agent', {
+      'name': 'last_activity',
+      'action': _ctx.formatDate
+    }],
+    auths: $props.sessions,
+    "deleting-auths": $data.deletingSessions,
+    "delete-request-params": {
+      'uri': $data.deleteUri
+    },
+    onUpdate: _cache[0] || (_cache[0] = function ($event) {
+      return _this.$emit('updateSessions');
+    })
+  }, null, 8
+  /* PROPS */
+  , ["array-keys", "auths", "deleting-auths", "delete-request-params"]);
 }
 
 /***/ }),
@@ -1281,55 +1312,39 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "divider"
-}, "Tokens", -1
-/* HOISTED */
-);
-
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1
-/* HOISTED */
-);
-
-var _hoisted_3 = {
-  "class": "column"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
 
-  var _component_columns = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("columns");
+  var _component_auth_container = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("auth-container");
 
-  var _component_revoke_auth_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("revoke-auth-button");
-
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_columns, {
-    columns: ['Type', 'Abilities', 'Created at', 'Last used at', 'Actions']
-  }), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.tokens, function (token) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: token.id
-    }, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_columns, {
-      columns: [token.type, token.abilities.includes('*') ? 'All' : token.abilities.join(', '), _this.formatDate(token.created_at), token.last_used_at ? _this.formatDate(token.last_used_at) : 'Never']
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_auth_container, {
+    "divider-text": 'Tokens',
+    "header-columns": ['Type', 'Abilities', 'Created at', 'Last used at', 'Actions'],
+    "array-keys": ['type', {
+      'name': 'abilities',
+      'action': function action(abilities) {
+        return abilities.includes('*') ? 'All' : abilities.join(', ');
+      }
     }, {
-      "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_revoke_auth_button, {
-          "deleting-auths": $data.deletingTokens,
-          onDelete: $options.deleteToken,
-          "auth-id": token.id
-        }, null, 8
-        /* PROPS */
-        , ["deleting-auths", "onDelete", "auth-id"])])];
-      }),
-      _: 2
-      /* DYNAMIC */
-
-    }, 1032
-    /* PROPS, DYNAMIC_SLOTS */
-    , ["columns"])]);
-  }), 128
-  /* KEYED_FRAGMENT */
-  ))], 64
-  /* STABLE_FRAGMENT */
-  );
+      'name': 'created_at',
+      'action': _ctx.formatDate
+    }, {
+      'name': 'last_used_at',
+      'action': function action(date) {
+        return date ? _ctx.formatDate(date) : 'Never';
+      }
+    }],
+    auths: $props.tokens,
+    "deleting-auths": $data.deletingTokens,
+    "delete-request-params": {
+      'uri': $data.deleteUri
+    },
+    onUpdate: _cache[0] || (_cache[0] = function ($event) {
+      return _this.$emit('updateTokens');
+    })
+  }, null, 8
+  /* PROPS */
+  , ["array-keys", "auths", "deleting-auths", "delete-request-params"]);
 }
 
 /***/ }),
@@ -1374,7 +1389,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var API_SHOW_ALL_SESSIONS_URL = '/api/users/{id}/sessions';
 var API_DELETE_ALL_SESSIONS_URL = '/api/users/{id}/sessions';
-var API_DELETE_SESSIONS_URL = '/api/users/{userId}/sessions/{sessionId}';
+var API_DELETE_SESSIONS_URL = '/api/users/{userId}/sessions/{authId}';
 
 /***/ }),
 
@@ -1392,7 +1407,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var API_SHOW_ALL_TOKENS_URL = '/api/users/{id}/tokens';
 var API_DELETE_ALL_TOKENS_URL = '/api/users/{id}/tokens';
-var API_DELETE_TOKEN_URL = '/api/users/{userId}/tokens/{tokenId}';
+var API_DELETE_TOKEN_URL = '/api/users/{userId}/tokens/{authId}';
+
+/***/ }),
+
+/***/ "./resources/js/mixins/formatDate.js":
+/*!*******************************************!*\
+  !*** ./resources/js/mixins/formatDate.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  methods: {
+    formatDate: function formatDate(date) {
+      return new Date(date).toLocaleString();
+    }
+  }
+});
 
 /***/ }),
 
@@ -1690,6 +1725,33 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/components/settings/auths/AuthContainer.vue":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/settings/auths/AuthContainer.vue ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AuthContainer_vue_vue_type_template_id_41af2db4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AuthContainer.vue?vue&type=template&id=41af2db4 */ "./resources/js/components/settings/auths/AuthContainer.vue?vue&type=template&id=41af2db4");
+/* harmony import */ var _AuthContainer_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AuthContainer.vue?vue&type=script&lang=js */ "./resources/js/components/settings/auths/AuthContainer.vue?vue&type=script&lang=js");
+/* harmony import */ var D_Download_OpenServer_OpenServerNew54_domains_joint_viewing_app_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,D_Download_OpenServer_OpenServerNew54_domains_joint_viewing_app_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_AuthContainer_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AuthContainer_vue_vue_type_template_id_41af2db4__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/settings/auths/AuthContainer.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/components/settings/auths/AuthsSettingsBlock.vue":
 /*!***********************************************************************!*\
   !*** ./resources/js/components/settings/auths/AuthsSettingsBlock.vue ***!
@@ -1957,6 +2019,21 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/settings/auths/AuthContainer.vue?vue&type=script&lang=js":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/settings/auths/AuthContainer.vue?vue&type=script&lang=js ***!
+  \******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AuthContainer_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AuthContainer_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AuthContainer.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/auths/AuthContainer.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/components/settings/auths/AuthsSettingsBlock.vue?vue&type=script&lang=js":
 /*!***********************************************************************************************!*\
   !*** ./resources/js/components/settings/auths/AuthsSettingsBlock.vue?vue&type=script&lang=js ***!
@@ -2148,6 +2225,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SettingsRow_vue_vue_type_template_id_19d391f6__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SettingsRow_vue_vue_type_template_id_19d391f6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SettingsRow.vue?vue&type=template&id=19d391f6 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/SettingsRow.vue?vue&type=template&id=19d391f6");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/settings/auths/AuthContainer.vue?vue&type=template&id=41af2db4":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/settings/auths/AuthContainer.vue?vue&type=template&id=41af2db4 ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AuthContainer_vue_vue_type_template_id_41af2db4__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AuthContainer_vue_vue_type_template_id_41af2db4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AuthContainer.vue?vue&type=template&id=41af2db4 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/auths/AuthContainer.vue?vue&type=template&id=41af2db4");
 
 
 /***/ }),

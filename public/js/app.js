@@ -35389,22 +35389,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _api_users__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api/users */ "./resources/js/api/users.js");
 /* harmony import */ var _mixins_changeTheme__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/mixins/changeTheme */ "./resources/js/mixins/changeTheme.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'App',
   mixins: [_mixins_changeTheme__WEBPACK_IMPORTED_MODULE_1__["default"]],
   mounted: function mounted() {
+    var _this = this;
+
     if (localStorage.getItem('theme') === 'dark' || localStorage.getItem('theme') !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       this.changeTheme();
     }
-  },
-  beforeCreate: function beforeCreate() {
-    var _this = this;
 
-    this.$store.commit('auth/setUserToken', localStorage.getItem('auth-token'));
+    this.$store.commit('auth/setIsLoggedIn', localStorage.getItem('isLoggedIn'));
 
-    if (this.$store.getters['auth/isLoggedIn']) {
+    if (this.isLoggedIn) {
       axios.get(_api_users__WEBPACK_IMPORTED_MODULE_0__.API_CURRENT_USER_URL).then(function (response) {
         _this.$store.commit('auth/setUser', response.data);
       })["catch"](function (error) {
@@ -35413,7 +35420,8 @@ __webpack_require__.r(__webpack_exports__);
         _this.$store.dispatch('auth/logout');
       });
     }
-  }
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)('auth', ['isLoggedIn']))
 });
 
 /***/ }),
@@ -35770,8 +35778,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/store */ "./resources/js/store/index.js");
-/* harmony import */ var _routes_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/routes/index */ "./resources/js/routes/index.js");
-
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([{
   path: '/login',
@@ -35988,27 +35994,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: {
-    userToken: null,
+    isLoggedIn: false,
     user: {}
+  },
+  mutations: {
+    setUser: function setUser(state, user) {
+      state.user = user;
+    },
+    setIsLoggedIn: function setIsLoggedIn(state) {
+      var isLoggedIn = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : !state.isLoggedIn;
+      isLoggedIn = typeof isLoggedIn === 'string' ? isLoggedIn === 'true' : !!isLoggedIn;
+      localStorage.setItem('isLoggedIn', "".concat(isLoggedIn));
+      state.isLoggedIn = isLoggedIn;
+    }
   },
   getters: {
     isLoggedIn: function isLoggedIn(state) {
-      return !!state.userToken && state.userToken !== 'null';
-    }
-  },
-  mutations: {
-    setUserToken: function setUserToken(state, token) {
-      if (token !== null) {
-        localStorage.setItem('auth-token', token);
-      } else {
-        localStorage.removeItem('auth-token');
-      }
-
-      window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-      state.userToken = token;
-    },
-    setUser: function setUser(state, user) {
-      state.user = user;
+      return state.isLoggedIn;
     }
   },
   actions: {
@@ -36016,8 +36018,8 @@ __webpack_require__.r(__webpack_exports__);
       var commit = _ref.commit;
       axios__WEBPACK_IMPORTED_MODULE_0___default().post(_api_auth__WEBPACK_IMPORTED_MODULE_1__.API_LOGOUT_URL)["catch"](function (error) {
         console.log(error.response.data);
-      }).then(function (response) {
-        commit('setUserToken', null);
+      }).then(function () {
+        commit('setIsLoggedIn', false);
         _routes__WEBPACK_IMPORTED_MODULE_2__["default"].push({
           name: 'Login'
         });

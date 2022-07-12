@@ -18,12 +18,12 @@ class AuthorizationController extends Controller
 {
     public function login(LoginUserRequest $request): JsonResponse
     {
-        if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (! Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return ResponseResult::error(['auth' => ['Incorrect user or password.']], Response::HTTP_UNAUTHORIZED)
                 ->error;
         }
 
-        if (!$request->token) {
+        if (! $request->token) {
             return ResponseResult::success()->returnValue;
         }
 

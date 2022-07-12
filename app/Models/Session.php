@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 class Session extends Model
 {
     protected $appends = ['expires_at'];
+
     protected $keyType = 'string';
 
     public function isExpired(): bool
@@ -22,5 +22,4 @@ class Session extends Model
             config('session.lifetime')
         )->toDateTimeString();
     }
-
 }
