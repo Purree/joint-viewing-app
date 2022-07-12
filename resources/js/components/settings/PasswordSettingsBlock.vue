@@ -29,10 +29,12 @@ import axios from "axios";
 import {API_CHANGE_PASSWORD_URL} from "@/api/users";
 import {mapState} from "vuex";
 import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
+import replaceDataInUri from "@/mixins/replaceDataInUri";
 
 export default {
     name: "PasswordSettingsBlock",
     components: {SuccessfulArticle, SubmitButton, SettingsRow, ErrorMessage},
+    mixins: [replaceDataInUri],
     data() {
         return {
             form: {
@@ -50,7 +52,7 @@ export default {
             if (this.pending === false) {
                 this.pending = true;
                 this.successed = false;
-                axios.put(API_CHANGE_PASSWORD_URL.replace('{id}', this.user.id), this.form)
+                axios.put(replaceDataInUri(API_CHANGE_PASSWORD_URL, {'id': this.user.id}), this.form)
                     .then(response => {
                         this.errors = {};
                         this.successed = true;

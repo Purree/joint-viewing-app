@@ -11,21 +11,21 @@ use Illuminate\Http\Request;
 
 class TokenController extends Controller
 {
-    public function getAllTokens(Request $request, User $user): JsonResponse
+    public function getAll(Request $request, User $user): JsonResponse
     {
         return ResponseResult::success(
             TokenResource::collection($user->tokens()->get())
         )->returnValue;
     }
 
-    public function revokeAllTokens(Request $request, User $user): JsonResponse
+    public function revokeAll(Request $request, User $user): JsonResponse
     {
         $user->tokens()->delete();
 
         return ResponseResult::success()->returnValue;
     }
 
-    public function revokeToken(Request $request, User $user, int $tokenId): JsonResponse
+    public function revoke(Request $request, User $user, int $tokenId): JsonResponse
     {
         $token = $user->tokens()->where('id', $tokenId)->first();
 
@@ -36,7 +36,10 @@ class TokenController extends Controller
         $token->delete();
 
         return ResponseResult::success(
-            ['logout' => $token->token === auth()->user()->currentAccessToken()->token]
+            [
+                'logout' => method_exists(auth()->user()->currentAccessToken(), 'delete')
+                    && $token->token === auth()->user()?->currentAccessToken()?->token,
+            ]
         )->returnValue;
     }
 }

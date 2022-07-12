@@ -3,17 +3,17 @@
 
     <password-settings-block></password-settings-block>
 
-    <tokens-settings-block></tokens-settings-block>
+    <auths-settings-block></auths-settings-block>
 </template>
 
 <script>
 import MainSettingsBlock from "@/components/settings/MainSettingsBlock";
 import PasswordSettingsBlock from "@/components/settings/PasswordSettingsBlock";
-import TokensSettingsBlock from "@/components/settings/tokens/TokensSettingsBlock";
+import AuthsSettingsBlock from "@/components/settings/auths/AuthsSettingsBlock";
 
 export default {
     name: "Settings",
-    components: {TokensSettingsBlock, PasswordSettingsBlock, MainSettingsBlock},
+    components: {AuthsSettingsBlock, PasswordSettingsBlock, MainSettingsBlock},
 }
 </script>
 

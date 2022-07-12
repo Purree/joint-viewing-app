@@ -8,10 +8,12 @@
 import SubmitButton from "@/components/SubmitButton";
 import {API_DELETE_ALL_TOKENS_URL} from "@/api/tokens";
 import {mapState} from "vuex";
+import replaceDataInUri from "@/mixins/replaceDataInUri";
 
 export default {
     name: "LogoutAllTokensButton",
     components: {SubmitButton},
+    mixins: [replaceDataInUri],
     data() {
         return {
             pending: false
@@ -21,7 +23,7 @@ export default {
         logout() {
             if (this.pending === false) {
                 this.pending = true;
-                axios.delete(API_DELETE_ALL_TOKENS_URL.replace('{id}', this.user.id)).then(() => {
+                axios.delete(replaceDataInUri(API_DELETE_ALL_TOKENS_URL, {'id': this.user.id})).then(() => {
                     this.$store.dispatch('auth/logout')
 
                     this.$router.push({ name: 'Login' })

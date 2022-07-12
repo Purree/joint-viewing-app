@@ -11,21 +11,21 @@ use Illuminate\Http\Response;
 
 class SessionController extends Controller
 {
-    public function getAllSessions(Request $request, User $user): JsonResponse
+    public function getAll(Request $request, User $user): JsonResponse
     {
         return ResponseResult::success(
             SessionResource::collection($user->sessions()->get())
         )->returnValue;
     }
 
-    public function revokeAllSessions(Request $request, User $user): JsonResponse
+    public function revokeAll(Request $request, User $user): JsonResponse
     {
         $user->sessions()->delete();
 
         return ResponseResult::success()->returnValue;
     }
 
-    public function revokeSession(Request $request, User $user, int $sessionId): JsonResponse
+    public function revoke(Request $request, User $user, int $sessionId): JsonResponse
     {
         $session = $user->sessions()->where('id', $sessionId)->first();
 
