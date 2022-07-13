@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuthMethods\SessionController;
+use App\Http\Controllers\AuthMethods\TokenController;
 use App\Http\Controllers\AuthorizationController;
-use App\Http\Controllers\SessionController;
-use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 

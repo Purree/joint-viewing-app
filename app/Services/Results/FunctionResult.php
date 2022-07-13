@@ -2,7 +2,7 @@
 
 namespace App\Services\Results;
 
-class FunctionResult
+class FunctionResult implements ResultInterface
 {
     public bool $success;
 

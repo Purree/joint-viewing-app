@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AuthMethods;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\TokenResource;
 use App\Models\User;
 use App\Services\Results\ResponseResult;
@@ -9,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class TokenController extends Controller
+class TokenController extends Controller implements AuthMethodControllerInterface
 {
     public function getAll(Request $request, User $user): JsonResponse
     {
@@ -25,9 +26,9 @@ class TokenController extends Controller
         return ResponseResult::success()->returnValue;
     }
 
-    public function revoke(Request $request, User $user, int $tokenId): JsonResponse
+    public function revoke(Request $request, User $user, int|string $authId): JsonResponse
     {
-        $token = $user->tokens()->where('id', $tokenId)->first();
+        $token = $user->tokens()->where('id', $authId)->first();
 
         if ($token === null) {
             return ResponseResult::error(['token' => ['Token not found']], Response::HTTP_NOT_FOUND)->error;
