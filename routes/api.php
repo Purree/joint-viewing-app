@@ -21,6 +21,8 @@ Route::middleware('throttle:auth')->group(static function () {
     Route::post('/login', [AuthorizationController::class, 'login']);
     Route::post('/users', [AuthorizationController::class, 'registration'])->middleware('throttle:register');
     Route::put('/users/password', [AuthorizationController::class, 'recoveryPassword']);
+
+    require 'two-factor.php';
 });
 
 Route::middleware('auth:sanctum')->group(static function () {

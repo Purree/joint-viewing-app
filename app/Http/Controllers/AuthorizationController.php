@@ -7,7 +7,7 @@ use App\Http\Requests\RecoveryPasswordRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
 use App\Services\Results\ResponseResult;
-use App\Services\Secret;
+use App\Services\Secrets\Secret;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
