@@ -29,6 +29,7 @@ class TwoFactorAuthenticationProvider
         $totp = TOTP::create($secret);
         $totp->setLabel($companyEmail);
         $totp->setIssuer($companyName);
+
         return $totp->getProvisioningUri();
     }
 
@@ -41,6 +42,6 @@ class TwoFactorAuthenticationProvider
      */
     public static function verify(string $secret, string $code): bool
     {
-        return TOTP::create($secret)->verify($code, window: 30);
+        return TOTP::create($secret)->verify($code, null, 15);
     }
 }

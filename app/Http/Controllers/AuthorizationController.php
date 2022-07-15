@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RecoveryPasswordRequest;
 use App\Http\Requests\RegisterUserRequest;
+use App\Http\Requests\TwoFactorLoginRequest;
 use App\Models\User;
 use App\Services\Results\ResponseResult;
 use App\Services\Secrets\Secret;
@@ -18,10 +19,20 @@ class AuthorizationController extends Controller
 {
     public function login(LoginUserRequest $request): JsonResponse
     {
-        if (! Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        $attempt_user = User::where('email', $request->email)->first();
+
+        if (! ($attempt_user && Hash::check($request->password, $attempt_user->password))) {
             return ResponseResult::error(['auth' => ['Incorrect user or password.']], Response::HTTP_UNAUTHORIZED)
                 ->error;
         }
+
+        if ($attempt_user->hasEnabledTwoFactorAuthentication()) {
+            $request->session()->put(TwoFactorLoginRequest::SESSION_TWO_FACTOR_NAME, $attempt_user->id);
+
+            return ResponseResult::success(['two-factor' => true])->returnValue;
+        }
+
+        Auth::login($attempt_user);
 
         if (! $request->token) {
             return ResponseResult::success()->returnValue;

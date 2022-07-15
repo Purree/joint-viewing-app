@@ -2,11 +2,9 @@
 
 namespace App\Providers;
 
-use App\Services\TwoFactorAuthenticationProvider;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
-use OTPHP\TOTP;
 
 class AppServiceProvider extends ServiceProvider
 {

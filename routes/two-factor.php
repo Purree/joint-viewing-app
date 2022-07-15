@@ -24,11 +24,11 @@ Route::middleware(['can:use-authenticated-route,user', 'auth:sanctum'])->group(s
         ->name('two-factor.recovery-codes');
 
     Route::put('/users/{user}/two-factor/recovery-codes', [RecoveryCodeController::class, 'store']);
+
+    Route::post(
+        '/users/{user}/confirmed-two-factor/authentication',
+        [ConfirmedTwoFactorAuthenticationController::class, 'store']
+    )->name('two-factor.confirm');
 });
 
 Route::post('/login/two-factor/recovery-codes', [TwoFactorAuthenticatedSessionController::class, 'store']);
-
-Route::post(
-    '/login/confirmed-two-factor/authentication',
-    [ConfirmedTwoFactorAuthenticationController::class, 'store']
-)->name('two-factor.confirm');

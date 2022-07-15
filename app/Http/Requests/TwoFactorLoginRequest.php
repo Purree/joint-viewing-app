@@ -7,6 +7,7 @@ use App\Services\Results\ResponseResult;
 use App\Services\TwoFactorAuthenticationProvider;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Response;
 use JetBrains\PhpStorm\ArrayShape;
 
 class TwoFactorLoginRequest extends FormRequest
@@ -18,7 +19,7 @@ class TwoFactorLoginRequest extends FormRequest
      */
     protected User $challengedUser;
 
-    protected const SESSION_TWO_FACTOR_NAME = 'login.id';
+    public const SESSION_TWO_FACTOR_NAME = 'login.id';
 
     /**
      * Determine if the user is authorized to make this request.
@@ -51,14 +52,17 @@ class TwoFactorLoginRequest extends FormRequest
      */
     public function hasValidCode(): bool
     {
-        return $this->code && tap(TwoFactorAuthenticationProvider::verify(
-            decrypt($this->challengedUser()->two_factor_secret),
-            $this->code
-        ), function ($result) {
-            if ($result) {
-                $this->session()->forget(self::SESSION_TWO_FACTOR_NAME);
+        return $this->code && tap(
+            TwoFactorAuthenticationProvider::verify(
+                decrypt($this->challengedUser()->two_factor_secret),
+                $this->code
+            ),
+            function ($result) {
+                if ($result) {
+                    $this->session()->forget(self::SESSION_TWO_FACTOR_NAME);
+                }
             }
-        });
+        );
     }
 
     /**
@@ -72,13 +76,16 @@ class TwoFactorLoginRequest extends FormRequest
             return null;
         }
 
-        return tap(collect($this->challengedUser()->recovery_codes)->first(function ($code) {
-            return hash_equals($this->recovery_code, $code) ? $code : null;
-        }), function ($code) {
-            if ($code) {
-                $this->session()->forget(self::SESSION_TWO_FACTOR_NAME);
+        return tap(
+            collect($this->challengedUser()->recovery_codes)->first(function ($code) {
+                return hash_equals($this->recovery_code, $code) ? $code : null;
+            }),
+            function ($code) {
+                if ($code) {
+                    $this->session()->forget(self::SESSION_TWO_FACTOR_NAME);
+                }
             }
-        });
+        );
     }
 
     /**
@@ -88,7 +95,7 @@ class TwoFactorLoginRequest extends FormRequest
      */
     public function hasChallengedUser(): bool
     {
-        if ($this->challengedUser) {
+        if (isset($this->challengedUser)) {
             return true;
         }
 
@@ -103,14 +110,17 @@ class TwoFactorLoginRequest extends FormRequest
      */
     public function challengedUser(): User
     {
-        if ($this->challengedUser) {
+        if (isset($this->challengedUser)) {
             return $this->challengedUser;
         }
 
         if (! $this->session()->has(self::SESSION_TWO_FACTOR_NAME) ||
             ! $user = User::find($this->session()->get(self::SESSION_TWO_FACTOR_NAME))) {
             throw new HttpResponseException(
-                ResponseResult::error('The provided two factor authentication code was invalid.')->error
+                ResponseResult::error(
+                    ['code' => 'The provided two factor authentication code was invalid.'],
+                    Response::HTTP_UNAUTHORIZED
+                )->error
             );
         }
 
