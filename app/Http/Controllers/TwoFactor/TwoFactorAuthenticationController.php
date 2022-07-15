@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\TwoFactor;
 
+use App\Models\User;
 use App\Services\Results\ResponseResult;
 use App\Services\Secrets\TwoFactorSecret;
 use App\Services\TwoFactorAuthenticationProvider;
@@ -17,14 +18,15 @@ class TwoFactorAuthenticationController extends Controller
      * Enable two-factor authentication for the user.
      *
      * @param  Request  $request
+     * @param  User  $user
      * @return JsonResponse
      *
      * @throws JsonException
      */
-    public function store(Request $request): JsonResponse
+    public function store(Request $request, User $user): JsonResponse
     {
-        $request->user()->forceFill([
-            'two_factor_secret' => encrypt(TwoFactorAuthenticationProvider::class->generateSecretKey()),
+        $user->forceFill([
+            'two_factor_secret' => encrypt(TwoFactorAuthenticationProvider::generateSecretKey()),
             'two_factor_recovery_codes' => encrypt(
                 json_encode(
                     Collection::times(8, static function () {
@@ -42,11 +44,12 @@ class TwoFactorAuthenticationController extends Controller
      * Disable two-factor authentication for the user.
      *
      * @param  Request  $request
+     * @param  User  $user
      * @return JsonResponse
      */
-    public function destroy(Request $request): JsonResponse
+    public function destroy(Request $request, User $user): JsonResponse
     {
-        $request->user()->forceFill([
+        $user->forceFill([
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
         ])->save();

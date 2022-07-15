@@ -7,26 +7,28 @@ use App\Http\Controllers\TwoFactor\TwoFactorAuthenticationController;
 use App\Http\Controllers\TwoFactor\TwoFactorQrCodeController;
 use App\Http\Controllers\TwoFactor\TwoFactorSecretKeyController;
 
-Route::post('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'store']);
+Route::middleware(['can:use-authenticated-route,user', 'auth:sanctum'])->group(static function () {
+    Route::post('/users/{user}/two-factor/authentication', [TwoFactorAuthenticationController::class, 'store'])
+        ->name('two-factor.enable');
 
-Route::post('/users/two-factor-authentication', [TwoFactorAuthenticationController::class, 'store'])
-    ->name('two-factor.enable');
+    Route::delete('/users/{user}/two-factor/authentication', [TwoFactorAuthenticationController::class, 'destroy'])
+        ->name('two-factor.disable');
+
+    Route::get('/users/{user}/two-factor/qr-code', [TwoFactorQrCodeController::class, 'show'])
+        ->name('two-factor.qr-code');
+
+    Route::get('/users/{user}/two-factor/secret-key', [TwoFactorSecretKeyController::class, 'show'])
+        ->name('two-factor.secret-key');
+
+    Route::get('/users/{user}/two-factor/recovery-codes', [RecoveryCodeController::class, 'index'])
+        ->name('two-factor.recovery-codes');
+
+    Route::put('/users/{user}/two-factor/recovery-codes', [RecoveryCodeController::class, 'store']);
+});
+
+Route::post('/login/two-factor/recovery-codes', [TwoFactorAuthenticatedSessionController::class, 'store']);
 
 Route::post(
-    '/users/confirmed-two-factor-authentication',
+    '/login/confirmed-two-factor/authentication',
     [ConfirmedTwoFactorAuthenticationController::class, 'store']
 )->name('two-factor.confirm');
-
-Route::delete('/users/two-factor-authentication', [TwoFactorAuthenticationController::class, 'destroy'])
-    ->name('two-factor.disable');
-
-Route::get('/users/two-factor-qr-code', [TwoFactorQrCodeController::class, 'show'])
-    ->name('two-factor.qr-code');
-
-Route::get('/users/two-factor-secret-key', [TwoFactorSecretKeyController::class, 'show'])
-    ->name('two-factor.secret-key');
-
-Route::get('/users/two-factor-recovery-codes', [RecoveryCodeController::class, 'index'])
-    ->name('two-factor.recovery-codes');
-
-Route::post('/users/two-factor-recovery-codes', [RecoveryCodeController::class, 'store']);

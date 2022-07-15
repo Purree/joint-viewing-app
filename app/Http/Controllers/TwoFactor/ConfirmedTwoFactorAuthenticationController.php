@@ -23,7 +23,7 @@ class ConfirmedTwoFactorAuthenticationController extends Controller
 
         if (empty($user->two_factor_secret) ||
             empty($code) ||
-            ! TwoFactorAuthenticationProvider::class->verify(decrypt($user->two_factor_secret), $code)) {
+            ! TwoFactorAuthenticationProvider::verify(decrypt($user->two_factor_secret), $code)) {
             return ResponseResult::error('The provided two factor authentication code was invalid.')->error;
         }
 

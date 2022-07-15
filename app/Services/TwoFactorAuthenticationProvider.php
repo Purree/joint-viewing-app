@@ -7,30 +7,13 @@ use OTPHP\TOTP;
 class TwoFactorAuthenticationProvider
 {
     /**
-     * The underlying library providing two-factor authentication helper services.
-     *
-     * @var TOTP
-     */
-    protected TOTP $engine;
-
-    /**
-     * Create a new two-factor authentication provider instance.
-     *
-     * @param  TOTP  $engine
-     */
-    public function __construct(TOTP $engine)
-    {
-        $this->engine = $engine;
-    }
-
-    /**
      * Generate a new secret key.
      *
      * @return string
      */
-    public function generateSecretKey(): string
+    public static function generateSecretKey(): string
     {
-        return $this->engine::create()->getSecret();
+        return TOTP::create()->getSecret();
     }
 
     /**
@@ -41,12 +24,12 @@ class TwoFactorAuthenticationProvider
      * @param  string  $secret
      * @return string
      */
-    public function qrCodeUrl(string $companyName, string $companyEmail, string $secret): string
+    public static function qrCodeUrl(string $companyName, string $companyEmail, string $secret): string
     {
-        return $this->engine::create($secret)
-            ->setLabel($companyEmail)
-            ->setIssuer($companyName)
-            ->getProvisioningUri();
+        $totp = TOTP::create($secret);
+        $totp->setLabel($companyEmail);
+        $totp->setIssuer($companyName);
+        return $totp->getProvisioningUri();
     }
 
     /**
@@ -56,8 +39,8 @@ class TwoFactorAuthenticationProvider
      * @param  string  $code
      * @return bool
      */
-    public function verify(string $secret, string $code): bool
+    public static function verify(string $secret, string $code): bool
     {
-        return $this->engine::create($secret)->verify($code, window: 30);
+        return TOTP::create($secret)->verify($code, window: 30);
     }
 }

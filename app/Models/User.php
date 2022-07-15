@@ -111,7 +111,7 @@ class User extends Authenticatable
 
     public function twoFactorQrCodeUrl(): string
     {
-        return TwoFactorAuthenticationProvider::class->qrCodeUrl(
+        return TwoFactorAuthenticationProvider::qrCodeUrl(
             config('app.name'),
             $this->name,
             decrypt($this->two_factor_secret)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\TwoFactor;
 
+use App\Models\User;
 use App\Services\Results\ResponseResult;
 use App\Services\Secrets\TwoFactorSecret;
 use Illuminate\Http\JsonResponse;
@@ -17,14 +18,15 @@ class RecoveryCodeController extends Controller
      * Get the two-factor authentication recovery codes for authenticated user.
      *
      * @param  Request  $request
+     * @param  User  $user
      * @return JsonResponse
      *
      * @throws JsonException
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, User $user): JsonResponse
     {
-        if (! $request->user()->two_factor_secret ||
-            ! $request->user()->two_factor_recovery_codes) {
+        if (! $user->two_factor_secret ||
+            ! $user->two_factor_recovery_codes) {
             return ResponseResult::error(
                 'Two factor authentication has not been enabled.',
                 Response::HTTP_NOT_FOUND
@@ -34,7 +36,7 @@ class RecoveryCodeController extends Controller
         return ResponseResult::success(
             json_decode(
                 decrypt(
-                    $request->user()->two_factor_recovery_codes
+                    $user->two_factor_recovery_codes
                 ),
                 true,
                 512,
@@ -47,13 +49,14 @@ class RecoveryCodeController extends Controller
      * Generate a fresh set of two-factor authentication recovery codes.
      *
      * @param  Request  $request
+     * @param  User  $user
      * @return JsonResponse
      *
      * @throws JsonException
      */
-    public function store(Request $request): JsonResponse
+    public function store(Request $request, User $user): JsonResponse
     {
-        $request->user()->forceFill([
+        $user->forceFill([
             'two_factor_recovery_codes' => encrypt(
                 json_encode(
                     Collection::times(8, static function () {

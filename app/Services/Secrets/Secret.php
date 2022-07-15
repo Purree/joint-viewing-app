@@ -14,7 +14,7 @@ class Secret implements SecretInterface
     protected function __construct()
     {
     }
-    
+
     #[ArrayShape(['phrase' => 'mixed', 'hash' => 'mixed'])]
     public static function create(): array
     {

@@ -51,7 +51,7 @@ class TwoFactorLoginRequest extends FormRequest
      */
     public function hasValidCode(): bool
     {
-        return $this->code && tap(TwoFactorAuthenticationProvider::class->verify(
+        return $this->code && tap(TwoFactorAuthenticationProvider::verify(
             decrypt($this->challengedUser()->two_factor_secret),
             $this->code
         ), function ($result) {
