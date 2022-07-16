@@ -1,6 +1,7 @@
 import {createRouter, createWebHistory} from "vue-router";
 import authRoutes, {addUnknownUsersRedirect} from "@/routes/auth-routes";
 import menuRoutes from "@/routes/menu-routes";
+import {loadLayoutMiddleware} from "@/routes/middleware/loadLayout";
 
 
 const routes = [
@@ -25,6 +26,8 @@ const router = createRouter({
     routes
 })
 
+
+router.beforeEach(loadLayoutMiddleware);
 addUnknownUsersRedirect(router)
 
 
