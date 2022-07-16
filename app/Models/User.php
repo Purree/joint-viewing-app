@@ -79,7 +79,7 @@ class User extends Authenticatable
     /**
      * @throws JsonException
      */
-    public function getRecoveryCodes(): null|string
+    public function getRecoveryCodes(): null|array
     {
         return json_decode(decrypt($this->two_factor_recovery_codes), true, 512, JSON_THROW_ON_ERROR);
     }

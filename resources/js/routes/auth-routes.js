@@ -24,11 +24,19 @@ export default [
         meta: {
             layout: 'AuthenticationLayout'
         }
+    },
+    {
+        path: '/two-factor',
+        name: 'TwoFactor',
+        component: () => import('@/views/User/TwoFactor.vue'),
+        meta: {
+            layout: 'AuthenticationLayout'
+        }
     }
 ]
 
 export function addUnknownUsersRedirect (router) {
-    const authRouteNames = ['Login', 'Register', 'ForgotPassword']
+    const authRouteNames = ['Login', 'Register', 'ForgotPassword', 'TwoFactor']
 
     router.beforeEach((to, from, next) => {
         if (!authRouteNames.includes(to.name)) {

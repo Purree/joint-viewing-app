@@ -30,7 +30,7 @@ class TwoFactorAuthenticationController extends Controller
             'two_factor_recovery_codes' => encrypt(
                 json_encode(
                     Collection::times(8, static function () {
-                        return TwoFactorSecret::create();
+                        return TwoFactorSecret::create()['phrase'];
                     })->all(),
                     JSON_THROW_ON_ERROR
                 )

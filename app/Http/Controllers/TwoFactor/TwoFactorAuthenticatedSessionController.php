@@ -24,7 +24,7 @@ class TwoFactorAuthenticatedSessionController extends Controller
             $user->replaceRecoveryCode($code);
         } elseif (! $request->hasValidCode()) {
             return ResponseResult::error(
-                ['code' => 'The provided two factor authentication code was invalid.'],
+                ['code' => ['The provided two factor authentication code was invalid.']],
                 Response::HTTP_UNAUTHORIZED
             )->error;
         }

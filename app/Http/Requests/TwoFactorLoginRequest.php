@@ -77,7 +77,7 @@ class TwoFactorLoginRequest extends FormRequest
         }
 
         return tap(
-            collect($this->challengedUser()->recovery_codes)->first(function ($code) {
+            collect($this->challengedUser()->getRecoveryCodes())->first(function ($code) {
                 return hash_equals($this->recovery_code, $code) ? $code : null;
             }),
             function ($code) {
@@ -118,7 +118,7 @@ class TwoFactorLoginRequest extends FormRequest
             ! $user = User::find($this->session()->get(self::SESSION_TWO_FACTOR_NAME))) {
             throw new HttpResponseException(
                 ResponseResult::error(
-                    ['code' => 'The provided two factor authentication code was invalid.'],
+                    ['code' => ['The provided two factor authentication code was invalid.']],
                     Response::HTTP_UNAUTHORIZED
                 )->error
             );

@@ -27,7 +27,7 @@ class ConfirmedTwoFactorAuthenticationController extends Controller
             empty($code) ||
             ! TwoFactorAuthenticationProvider::verify(decrypt($user->two_factor_secret), $code)) {
             return ResponseResult::error(
-                ['code' => 'The provided two factor authentication code was invalid.'],
+                ['code' => ['The provided two factor authentication code was invalid.']],
                 Response::HTTP_UNAUTHORIZED
             )->error;
         }

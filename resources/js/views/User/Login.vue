@@ -23,12 +23,13 @@ import {API_LOGIN_URL} from '@/api/auth';
 import SubmitButton from "@/components/SubmitButton";
 import FormInput from "@/components/authentication/FormInput";
 import ErrorMessage from "@/components/errors/ErrorMessage";
-import {API_CURRENT_USER_URL} from "@/api/users";
 import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
+import loginUser from "@/mixins/loginUser";
 
 export default {
     name: 'Login',
     components: {SubmitButton, FormInput, ErrorMessage},
+    mixins: [loginUser],
     data() {
         return {
             pending: false,
@@ -47,19 +48,11 @@ export default {
                 axios.get('/sanctum/csrf-cookie').then(response => {
                     axios.post(API_LOGIN_URL, this.form)
                         .then(response => {
-                            this.$store.commit('auth/setIsLoggedIn', true);
+                            if (response.data["two-factor"]) {
+                                return this.$router.push({ name: 'TwoFactor', query: this.$route.query })
+                            }
 
-                            axios.get(API_CURRENT_USER_URL).then((response) => {
-                                this.$store.commit('auth/setUser', response.data)
-
-                                if (this.$route.query.redirect) {
-                                    this.$router.push(this.$route.query.redirect)
-                                } else {
-                                    this.$router.push('/')
-                                }
-                            }).catch(errors => {
-                                console.log(errors.response)
-                            })
+                            this.loginUser()
                         })
                         .catch(errors => {
                             this.errors = getErrorsFromResponse(errors);

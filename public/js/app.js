@@ -35705,9 +35705,18 @@ __webpack_require__.r(__webpack_exports__);
   meta: {
     layout: 'AuthenticationLayout'
   }
+}, {
+  path: '/two-factor',
+  name: 'TwoFactor',
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ "resources_js_views_User_TwoFactor_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/views/User/TwoFactor.vue */ "./resources/js/views/User/TwoFactor.vue"));
+  },
+  meta: {
+    layout: 'AuthenticationLayout'
+  }
 }]);
 function addUnknownUsersRedirect(router) {
-  var authRouteNames = ['Login', 'Register', 'ForgotPassword'];
+  var authRouteNames = ['Login', 'Register', 'ForgotPassword', 'TwoFactor'];
   router.beforeEach(function (to, from, next) {
     if (!authRouteNames.includes(to.name)) {
       if (!_store__WEBPACK_IMPORTED_MODULE_0__["default"].getters["auth/isLoggedIn"]) {
@@ -75893,7 +75902,7 @@ var index = {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_views_Errors_404_vue":1,"resources_js_views_User_Login_vue":1,"resources_js_views_User_Register_vue":1,"resources_js_views_User_PasswordRecovery_vue":1,"resources_js_views_Menu_Index_vue":1,"resources_js_views_User_Settings_vue":1,"resources_js_views_Menu_Rooms_vue":1,"resources_js_layouts_AppLayoutDefault_vue":1,"resources_js_layouts_AuthenticationLayout_vue":1,"resources_js_layouts_ErrorLayout_vue":1,"resources_js_layouts_MainLayout_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_views_Errors_404_vue":1,"resources_js_views_User_Login_vue":1,"resources_js_views_User_Register_vue":1,"resources_js_views_User_PasswordRecovery_vue":1,"resources_js_views_User_TwoFactor_vue":1,"resources_js_views_Menu_Index_vue":1,"resources_js_views_User_Settings_vue":1,"resources_js_views_Menu_Rooms_vue":1,"resources_js_layouts_AppLayoutDefault_vue":1,"resources_js_layouts_AuthenticationLayout_vue":1,"resources_js_layouts_ErrorLayout_vue":1,"resources_js_layouts_MainLayout_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

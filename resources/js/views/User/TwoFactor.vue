@@ -1,0 +1,69 @@
+<template>
+    <ErrorMessage :errors="errors"></ErrorMessage>
+
+    <FormInput v-if="is_recovery_codes_used"
+               :label="'Recovery Code'" v-model:model-value="recovery_code"
+               :placeholder="'Enter valid recovery key'"
+               :type="'text'" :error-condition="'code' in errors"/>
+
+    <FormInput v-if="!is_recovery_codes_used"
+               :label="'Auth code'" v-model:model-value="code"
+               :placeholder="'Enter valid auth code'"
+               :type="'text'" :error-condition="'code' in errors"/>
+
+    <div class="field is-grouped is-align-items-center">
+        <div class="buttons control">
+            <SubmitButton :is-loading="pending" :sendForm="checkCode"
+                          :pending="pending || (!this.code && !this.recovery_code)" :text="'Login'"/>
+
+            <o-button @click="this.is_recovery_codes_used = !this.is_recovery_codes_used">
+                {{ this.is_recovery_codes_used ? 'Use code' : 'Use recovery key' }}
+            </o-button>
+        </div>
+    </div>
+</template>
+
+<script>
+import SubmitButton from "@/components/SubmitButton";
+import FormInput from "@/components/authentication/FormInput";
+import ErrorMessage from "@/components/errors/ErrorMessage";
+import {API_TWO_FACTOR_LOGIN_URL} from "@/api/twoFactor";
+import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
+import loginUser from "@/mixins/loginUser";
+
+export default {
+    name: "TwoFactor",
+    components: {SubmitButton, FormInput, ErrorMessage},
+    mixins: [loginUser],
+    data() {
+        return {
+            pending: false,
+            code: null,
+            recovery_code: null,
+            errors: {},
+            is_recovery_codes_used: false
+        }
+    },
+    methods: {
+        checkCode() {
+            axios.post(API_TWO_FACTOR_LOGIN_URL,
+                this.is_recovery_codes_used ?
+                    {'recovery_code': this.recovery_code} :
+                    {'code': this.code})
+                .then(() => {
+                    this.loginUser()
+                })
+                .catch(errors => {
+                    this.errors = getErrorsFromResponse(errors);
+                })
+                .then(() => {
+                    this.pending = false;
+                })
+        }
+    }
+}
+</script>
+
+<style scoped>
+
+</style>
