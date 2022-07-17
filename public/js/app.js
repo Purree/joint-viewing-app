@@ -35625,7 +35625,6 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('auth-token');
 window.axios.defaults.withCredentials = true; // import Echo from 'laravel-echo';
 // window.Pusher = require('pusher-js');
 // window.Echo = new Echo({
@@ -35682,7 +35681,7 @@ __webpack_require__.r(__webpack_exports__);
   path: '/login',
   name: 'Login',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ "resources_js_views_User_Login_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/views/User/Login.vue */ "./resources/js/views/User/Login.vue"));
+    return __webpack_require__.e(/*! import() */ "resources_js_views_Auth_Login_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/views/Auth/Login.vue */ "./resources/js/views/Auth/Login.vue"));
   },
   meta: {
     layout: 'AuthenticationLayout'
@@ -35691,7 +35690,7 @@ __webpack_require__.r(__webpack_exports__);
   path: '/register',
   name: 'Register',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ "resources_js_views_User_Register_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/views/User/Register.vue */ "./resources/js/views/User/Register.vue"));
+    return __webpack_require__.e(/*! import() */ "resources_js_views_Auth_Register_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/views/Auth/Register.vue */ "./resources/js/views/Auth/Register.vue"));
   },
   meta: {
     layout: 'AuthenticationLayout'
@@ -35700,7 +35699,7 @@ __webpack_require__.r(__webpack_exports__);
   path: '/forgot-password',
   name: 'ForgotPassword',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ "resources_js_views_User_PasswordRecovery_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/views/User/PasswordRecovery.vue */ "./resources/js/views/User/PasswordRecovery.vue"));
+    return __webpack_require__.e(/*! import() */ "resources_js_views_Auth_PasswordRecovery_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/views/Auth/PasswordRecovery.vue */ "./resources/js/views/Auth/PasswordRecovery.vue"));
   },
   meta: {
     layout: 'AuthenticationLayout'
@@ -35709,7 +35708,7 @@ __webpack_require__.r(__webpack_exports__);
   path: '/two-factor',
   name: 'TwoFactor',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ "resources_js_views_User_TwoFactor_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/views/User/TwoFactor.vue */ "./resources/js/views/User/TwoFactor.vue"));
+    return __webpack_require__.e(/*! import() */ "resources_js_views_Auth_TwoFactor_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/views/Auth/TwoFactor.vue */ "./resources/js/views/Auth/TwoFactor.vue"));
   },
   meta: {
     layout: 'AuthenticationLayout'
@@ -35827,7 +35826,7 @@ __webpack_require__.r(__webpack_exports__);
     path: 'settings',
     name: 'Settings',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ "resources_js_views_User_Settings_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/views/User/Settings.vue */ "./resources/js/views/User/Settings.vue"));
+      return __webpack_require__.e(/*! import() */ "resources_js_views_Menu_Settings_vue").then(__webpack_require__.bind(__webpack_require__, /*! @/views/Menu/Settings.vue */ "./resources/js/views/Menu/Settings.vue"));
     }
   }, {
     path: 'rooms',
@@ -75902,7 +75901,7 @@ var index = {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_views_Errors_404_vue":1,"resources_js_views_User_Login_vue":1,"resources_js_views_User_Register_vue":1,"resources_js_views_User_PasswordRecovery_vue":1,"resources_js_views_User_TwoFactor_vue":1,"resources_js_views_Menu_Index_vue":1,"resources_js_views_User_Settings_vue":1,"resources_js_views_Menu_Rooms_vue":1,"resources_js_layouts_AppLayoutDefault_vue":1,"resources_js_layouts_AuthenticationLayout_vue":1,"resources_js_layouts_ErrorLayout_vue":1,"resources_js_layouts_MainLayout_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_views_Errors_404_vue":1,"resources_js_views_Auth_Login_vue":1,"resources_js_views_Auth_Register_vue":1,"resources_js_views_Auth_PasswordRecovery_vue":1,"resources_js_views_Auth_TwoFactor_vue":1,"resources_js_views_Menu_Index_vue":1,"resources_js_views_Menu_Settings_vue":1,"resources_js_views_Menu_Rooms_vue":1,"resources_js_layouts_AppLayoutDefault_vue":1,"resources_js_layouts_AuthenticationLayout_vue":1,"resources_js_layouts_ErrorLayout_vue":1,"resources_js_layouts_MainLayout_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

@@ -9,6 +9,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
 use JetBrains\PhpStorm\ArrayShape;
+use JsonException;
 
 class TwoFactorLoginRequest extends FormRequest
 {
@@ -69,6 +70,7 @@ class TwoFactorLoginRequest extends FormRequest
      * Get the valid recovery code if one exists on the request.
      *
      * @return string|null
+     * @throws JsonException
      */
     public function validRecoveryCode(): ?string
     {

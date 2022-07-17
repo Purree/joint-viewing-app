@@ -7,6 +7,7 @@ use App\Services\Results\ResponseResult;
 use Auth;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use JsonException;
 
 class TwoFactorAuthenticatedSessionController extends Controller
 {
@@ -15,6 +16,7 @@ class TwoFactorAuthenticatedSessionController extends Controller
      *
      * @param  TwoFactorLoginRequest  $request
      * @return mixed
+     * @throws JsonException
      */
     public function store(TwoFactorLoginRequest $request)
     {

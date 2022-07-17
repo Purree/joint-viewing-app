@@ -13,7 +13,7 @@ export default [
             {
                 path: 'settings',
                 name: 'Settings',
-                component: () => import('@/views/User/Settings.vue'),
+                component: () => import('@/views/Menu/Settings.vue'),
             },
             {
                 path: 'rooms',

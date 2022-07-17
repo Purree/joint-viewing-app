@@ -4,7 +4,7 @@ export default [
     {
         path: '/login',
         name: 'Login',
-        component: () => import('@/views/User/Login.vue'),
+        component: () => import('@/views/Auth/Login.vue'),
         meta: {
             layout: 'AuthenticationLayout'
         }
@@ -12,7 +12,7 @@ export default [
     {
         path: '/register',
         name: 'Register',
-        component: () => import('@/views/User/Register.vue'),
+        component: () => import('@/views/Auth/Register.vue'),
         meta: {
             layout: 'AuthenticationLayout'
         }
@@ -20,7 +20,7 @@ export default [
     {
         path: '/forgot-password',
         name: 'ForgotPassword',
-        component: () => import('@/views/User/PasswordRecovery.vue'),
+        component: () => import('@/views/Auth/PasswordRecovery.vue'),
         meta: {
             layout: 'AuthenticationLayout'
         }
@@ -28,7 +28,7 @@ export default [
     {
         path: '/two-factor',
         name: 'TwoFactor',
-        component: () => import('@/views/User/TwoFactor.vue'),
+        component: () => import('@/views/Auth/TwoFactor.vue'),
         meta: {
             layout: 'AuthenticationLayout'
         }
