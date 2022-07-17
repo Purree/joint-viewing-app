@@ -335,10 +335,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "API_TWO_FACTOR_ENABLE_URL": () => (/* binding */ API_TWO_FACTOR_ENABLE_URL),
-/* harmony export */   "API_TWO_FACTOR_LOGIN_URL": () => (/* binding */ API_TWO_FACTOR_LOGIN_URL)
+/* harmony export */   "API_TWO_FACTOR_GET_QR_CODE_URL": () => (/* binding */ API_TWO_FACTOR_GET_QR_CODE_URL),
+/* harmony export */   "API_TWO_FACTOR_GET_RECOVERY_CODES_URL": () => (/* binding */ API_TWO_FACTOR_GET_RECOVERY_CODES_URL),
+/* harmony export */   "API_TWO_FACTOR_LOGIN_URL": () => (/* binding */ API_TWO_FACTOR_LOGIN_URL),
+/* harmony export */   "API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL": () => (/* binding */ API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL)
 /* harmony export */ });
 var API_TWO_FACTOR_LOGIN_URL = '/api/login/two-factor';
 var API_TWO_FACTOR_ENABLE_URL = '/api/users/{user}/two-factor/authentication';
+var API_TWO_FACTOR_GET_QR_CODE_URL = '/api/users/{user}/two-factor/qr-code';
+var API_TWO_FACTOR_GET_RECOVERY_CODES_URL = '/api/users/{user}/two-factor/recovery-codes';
+var API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL = '/api/users/{user}/two-factor/recovery-codes';
 
 /***/ }),
 

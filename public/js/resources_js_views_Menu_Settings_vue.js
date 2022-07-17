@@ -438,6 +438,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })["catch"](function (errors) {
         console.log(errors.response);
       });
+    },
+    regenerateRecoveryCodes: function regenerateRecoveryCodes() {
+      var callback = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
+      axios.put((0,_mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_2__["default"])(_api_twoFactor__WEBPACK_IMPORTED_MODULE_3__.API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL, {
+        'user': this.user.id
+      })).then(function () {
+        callback();
+      })["catch"](function (errors) {
+        console.log(errors);
+      });
     }
   }
 });
@@ -755,6 +765,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_settings_two_factor_TwoFactorHeader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/settings/two-factor/TwoFactorHeader */ "./resources/js/components/settings/two-factor/TwoFactorHeader.vue");
 /* harmony import */ var _components_settings_two_factor_RecoveryCodes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/settings/two-factor/RecoveryCodes */ "./resources/js/components/settings/two-factor/RecoveryCodes.vue");
 /* harmony import */ var _components_settings_two_factor_TwoFactorContent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/settings/two-factor/TwoFactorContent */ "./resources/js/components/settings/two-factor/TwoFactorContent.vue");
+/* harmony import */ var _components_settings_two_factor_EnabledTwoFactorButtons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/settings/two-factor/EnabledTwoFactorButtons */ "./resources/js/components/settings/two-factor/EnabledTwoFactorButtons.vue");
+
 
 
 
@@ -763,8 +775,107 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     TwoFactorContent: _components_settings_two_factor_TwoFactorContent__WEBPACK_IMPORTED_MODULE_2__["default"],
     TwoFactorHeader: _components_settings_two_factor_TwoFactorHeader__WEBPACK_IMPORTED_MODULE_0__["default"],
-    RecoveryCodes: _components_settings_two_factor_RecoveryCodes__WEBPACK_IMPORTED_MODULE_1__["default"]
+    RecoveryCodes: _components_settings_two_factor_RecoveryCodes__WEBPACK_IMPORTED_MODULE_1__["default"],
+    EnabledTwoFactorButtons: _components_settings_two_factor_EnabledTwoFactorButtons__WEBPACK_IMPORTED_MODULE_3__["default"]
+  },
+  emits: ['regenerateCodes', 'disableTwoFactor'],
+  data: function data() {
+    return {
+      showRecoveryCodes: false,
+      regenerateCodesPending: false
+    };
+  },
+  methods: {
+    regenerateCodes: function regenerateCodes() {
+      var _this = this;
+
+      this.regenerateCodesPending = true;
+      this.$emit('regenerateCodes', function () {
+        _this.$refs.recoveryCodes.updateCodes();
+
+        _this.regenerateCodesPending = false;
+      });
+    }
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/EnabledTwoFactorButtons.vue?vue&type=script&lang=js":
+/*!*************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/EnabledTwoFactorButtons.vue?vue&type=script&lang=js ***!
+  \*************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _components_SubmitButton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/SubmitButton */ "./resources/js/components/SubmitButton.vue");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "EnabledTwoFactorButtons",
+  components: {
+    SubmitButton: _components_SubmitButton__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  emits: ['regenerateCodes', 'disableTwoFactor'],
+  props: ['regenerateCodesPending'],
+  methods: {
+    regenerateCodes: function regenerateCodes() {
+      if (!this.regenerateCodesPending) {
+        this.$emit('regenerateCodes');
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/QrCode.vue?vue&type=script&lang=js":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/QrCode.vue?vue&type=script&lang=js ***!
+  \********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/mixins/replaceDataInUri */ "./resources/js/mixins/replaceDataInUri.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var _api_twoFactor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api/twoFactor */ "./resources/js/api/twoFactor.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "QrCode",
+  data: function data() {
+    return {
+      QRCodeSVG: '',
+      pending: true
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get((0,_mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_0__["default"])(_api_twoFactor__WEBPACK_IMPORTED_MODULE_1__.API_TWO_FACTOR_GET_QR_CODE_URL, {
+      'user': this.user.id
+    })).then(function (response) {
+      _this.QRCodeSVG = response.data.svg;
+    })["catch"](function (errors) {
+      console.log(errors.response);
+      _this.QRCodeSVG = "<article class=\"message is-danger\">\n                <div class=\"message-header\">\n                    <p> Cannot load your QR. Try to recreate two-factor auth.</p>\n                </div>\n            </article>";
+    }).then(function () {
+      _this.pending = false;
+    });
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)('auth', ['user']))
 });
 
 /***/ }),
@@ -782,12 +893,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_settings_two_factor_TwoFactorHeader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/settings/two-factor/TwoFactorHeader */ "./resources/js/components/settings/two-factor/TwoFactorHeader.vue");
 /* harmony import */ var _components_settings_two_factor_RecoveryCodes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/settings/two-factor/RecoveryCodes */ "./resources/js/components/settings/two-factor/RecoveryCodes.vue");
 /* harmony import */ var _components_settings_two_factor_TwoFactorContent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/settings/two-factor/TwoFactorContent */ "./resources/js/components/settings/two-factor/TwoFactorContent.vue");
+/* harmony import */ var _components_settings_two_factor_QrCode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/settings/two-factor/QrCode */ "./resources/js/components/settings/two-factor/QrCode.vue");
+/* harmony import */ var _components_settings_two_factor_EnabledTwoFactorButtons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/settings/two-factor/EnabledTwoFactorButtons */ "./resources/js/components/settings/two-factor/EnabledTwoFactorButtons.vue");
+
+
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "RecentlyEnabledTwoFactorBlock",
   components: {
+    EnabledTwoFactorButtons: _components_settings_two_factor_EnabledTwoFactorButtons__WEBPACK_IMPORTED_MODULE_4__["default"],
+    QrCode: _components_settings_two_factor_QrCode__WEBPACK_IMPORTED_MODULE_3__["default"],
     TwoFactorContent: _components_settings_two_factor_TwoFactorContent__WEBPACK_IMPORTED_MODULE_2__["default"],
     TwoFactorHeader: _components_settings_two_factor_TwoFactorHeader__WEBPACK_IMPORTED_MODULE_0__["default"],
     RecoveryCodes: _components_settings_two_factor_RecoveryCodes__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -806,9 +923,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _api_twoFactor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api/twoFactor */ "./resources/js/api/twoFactor.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var _mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/mixins/replaceDataInUri */ "./resources/js/mixins/replaceDataInUri.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "RecoveryCodes",
-  props: ['recoveryCodes']
+  data: function data() {
+    return {
+      recoveryCodes: [],
+      pending: true
+    };
+  },
+  mounted: function mounted() {
+    this.updateCodes();
+  },
+  methods: {
+    updateCodes: function updateCodes() {
+      var _this = this;
+
+      this.pending = true;
+      axios.get((0,_mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_1__["default"])(_api_twoFactor__WEBPACK_IMPORTED_MODULE_0__.API_TWO_FACTOR_GET_RECOVERY_CODES_URL, {
+        'user': this.user.id
+      })).then(function (response) {
+        _this.recoveryCodes = response.data;
+      })["catch"](function (errors) {
+        console.log(errors.response);
+        _this.recoveryCodes = ['Cannot get recovery codes. Try to recreate two-factor.'];
+      }).then(function () {
+        _this.pending = false;
+      });
+    }
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)('auth', ['user']))
 });
 
 /***/ }),
@@ -1347,8 +1502,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_recently_enabled_two_factor_block = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("recently-enabled-two-factor-block");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_hoisted_1, _ctx.user.use_two_factor ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_enabled_two_factor_block, {
-    key: 0
-  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !(_ctx.user.use_two_factor || $data.userEnableTwoFactor) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_disabled_two_factor_block, {
+    key: 0,
+    onRegenerateCodes: $options.regenerateRecoveryCodes
+  }, null, 8
+  /* PROPS */
+  , ["onRegenerateCodes"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !(_ctx.user.use_two_factor || $data.userEnableTwoFactor) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_disabled_two_factor_block, {
     key: 1,
     onEnableTwoFactor: $options.enableTwoFactor
   }, null, 8
@@ -1662,9 +1820,13 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNod
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_two_factor_header = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("two-factor-header");
 
+  var _component_recovery_codes = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("recovery-codes");
+
   var _component_two_factor_content = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("two-factor-content");
 
   var _component_o_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("o-button");
+
+  var _component_enabled_two_factor_buttons = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("enabled-two-factor-buttons");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_two_factor_header, {
     "class": "title is-5"
@@ -1675,7 +1837,91 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_two_factor_content), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_o_button, {
+  }), $data.showRecoveryCodes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_two_factor_content, {
+    key: 0
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_recovery_codes, {
+        ref: "recoveryCodes"
+      }, null, 512
+      /* NEED_PATCH */
+      )];
+    }),
+    _: 1
+    /* STABLE */
+
+  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.showRecoveryCodes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_two_factor_content, {
+    key: 1
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_o_button, {
+        "class": "is-fullwidth",
+        onClick: _cache[0] || (_cache[0] = function ($event) {
+          return $data.showRecoveryCodes = true;
+        })
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [_hoisted_2];
+        }),
+        _: 1
+        /* STABLE */
+
+      })];
+    }),
+    _: 1
+    /* STABLE */
+
+  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showRecoveryCodes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_enabled_two_factor_buttons, {
+    key: 2,
+    onRegenerateCodes: $options.regenerateCodes,
+    "regenerate-codes-pending": $data.regenerateCodesPending,
+    onDisableTwoFactor: _cache[1] || (_cache[1] = function ($event) {
+      return _ctx.$emit('disableTwoFactor');
+    })
+  }, null, 8
+  /* PROPS */
+  , ["onRegenerateCodes", "regenerate-codes-pending"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/EnabledTwoFactorButtons.vue?vue&type=template&id=6fe2924e":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/EnabledTwoFactorButtons.vue?vue&type=template&id=6fe2924e ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "buttons"
+};
+
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Turn off two-factor ");
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_submit_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("submit-button");
+
+  var _component_o_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("o-button");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_submit_button, {
+    "send-form": $options.regenerateCodes,
+    text: 'Regenerate recovery codes',
+    "is-loading": $props.regenerateCodesPending,
+    pending: $props.regenerateCodesPending,
+    "class": "is-fullwidth",
+    variant: 'basic'
+  }, null, 8
+  /* PROPS */
+  , ["send-form", "is-loading", "pending"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_o_button, {
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.$emit('disableTwoFactor');
+    }),
+    variant: 'danger',
     "class": "is-fullwidth"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -1685,6 +1931,44 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
 
   })]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/QrCode.vue?vue&type=template&id=aecb3c28&scoped=true":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/QrCode.vue?vue&type=template&id=aecb3c28&scoped=true ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withScopeId = function _withScopeId(n) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-aecb3c28"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
+};
+
+var _hoisted_1 = ["innerHTML"];
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_o_skeleton = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("o-skeleton");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [$data.pending ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_o_skeleton, {
+    key: 0,
+    animated: true,
+    width: '192px',
+    height: '192px'
+  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.pending ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    key: 1,
+    innerHTML: $data.QRCodeSVG
+  }, null, 8
+  /* PROPS */
+  , _hoisted_1)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64
+  /* STABLE_FRAGMENT */
+  );
 }
 
 /***/ }),
@@ -1708,23 +1992,16 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 /* HOISTED */
 );
 
-var _hoisted_3 = ["innerHTML"];
-var _hoisted_4 = {
-  "class": "buttons"
-};
-
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Regenerate recovery codes");
-
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Turn off");
-
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_two_factor_header = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("two-factor-header");
+
+  var _component_qr_code = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("qr-code");
 
   var _component_recovery_codes = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("recovery-codes");
 
   var _component_two_factor_content = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("two-factor-content");
 
-  var _component_o_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("o-button");
+  var _component_enabled_two_factor_buttons = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("enabled-two-factor-buttons");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_two_factor_header, null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -1735,46 +2012,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_two_factor_content, null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        innerHTML: _ctx.QRCodeSVG
-      }, null, 8
-      /* PROPS */
-      , _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_recovery_codes, {
-        "recovery-codes": _ctx.recoveryCodes
-      }, null, 8
-      /* PROPS */
-      , ["recovery-codes"])];
+      return [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_qr_code), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_recovery_codes)];
     }),
     _: 1
     /* STABLE */
 
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_o_button, {
-    "class": "is-fullwidth"
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_5];
-    }),
-    _: 1
-    /* STABLE */
-
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_o_button, {
-    "class": "is-fullwidth"
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_6];
-    }),
-    _: 1
-    /* STABLE */
-
-  })])]);
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_enabled_two_factor_buttons)]);
 }
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=template&id=285ef243":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=template&id=285ef243 ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=template&id=285ef243&scoped=true":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=template&id=285ef243&scoped=true ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1784,21 +2035,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, " Keep these recovery codes in a safe place. They can be used to regain access to your account if your two-factor authentication device is lost. ", -1
-/* HOISTED */
-);
+var _withScopeId = function _withScopeId(n) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-285ef243"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
+};
+
+var _hoisted_1 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, " Keep these recovery codes in a safe place. They can be used to regain access to your account if your two-factor authentication device is lost. ", -1
+  /* HOISTED */
+  );
+});
 
 var _hoisted_2 = {
   "class": "box"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.recoveryCodes, function (recoveryCode) {
+  var _component_o_skeleton = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("o-skeleton");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [$data.pending ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_o_skeleton, {
+    key: 0,
+    animated: true,
+    count: 8
+  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.pending ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 1
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.recoveryCodes, function (recoveryCode) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(recoveryCode), 1
     /* TEXT */
     );
   }), 256
   /* UNKEYED_FRAGMENT */
-  ))])], 64
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 64
   /* STABLE_FRAGMENT */
   );
 }
@@ -1818,7 +2083,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "mb-2"
+  "class": "mb-2 columns is-mobile has-text-centered is-vcentered is-flex-direction-column"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")]);
@@ -1839,7 +2104,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "title is-5"
+  "class": "title is-5 has-text-centered"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")]);
@@ -1920,10 +2185,16 @@ var API_DELETE_TOKEN_URL = '/api/users/{userId}/tokens/{authId}';
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "API_TWO_FACTOR_ENABLE_URL": () => (/* binding */ API_TWO_FACTOR_ENABLE_URL),
-/* harmony export */   "API_TWO_FACTOR_LOGIN_URL": () => (/* binding */ API_TWO_FACTOR_LOGIN_URL)
+/* harmony export */   "API_TWO_FACTOR_GET_QR_CODE_URL": () => (/* binding */ API_TWO_FACTOR_GET_QR_CODE_URL),
+/* harmony export */   "API_TWO_FACTOR_GET_RECOVERY_CODES_URL": () => (/* binding */ API_TWO_FACTOR_GET_RECOVERY_CODES_URL),
+/* harmony export */   "API_TWO_FACTOR_LOGIN_URL": () => (/* binding */ API_TWO_FACTOR_LOGIN_URL),
+/* harmony export */   "API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL": () => (/* binding */ API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL)
 /* harmony export */ });
 var API_TWO_FACTOR_LOGIN_URL = '/api/login/two-factor';
 var API_TWO_FACTOR_ENABLE_URL = '/api/users/{user}/two-factor/authentication';
+var API_TWO_FACTOR_GET_QR_CODE_URL = '/api/users/{user}/two-factor/qr-code';
+var API_TWO_FACTOR_GET_RECOVERY_CODES_URL = '/api/users/{user}/two-factor/recovery-codes';
+var API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL = '/api/users/{user}/two-factor/recovery-codes';
 
 /***/ }),
 
@@ -2020,6 +2291,52 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.column {\n        display: flex;\n 
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/QrCode.vue?vue&type=style&index=0&id=aecb3c28&scoped=true&lang=css":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/QrCode.vue?vue&type=style&index=0&id=aecb3c28&scoped=true&lang=css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.b-skeleton[data-v-aecb3c28] {\n        width: auto;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=style&index=0&id=285ef243&scoped=true&lang=css":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=style&index=0&id=285ef243&scoped=true&lang=css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.box[data-v-285ef243] {\n        min-width: 192px;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Columns.vue?vue&type=style&index=0&id=b270ea7c&lang=css":
 /*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Columns.vue?vue&type=style&index=0&id=b270ea7c&lang=css ***!
@@ -2046,6 +2363,64 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Columns_vue_vue_type_style_index_0_id_b270ea7c_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/QrCode.vue?vue&type=style&index=0&id=aecb3c28&scoped=true&lang=css":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/QrCode.vue?vue&type=style&index=0&id=aecb3c28&scoped=true&lang=css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QrCode_vue_vue_type_style_index_0_id_aecb3c28_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./QrCode.vue?vue&type=style&index=0&id=aecb3c28&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/QrCode.vue?vue&type=style&index=0&id=aecb3c28&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QrCode_vue_vue_type_style_index_0_id_aecb3c28_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QrCode_vue_vue_type_style_index_0_id_aecb3c28_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=style&index=0&id=285ef243&scoped=true&lang=css":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=style&index=0&id=285ef243&scoped=true&lang=css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_RecoveryCodes_vue_vue_type_style_index_0_id_285ef243_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./RecoveryCodes.vue?vue&type=style&index=0&id=285ef243&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=style&index=0&id=285ef243&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_RecoveryCodes_vue_vue_type_style_index_0_id_285ef243_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_RecoveryCodes_vue_vue_type_style_index_0_id_285ef243_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -2484,6 +2859,63 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/components/settings/two-factor/EnabledTwoFactorButtons.vue":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/settings/two-factor/EnabledTwoFactorButtons.vue ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _EnabledTwoFactorButtons_vue_vue_type_template_id_6fe2924e__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EnabledTwoFactorButtons.vue?vue&type=template&id=6fe2924e */ "./resources/js/components/settings/two-factor/EnabledTwoFactorButtons.vue?vue&type=template&id=6fe2924e");
+/* harmony import */ var _EnabledTwoFactorButtons_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EnabledTwoFactorButtons.vue?vue&type=script&lang=js */ "./resources/js/components/settings/two-factor/EnabledTwoFactorButtons.vue?vue&type=script&lang=js");
+/* harmony import */ var D_Download_OpenServer_OpenServerNew54_domains_joint_viewing_app_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,D_Download_OpenServer_OpenServerNew54_domains_joint_viewing_app_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_EnabledTwoFactorButtons_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_EnabledTwoFactorButtons_vue_vue_type_template_id_6fe2924e__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/settings/two-factor/EnabledTwoFactorButtons.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/components/settings/two-factor/QrCode.vue":
+/*!****************************************************************!*\
+  !*** ./resources/js/components/settings/two-factor/QrCode.vue ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _QrCode_vue_vue_type_template_id_aecb3c28_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QrCode.vue?vue&type=template&id=aecb3c28&scoped=true */ "./resources/js/components/settings/two-factor/QrCode.vue?vue&type=template&id=aecb3c28&scoped=true");
+/* harmony import */ var _QrCode_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QrCode.vue?vue&type=script&lang=js */ "./resources/js/components/settings/two-factor/QrCode.vue?vue&type=script&lang=js");
+/* harmony import */ var _QrCode_vue_vue_type_style_index_0_id_aecb3c28_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QrCode.vue?vue&type=style&index=0&id=aecb3c28&scoped=true&lang=css */ "./resources/js/components/settings/two-factor/QrCode.vue?vue&type=style&index=0&id=aecb3c28&scoped=true&lang=css");
+/* harmony import */ var D_Download_OpenServer_OpenServerNew54_domains_joint_viewing_app_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,D_Download_OpenServer_OpenServerNew54_domains_joint_viewing_app_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_QrCode_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_QrCode_vue_vue_type_template_id_aecb3c28_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-aecb3c28"],['__file',"resources/js/components/settings/two-factor/QrCode.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/components/settings/two-factor/RecentlyEnabledTwoFactorBlock.vue":
 /*!***************************************************************************************!*\
   !*** ./resources/js/components/settings/two-factor/RecentlyEnabledTwoFactorBlock.vue ***!
@@ -2521,15 +2953,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _RecoveryCodes_vue_vue_type_template_id_285ef243__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RecoveryCodes.vue?vue&type=template&id=285ef243 */ "./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=template&id=285ef243");
+/* harmony import */ var _RecoveryCodes_vue_vue_type_template_id_285ef243_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RecoveryCodes.vue?vue&type=template&id=285ef243&scoped=true */ "./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=template&id=285ef243&scoped=true");
 /* harmony import */ var _RecoveryCodes_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RecoveryCodes.vue?vue&type=script&lang=js */ "./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=script&lang=js");
-/* harmony import */ var D_Download_OpenServer_OpenServerNew54_domains_joint_viewing_app_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _RecoveryCodes_vue_vue_type_style_index_0_id_285ef243_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RecoveryCodes.vue?vue&type=style&index=0&id=285ef243&scoped=true&lang=css */ "./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=style&index=0&id=285ef243&scoped=true&lang=css");
+/* harmony import */ var D_Download_OpenServer_OpenServerNew54_domains_joint_viewing_app_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,D_Download_OpenServer_OpenServerNew54_domains_joint_viewing_app_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_RecoveryCodes_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_RecoveryCodes_vue_vue_type_template_id_285ef243__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/settings/two-factor/RecoveryCodes.vue"]])
+
+
+const __exports__ = /*#__PURE__*/(0,D_Download_OpenServer_OpenServerNew54_domains_joint_viewing_app_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_RecoveryCodes_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_RecoveryCodes_vue_vue_type_template_id_285ef243_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-285ef243"],['__file',"resources/js/components/settings/two-factor/RecoveryCodes.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -2859,6 +3294,36 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/settings/two-factor/EnabledTwoFactorButtons.vue?vue&type=script&lang=js":
+/*!*********************************************************************************************************!*\
+  !*** ./resources/js/components/settings/two-factor/EnabledTwoFactorButtons.vue?vue&type=script&lang=js ***!
+  \*********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EnabledTwoFactorButtons_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EnabledTwoFactorButtons_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./EnabledTwoFactorButtons.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/EnabledTwoFactorButtons.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/settings/two-factor/QrCode.vue?vue&type=script&lang=js":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/settings/two-factor/QrCode.vue?vue&type=script&lang=js ***!
+  \****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QrCode_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QrCode_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./QrCode.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/QrCode.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/components/settings/two-factor/RecentlyEnabledTwoFactorBlock.vue?vue&type=script&lang=js":
 /*!***************************************************************************************************************!*\
   !*** ./resources/js/components/settings/two-factor/RecentlyEnabledTwoFactorBlock.vue?vue&type=script&lang=js ***!
@@ -3174,6 +3639,36 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/settings/two-factor/EnabledTwoFactorButtons.vue?vue&type=template&id=6fe2924e":
+/*!***************************************************************************************************************!*\
+  !*** ./resources/js/components/settings/two-factor/EnabledTwoFactorButtons.vue?vue&type=template&id=6fe2924e ***!
+  \***************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EnabledTwoFactorButtons_vue_vue_type_template_id_6fe2924e__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EnabledTwoFactorButtons_vue_vue_type_template_id_6fe2924e__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./EnabledTwoFactorButtons.vue?vue&type=template&id=6fe2924e */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/EnabledTwoFactorButtons.vue?vue&type=template&id=6fe2924e");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/settings/two-factor/QrCode.vue?vue&type=template&id=aecb3c28&scoped=true":
+/*!**********************************************************************************************************!*\
+  !*** ./resources/js/components/settings/two-factor/QrCode.vue?vue&type=template&id=aecb3c28&scoped=true ***!
+  \**********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QrCode_vue_vue_type_template_id_aecb3c28_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QrCode_vue_vue_type_template_id_aecb3c28_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./QrCode.vue?vue&type=template&id=aecb3c28&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/QrCode.vue?vue&type=template&id=aecb3c28&scoped=true");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/settings/two-factor/RecentlyEnabledTwoFactorBlock.vue?vue&type=template&id=6674bf9d":
 /*!*********************************************************************************************************************!*\
   !*** ./resources/js/components/settings/two-factor/RecentlyEnabledTwoFactorBlock.vue?vue&type=template&id=6674bf9d ***!
@@ -3189,17 +3684,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=template&id=285ef243":
-/*!*****************************************************************************************************!*\
-  !*** ./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=template&id=285ef243 ***!
-  \*****************************************************************************************************/
+/***/ "./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=template&id=285ef243&scoped=true":
+/*!*****************************************************************************************************************!*\
+  !*** ./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=template&id=285ef243&scoped=true ***!
+  \*****************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_RecoveryCodes_vue_vue_type_template_id_285ef243__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_RecoveryCodes_vue_vue_type_template_id_285ef243_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_RecoveryCodes_vue_vue_type_template_id_285ef243__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./RecoveryCodes.vue?vue&type=template&id=285ef243 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=template&id=285ef243");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_RecoveryCodes_vue_vue_type_template_id_285ef243_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./RecoveryCodes.vue?vue&type=template&id=285ef243&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=template&id=285ef243&scoped=true");
 
 
 /***/ }),
@@ -3257,6 +3752,30 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Columns_vue_vue_type_style_index_0_id_b270ea7c_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Columns.vue?vue&type=style&index=0&id=b270ea7c&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Columns.vue?vue&type=style&index=0&id=b270ea7c&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/settings/two-factor/QrCode.vue?vue&type=style&index=0&id=aecb3c28&scoped=true&lang=css":
+/*!************************************************************************************************************************!*\
+  !*** ./resources/js/components/settings/two-factor/QrCode.vue?vue&type=style&index=0&id=aecb3c28&scoped=true&lang=css ***!
+  \************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QrCode_vue_vue_type_style_index_0_id_aecb3c28_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./QrCode.vue?vue&type=style&index=0&id=aecb3c28&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/QrCode.vue?vue&type=style&index=0&id=aecb3c28&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=style&index=0&id=285ef243&scoped=true&lang=css":
+/*!*******************************************************************************************************************************!*\
+  !*** ./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=style&index=0&id=285ef243&scoped=true&lang=css ***!
+  \*******************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_RecoveryCodes_vue_vue_type_style_index_0_id_285ef243_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./RecoveryCodes.vue?vue&type=style&index=0&id=285ef243&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/settings/two-factor/RecoveryCodes.vue?vue&type=style&index=0&id=285ef243&scoped=true&lang=css");
 
 
 /***/ })

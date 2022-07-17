@@ -1,5 +1,5 @@
 <template>
-    <div class="title is-5">
+    <div class="title is-5 has-text-centered">
         <slot></slot>
     </div>
 </template>

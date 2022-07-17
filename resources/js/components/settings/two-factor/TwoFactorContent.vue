@@ -1,5 +1,5 @@
 <template>
-    <div class="mb-2">
+    <div class="mb-2 columns is-mobile has-text-centered is-vcentered is-flex-direction-column">
         <slot></slot>
     </div>
 </template>
