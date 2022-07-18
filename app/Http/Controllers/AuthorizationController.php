@@ -83,9 +83,13 @@ class AuthorizationController extends Controller
 
         $secret = Secret::create();
 
+        $user->tokens()->delete();
+        $user->sessions()->delete();
+
         $user->secret = $secret['hash'];
         $user->password = Hash::make($request->password);
         $user->save();
+
 
         $user->disableTwoFactor();
 
