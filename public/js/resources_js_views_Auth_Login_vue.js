@@ -144,7 +144,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     variant: $props.variant || 'primary',
     onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($props.sendForm, ["prevent"]),
     disabled: $props.pending || $props.form && Object.values($props.form).some(function (el) {
-      return el === null || el === '';
+      return el === null || el.trim() === '';
     }),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($props.isLoading ? 'is-loading ' : '')
   }, {

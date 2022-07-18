@@ -6,26 +6,29 @@
         <router-link :to="{ 'name': 'ForgotPassword' }">forgotten password key</router-link>
     </div>
 
-    <FormInput v-if="is_recovery_codes_used"
-               :label="'Recovery Code'" v-model:model-value="recovery_code"
-               :placeholder="'Enter valid recovery key'"
-               :type="'text'" :error-condition="'code' in errors"/>
+    <form @submit.prevent="checkCode">
+        <FormInput v-if="is_recovery_codes_used"
+                   :label="'Recovery Code'" v-model:model-value="recovery_code"
+                   :placeholder="'Enter valid recovery key'"
+                   :type="'text'" :error-condition="'code' in errors"/>
 
-    <FormInput v-if="!is_recovery_codes_used"
-               :label="'Auth code'" v-model:model-value="code"
-               :placeholder="'Enter valid auth code'"
-               :type="'text'" :error-condition="'code' in errors"/>
+        <FormInput v-if="!is_recovery_codes_used"
+                   :label="'Auth code'" v-model:model-value="code"
+                   :placeholder="'Enter valid auth code'"
+                   :type="'text'" :error-condition="'code' in errors"/>
 
-    <div class="field is-grouped is-align-items-center">
-        <div class="buttons control">
-            <SubmitButton :is-loading="pending" :sendForm="checkCode"
-                          :pending="pending || (!this.code && !this.recovery_code)" :text="'Login'"/>
+        <div class="field is-grouped is-align-items-center">
+            <div class="buttons control">
+                <SubmitButton :is-loading="pending" :sendForm="checkCode"
+                              :pending="pending || (!this.code && !this.recovery_code)" :text="'Login'"/>
 
-            <o-button @click="this.is_recovery_codes_used = !this.is_recovery_codes_used">
-                {{ this.is_recovery_codes_used ? 'Use code' : 'Use recovery key' }}
-            </o-button>
+                <o-button @click="this.is_recovery_codes_used = !this.is_recovery_codes_used">
+                    {{ this.is_recovery_codes_used ? 'Use code' : 'Use recovery key' }}
+                </o-button>
+            </div>
         </div>
-    </div>
+    </form>
+
 </template>
 
 <script>

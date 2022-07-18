@@ -114,7 +114,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     variant: $props.variant || 'primary',
     onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($props.sendForm, ["prevent"]),
     disabled: $props.pending || $props.form && Object.values($props.form).some(function (el) {
-      return el === null || el === '';
+      return el === null || el.trim() === '';
     }),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($props.isLoading ? 'is-loading ' : '')
   }, {
@@ -233,7 +233,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  })]), $data.is_recovery_codes_used ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_FormInput, {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.checkCode && $options.checkCode.apply($options, arguments);
+    }, ["prevent"]))
+  }, [$data.is_recovery_codes_used ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_FormInput, {
     key: 0,
     label: 'Recovery Code',
     "model-value": $data.recovery_code,
@@ -277,7 +281,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  })])])], 64
+  })])])], 32
+  /* HYDRATE_EVENTS */
+  )], 64
   /* STABLE_FRAGMENT */
   );
 }

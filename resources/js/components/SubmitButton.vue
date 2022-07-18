@@ -1,6 +1,6 @@
 <template>
     <o-button :variant="variant || 'primary'" @click.prevent="sendForm"
-              :disabled="pending || (form && Object.values(form).some((el)=>el === null || el === ''))"
+              :disabled="pending || (form && Object.values(form).some((el)=>el === null || el.trim() === ''))"
               :class="isLoading ? 'is-loading ' : ''">
         {{ text }}
     </o-button>

@@ -1,6 +1,7 @@
 <template>
     <o-field :label="label">
-        <o-input :class="errorCondition ? 'is-danger' : ''" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" :type="type" required
+        <o-input :class="errorCondition ? 'is-danger' : ''" :value="modelValue"
+                 @input="$emit('update:modelValue', $event.target.value)" :type="type" required
                  :placeholder="placeholder"></o-input>
     </o-field>
 </template>
