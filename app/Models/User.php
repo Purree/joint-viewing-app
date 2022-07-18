@@ -117,4 +117,12 @@ class User extends Authenticatable
             decrypt($this->two_factor_secret)
         );
     }
+
+    public function disableTwoFactor(): void
+    {
+        $this->forceFill([
+            'two_factor_secret' => null,
+            'two_factor_recovery_codes' => null,
+        ])->save();
+    }
 }

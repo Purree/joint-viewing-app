@@ -49,10 +49,7 @@ class TwoFactorAuthenticationController extends Controller
      */
     public function destroy(Request $request, User $user): JsonResponse
     {
-        $user->forceFill([
-            'two_factor_secret' => null,
-            'two_factor_recovery_codes' => null,
-        ])->save();
+        $user->disableTwoFactor();
 
         return ResponseResult::success()->returnValue;
     }

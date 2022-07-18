@@ -1,6 +1,11 @@
 <template>
     <ErrorMessage :errors="errors"></ErrorMessage>
 
+    <div class="mb-5">
+        <span>If you have forgotten your recovery key, use your </span>
+        <router-link :to="{ 'name': 'ForgotPassword' }">forgotten password key</router-link>
+    </div>
+
     <FormInput v-if="is_recovery_codes_used"
                :label="'Recovery Code'" v-model:model-value="recovery_code"
                :placeholder="'Enter valid recovery key'"
