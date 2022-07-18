@@ -16,6 +16,7 @@ class TwoFactorAuthenticatedSessionController extends Controller
      *
      * @param  TwoFactorLoginRequest  $request
      * @return mixed
+     *
      * @throws JsonException
      */
     public function store(TwoFactorLoginRequest $request)

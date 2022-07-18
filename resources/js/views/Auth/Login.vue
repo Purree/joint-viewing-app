@@ -19,7 +19,7 @@
 
 <script>
 import axios from 'axios';
-import {API_LOGIN_URL} from '@/api/auth';
+import {API_LOGIN_URL, API_LOGOUT_URL} from '@/api/auth';
 import SubmitButton from "@/components/SubmitButton";
 import FormInput from "@/components/authentication/FormInput";
 import ErrorMessage from "@/components/errors/ErrorMessage";
@@ -45,23 +45,41 @@ export default {
         sendForm() {
             if (this.pending === false) {
                 this.pending = true;
-                axios.get('/sanctum/csrf-cookie').then(response => {
-                    axios.post(API_LOGIN_URL, this.form)
-                        .then(response => {
-                            if (response.data["two-factor"]) {
-                                return this.$router.push({ name: 'TwoFactor', query: this.$route.query })
-                            }
 
-                            this.loginUser()
-                        })
-                        .catch(errors => {
-                            this.errors = getErrorsFromResponse(errors);
-                        })
-                        .then(() => {
-                            this.pending = false;
-                        });
-                })
+                this.tryToLogin()
             }
+        },
+        tryToLogin(logoutAndRetryOnForbidden = true) {
+            axios.get('/sanctum/csrf-cookie').then(() => {
+                axios.post(API_LOGIN_URL, this.form)
+                    .then(response => {
+                        if (response.data["two-factor"]) {
+                            return this.$router.push({name: 'TwoFactor', query: this.$route.query})
+                        }
+
+                        this.loginUser()
+                    })
+                    .catch(errors => {
+                        if (logoutAndRetryOnForbidden && errors.response.status === 403) {
+                            axios.post(API_LOGOUT_URL).then(() => {
+                                this.tryToLogin(false)
+                            }).catch((logoutErrors) => {
+                                console.log(logoutErrors)
+                            });
+
+                            return;
+                        }
+
+                        this.errors = getErrorsFromResponse(errors);
+                    })
+                    .then(() => {
+                        if (logoutAndRetryOnForbidden) {
+                            return
+                        }
+
+                        this.pending = false;
+                    });
+            })
         }
     }
 }

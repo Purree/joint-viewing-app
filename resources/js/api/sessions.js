@@ -1,4 +1,4 @@
-import API from "@/api/api_prefixes"
+import {API} from "@/api/api_prefixes"
 
 export const API_SHOW_ALL_SESSIONS_URL = API + 'users/{id}/sessions'
 export const API_DELETE_ALL_SESSIONS_URL = API + 'users/{id}/sessions'

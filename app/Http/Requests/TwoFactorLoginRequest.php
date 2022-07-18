@@ -70,6 +70,7 @@ class TwoFactorLoginRequest extends FormRequest
      * Get the valid recovery code if one exists on the request.
      *
      * @return string|null
+     *
      * @throws JsonException
      */
     public function validRecoveryCode(): ?string

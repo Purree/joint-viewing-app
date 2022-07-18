@@ -1,5 +1,6 @@
 <template>
     <main>
+        <UnableToAuthenticateModal :is-modal-active="failedToLogin" v-if="failedToLogin"></UnableToAuthenticateModal>
         <AppLayout>
             <router-view></router-view>
         </AppLayout>
@@ -11,9 +12,11 @@
 import {API_CURRENT_USER_URL} from "@/api/users";
 import changeTheme from "@/mixins/changeTheme";
 import {mapState} from "vuex";
+import UnableToAuthenticateModal from "@/components/modals/UnableToAuthenticateModal";
 
 export default {
     name: 'App',
+    components: {UnableToAuthenticateModal},
     mixins: [changeTheme],
     mounted() {
         if (localStorage.getItem('theme') === 'dark' || (localStorage.getItem('theme') !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -28,8 +31,13 @@ export default {
             }).catch((error) => {
                 console.log(error.response)
 
-                this.$store.dispatch('auth/logout');
+                this.failedToLogin = true
             })
+        }
+    },
+    data() {
+        return {
+            failedToLogin: false
         }
     },
     computed: {
