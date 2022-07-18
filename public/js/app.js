@@ -35516,6 +35516,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./resources/js/api/api_prefixes.js":
+/*!******************************************!*\
+  !*** ./resources/js/api/api_prefixes.js ***!
+  \******************************************/
+/***/ (() => {
+
+var API = '/api/';
+
+/***/ }),
+
 /***/ "./resources/js/api/auth.js":
 /*!**********************************!*\
   !*** ./resources/js/api/auth.js ***!
@@ -35530,10 +35540,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "API_PASSWORD_RECOVERY_URL": () => (/* binding */ API_PASSWORD_RECOVERY_URL),
 /* harmony export */   "API_REGISTRATION_URL": () => (/* binding */ API_REGISTRATION_URL)
 /* harmony export */ });
-var API_LOGIN_URL = '/api/login';
-var API_REGISTRATION_URL = '/api/users';
-var API_LOGOUT_URL = '/api/logout';
-var API_PASSWORD_RECOVERY_URL = '/api/users/password';
+/* harmony import */ var _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api/api_prefixes */ "./resources/js/api/api_prefixes.js");
+/* harmony import */ var _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__);
+
+var API_LOGIN_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'login';
+var API_REGISTRATION_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + '/api/users';
+var API_LOGOUT_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + '/api/logout';
+var API_PASSWORD_RECOVERY_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + '/api/users/password';
 
 /***/ }),
 
@@ -35550,9 +35563,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "API_CHANGE_PASSWORD_URL": () => (/* binding */ API_CHANGE_PASSWORD_URL),
 /* harmony export */   "API_CURRENT_USER_URL": () => (/* binding */ API_CURRENT_USER_URL)
 /* harmony export */ });
-var API_CURRENT_USER_URL = '/api/users/me';
-var API_CHANGE_NICKNAME_URL = '/api/users/{id}/name/';
-var API_CHANGE_PASSWORD_URL = '/api/users/{id}/password/';
+/* harmony import */ var _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api/api_prefixes */ "./resources/js/api/api_prefixes.js");
+/* harmony import */ var _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__);
+
+var API_CURRENT_USER_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/me';
+var API_CHANGE_NICKNAME_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{id}/name/';
+var API_CHANGE_PASSWORD_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{id}/password/';
 
 /***/ }),
 

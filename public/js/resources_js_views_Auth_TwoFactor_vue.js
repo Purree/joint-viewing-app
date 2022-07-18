@@ -334,17 +334,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "API_TWO_FACTOR_DISABLE_URL": () => (/* binding */ API_TWO_FACTOR_DISABLE_URL),
 /* harmony export */   "API_TWO_FACTOR_ENABLE_URL": () => (/* binding */ API_TWO_FACTOR_ENABLE_URL),
 /* harmony export */   "API_TWO_FACTOR_GET_QR_CODE_URL": () => (/* binding */ API_TWO_FACTOR_GET_QR_CODE_URL),
 /* harmony export */   "API_TWO_FACTOR_GET_RECOVERY_CODES_URL": () => (/* binding */ API_TWO_FACTOR_GET_RECOVERY_CODES_URL),
 /* harmony export */   "API_TWO_FACTOR_LOGIN_URL": () => (/* binding */ API_TWO_FACTOR_LOGIN_URL),
 /* harmony export */   "API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL": () => (/* binding */ API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL)
 /* harmony export */ });
-var API_TWO_FACTOR_LOGIN_URL = '/api/login/two-factor';
-var API_TWO_FACTOR_ENABLE_URL = '/api/users/{user}/two-factor/authentication';
-var API_TWO_FACTOR_GET_QR_CODE_URL = '/api/users/{user}/two-factor/qr-code';
-var API_TWO_FACTOR_GET_RECOVERY_CODES_URL = '/api/users/{user}/two-factor/recovery-codes';
-var API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL = '/api/users/{user}/two-factor/recovery-codes';
+/* harmony import */ var _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api/api_prefixes */ "./resources/js/api/api_prefixes.js");
+/* harmony import */ var _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__);
+
+var API_TWO_FACTOR_LOGIN_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'login/two-factor';
+var API_TWO_FACTOR_ENABLE_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{user}/two-factor/authentication';
+var API_TWO_FACTOR_DISABLE_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{user}/two-factor/authentication';
+var API_TWO_FACTOR_GET_QR_CODE_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{user}/two-factor/qr-code';
+var API_TWO_FACTOR_GET_RECOVERY_CODES_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{user}/two-factor/recovery-codes';
+var API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{user}/two-factor/recovery-codes';
 
 /***/ }),
 

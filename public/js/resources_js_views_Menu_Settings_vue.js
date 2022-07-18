@@ -2207,9 +2207,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "API_DELETE_SESSIONS_URL": () => (/* binding */ API_DELETE_SESSIONS_URL),
 /* harmony export */   "API_SHOW_ALL_SESSIONS_URL": () => (/* binding */ API_SHOW_ALL_SESSIONS_URL)
 /* harmony export */ });
-var API_SHOW_ALL_SESSIONS_URL = '/api/users/{id}/sessions';
-var API_DELETE_ALL_SESSIONS_URL = '/api/users/{id}/sessions';
-var API_DELETE_SESSIONS_URL = '/api/users/{userId}/sessions/{authId}';
+/* harmony import */ var _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api/api_prefixes */ "./resources/js/api/api_prefixes.js");
+/* harmony import */ var _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__);
+
+var API_SHOW_ALL_SESSIONS_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{id}/sessions';
+var API_DELETE_ALL_SESSIONS_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{id}/sessions';
+var API_DELETE_SESSIONS_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{userId}/sessions/{authId}';
 
 /***/ }),
 
@@ -2225,9 +2228,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "API_DELETE_TOKEN_URL": () => (/* binding */ API_DELETE_TOKEN_URL),
 /* harmony export */   "API_SHOW_ALL_TOKENS_URL": () => (/* binding */ API_SHOW_ALL_TOKENS_URL)
 /* harmony export */ });
-var API_SHOW_ALL_TOKENS_URL = '/api/users/{id}/tokens';
-var API_DELETE_ALL_TOKENS_URL = '/api/users/{id}/tokens';
-var API_DELETE_TOKEN_URL = '/api/users/{userId}/tokens/{authId}';
+/* harmony import */ var _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api/api_prefixes */ "./resources/js/api/api_prefixes.js");
+/* harmony import */ var _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__);
+
+var API_SHOW_ALL_TOKENS_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{id}/tokens';
+var API_DELETE_ALL_TOKENS_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{id}/tokens';
+var API_DELETE_TOKEN_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{userId}/tokens/{authId}';
 
 /***/ }),
 
@@ -2246,12 +2252,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "API_TWO_FACTOR_LOGIN_URL": () => (/* binding */ API_TWO_FACTOR_LOGIN_URL),
 /* harmony export */   "API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL": () => (/* binding */ API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL)
 /* harmony export */ });
-var API_TWO_FACTOR_LOGIN_URL = '/api/login/two-factor';
-var API_TWO_FACTOR_ENABLE_URL = '/api/users/{user}/two-factor/authentication';
-var API_TWO_FACTOR_DISABLE_URL = '/api/users/{user}/two-factor/authentication';
-var API_TWO_FACTOR_GET_QR_CODE_URL = '/api/users/{user}/two-factor/qr-code';
-var API_TWO_FACTOR_GET_RECOVERY_CODES_URL = '/api/users/{user}/two-factor/recovery-codes';
-var API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL = '/api/users/{user}/two-factor/recovery-codes';
+/* harmony import */ var _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api/api_prefixes */ "./resources/js/api/api_prefixes.js");
+/* harmony import */ var _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__);
+
+var API_TWO_FACTOR_LOGIN_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'login/two-factor';
+var API_TWO_FACTOR_ENABLE_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{user}/two-factor/authentication';
+var API_TWO_FACTOR_DISABLE_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{user}/two-factor/authentication';
+var API_TWO_FACTOR_GET_QR_CODE_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{user}/two-factor/qr-code';
+var API_TWO_FACTOR_GET_RECOVERY_CODES_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{user}/two-factor/recovery-codes';
+var API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL = (_api_api_prefixes__WEBPACK_IMPORTED_MODULE_0___default()) + 'users/{user}/two-factor/recovery-codes';
 
 /***/ }),
 
