@@ -2,14 +2,18 @@
     <div class="divider is-unselectable">Two factor authentication</div>
 
     <enabled-two-factor-block v-if="user.use_two_factor"
-                              @regenerate-codes="regenerateRecoveryCodes"></enabled-two-factor-block>
+                              @regenerate-codes="regenerateRecoveryCodes"
+                              @disable-two-factor="disableTwoFactor"
+                              :disable-pending="disablingPending"></enabled-two-factor-block>
 
     <disabled-two-factor-block v-if="!(user.use_two_factor || userEnableTwoFactor)"
                                @enable-two-factor="enableTwoFactor"
                                :pending="enablingPending"></disabled-two-factor-block>
 
     <recently-enabled-two-factor-block v-if="userEnableTwoFactor"
-                                       @regenerate-codes="regenerateRecoveryCodes"></recently-enabled-two-factor-block>
+                                       @regenerate-codes="regenerateRecoveryCodes"
+                                       @disable-two-factor="disableTwoFactor"
+                                       :disable-pending="disablingPending"></recently-enabled-two-factor-block>
 
 </template>
 
@@ -18,7 +22,11 @@ import {mapState} from "vuex";
 import EnabledTwoFactorBlock from "@/components/settings/two-factor/EnabledTwoFactorBlock";
 import DisabledTwoFactorBlock from "@/components/settings/two-factor/DisabledTwoFactorBlock";
 import replaceDataInUri from "@/mixins/replaceDataInUri";
-import {API_TWO_FACTOR_ENABLE_URL, API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL} from "@/api/twoFactor";
+import {
+    API_TWO_FACTOR_DISABLE_URL,
+    API_TWO_FACTOR_ENABLE_URL,
+    API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL
+} from "@/api/twoFactor";
 import RecentlyEnabledTwoFactorBlock from "@/components/settings/two-factor/RecentlyEnabledTwoFactorBlock";
 
 export default {
@@ -30,7 +38,8 @@ export default {
     data() {
         return {
             userEnableTwoFactor: false,
-            enablingPending: false
+            enablingPending: false,
+            disablingPending: false
         }
     },
     methods: {
@@ -51,8 +60,7 @@ export default {
             }
 
         },
-        regenerateRecoveryCodes(callback = () => {
-        }) {
+        regenerateRecoveryCodes(callback = () => {}) {
             axios.put(replaceDataInUri(API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL, {'user': this.user.id}))
                 .then(() => {
                     callback()
@@ -60,7 +68,27 @@ export default {
                 .catch((errors) => {
                     console.log(errors)
                 })
+        },
+        disableTwoFactor() {
+            if (!this.disablingPending) {
+                this.disablingPending = true
+
+                return axios.delete(replaceDataInUri(API_TWO_FACTOR_DISABLE_URL, {'user': this.user.id}))
+                    .then(() => {
+                        this.user.use_two_factor = this.userEnableTwoFactor = false;
+                    })
+                    .catch((errors) => {
+                        console.log(errors.response);
+                    })
+                    .then(() => {
+                        this.disablingPending = false
+                    })
+            }
+
         }
+    },
+    unmounted() {
+        this.user.use_two_factor = this.userEnableTwoFactor
     }
 }
 </script>

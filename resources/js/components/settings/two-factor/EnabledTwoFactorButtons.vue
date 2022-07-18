@@ -6,8 +6,12 @@
                        :pending="regenerateCodesPending"
                        class="is-fullwidth"
                        :variant="'basic'"></submit-button>
-        <o-button @click="$emit('disableTwoFactor')" :variant="'danger'" class="is-fullwidth">Turn off two-factor
-        </o-button>
+        <submit-button :send-form="() => {this.$emit('disableTwoFactor')}"
+                       :text="'Turn off two-factor'"
+                       :is-loading="disablePending"
+                       :pending="disablePending"
+                       class="is-fullwidth"
+                       :variant="'danger'"></submit-button>
     </div>
 </template>
 
@@ -18,13 +22,14 @@ export default {
     name: "EnabledTwoFactorButtons",
     components: {SubmitButton},
     emits: ['regenerateCodes', 'disableTwoFactor'],
-    props: ['regenerateCodesPending'],
+    props: ['regenerateCodesPending', 'disablePending'],
     methods: {
         regenerateCodes() {
             if (!this.regenerateCodesPending) {
                 this.$emit('regenerateCodes')
             }
-        }
+        },
+
     }
 }
 </script>

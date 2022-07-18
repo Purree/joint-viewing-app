@@ -4,17 +4,16 @@
             You have enabled two-factor authentication.
         </two-factor-header>
 
-        <two-factor-content v-if="showRecoveryCodes">
-            <recovery-codes ref="recoveryCodes"></recovery-codes>
-        </two-factor-content>
-        <two-factor-content v-if="!showRecoveryCodes">
-            <o-button class="is-fullwidth" @click="showRecoveryCodes = true">Show recovery codes</o-button>
+        <two-factor-content >
+            <recovery-codes v-if="showRecoveryCodes" ref="recoveryCodes"></recovery-codes>
+            <o-button v-else class="is-fullwidth" @click="showRecoveryCodes = true">Show recovery codes</o-button>
         </two-factor-content>
 
         <enabled-two-factor-buttons @regenerate-codes="regenerateCodes"
                                     :regenerate-codes-pending="regenerateCodesPending"
                                     @disable-two-factor="$emit('disableTwoFactor')"
-                                    v-if="showRecoveryCodes"></enabled-two-factor-buttons>
+                                    :disable-pending="disablePending"
+                                    class="is-fullwidth"></enabled-two-factor-buttons>
     </div>
 </template>
 
@@ -29,6 +28,7 @@ export default {
     name: "EnabledTwoFactorBlock",
     components: {TwoFactorContent, TwoFactorHeader, RecoveryCodes, EnabledTwoFactorButtons},
     emits: ['regenerateCodes', 'disableTwoFactor'],
+    props: ['disablePending'],
     data() {
         return {
             showRecoveryCodes: false,
@@ -41,7 +41,7 @@ export default {
 
             this.$emit('regenerateCodes',
                 () => {
-                    this.$refs.recoveryCodes.updateCodes()
+                    this.$refs.recoveryCodes?.updateCodes()
                     this.regenerateCodesPending = false
                 }
             )

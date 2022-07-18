@@ -424,20 +424,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapState)('auth', ['user'])),
   data: function data() {
     return {
-      userEnableTwoFactor: false
+      userEnableTwoFactor: false,
+      enablingPending: false,
+      disablingPending: false
     };
   },
   methods: {
     enableTwoFactor: function enableTwoFactor() {
       var _this = this;
 
-      return axios.post((0,_mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_2__["default"])(_api_twoFactor__WEBPACK_IMPORTED_MODULE_3__.API_TWO_FACTOR_ENABLE_URL, {
-        'user': this.user.id
-      })).then(function () {
-        _this.userEnableTwoFactor = true;
-      })["catch"](function (errors) {
-        console.log(errors.response);
-      });
+      if (!this.enablingPending) {
+        this.enablingPending = true;
+        return axios.post((0,_mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_2__["default"])(_api_twoFactor__WEBPACK_IMPORTED_MODULE_3__.API_TWO_FACTOR_ENABLE_URL, {
+          'user': this.user.id
+        })).then(function () {
+          _this.userEnableTwoFactor = true;
+        })["catch"](function (errors) {
+          console.log(errors.response);
+        }).then(function () {
+          _this.enablingPending = false;
+        });
+      }
     },
     regenerateRecoveryCodes: function regenerateRecoveryCodes() {
       var callback = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
@@ -448,7 +455,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })["catch"](function (errors) {
         console.log(errors);
       });
+    },
+    disableTwoFactor: function disableTwoFactor() {
+      var _this2 = this;
+
+      if (!this.disablingPending) {
+        this.disablingPending = true;
+        return axios["delete"]((0,_mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_2__["default"])(_api_twoFactor__WEBPACK_IMPORTED_MODULE_3__.API_TWO_FACTOR_DISABLE_URL, {
+          'user': this.user.id
+        })).then(function () {
+          _this2.user.use_two_factor = _this2.userEnableTwoFactor = false;
+        })["catch"](function (errors) {
+          console.log(errors.response);
+        }).then(function () {
+          _this2.disablingPending = false;
+        });
+      }
     }
+  },
+  unmounted: function unmounted() {
+    this.user.use_two_factor = this.userEnableTwoFactor;
   }
 });
 
@@ -739,14 +765,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _components_settings_two_factor_TwoFactorHeader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/settings/two-factor/TwoFactorHeader */ "./resources/js/components/settings/two-factor/TwoFactorHeader.vue");
 /* harmony import */ var _components_settings_two_factor_TwoFactorContent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/settings/two-factor/TwoFactorContent */ "./resources/js/components/settings/two-factor/TwoFactorContent.vue");
+/* harmony import */ var _components_SubmitButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/SubmitButton */ "./resources/js/components/SubmitButton.vue");
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "DisabledTwoFactorBlock",
   components: {
+    SubmitButton: _components_SubmitButton__WEBPACK_IMPORTED_MODULE_2__["default"],
     TwoFactorContent: _components_settings_two_factor_TwoFactorContent__WEBPACK_IMPORTED_MODULE_1__["default"],
     TwoFactorHeader: _components_settings_two_factor_TwoFactorHeader__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
+  props: ['pending'],
   emits: ['enableTwoFactor']
 });
 
@@ -779,6 +809,7 @@ __webpack_require__.r(__webpack_exports__);
     EnabledTwoFactorButtons: _components_settings_two_factor_EnabledTwoFactorButtons__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   emits: ['regenerateCodes', 'disableTwoFactor'],
+  props: ['disablePending'],
   data: function data() {
     return {
       showRecoveryCodes: false,
@@ -791,8 +822,9 @@ __webpack_require__.r(__webpack_exports__);
 
       this.regenerateCodesPending = true;
       this.$emit('regenerateCodes', function () {
-        _this.$refs.recoveryCodes.updateCodes();
+        var _this$$refs$recoveryC;
 
+        (_this$$refs$recoveryC = _this.$refs.recoveryCodes) === null || _this$$refs$recoveryC === void 0 ? void 0 : _this$$refs$recoveryC.updateCodes();
         _this.regenerateCodesPending = false;
       });
     }
@@ -819,7 +851,7 @@ __webpack_require__.r(__webpack_exports__);
     SubmitButton: _components_SubmitButton__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   emits: ['regenerateCodes', 'disableTwoFactor'],
-  props: ['regenerateCodesPending'],
+  props: ['regenerateCodesPending', 'disablePending'],
   methods: {
     regenerateCodes: function regenerateCodes() {
       if (!this.regenerateCodesPending) {
@@ -908,6 +940,25 @@ __webpack_require__.r(__webpack_exports__);
     TwoFactorContent: _components_settings_two_factor_TwoFactorContent__WEBPACK_IMPORTED_MODULE_2__["default"],
     TwoFactorHeader: _components_settings_two_factor_TwoFactorHeader__WEBPACK_IMPORTED_MODULE_0__["default"],
     RecoveryCodes: _components_settings_two_factor_RecoveryCodes__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  emits: ['regenerateCodes', 'disableTwoFactor'],
+  props: ['disablePending'],
+  data: function data() {
+    return {
+      regenerateCodesPending: false
+    };
+  },
+  methods: {
+    regenerateCodes: function regenerateCodes() {
+      var _this = this;
+
+      this.regenerateCodesPending = true;
+      this.$emit('regenerateCodes', function () {
+        _this.$refs.recoveryCodes.updateCodes();
+
+        _this.regenerateCodesPending = false;
+      });
+    }
   }
 });
 
@@ -1503,17 +1554,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_hoisted_1, _ctx.user.use_two_factor ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_enabled_two_factor_block, {
     key: 0,
-    onRegenerateCodes: $options.regenerateRecoveryCodes
+    onRegenerateCodes: $options.regenerateRecoveryCodes,
+    onDisableTwoFactor: $options.disableTwoFactor,
+    "disable-pending": $data.disablingPending
   }, null, 8
   /* PROPS */
-  , ["onRegenerateCodes"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !(_ctx.user.use_two_factor || $data.userEnableTwoFactor) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_disabled_two_factor_block, {
+  , ["onRegenerateCodes", "onDisableTwoFactor", "disable-pending"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !(_ctx.user.use_two_factor || $data.userEnableTwoFactor) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_disabled_two_factor_block, {
     key: 1,
-    onEnableTwoFactor: $options.enableTwoFactor
+    onEnableTwoFactor: $options.enableTwoFactor,
+    pending: $data.enablingPending
   }, null, 8
   /* PROPS */
-  , ["onEnableTwoFactor"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.userEnableTwoFactor ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_recently_enabled_two_factor_block, {
-    key: 2
-  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64
+  , ["onEnableTwoFactor", "pending"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.userEnableTwoFactor ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_recently_enabled_two_factor_block, {
+    key: 2,
+    onRegenerateCodes: $options.regenerateRecoveryCodes,
+    onDisableTwoFactor: $options.disableTwoFactor,
+    "disable-pending": $data.disablingPending
+  }, null, 8
+  /* PROPS */
+  , ["onRegenerateCodes", "onDisableTwoFactor", "disable-pending"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64
   /* STABLE_FRAGMENT */
   );
 }
@@ -1757,8 +1816,6 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 /* HOISTED */
 );
 
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Turn on");
-
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
 
@@ -1766,7 +1823,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_two_factor_content = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("two-factor-content");
 
-  var _component_o_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("o-button");
+  var _component_submit_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("submit-button");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_two_factor_header, null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -1782,20 +1839,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_o_button, {
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _this.$emit('enableTwoFactor');
-    }),
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_submit_button, {
+    pending: $props.pending,
     variant: 'success',
+    "is-loading": $props.pending,
+    text: 'Turn on',
+    "send-form": function sendForm() {
+      _this.$emit('enableTwoFactor');
+    },
     "class": "is-fullwidth"
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_3];
-    }),
-    _: 1
-    /* STABLE */
-
-  })]);
+  }, null, 8
+  /* PROPS */
+  , ["pending", "is-loading", "send-form"])]);
 }
 
 /***/ }),
@@ -1822,9 +1877,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_recovery_codes = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("recovery-codes");
 
-  var _component_two_factor_content = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("two-factor-content");
-
   var _component_o_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("o-button");
+
+  var _component_two_factor_content = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("two-factor-content");
 
   var _component_enabled_two_factor_buttons = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("enabled-two-factor-buttons");
 
@@ -1837,24 +1892,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  }), $data.showRecoveryCodes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_two_factor_content, {
-    key: 0
-  }, {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_two_factor_content, null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_recovery_codes, {
+      return [$data.showRecoveryCodes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_recovery_codes, {
+        key: 0,
         ref: "recoveryCodes"
       }, null, 512
       /* NEED_PATCH */
-      )];
-    }),
-    _: 1
-    /* STABLE */
-
-  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.showRecoveryCodes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_two_factor_content, {
-    key: 1
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_o_button, {
+      )) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_o_button, {
+        key: 1,
         "class": "is-fullwidth",
         onClick: _cache[0] || (_cache[0] = function ($event) {
           return $data.showRecoveryCodes = true;
@@ -1866,21 +1912,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1
         /* STABLE */
 
-      })];
+      }))];
     }),
     _: 1
     /* STABLE */
 
-  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showRecoveryCodes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_enabled_two_factor_buttons, {
-    key: 2,
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_enabled_two_factor_buttons, {
     onRegenerateCodes: $options.regenerateCodes,
     "regenerate-codes-pending": $data.regenerateCodesPending,
     onDisableTwoFactor: _cache[1] || (_cache[1] = function ($event) {
       return _ctx.$emit('disableTwoFactor');
-    })
+    }),
+    "disable-pending": $props.disablePending,
+    "class": "is-fullwidth"
   }, null, 8
   /* PROPS */
-  , ["onRegenerateCodes", "regenerate-codes-pending"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  , ["onRegenerateCodes", "regenerate-codes-pending", "disable-pending"])]);
 }
 
 /***/ }),
@@ -1900,13 +1947,10 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = {
   "class": "buttons"
 };
-
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Turn off two-factor ");
-
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_submit_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("submit-button");
+  var _this = this;
 
-  var _component_o_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("o-button");
+  var _component_submit_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("submit-button");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_submit_button, {
     "send-form": $options.regenerateCodes,
@@ -1917,20 +1961,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     variant: 'basic'
   }, null, 8
   /* PROPS */
-  , ["send-form", "is-loading", "pending"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_o_button, {
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return _ctx.$emit('disableTwoFactor');
-    }),
-    variant: 'danger',
-    "class": "is-fullwidth"
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_2];
-    }),
-    _: 1
-    /* STABLE */
-
-  })]);
+  , ["send-form", "is-loading", "pending"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_submit_button, {
+    "send-form": function sendForm() {
+      _this.$emit('disableTwoFactor');
+    },
+    text: 'Turn off two-factor',
+    "is-loading": $props.disablePending,
+    pending: $props.disablePending,
+    "class": "is-fullwidth",
+    variant: 'danger'
+  }, null, 8
+  /* PROPS */
+  , ["send-form", "is-loading", "pending"])]);
 }
 
 /***/ }),
@@ -2012,12 +2054,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_two_factor_content, null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_qr_code), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_recovery_codes)];
+      return [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_qr_code), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_recovery_codes, {
+        ref: "recoveryCodes"
+      }, null, 512
+      /* NEED_PATCH */
+      )];
     }),
     _: 1
     /* STABLE */
 
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_enabled_two_factor_buttons)]);
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_enabled_two_factor_buttons, {
+    onRegenerateCodes: $options.regenerateCodes,
+    "regenerate-codes-pending": $data.regenerateCodesPending,
+    "disable-pending": $props.disablePending,
+    onDisableTwoFactor: _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.$emit('disableTwoFactor');
+    })
+  }, null, 8
+  /* PROPS */
+  , ["onRegenerateCodes", "regenerate-codes-pending", "disable-pending"])]);
 }
 
 /***/ }),
@@ -2083,7 +2138,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "mb-2 columns is-mobile has-text-centered is-vcentered is-flex-direction-column"
+  "class": "mb-2 has-text-centered"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")]);
@@ -2184,6 +2239,7 @@ var API_DELETE_TOKEN_URL = '/api/users/{userId}/tokens/{authId}';
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "API_TWO_FACTOR_DISABLE_URL": () => (/* binding */ API_TWO_FACTOR_DISABLE_URL),
 /* harmony export */   "API_TWO_FACTOR_ENABLE_URL": () => (/* binding */ API_TWO_FACTOR_ENABLE_URL),
 /* harmony export */   "API_TWO_FACTOR_GET_QR_CODE_URL": () => (/* binding */ API_TWO_FACTOR_GET_QR_CODE_URL),
 /* harmony export */   "API_TWO_FACTOR_GET_RECOVERY_CODES_URL": () => (/* binding */ API_TWO_FACTOR_GET_RECOVERY_CODES_URL),
@@ -2192,6 +2248,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var API_TWO_FACTOR_LOGIN_URL = '/api/login/two-factor';
 var API_TWO_FACTOR_ENABLE_URL = '/api/users/{user}/two-factor/authentication';
+var API_TWO_FACTOR_DISABLE_URL = '/api/users/{user}/two-factor/authentication';
 var API_TWO_FACTOR_GET_QR_CODE_URL = '/api/users/{user}/two-factor/qr-code';
 var API_TWO_FACTOR_GET_RECOVERY_CODES_URL = '/api/users/{user}/two-factor/recovery-codes';
 var API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL = '/api/users/{user}/two-factor/recovery-codes';

@@ -13,6 +13,7 @@
 
         <enabled-two-factor-buttons @regenerate-codes="regenerateCodes"
                                     :regenerate-codes-pending="regenerateCodesPending"
+                                    :disable-pending="disablePending"
                                     @disable-two-factor="$emit('disableTwoFactor')"></enabled-two-factor-buttons>
     </div>
 </template>
@@ -28,6 +29,7 @@ export default {
     name: "RecentlyEnabledTwoFactorBlock",
     components: {EnabledTwoFactorButtons, QrCode, TwoFactorContent, TwoFactorHeader, RecoveryCodes},
     emits: ['regenerateCodes', 'disableTwoFactor'],
+    props: ['disablePending'],
     data() {
         return {
             regenerateCodesPending: false
