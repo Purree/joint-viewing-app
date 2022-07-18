@@ -5,9 +5,11 @@
                               @regenerate-codes="regenerateRecoveryCodes"></enabled-two-factor-block>
 
     <disabled-two-factor-block v-if="!(user.use_two_factor || userEnableTwoFactor)"
-                               @enable-two-factor="enableTwoFactor"></disabled-two-factor-block>
+                               @enable-two-factor="enableTwoFactor"
+                               :pending="enablingPending"></disabled-two-factor-block>
 
-    <recently-enabled-two-factor-block v-if="userEnableTwoFactor"></recently-enabled-two-factor-block>
+    <recently-enabled-two-factor-block v-if="userEnableTwoFactor"
+                                       @regenerate-codes="regenerateRecoveryCodes"></recently-enabled-two-factor-block>
 
 </template>
 
@@ -27,20 +29,30 @@ export default {
     },
     data() {
         return {
-            userEnableTwoFactor: false
+            userEnableTwoFactor: false,
+            enablingPending: false
         }
     },
     methods: {
         enableTwoFactor() {
-            return axios.post(replaceDataInUri(API_TWO_FACTOR_ENABLE_URL, {'user': this.user.id}))
-                .then(() => {
-                    this.userEnableTwoFactor = true;
-                })
-                .catch((errors) => {
-                    console.log(errors.response);
-                })
+            if (!this.enablingPending) {
+                this.enablingPending = true
+
+                return axios.post(replaceDataInUri(API_TWO_FACTOR_ENABLE_URL, {'user': this.user.id}))
+                    .then(() => {
+                        this.userEnableTwoFactor = true;
+                    })
+                    .catch((errors) => {
+                        console.log(errors.response);
+                    })
+                    .then(() => {
+                        this.enablingPending = false
+                    })
+            }
+
         },
-        regenerateRecoveryCodes(callback = () => {}) {
+        regenerateRecoveryCodes(callback = () => {
+        }) {
             axios.put(replaceDataInUri(API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL, {'user': this.user.id}))
                 .then(() => {
                     callback()

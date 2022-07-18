@@ -11,17 +11,20 @@
             </div>
         </two-factor-content>
 
-        <o-button @click="this.$emit('enableTwoFactor')" :variant="'success'" class="is-fullwidth">Turn on</o-button>
+        <submit-button :pending="pending" :variant="'success'" :is-loading="pending" :text="'Turn on'"
+                       :send-form="() => {this.$emit('enableTwoFactor')}" class="is-fullwidth"></submit-button>
     </div>
 </template>
 
 <script>
 import TwoFactorHeader from "@/components/settings/two-factor/TwoFactorHeader";
 import TwoFactorContent from "@/components/settings/two-factor/TwoFactorContent";
+import SubmitButton from "@/components/SubmitButton";
 
 export default {
     name: "DisabledTwoFactorBlock",
-    components: {TwoFactorContent, TwoFactorHeader},
+    components: {SubmitButton, TwoFactorContent, TwoFactorHeader},
+    props: ['pending'],
     emits: ['enableTwoFactor']
 }
 </script>
