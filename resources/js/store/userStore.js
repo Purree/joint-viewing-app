@@ -25,7 +25,7 @@ export default {
     },
     actions: {
         logout({ commit }) {
-            axios.post(API_LOGOUT_URL)
+            return axios.post(API_LOGOUT_URL)
                 .catch((error) => {
                     console.log(error.response.data)
                 }).then(() => {

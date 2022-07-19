@@ -4,13 +4,17 @@
             You have enabled two-factor authentication.
         </two-factor-header>
 
-        <two-factor-content >
-            <recovery-codes v-if="showRecoveryCodes" ref="recoveryCodes"></recovery-codes>
-            <o-button v-else class="is-fullwidth" @click="showRecoveryCodes = true">Show recovery codes</o-button>
+        <two-factor-content>
+            <recovery-codes v-if="showRecoveryCodes"
+                            :recovery-codes="recoveryCodes"
+                            :pending="updateRecoveryCodesPending"></recovery-codes>
+            <o-button v-else class="is-fullwidth" @click="this.$emit('updateRecoveryCodes'); showRecoveryCodes = true">
+                Show recovery codes
+            </o-button>
         </two-factor-content>
 
-        <enabled-two-factor-buttons @regenerate-codes="regenerateCodes"
-                                    :regenerate-codes-pending="regenerateCodesPending"
+        <enabled-two-factor-buttons @regenerate-codes="$emit('regenerateCodes')"
+                                    :regenerate-codes-pending="recoveryCodesPending"
                                     @disable-two-factor="$emit('disableTwoFactor')"
                                     :disable-pending="disablePending"
                                     class="is-fullwidth"></enabled-two-factor-buttons>
@@ -27,24 +31,11 @@ import EnabledTwoFactorButtons from "@/components/settings/two-factor/EnabledTwo
 export default {
     name: "EnabledTwoFactorBlock",
     components: {TwoFactorContent, TwoFactorHeader, RecoveryCodes, EnabledTwoFactorButtons},
-    emits: ['regenerateCodes', 'disableTwoFactor'],
-    props: ['disablePending'],
+    emits: ['regenerateCodes', 'disableTwoFactor', 'updateRecoveryCodes'],
+    props: ['disablePending', 'recoveryCodesPending', 'recoveryCodes', 'updateRecoveryCodesPending'],
     data() {
         return {
-            showRecoveryCodes: false,
-            regenerateCodesPending: false
-        }
-    },
-    methods: {
-        regenerateCodes() {
-            this.regenerateCodesPending = true
-
-            this.$emit('regenerateCodes',
-                () => {
-                    this.$refs.recoveryCodes?.updateCodes()
-                    this.regenerateCodesPending = false
-                }
-            )
+            showRecoveryCodes: false
         }
     }
 }

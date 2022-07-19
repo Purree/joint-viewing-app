@@ -15,7 +15,7 @@
     <FormInput :label="'Password Confirmation'" v-model:model-value="form.password_confirmation" :placeholder="'******'"
                :type="'password'" :error-condition="'password_confirmation' in errors"/>
 
-    <SubmitButton :is-loading="pending" :sendForm="sendForm" :pending="pending" :form="form" :text="'Register'"/>
+    <SubmitButton :is-loading="pending" @click="usePending(sendForm)" :pending="pending" :form="form" :text="'Register'"/>
 </template>
 
 <script>
@@ -28,6 +28,7 @@ import ErrorMessage from "@/components/errors/ErrorMessage";
 import UserSecretModal from "@/components/modals/UserSecretModal";
 import SuccessfulArticle from "@/components/SuccessfulArticle";
 import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
+import usePending from "@/mixins/usePending";
 
 export default {
     name: 'Register',
@@ -45,6 +46,7 @@ export default {
             errors: {}
         }
     },
+    mixins: [usePending],
     methods: {
         promptModal(secret) {
             this.$oruga.modal.open({
@@ -57,22 +59,16 @@ export default {
             })
         },
         sendForm() {
-            if (this.pending === false) {
-                this.pending = true;
-                axios.post(API_REGISTRATION_URL, this.form)
-                    .then(response => {
-                        this.registered = true;
-                        this.errors = {};
-                        this.promptModal(response.data.secret_phrase)
-                    })
-                    .catch(errors => {
-                        this.registered = false;
-                        this.errors = getErrorsFromResponse(errors);
-                    })
-                    .then(() => {
-                        this.pending = false;
-                    });
-            }
+            return axios.post(API_REGISTRATION_URL, this.form)
+                .then(response => {
+                    this.registered = true;
+                    this.errors = {};
+                    this.promptModal(response.data.secret_phrase)
+                })
+                .catch(errors => {
+                    this.registered = false;
+                    this.errors = getErrorsFromResponse(errors);
+                })
         }
     }
 }

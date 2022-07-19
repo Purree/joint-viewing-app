@@ -9,7 +9,7 @@
 
     <div class="field is-grouped is-align-items-center">
         <p class="control">
-            <SubmitButton :is-loading="pending" :sendForm="sendForm" :pending="pending" :form="form" :text="'Login'"/>
+            <SubmitButton :is-loading="pending" @click="usePending(sendForm)" :pending="pending" :form="form" :text="'Login'"/>
         </p>
         <p class="control">
             <router-link :to="{ 'name': 'ForgotPassword' }">Forgot password</router-link>
@@ -25,11 +25,12 @@ import FormInput from "@/components/authentication/FormInput";
 import ErrorMessage from "@/components/errors/ErrorMessage";
 import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
 import loginUser from "@/mixins/loginUser";
+import usePending from "@/mixins/usePending";
 
 export default {
     name: 'Login',
     components: {SubmitButton, FormInput, ErrorMessage},
-    mixins: [loginUser],
+    mixins: [loginUser, usePending],
     data() {
         return {
             pending: false,
@@ -43,15 +44,11 @@ export default {
     },
     methods: {
         sendForm() {
-            if (this.pending === false) {
-                this.pending = true;
-
-                this.tryToLogin()
-            }
+            return this.tryToLogin()
         },
         tryToLogin(logoutAndRetryOnForbidden = true) {
-            axios.get('/sanctum/csrf-cookie').then(() => {
-                axios.post(API_LOGIN_URL, this.form)
+            return axios.get('/sanctum/csrf-cookie').then(() => {
+                return axios.post(API_LOGIN_URL, this.form)
                     .then(response => {
                         if (response.data["two-factor"]) {
                             return this.$router.push({name: 'TwoFactor', query: this.$route.query})
@@ -61,23 +58,14 @@ export default {
                     })
                     .catch(errors => {
                         if (logoutAndRetryOnForbidden && errors.response.status === 403) {
-                            axios.post(API_LOGOUT_URL).then(() => {
-                                this.tryToLogin(false)
+                            return axios.post(API_LOGOUT_URL).then(() => {
+                                return this.tryToLogin(false)
                             }).catch((logoutErrors) => {
                                 console.log(logoutErrors)
                             });
-
-                            return;
                         }
 
                         this.errors = getErrorsFromResponse(errors);
-                    })
-                    .then(() => {
-                        if (logoutAndRetryOnForbidden) {
-                            return
-                        }
-
-                        this.pending = false;
                     });
             })
         }

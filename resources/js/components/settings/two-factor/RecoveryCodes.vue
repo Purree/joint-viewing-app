@@ -12,33 +12,11 @@
 </template>
 
 <script>
-import {API_TWO_FACTOR_GET_RECOVERY_CODES_URL} from "@/api/twoFactor";
 import {mapState} from "vuex";
-import replaceDataInUri from "@/mixins/replaceDataInUri";
 
 export default {
     name: "RecoveryCodes",
-    data() {
-        return {
-            recoveryCodes: [],
-            pending: true
-        }
-    },
-    mounted() {
-        this.updateCodes()
-    },
-    methods: {
-        updateCodes() {
-            this.pending = true
-
-            axios.get(replaceDataInUri(API_TWO_FACTOR_GET_RECOVERY_CODES_URL, {'user': this.user.id})).then(response => {
-                this.recoveryCodes = response.data
-            }).catch((errors) => {
-                console.log(errors.response)
-                this.recoveryCodes = ['Cannot get recovery codes. Try to recreate two-factor.']
-            }).then(() => { this.pending = false })
-        }
-    },
+    props: ['recoveryCodes', 'pending'],
     computed: {
         ...mapState('auth', ['user'])
     }

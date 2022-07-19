@@ -12,10 +12,11 @@
     <FormInput :label="'New Password'" v-model:model-value="form.password" :placeholder="'******'"
                :type="'password'" :error-condition="'password' in errors"/>
 
-    <FormInput :label="'New Password Confirmation'" v-model:model-value="form.password_confirmation" :placeholder="'******'"
+    <FormInput :label="'New Password Confirmation'" v-model:model-value="form.password_confirmation"
+               :placeholder="'******'"
                :type="'password'" :error-condition="'password_confirmation' in errors"/>
 
-    <SubmitButton :is-loading="pending" :sendForm="sendForm" :pending="pending" :form="form" :text="'Recovery'"/>
+    <SubmitButton :is-loading="pending" @click="usePending(sendForm)" :pending="pending" :form="form" :text="'Recovery'"/>
 </template>
 
 <script>
@@ -27,6 +28,7 @@ import axios from "axios";
 import {API_PASSWORD_RECOVERY_URL} from "@/api/auth";
 import SuccessfulArticle from "@/components/SuccessfulArticle";
 import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
+import usePending from "@/mixins/usePending";
 
 export default {
     name: "PasswordRecovery",
@@ -44,6 +46,7 @@ export default {
             errors: {}
         }
     },
+    mixins: [usePending],
     methods: {
         promptModal(secret) {
             this.$oruga.modal.open({
@@ -56,22 +59,17 @@ export default {
             })
         },
         sendForm() {
-            if (this.pending === false) {
-                this.pending = true;
-                axios.put(API_PASSWORD_RECOVERY_URL, this.form)
-                    .then(response => {
-                        this.recovery = true;
-                        this.errors = {};
-                        this.promptModal(response.data.new_secret_phrase)
-                    })
-                    .catch(errors => {
-                        this.recovery = false;
-                        this.errors = getErrorsFromResponse(errors);
-                    })
-                    .then(() => {
-                        this.pending = false;
-                    });
-            }
+            return axios.put(API_PASSWORD_RECOVERY_URL, this.form)
+                .then(response => {
+                    this.recovery = true;
+                    this.errors = {};
+                    this.promptModal(response.data.new_secret_phrase)
+                })
+                .catch(errors => {
+                    this.recovery = false;
+                    this.errors = getErrorsFromResponse(errors);
+                })
+
         }
     }
 }

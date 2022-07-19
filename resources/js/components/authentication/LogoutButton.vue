@@ -1,22 +1,23 @@
 <template>
-    <o-button :disabled="pending" variant="light" :class="pending ? 'is-loading' : ''" @click="logout">Logout</o-button>
+    <o-button :disabled="pending" variant="light" :class="pending ? 'is-loading' : ''" @click="usePending(logout)">
+        Logout
+    </o-button>
 </template>
 
 <script>
+import usePending from "@/mixins/usePending";
+
 export default {
     name: "LogoutButton",
+    mixins: [usePending],
     data() {
         return {
             pending: false,
         }
     },
     methods: {
-        logout: function () {
-            if (this.pending === false) {
-                this.pending = true;
-
-                this.$store.dispatch('auth/logout');
-            }
+        logout() {
+            return this.$store.dispatch('auth/logout');
         }
     }
 }

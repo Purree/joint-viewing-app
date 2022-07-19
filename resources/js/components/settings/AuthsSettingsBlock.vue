@@ -13,7 +13,7 @@
     <div class="is-flex-desktop">
         <submit-button :pending="isAuthsLoading" :text="buttonText"
                        class="is-fullwidth" :is-loading="isAuthsLoading" :variant="'basic'"
-                       :send-form="loadAuths"></submit-button>
+                       @click="usePending(loadAuths, 'isAuthsLoading')"></submit-button>
         <logout-all-auths-button/>
     </div>
 </template>
@@ -29,11 +29,12 @@ import LogoutAllAuthsButton from "@/components/settings/auths/LogoutAllAuthsButt
 import {API_SHOW_ALL_SESSIONS_URL} from "@/api/sessions";
 import replaceDataInUri from "@/mixins/replaceDataInUri";
 import SessionsContainer from "@/components/settings/auths/SessionsContainer";
+import usePending from "@/mixins/usePending";
 
 export default {
     name: "AuthsSettingsBlock",
     components: {SessionsContainer, LogoutAllAuthsButton, TokensContainer, SubmitButton, ErrorMessage},
-    mixins: [getErrorsFromResponse, replaceDataInUri],
+    mixins: [getErrorsFromResponse, replaceDataInUri, usePending],
     data() {
         return {
             isAuthsLoading: false,
@@ -47,15 +48,11 @@ export default {
     },
     methods: {
         async loadAuths() {
-            if (!this.isAuthsLoading) {
-                this.isAuthsLoading = true
+            await this.loadTokens()
+            await this.loadSessions()
 
-                await this.loadTokens()
-                await this.loadSessions()
+            this.buttonText = 'Update authorizations'
 
-                this.buttonText = 'Update authorizations'
-                this.isAuthsLoading = false
-            }
         },
         loadTokens() {
             return axios.get(replaceDataInUri(API_SHOW_ALL_TOKENS_URL, {'id': this.user.id}))

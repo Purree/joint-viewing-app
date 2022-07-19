@@ -14,7 +14,7 @@
 
     <submit-button :pending="pending" :form="form" :text="'Change username'"
                    class="is-fullwidth" :is-loading="pending" :variant="'basic'"
-                   :send-form="changeNickname"></submit-button>
+                   @click="usePending(changeNickname)"></submit-button>
 </template>
 
 <script>
@@ -27,11 +27,12 @@ import {API_CHANGE_NICKNAME_URL} from "@/api/users";
 import {mapState} from "vuex";
 import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
 import replaceDataInUri from "@/mixins/replaceDataInUri";
+import usePending from "@/mixins/usePending";
 
 export default {
     name: "MainSettingsBlock",
     components: {SuccessfulArticle, SubmitButton, SettingsRow, ErrorMessage},
-    mixins: [replaceDataInUri],
+    mixins: [replaceDataInUri, usePending],
     data() {
         return {
             form: {
@@ -44,23 +45,18 @@ export default {
     },
     methods: {
         changeNickname() {
-            if (this.pending === false) {
-                this.pending = true;
-                this.successed = false;
-                axios.put(replaceDataInUri(API_CHANGE_NICKNAME_URL, {'id': this.user.id}), this.form)
-                    .then(response => {
-                        this.$store.commit('auth/setUser', response.data);
+            this.successed = false;
 
-                        this.errors = {};
-                        this.successed = true;
-                    })
-                    .catch(errors => {
-                        this.errors = getErrorsFromResponse(errors);
-                    })
-                    .then(() => {
-                        this.pending = false;
-                    });
-            }
+            return axios.put(replaceDataInUri(API_CHANGE_NICKNAME_URL, {'id': this.user.id}), this.form)
+                .then(response => {
+                    this.$store.commit('auth/setUser', response.data);
+
+                    this.errors = {};
+                    this.successed = true;
+                })
+                .catch(errors => {
+                    this.errors = getErrorsFromResponse(errors);
+                })
         }
     },
     computed: {

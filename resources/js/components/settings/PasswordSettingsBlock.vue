@@ -17,7 +17,7 @@
 
     <submit-button :pending="pending" :form="form" :text="'Change password'"
                    class="is-fullwidth" :is-loading="pending" :variant="'basic'"
-                   :send-form="changePassword"></submit-button>
+                   @click="usePending(changePassword)"></submit-button>
 </template>
 
 <script>
@@ -30,11 +30,12 @@ import {API_CHANGE_PASSWORD_URL} from "@/api/users";
 import {mapState} from "vuex";
 import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
 import replaceDataInUri from "@/mixins/replaceDataInUri";
+import usePending from "@/mixins/usePending";
 
 export default {
     name: "PasswordSettingsBlock",
     components: {SuccessfulArticle, SubmitButton, SettingsRow, ErrorMessage},
-    mixins: [replaceDataInUri],
+    mixins: [replaceDataInUri, usePending],
     data() {
         return {
             form: {
@@ -49,21 +50,15 @@ export default {
     },
     methods: {
         changePassword() {
-            if (this.pending === false) {
-                this.pending = true;
-                this.successed = false;
-                axios.put(replaceDataInUri(API_CHANGE_PASSWORD_URL, {'id': this.user.id}), this.form)
-                    .then(response => {
-                        this.errors = {};
-                        this.successed = true;
-                    })
-                    .catch(errors => {
-                        this.errors = getErrorsFromResponse(errors);
-                    })
-                    .then(() => {
-                        this.pending = false;
-                    });
-            }
+        this.successed = false;
+        return axios.put(replaceDataInUri(API_CHANGE_PASSWORD_URL, {'id': this.user.id}), this.form)
+            .then(() => {
+                this.errors = {};
+                this.successed = true;
+            })
+            .catch(errors => {
+                this.errors = getErrorsFromResponse(errors);
+            })
         }
     },
     computed: {

@@ -1,7 +1,7 @@
 <template>
     <submit-button :variant="'danger'" icon-right="trash" :pending="deletingAuths.includes(this.authId)"
                    :is-loading="deletingAuths.includes(this.authId)"
-                   :send-form="delete" :text="'Delete'"></submit-button>
+                   @click="this.delete" :text="'Delete'"></submit-button>
 </template>
 
 <script>

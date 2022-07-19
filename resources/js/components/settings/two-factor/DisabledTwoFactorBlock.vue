@@ -12,7 +12,7 @@
         </two-factor-content>
 
         <submit-button :pending="pending" :variant="'success'" :is-loading="pending" :text="'Turn on'"
-                       :send-form="() => {this.$emit('enableTwoFactor')}" class="is-fullwidth"></submit-button>
+                       @click="this.$emit('enableTwoFactor')" class="is-fullwidth"></submit-button>
     </div>
 </template>
 

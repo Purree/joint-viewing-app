@@ -19,7 +19,7 @@
 
         <div class="field is-grouped is-align-items-center">
             <div class="buttons control">
-                <SubmitButton :is-loading="pending" :sendForm="checkCode"
+                <SubmitButton :is-loading="pending" @click="usePending(checkCode)"
                               :pending="pending || (!this.code && !this.recovery_code)" :text="'Login'"/>
 
                 <o-button @click="this.is_recovery_codes_used = !this.is_recovery_codes_used">
@@ -38,11 +38,12 @@ import ErrorMessage from "@/components/errors/ErrorMessage";
 import {API_TWO_FACTOR_LOGIN_URL} from "@/api/twoFactor";
 import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
 import loginUser from "@/mixins/loginUser";
+import usePending from "@/mixins/usePending";
 
 export default {
     name: "TwoFactor",
     components: {SubmitButton, FormInput, ErrorMessage},
-    mixins: [loginUser],
+    mixins: [loginUser, usePending],
     data() {
         return {
             pending: false,
@@ -54,7 +55,7 @@ export default {
     },
     methods: {
         checkCode() {
-            axios.post(API_TWO_FACTOR_LOGIN_URL,
+            return axios.post(API_TWO_FACTOR_LOGIN_URL,
                 this.is_recovery_codes_used ?
                     {'recovery_code': this.recovery_code} :
                     {'code': this.code})
@@ -63,9 +64,6 @@ export default {
                 })
                 .catch(errors => {
                     this.errors = getErrorsFromResponse(errors);
-                })
-                .then(() => {
-                    this.pending = false;
                 })
         }
     }
