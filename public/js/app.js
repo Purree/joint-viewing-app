@@ -35421,6 +35421,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.$store.commit('auth/setUser', response.data);
       })["catch"](function (error) {
         console.log(error.response);
+
+        if (error.response.status === 401) {
+          _this.$store.commit('auth/setIsLoggedIn', false);
+
+          _this.$router.push('/login');
+
+          return;
+        }
+
         _this.failedToLogin = true;
       });
     }

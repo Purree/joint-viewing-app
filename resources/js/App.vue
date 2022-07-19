@@ -31,6 +31,12 @@ export default {
             }).catch((error) => {
                 console.log(error.response)
 
+                if (error.response.status === 401) {
+                    this.$store.commit('auth/setIsLoggedIn', false);
+                    this.$router.push('/login');
+
+                    return;
+                }
                 this.failedToLogin = true
             })
         }
