@@ -37,3 +37,12 @@
         background: none;
     }
 }
+
+div.file-image {
+    width: 200px;
+    height: 82px;
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}

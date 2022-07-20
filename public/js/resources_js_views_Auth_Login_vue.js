@@ -12,7 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['pending', 'form', 'sendForm', 'text', 'isLoading', 'variant'],
+  props: ['pending', 'form', 'text', 'isLoading', 'variant'],
   name: "SubmitButton"
 });
 
@@ -53,6 +53,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_errors_ErrorMessage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/errors/ErrorMessage */ "./resources/js/components/errors/ErrorMessage.vue");
 /* harmony import */ var _mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/mixins/getErrorsFromResponse */ "./resources/js/mixins/getErrorsFromResponse.js");
 /* harmony import */ var _mixins_loginUser__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/mixins/loginUser */ "./resources/js/mixins/loginUser.js");
+/* harmony import */ var _mixins_usePending__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/mixins/usePending */ "./resources/js/mixins/usePending.js");
+
 
 
 
@@ -67,7 +69,7 @@ __webpack_require__.r(__webpack_exports__);
     FormInput: _components_authentication_FormInput__WEBPACK_IMPORTED_MODULE_3__["default"],
     ErrorMessage: _components_errors_ErrorMessage__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
-  mixins: [_mixins_loginUser__WEBPACK_IMPORTED_MODULE_6__["default"]],
+  mixins: [_mixins_loginUser__WEBPACK_IMPORTED_MODULE_6__["default"], _mixins_usePending__WEBPACK_IMPORTED_MODULE_7__["default"]],
   data: function data() {
     return {
       pending: false,
@@ -81,17 +83,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     sendForm: function sendForm() {
-      if (this.pending === false) {
-        this.pending = true;
-        this.tryToLogin();
-      }
+      return this.tryToLogin();
     },
     tryToLogin: function tryToLogin() {
       var _this = this;
 
       var logoutAndRetryOnForbidden = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/sanctum/csrf-cookie').then(function () {
-        axios__WEBPACK_IMPORTED_MODULE_0___default().post(_api_auth__WEBPACK_IMPORTED_MODULE_1__.API_LOGIN_URL, _this.form).then(function (response) {
+      return axios__WEBPACK_IMPORTED_MODULE_0___default().get('/sanctum/csrf-cookie').then(function () {
+        return axios__WEBPACK_IMPORTED_MODULE_0___default().post(_api_auth__WEBPACK_IMPORTED_MODULE_1__.API_LOGIN_URL, _this.form).then(function (response) {
           if (response.data["two-factor"]) {
             return _this.$router.push({
               name: 'TwoFactor',
@@ -102,21 +101,14 @@ __webpack_require__.r(__webpack_exports__);
           _this.loginUser();
         })["catch"](function (errors) {
           if (logoutAndRetryOnForbidden && errors.response.status === 403) {
-            axios__WEBPACK_IMPORTED_MODULE_0___default().post(_api_auth__WEBPACK_IMPORTED_MODULE_1__.API_LOGOUT_URL).then(function () {
-              _this.tryToLogin(false);
+            return axios__WEBPACK_IMPORTED_MODULE_0___default().post(_api_auth__WEBPACK_IMPORTED_MODULE_1__.API_LOGOUT_URL).then(function () {
+              return _this.tryToLogin(false);
             })["catch"](function (logoutErrors) {
               console.log(logoutErrors);
             });
-            return;
           }
 
           _this.errors = (0,_mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_5__["default"])(errors);
-        }).then(function () {
-          if (logoutAndRetryOnForbidden) {
-            return;
-          }
-
-          _this.pending = false;
         });
       });
     }
@@ -142,7 +134,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_o_button, {
     variant: $props.variant || 'primary',
-    onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($props.sendForm, ["prevent"]),
+    onClick: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+      return _ctx.$emit('click');
+    }, ["prevent"])),
     disabled: $props.pending || $props.form && Object.values($props.form).some(function (el) {
       return el === null || el.trim() === '';
     }),
@@ -158,7 +152,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["variant", "onClick", "disabled", "class"]);
+  , ["variant", "disabled", "class"]);
 }
 
 /***/ }),
@@ -268,13 +262,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["model-value", "error-condition"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SubmitButton, {
     "is-loading": $data.pending,
-    sendForm: $options.sendForm,
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return _ctx.usePending($options.sendForm);
+    }),
     pending: $data.pending,
     form: $data.form,
     text: 'Login'
   }, null, 8
   /* PROPS */
-  , ["is-loading", "sendForm", "pending", "form"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+  , ["is-loading", "pending", "form"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: {
       'name': 'ForgotPassword'
     }

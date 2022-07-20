@@ -15113,6 +15113,16 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   background: none;
 }
 
+div.file-image {
+  width: 200px;
+  height: 82px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
 html[data-theme=dark] {
   background-color: #17181c;
 }

@@ -12,7 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['pending', 'form', 'sendForm', 'text', 'isLoading', 'variant'],
+  props: ['pending', 'form', 'text', 'isLoading', 'variant'],
   name: "SubmitButton"
 });
 
@@ -51,6 +51,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api_twoFactor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/api/twoFactor */ "./resources/js/api/twoFactor.js");
 /* harmony import */ var _mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/mixins/getErrorsFromResponse */ "./resources/js/mixins/getErrorsFromResponse.js");
 /* harmony import */ var _mixins_loginUser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/mixins/loginUser */ "./resources/js/mixins/loginUser.js");
+/* harmony import */ var _mixins_usePending__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/mixins/usePending */ "./resources/js/mixins/usePending.js");
+
 
 
 
@@ -64,7 +66,7 @@ __webpack_require__.r(__webpack_exports__);
     FormInput: _components_authentication_FormInput__WEBPACK_IMPORTED_MODULE_1__["default"],
     ErrorMessage: _components_errors_ErrorMessage__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
-  mixins: [_mixins_loginUser__WEBPACK_IMPORTED_MODULE_5__["default"]],
+  mixins: [_mixins_loginUser__WEBPACK_IMPORTED_MODULE_5__["default"], _mixins_usePending__WEBPACK_IMPORTED_MODULE_6__["default"]],
   data: function data() {
     return {
       pending: false,
@@ -78,7 +80,7 @@ __webpack_require__.r(__webpack_exports__);
     checkCode: function checkCode() {
       var _this = this;
 
-      axios.post(_api_twoFactor__WEBPACK_IMPORTED_MODULE_3__.API_TWO_FACTOR_LOGIN_URL, this.is_recovery_codes_used ? {
+      return axios.post(_api_twoFactor__WEBPACK_IMPORTED_MODULE_3__.API_TWO_FACTOR_LOGIN_URL, this.is_recovery_codes_used ? {
         'recovery_code': this.recovery_code
       } : {
         'code': this.code
@@ -86,8 +88,6 @@ __webpack_require__.r(__webpack_exports__);
         _this.loginUser();
       })["catch"](function (errors) {
         _this.errors = (0,_mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_4__["default"])(errors);
-      }).then(function () {
-        _this.pending = false;
       });
     }
   }
@@ -112,7 +112,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_o_button, {
     variant: $props.variant || 'primary',
-    onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($props.sendForm, ["prevent"]),
+    onClick: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+      return _ctx.$emit('click');
+    }, ["prevent"])),
     disabled: $props.pending || $props.form && Object.values($props.form).some(function (el) {
       return el === null || el.trim() === '';
     }),
@@ -128,7 +130,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["variant", "onClick", "disabled", "class"]);
+  , ["variant", "disabled", "class"]);
 }
 
 /***/ }),
@@ -234,7 +236,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
 
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onSubmit: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.checkCode && $options.checkCode.apply($options, arguments);
     }, ["prevent"]))
   }, [$data.is_recovery_codes_used ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_FormInput, {
@@ -263,13 +265,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["model-value", "error-condition"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SubmitButton, {
     "is-loading": $data.pending,
-    sendForm: $options.checkCode,
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return _ctx.usePending($options.checkCode);
+    }),
     pending: $data.pending || !this.code && !this.recovery_code,
     text: 'Login'
   }, null, 8
   /* PROPS */
-  , ["is-loading", "sendForm", "pending"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_o_button, {
-    onClick: _cache[2] || (_cache[2] = function ($event) {
+  , ["is-loading", "pending"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_o_button, {
+    onClick: _cache[3] || (_cache[3] = function ($event) {
       return _this.is_recovery_codes_used = !_this.is_recovery_codes_used;
     })
   }, {
