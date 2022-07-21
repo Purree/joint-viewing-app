@@ -35806,13 +35806,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "API_CHANGE_NICKNAME_URL": () => (/* binding */ API_CHANGE_NICKNAME_URL),
 /* harmony export */   "API_CHANGE_PASSWORD_URL": () => (/* binding */ API_CHANGE_PASSWORD_URL),
-/* harmony export */   "API_CURRENT_USER_URL": () => (/* binding */ API_CURRENT_USER_URL)
+/* harmony export */   "API_CURRENT_USER_URL": () => (/* binding */ API_CURRENT_USER_URL),
+/* harmony export */   "API_UPDATE_AVATAR_URL": () => (/* binding */ API_UPDATE_AVATAR_URL)
 /* harmony export */ });
 /* harmony import */ var _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/api/api_prefixes */ "./resources/js/api/api_prefixes.js");
 
 var API_CURRENT_USER_URL = _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__.API + 'users/me';
-var API_CHANGE_NICKNAME_URL = _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__.API + 'users/{id}/name/';
-var API_CHANGE_PASSWORD_URL = _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__.API + 'users/{id}/password/';
+var API_CHANGE_NICKNAME_URL = _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__.API + 'users/{id}/name';
+var API_CHANGE_PASSWORD_URL = _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__.API + 'users/{id}/password';
+var API_UPDATE_AVATAR_URL = _api_api_prefixes__WEBPACK_IMPORTED_MODULE_0__.API + 'users/{id}/avatar';
 
 /***/ }),
 

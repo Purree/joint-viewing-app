@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangeAvatarRequest;
 use App\Http\Requests\ChangeNameRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Models\User;
+use App\Services\ImageDecorator;
 use App\Services\Results\ResponseResult;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -38,7 +40,7 @@ class UserController extends Controller
 
     public function changePassword(ChangePasswordRequest $request, User $user): JsonResponse
     {
-        if (! Hash::check($request->old_password, $user->password)) {
+        if (!Hash::check($request->old_password, $user->password)) {
             return ResponseResult::error(
                 ['password' => ['Incorrect old password']],
                 Response::HTTP_UNPROCESSABLE_ENTITY
@@ -49,5 +51,17 @@ class UserController extends Controller
         $user->save();
 
         return ResponseResult::success()->returnValue;
+    }
+
+    public function changeAvatar(ChangeAvatarRequest $request, User $user): JsonResponse
+    {
+        $image = ImageDecorator::make($request->photo)
+            ->encode('jpg')
+            ->resize(1024, 1024, true);
+
+        $user->avatar = $image->save('profile-photos/');
+        $user->save();
+
+        return ResponseResult::success(['avatarPath' => $user->avatar])->returnValue;
     }
 }

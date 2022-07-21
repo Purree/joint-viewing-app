@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'use_two_factor' => $this->hasEnabledTwoFactorAuthentication(),
+            'avatar' => $this->avatar,
         ];
     }
 }

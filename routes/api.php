@@ -32,11 +32,16 @@ Route::middleware('auth:sanctum')->group(static function () {
         Route::get('/me', [UserController::class, 'showAuthenticated'])->name('me');
 
         Route::middleware('can:use-authenticated-route,user')->group(static function () {
-            Route::put('{user}/name/', [UserController::class, 'changeName'])->name('change-name')->middleware(
+            Route::put('/{user}/name/', [UserController::class, 'changeName'])->name('change-name')->middleware(
                 ['throttle:change_name']
             );
 
-            Route::put('{user}/password/', [UserController::class, 'changePassword'])->name(
+            // Doesn't put method because laravel can't get files from put requests
+            Route::post('/{user}/avatar/', [UserController::class, 'changeAvatar'])->name('change-avtar')->middleware(
+                ['throttle:change_avatar']
+            );
+
+            Route::put('/{user}/password/', [UserController::class, 'changePassword'])->name(
                 'change-password'
             )->middleware(['throttle:change_password']);
 

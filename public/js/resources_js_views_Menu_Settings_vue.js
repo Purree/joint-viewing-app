@@ -489,10 +489,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
 /* harmony import */ var _components_FileImage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/FileImage */ "./resources/js/components/FileImage.vue");
 /* harmony import */ var _mixins_asset__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/mixins/asset */ "./resources/js/mixins/asset.js");
 /* harmony import */ var _components_SubmitButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/SubmitButton */ "./resources/js/components/SubmitButton.vue");
+/* harmony import */ var _mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/mixins/getErrorsFromResponse */ "./resources/js/mixins/getErrorsFromResponse.js");
+/* harmony import */ var _mixins_usePending__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/mixins/usePending */ "./resources/js/mixins/usePending.js");
+/* harmony import */ var _api_users__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/api/users */ "./resources/js/api/users.js");
+/* harmony import */ var _mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/mixins/replaceDataInUri */ "./resources/js/mixins/replaceDataInUri.js");
+/* harmony import */ var _components_errors_ErrorMessage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/components/errors/ErrorMessage */ "./resources/js/components/errors/ErrorMessage.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -503,31 +508,77 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
+
+
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "AvatarSettingsBlock",
   components: {
     SubmitButton: _components_SubmitButton__WEBPACK_IMPORTED_MODULE_2__["default"],
-    FileImage: _components_FileImage__WEBPACK_IMPORTED_MODULE_0__["default"]
+    FileImage: _components_FileImage__WEBPACK_IMPORTED_MODULE_0__["default"],
+    ErrorMessage: _components_errors_ErrorMessage__WEBPACK_IMPORTED_MODULE_7__["default"]
   },
-  mixins: [_mixins_asset__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_mixins_asset__WEBPACK_IMPORTED_MODULE_1__["default"], _mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_3__["default"], _mixins_usePending__WEBPACK_IMPORTED_MODULE_4__["default"], _mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_6__["default"]],
   data: function data() {
-    var _this$user;
-
     return {
-      dropFile: new File([], ""),
-      currentAvatar: (_this$user = this.user) === null || _this$user === void 0 ? void 0 : _this$user.avatar,
-      avatarPending: false
+      uploadedFile: new File([], ""),
+      avatarPending: false,
+      errors: {}
     };
   },
   methods: {
-    getFileUrl: function getFileUrl() {
-      return URL.createObjectURL(this.dropFile);
+    getFileUrl: function getFileUrl(file) {
+      return URL.createObjectURL(file);
     },
     deleteDropFile: function deleteDropFile() {
-      this.dropFile = new File([], "");
+      this.uploadedFile = new File([], "");
+    },
+    updateAvatar: function updateAvatar() {
+      var _this = this;
+
+      if (this.uploadedFile.size / 1024 === 0) {
+        this.errors = {
+          avatar: ["Please choose a file"]
+        };
+        return;
+      }
+
+      if (this.uploadedFile.size / 1024 > 2048) {
+        this.errors = {
+          avatar: ["File is too big"]
+        };
+        return;
+      }
+
+      var formData = new FormData();
+      formData.append("photo", this.uploadedFile);
+      return axios.post((0,_mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_6__["default"])(_api_users__WEBPACK_IMPORTED_MODULE_5__.API_UPDATE_AVATAR_URL, {
+        'id': this.user.id
+      }), formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        _this.currentAvatar = response.data.avatarPath;
+        _this.errors = {};
+      })["catch"](function (errors) {
+        console.log(errors);
+        _this.errors = (0,_mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_3__["default"])(errors);
+      });
     }
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapState)('auth', ['user']))
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_8__.mapState)('auth', ['user'])), {}, {
+    currentAvatar: {
+      get: function get() {
+        return this.user.avatar;
+      },
+      set: function set(value) {
+        this.user.avatar = value;
+      }
+    }
+  })
 });
 
 /***/ }),
@@ -1569,6 +1620,8 @@ var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_ErrorMessage = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ErrorMessage");
+
   var _component_file_image = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("file-image");
 
   var _component_o_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("o-icon");
@@ -1579,17 +1632,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_submit_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("submit-button");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_hoisted_1, $data.currentAvatar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_file_image, {
-    "file-url": _ctx.asset($data.currentAvatar)
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ErrorMessage, {
+    errors: $data.errors
+  }, null, 8
+  /* PROPS */
+  , ["errors"]), $options.currentAvatar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_file_image, {
+    "file-url": _ctx.asset($options.currentAvatar)
   }, null, 8
   /* PROPS */
   , ["file-url"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_o_upload, {
     accept: "image/*",
     rootClass: "file-label",
     "class": "file-input",
-    modelValue: $data.dropFile,
+    modelValue: $data.uploadedFile,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $data.dropFile = $event;
+      return $data.uploadedFile = $event;
     }),
     dragDrop: "",
     draggableClass: "upload-draggable"
@@ -1605,8 +1662,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["modelValue"])]), $data.dropFile.size !== 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_file_image, {
-    "file-url": $options.getFileUrl()
+  , ["modelValue"])]), $data.uploadedFile.size !== 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_file_image, {
+    "file-url": $options.getFileUrl(this.uploadedFile)
   }, null, 8
   /* PROPS */
   , ["file-url"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_o_button, {
@@ -1621,7 +1678,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     variant: 'basic',
     pending: $data.avatarPending,
     text: 'Change avatar',
-    "is-loading": $data.avatarPending
+    "is-loading": $data.avatarPending,
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return _ctx.usePending($options.updateAvatar);
+    })
   }, null, 8
   /* PROPS */
   , ["pending", "is-loading"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 64
@@ -2397,7 +2457,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
     asset: function asset(path) {
-      var base_path = window._asset || '';
+      var base_path = (window._asset || '') + "storage/";
       return base_path + path;
     }
   }
