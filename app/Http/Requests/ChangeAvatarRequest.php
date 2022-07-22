@@ -23,11 +23,11 @@ class ChangeAvatarRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    #[ArrayShape(['photo' => "string"])]
+    #[ArrayShape(['photo' => 'string'])]
     public function rules(): array
     {
         return [
-            'photo' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048' , new ApngRule()],
+            'photo' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048', new ApngRule()],
         ];
     }
 }

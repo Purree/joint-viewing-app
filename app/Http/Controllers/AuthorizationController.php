@@ -90,7 +90,6 @@ class AuthorizationController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-
         $user->disableTwoFactor();
 
         return ResponseResult::success(['new_secret_phrase' => $secret['phrase']])->returnValue;

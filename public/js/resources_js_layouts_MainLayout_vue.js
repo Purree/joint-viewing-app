@@ -32,12 +32,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _components_authentication_LogoutButton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/authentication/LogoutButton */ "./resources/js/components/authentication/LogoutButton.vue");
 /* harmony import */ var _components_ChangeThemeButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/ChangeThemeButton */ "./resources/js/components/ChangeThemeButton.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var _mixins_asset__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/mixins/asset */ "./resources/js/mixins/asset.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -48,6 +50,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ChangeThemeButton: _components_ChangeThemeButton__WEBPACK_IMPORTED_MODULE_1__["default"],
     LogoutButton: _components_authentication_LogoutButton__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
+  mixins: [_mixins_asset__WEBPACK_IMPORTED_MODULE_2__["default"]],
   data: function data() {
     return {
       isDropdownActive: false,
@@ -63,7 +66,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)('auth', ['user']))
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapState)('auth', ['user']))
 });
 
 /***/ }),
@@ -175,9 +178,12 @@ var _hoisted_9 = {
   "class": "navbar-item header-nickname"
 };
 var _hoisted_10 = {
-  "class": "navbar-item"
+  "class": "navbar-item pl-0 is-hidden-touch"
 };
 var _hoisted_11 = {
+  "class": "navbar-item"
+};
+var _hoisted_12 = {
   "class": "buttons"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -223,7 +229,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* UNKEYED_FRAGMENT */
   ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(this.user.name || 'Undefined user'), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_change_theme_button), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_logout_button)])])])], 2
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "user-avatar",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)("background-image: url(".concat(_ctx.asset(this.user.avatar || 'profile-photos/default.png'), ")"))
+  }, null, 4
+  /* STYLE */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_change_theme_button), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_logout_button)])])])], 2
   /* CLASS */
   )]);
 }
@@ -255,6 +266,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./resources/js/mixins/asset.js":
+/*!**************************************!*\
+  !*** ./resources/js/mixins/asset.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  methods: {
+    asset: function asset(path) {
+      var base_path = (window._asset || '') + "storage/";
+      return base_path + path;
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Header.vue?vue&type=style&index=0&id=1f42fb90&scoped=true&lang=css":
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/Header.vue?vue&type=style&index=0&id=1f42fb90&scoped=true&lang=css ***!
@@ -271,7 +303,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.header-nickname[data-v-1f42fb90] {\n        max-width: 20ch;\n        overflow: hidden;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.header-nickname[data-v-1f42fb90] {\n    max-width: 20ch;\n    overflow: hidden;\n}\n.user-avatar[data-v-1f42fb90] {\n    width: 40px;\n    height: 40px;\n    border-radius: 50%;\n    background-size: cover;\n    background-position: center;\n    background-repeat: no-repeat;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -22,7 +22,7 @@ class ImageDecorator
     {
         $img_bytes = file_get_contents($file);
 
-        return !($img_bytes && str_contains(substr($img_bytes, 0, strpos($img_bytes, 'IDAT')), 'acTL'));
+        return ! ($img_bytes && str_contains(substr($img_bytes, 0, strpos($img_bytes, 'IDAT')), 'acTL'));
     }
 
     public static function make(string $file): self
@@ -38,7 +38,7 @@ class ImageDecorator
         $this->image->resize(
             $width,
             $height,
-            $keepProportions ? static fn($constraint) => $constraint->aspectRatio() : null
+            $keepProportions ? static fn ($constraint) => $constraint->aspectRatio() : null
         );
 
         return $this;
@@ -59,7 +59,6 @@ class ImageDecorator
 
         $fullPath = $path.$name;
 
-
         Storage::disk('public')->put(
             $fullPath,
             $this->image
@@ -71,8 +70,8 @@ class ImageDecorator
     public static function generateRandomFileName(string $extension): string
     {
         return str_replace(
-            ".",
-            "",
+            ['.', '/', '\\'],
+            '',
             Hash::make(
                 uniqid(time(), true)
             )
