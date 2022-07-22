@@ -41,6 +41,8 @@ Route::middleware('auth:sanctum')->group(static function () {
                 ['throttle:change_avatar']
             );
 
+            Route::delete('/{user}/avatar/', [UserController::class, 'deleteAvatar'])->name('delete-avtar');
+
             Route::put('/{user}/password/', [UserController::class, 'changePassword'])->name(
                 'change-password'
             )->middleware(['throttle:change_password']);

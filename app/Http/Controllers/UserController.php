@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -63,5 +64,19 @@ class UserController extends Controller
         $user->save();
 
         return ResponseResult::success(['avatarPath' => $user->avatar])->returnValue;
+    }
+
+    public function deleteAvatar(User $user): JsonResponse
+    {
+        if ($user->avatar) {
+            Storage::disk('public')->delete(
+                $user->avatar,
+            );
+        }
+
+        $user->avatar = null;
+        $user->save();
+
+        return ResponseResult::success()->returnValue;
     }
 }

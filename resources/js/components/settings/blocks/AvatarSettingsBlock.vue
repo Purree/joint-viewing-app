@@ -3,9 +3,15 @@
 
     <ErrorMessage :errors="errors"></ErrorMessage>
 
-    <div v-if="currentAvatar" class="is-flex is-align-items-center is-flex-direction-column">
+    <div v-if="currentAvatar" class="is-flex is-align-items-center is-flex-direction-column mb-3">
         <div>Current avatar</div>
         <file-image :file-url="asset(currentAvatar)"></file-image>
+        <submit-button class="mt-3"
+                       variant="danger"
+                       @click="usePending(deleteAvatar, 'avatarDeletePending')"
+                       :is-loading="avatarDeletePending"
+                       :pending="avatarDeletePending"
+                       :text="'Delete avatar'"></submit-button>
     </div>
 
     <section>
@@ -29,10 +35,10 @@
             <o-button icon-left="times" size="small" native-type="button" @click="deleteDropFile"></o-button>
             <submit-button class="mt-3"
                            :variant="'basic'"
-                           :pending="avatarPending"
+                           :pending="avatarUploadPending"
                            :text="'Change avatar'"
-                           :is-loading="avatarPending"
-                           @click="usePending(updateAvatar)"/>
+                           :is-loading="avatarUploadPending"
+                           @click="usePending(updateAvatar, 'avatarUploadPending')"/>
         </div>
 
     </section>
@@ -45,7 +51,7 @@ import asset from "@/mixins/asset";
 import SubmitButton from "@/components/SubmitButton";
 import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
 import usePending from "@/mixins/usePending";
-import {API_UPDATE_AVATAR_URL} from "@/api/users";
+import {API_DELETE_AVATAR_URL, API_UPDATE_AVATAR_URL} from "@/api/users";
 import replaceDataInUri from "@/mixins/replaceDataInUri";
 import ErrorMessage from "@/components/errors/ErrorMessage";
 
@@ -56,7 +62,8 @@ export default {
     data() {
         return {
             uploadedFile: new File([], ""),
-            avatarPending: false,
+            avatarUploadPending: false,
+            avatarDeletePending: false,
             errors: {}
         }
     },
@@ -66,6 +73,14 @@ export default {
         },
         deleteDropFile() {
             this.uploadedFile = new File([], "")
+        },
+        deleteAvatar() {
+            return axios.delete(replaceDataInUri(API_DELETE_AVATAR_URL, {'id': this.user.id})).then(() => {
+                this.errors = {}
+                this.currentAvatar = null
+            }).catch(error => {
+                this.errors = getErrorsFromResponse(error)
+            })
         },
         updateAvatar() {
             if (this.uploadedFile.size / 1024 === 0) {

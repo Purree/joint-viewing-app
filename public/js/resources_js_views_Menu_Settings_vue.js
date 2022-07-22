@@ -524,7 +524,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       uploadedFile: new File([], ""),
-      avatarPending: false,
+      avatarUploadPending: false,
+      avatarDeletePending: false,
       errors: {}
     };
   },
@@ -535,8 +536,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     deleteDropFile: function deleteDropFile() {
       this.uploadedFile = new File([], "");
     },
-    updateAvatar: function updateAvatar() {
+    deleteAvatar: function deleteAvatar() {
       var _this = this;
+
+      return axios["delete"]((0,_mixins_replaceDataInUri__WEBPACK_IMPORTED_MODULE_6__["default"])(_api_users__WEBPACK_IMPORTED_MODULE_5__.API_DELETE_AVATAR_URL, {
+        'id': this.user.id
+      })).then(function () {
+        _this.errors = {};
+        _this.currentAvatar = null;
+      })["catch"](function (error) {
+        _this.errors = (0,_mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_3__["default"])(error);
+      });
+    },
+    updateAvatar: function updateAvatar() {
+      var _this2 = this;
 
       if (this.uploadedFile.size / 1024 === 0) {
         this.errors = {
@@ -561,11 +574,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           'Content-Type': 'multipart/form-data'
         }
       }).then(function (response) {
-        _this.currentAvatar = response.data.avatarPath;
-        _this.errors = {};
+        _this2.currentAvatar = response.data.avatarPath;
+        _this2.errors = {};
       })["catch"](function (errors) {
         console.log(errors);
-        _this.errors = (0,_mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_3__["default"])(errors);
+        _this2.errors = (0,_mixins_getErrorsFromResponse__WEBPACK_IMPORTED_MODULE_3__["default"])(errors);
       });
     }
   },
@@ -1587,7 +1600,7 @@ var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 
 var _hoisted_2 = {
   key: 0,
-  "class": "is-flex is-align-items-center is-flex-direction-column"
+  "class": "is-flex is-align-items-center is-flex-direction-column mb-3"
 };
 
 var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, "Current avatar", -1
@@ -1624,13 +1637,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_file_image = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("file-image");
 
+  var _component_submit_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("submit-button");
+
   var _component_o_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("o-icon");
 
   var _component_o_upload = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("o-upload");
 
   var _component_o_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("o-button");
-
-  var _component_submit_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("submit-button");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ErrorMessage, {
     errors: $data.errors
@@ -1640,12 +1653,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "file-url": _ctx.asset($options.currentAvatar)
   }, null, 8
   /* PROPS */
-  , ["file-url"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_o_upload, {
+  , ["file-url"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_submit_button, {
+    "class": "mt-3",
+    variant: "danger",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.usePending($options.deleteAvatar, 'avatarDeletePending');
+    }),
+    "is-loading": $data.avatarDeletePending,
+    pending: $data.avatarDeletePending,
+    text: 'Delete avatar'
+  }, null, 8
+  /* PROPS */
+  , ["is-loading", "pending"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_o_upload, {
     accept: "image/*",
     rootClass: "file-label",
     "class": "file-input",
     modelValue: $data.uploadedFile,
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.uploadedFile = $event;
     }),
     dragDrop: "",
@@ -1676,11 +1700,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_submit_button, {
     "class": "mt-3",
     variant: 'basic',
-    pending: $data.avatarPending,
+    pending: $data.avatarUploadPending,
     text: 'Change avatar',
-    "is-loading": $data.avatarPending,
-    onClick: _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.usePending($options.updateAvatar);
+    "is-loading": $data.avatarUploadPending,
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return _ctx.usePending($options.updateAvatar, 'avatarUploadPending');
     })
   }, null, 8
   /* PROPS */
