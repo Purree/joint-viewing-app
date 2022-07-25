@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import ErrorMessage from "@/components/errors/ErrorMessage";
-import LogoutButton from "@/components/authentication/LogoutButton";
+import ErrorMessage from "@/components/errors/ErrorMessage.vue";
+import LogoutButton from "@/components/authentication/LogoutButton.vue";
 
 export default {
     components: {LogoutButton, ErrorMessage},

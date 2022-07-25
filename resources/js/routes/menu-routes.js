@@ -7,7 +7,7 @@ export default [
     {
         path: '/menu',
         name: 'Menu',
-        component: () => import('@/views/Menu/Index'),
+        component: () => import('@/views/Menu/Index.vue'),
         redirect: {'name': 'Rooms'},
         children: [
             {

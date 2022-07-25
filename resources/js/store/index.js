@@ -1,5 +1,5 @@
 import {createStore} from "vuex";
-import userStore from "@/store/userStore";
+import userStore from "@/store/userStore.js";
 
 const store = createStore({
     state: {

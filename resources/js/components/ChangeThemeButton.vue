@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import changeTheme from "@/mixins/changeTheme";
+import changeTheme from "@/mixins/changeTheme.js";
 
 export default {
     name: "ChangeThemeButton",

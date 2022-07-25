@@ -37,8 +37,8 @@
 </template>
 
 <script>
-import LogoutButton from "@/components/authentication/LogoutButton";
-import ChangeThemeButton from "@/components/ChangeThemeButton";
+import LogoutButton from "@/components/authentication/LogoutButton.vue";
+import ChangeThemeButton from "@/components/ChangeThemeButton.vue";
 import {mapState} from "vuex";
 import asset from "@/mixins/asset";
 

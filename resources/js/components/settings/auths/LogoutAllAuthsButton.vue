@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import SubmitButton from "@/components/SubmitButton";
-import {API_DELETE_ALL_TOKENS_URL} from "@/api/tokens";
+import SubmitButton from "@/components/SubmitButton.vue";
+import {API_DELETE_ALL_TOKENS_URL} from "@/api/tokens.js";
 import {mapState} from "vuex";
-import replaceDataInUri from "@/mixins/replaceDataInUri";
-import {API_DELETE_ALL_SESSIONS_URL} from "@/api/sessions";
-import usePending from "@/mixins/usePending";
+import replaceDataInUri from "@/mixins/replaceDataInUri.js";
+import {API_DELETE_ALL_SESSIONS_URL} from "@/api/sessions.js";
+import usePending from "@/mixins/usePending.js";
 
 export default {
     name: "LogoutAllAuthsButton",

@@ -20,10 +20,10 @@
 </template>
 
 <script>
-import RevokeAuthButton from "@/components/settings/auths/RevokeAuthButton";
-import Columns from "@/components/Columns";
-import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
-import replaceDataInUri from "@/mixins/replaceDataInUri";
+import RevokeAuthButton from "@/components/settings/auths/RevokeAuthButton.vue";
+import Columns from "@/components/Columns.vue";
+import getErrorsFromResponse from "@/mixins/getErrorsFromResponse.js";
+import replaceDataInUri from "@/mixins/replaceDataInUri.js";
 import {mapState} from "vuex";
 
 export default {

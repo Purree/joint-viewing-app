@@ -20,15 +20,15 @@
 
 <script>
 import axios from 'axios';
-import {API_REGISTRATION_URL} from '@/api/auth';
-import AuthenticationLayout from "@/layouts/AuthenticationLayout";
-import SubmitButton from "@/components/SubmitButton";
-import FormInput from "@/components/authentication/FormInput";
-import ErrorMessage from "@/components/errors/ErrorMessage";
-import UserSecretModal from "@/components/modals/UserSecretModal";
-import SuccessfulArticle from "@/components/SuccessfulArticle";
-import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
-import usePending from "@/mixins/usePending";
+import {API_REGISTRATION_URL} from '@/api/auth.js';
+import AuthenticationLayout from "@/layouts/AuthenticationLayout.vue";
+import SubmitButton from "@/components/SubmitButton.vue";
+import FormInput from "@/components/authentication/FormInput.vue";
+import ErrorMessage from "@/components/errors/ErrorMessage.vue";
+import UserSecretModal from "@/components/modals/UserSecretModal.vue";
+import SuccessfulArticle from "@/components/SuccessfulArticle.vue";
+import getErrorsFromResponse from "@/mixins/getErrorsFromResponse.js";
+import usePending from "@/mixins/usePending.js";
 
 export default {
     name: 'Register',

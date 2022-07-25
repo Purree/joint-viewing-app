@@ -19,13 +19,13 @@
 
 <script>
 import axios from 'axios';
-import {API_LOGIN_URL, API_LOGOUT_URL} from '@/api/auth';
-import SubmitButton from "@/components/SubmitButton";
-import FormInput from "@/components/authentication/FormInput";
-import ErrorMessage from "@/components/errors/ErrorMessage";
-import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
-import loginUser from "@/mixins/loginUser";
-import usePending from "@/mixins/usePending";
+import {API_LOGIN_URL, API_LOGOUT_URL} from '@/api/auth.js';
+import SubmitButton from "@/components/SubmitButton.vue";
+import FormInput from "@/components/authentication/FormInput.vue";
+import ErrorMessage from "@/components/errors/ErrorMessage.vue";
+import getErrorsFromResponse from "@/mixins/getErrorsFromResponse.js";
+import loginUser from "@/mixins/loginUser.js";
+import usePending from "@/mixins/usePending.js";
 
 export default {
     name: 'Login',

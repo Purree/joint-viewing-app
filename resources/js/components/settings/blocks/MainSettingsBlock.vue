@@ -18,16 +18,16 @@
 </template>
 
 <script>
-import SuccessfulArticle from "@/components/SuccessfulArticle";
-import SubmitButton from "@/components/SubmitButton";
-import SettingsRow from "@/components/settings/SettingsRow";
-import ErrorMessage from "@/components/errors/ErrorMessage";
+import SuccessfulArticle from "@/components/SuccessfulArticle.vue";
+import SubmitButton from "@/components/SubmitButton.vue";
+import SettingsRow from "@/components/settings/SettingsRow.vue";
+import ErrorMessage from "@/components/errors/ErrorMessage.vue";
 import axios from "axios";
-import {API_CHANGE_NICKNAME_URL} from "@/api/users";
+import {API_CHANGE_NICKNAME_URL} from "@/api/users.js";
 import {mapState} from "vuex";
-import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
-import replaceDataInUri from "@/mixins/replaceDataInUri";
-import usePending from "@/mixins/usePending";
+import getErrorsFromResponse from "@/mixins/getErrorsFromResponse.js";
+import replaceDataInUri from "@/mixins/replaceDataInUri.js";
+import usePending from "@/mixins/usePending.js";
 
 export default {
     name: "MainSettingsBlock",

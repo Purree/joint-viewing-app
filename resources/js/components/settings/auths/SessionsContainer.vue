@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import replaceDataInUri from "@/mixins/replaceDataInUri";
-import {API_DELETE_SESSIONS_URL} from "@/api/sessions";
-import AuthContainer from "@/components/settings/auths/AuthContainer";
-import formatDate from "@/mixins/formatDate";
+import replaceDataInUri from "@/mixins/replaceDataInUri.js";
+import {API_DELETE_SESSIONS_URL} from "@/api/sessions.js";
+import AuthContainer from "@/components/settings/auths/AuthContainer.vue";
+import formatDate from "@/mixins/formatDate.js";
 
 export default {
     name: "SessionsContainer",

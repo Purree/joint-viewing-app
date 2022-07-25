@@ -1,5 +1,5 @@
 import axios from "axios";
-import {API_CURRENT_USER_URL} from "@/api/users";
+import {API_CURRENT_USER_URL} from "@/api/users.js";
 
 export default {
     methods: {

@@ -1,4 +1,4 @@
-import {API} from "@/api/api_prefixes"
+import {API} from "@/api/api_prefixes.js"
 
 export const API_CURRENT_USER_URL = API + 'users/me';
 export const API_CHANGE_NICKNAME_URL = API + 'users/{id}/name';

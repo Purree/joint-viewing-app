@@ -1,4 +1,4 @@
-import {API} from "@/api/api_prefixes"
+import {API} from "@/api/api_prefixes.js"
 
 export const API_LOGIN_URL = API + 'login';
 export const API_REGISTRATION_URL = API + 'users';

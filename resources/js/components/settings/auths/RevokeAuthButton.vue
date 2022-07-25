@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import SubmitButton from "@/components/SubmitButton";
+import SubmitButton from "@/components/SubmitButton.vue";
 
 export default {
     name: "RevokeAuthButton",

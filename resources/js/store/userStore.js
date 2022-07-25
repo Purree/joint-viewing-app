@@ -1,6 +1,6 @@
 import axios from "axios";
-import {API_LOGOUT_URL} from "@/api/auth";
-import router from "@/routes";
+import {API_LOGOUT_URL} from "@/api/auth.js";
+import router from "@/routes/index.js";
 
 export default {
     state: {

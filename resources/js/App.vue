@@ -9,10 +9,10 @@
 
 <script>
 
-import {API_CURRENT_USER_URL} from "@/api/users";
-import changeTheme from "@/mixins/changeTheme";
+import {API_CURRENT_USER_URL} from "@/api/users.js";
+import changeTheme from "@/mixins/changeTheme.js";
 import {mapState} from "vuex";
-import UnableToAuthenticateModal from "@/components/modals/UnableToAuthenticateModal";
+import UnableToAuthenticateModal from "@/components/modals/UnableToAuthenticateModal.vue";
 
 export default {
     name: 'App',

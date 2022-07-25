@@ -1,4 +1,4 @@
-import {API} from "@/api/api_prefixes"
+import {API} from "@/api/api_prefixes.js"
 
 export const API_TWO_FACTOR_LOGIN_URL = API + 'login/two-factor'
 export const API_TWO_FACTOR_ENABLE_URL = API + 'users/{user}/two-factor/authentication'

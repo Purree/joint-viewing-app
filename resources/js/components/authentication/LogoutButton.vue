@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import usePending from "@/mixins/usePending";
+import usePending from "@/mixins/usePending.js";
 
 export default {
     name: "LogoutButton",

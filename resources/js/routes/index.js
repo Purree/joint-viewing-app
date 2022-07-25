@@ -1,7 +1,7 @@
 import {createRouter, createWebHistory} from "vue-router";
-import authRoutes, {addUnknownUsersRedirect} from "@/routes/auth-routes";
-import menuRoutes from "@/routes/menu-routes";
-import {loadLayoutMiddleware} from "@/routes/middleware/loadLayout";
+import authRoutes, {addUnknownUsersRedirect} from "@/routes/auth-routes.js";
+import menuRoutes from "@/routes/menu-routes.js";
+import {loadLayoutMiddleware} from "@/routes/middleware/loadLayout.js";
 
 
 const routes = [

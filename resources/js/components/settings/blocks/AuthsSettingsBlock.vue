@@ -19,17 +19,17 @@
 </template>
 
 <script>
-import SubmitButton from "@/components/SubmitButton";
-import {API_SHOW_ALL_TOKENS_URL} from "@/api/tokens";
+import SubmitButton from "@/components/SubmitButton.vue";
+import {API_SHOW_ALL_TOKENS_URL} from "@/api/tokens.js";
 import {mapState} from "vuex";
-import ErrorMessage from "@/components/errors/ErrorMessage";
-import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
-import TokensContainer from "@/components/settings/auths/TokensContainer";
-import LogoutAllAuthsButton from "@/components/settings/auths/LogoutAllAuthsButton";
-import {API_SHOW_ALL_SESSIONS_URL} from "@/api/sessions";
-import replaceDataInUri from "@/mixins/replaceDataInUri";
-import SessionsContainer from "@/components/settings/auths/SessionsContainer";
-import usePending from "@/mixins/usePending";
+import ErrorMessage from "@/components/errors/ErrorMessage.vue";
+import getErrorsFromResponse from "@/mixins/getErrorsFromResponse.js";
+import TokensContainer from "@/components/settings/auths/TokensContainer.vue";
+import LogoutAllAuthsButton from "@/components/settings/auths/LogoutAllAuthsButton.vue";
+import {API_SHOW_ALL_SESSIONS_URL} from "@/api/sessions.js";
+import replaceDataInUri from "@/mixins/replaceDataInUri.js";
+import SessionsContainer from "@/components/settings/auths/SessionsContainer.vue";
+import usePending from "@/mixins/usePending.js";
 
 export default {
     name: "AuthsSettingsBlock",

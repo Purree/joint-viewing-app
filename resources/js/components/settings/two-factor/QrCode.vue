@@ -4,9 +4,9 @@
 </template>
 
 <script>
-import replaceDataInUri from "@/mixins/replaceDataInUri";
+import replaceDataInUri from "@/mixins/replaceDataInUri.js";
 import {mapState} from "vuex";
-import {API_TWO_FACTOR_GET_QR_CODE_URL} from "@/api/twoFactor";
+import {API_TWO_FACTOR_GET_QR_CODE_URL} from "@/api/twoFactor.js";
 
 export default {
     name: "QrCode",

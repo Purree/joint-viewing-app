@@ -1,8 +1,10 @@
-import AppLayout from "./layouts/AppLayout";
+import AppLayout from "./layouts/AppLayout.vue";
 
-require('./bootstrap');
+import './bootstrap';
 
-import { createApp } from 'vue'
+import "@@/app.scss"
+
+import { createApp } from 'vue/dist/vue.esm-bundler';
 
 /* Oruga */
 import Oruga from '@oruga-ui/oruga-next'
@@ -20,10 +22,10 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 library.add(fas);
 /* Font awesome */
 
-import store from "./store/";
-import router from "./routes";
+import store from "@/store/index.js";
+import router from "@/routes/index.js";
 
-import App from "./App.vue";
+import App from "@/App.vue";
 
 
 const app = createApp(App)

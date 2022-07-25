@@ -20,11 +20,11 @@
 </template>
 
 <script>
-import TwoFactorHeader from "@/components/settings/two-factor/TwoFactorHeader";
-import RecoveryCodes from "@/components/settings/two-factor/RecoveryCodes";
-import TwoFactorContent from "@/components/settings/two-factor/TwoFactorContent";
-import QrCode from "@/components/settings/two-factor/QrCode";
-import EnabledTwoFactorButtons from "@/components/settings/two-factor/EnabledTwoFactorButtons";
+import TwoFactorHeader from "@/components/settings/two-factor/TwoFactorHeader.vue";
+import RecoveryCodes from "@/components/settings/two-factor/RecoveryCodes.vue";
+import TwoFactorContent from "@/components/settings/two-factor/TwoFactorContent.vue";
+import QrCode from "@/components/settings/two-factor/QrCode.vue";
+import EnabledTwoFactorButtons from "@/components/settings/two-factor/EnabledTwoFactorButtons.vue";
 
 export default {
     name: "RecentlyEnabledTwoFactorBlock",

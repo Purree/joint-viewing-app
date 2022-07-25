@@ -46,14 +46,14 @@
 
 <script>
 import {mapState} from "vuex";
-import FileImage from "@/components/FileImage";
-import asset from "@/mixins/asset";
-import SubmitButton from "@/components/SubmitButton";
-import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
-import usePending from "@/mixins/usePending";
-import {API_DELETE_AVATAR_URL, API_UPDATE_AVATAR_URL} from "@/api/users";
-import replaceDataInUri from "@/mixins/replaceDataInUri";
-import ErrorMessage from "@/components/errors/ErrorMessage";
+import FileImage from "@/components/FileImage.vue";
+import asset from "@/mixins/asset.js";
+import SubmitButton from "@/components/SubmitButton.vue";
+import getErrorsFromResponse from "@/mixins/getErrorsFromResponse.js";
+import usePending from "@/mixins/usePending.js";
+import {API_DELETE_AVATAR_URL, API_UPDATE_AVATAR_URL} from "@/api/users.js";
+import replaceDataInUri from "@/mixins/replaceDataInUri.js";
+import ErrorMessage from "@/components/errors/ErrorMessage.vue";
 
 export default {
     name: "AvatarSettingsBlock",

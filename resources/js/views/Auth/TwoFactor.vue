@@ -32,13 +32,13 @@
 </template>
 
 <script>
-import SubmitButton from "@/components/SubmitButton";
-import FormInput from "@/components/authentication/FormInput";
-import ErrorMessage from "@/components/errors/ErrorMessage";
-import {API_TWO_FACTOR_LOGIN_URL} from "@/api/twoFactor";
-import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
-import loginUser from "@/mixins/loginUser";
-import usePending from "@/mixins/usePending";
+import SubmitButton from "@/components/SubmitButton.vue";
+import FormInput from "@/components/authentication/FormInput.vue";
+import ErrorMessage from "@/components/errors/ErrorMessage.vue";
+import {API_TWO_FACTOR_LOGIN_URL} from "@/api/twoFactor.js";
+import getErrorsFromResponse from "@/mixins/getErrorsFromResponse.js";
+import loginUser from "@/mixins/loginUser.js";
+import usePending from "@/mixins/usePending.js";
 
 export default {
     name: "TwoFactor",

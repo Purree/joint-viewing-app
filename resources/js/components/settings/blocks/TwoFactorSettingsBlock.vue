@@ -27,17 +27,16 @@
 
 <script>
 import {mapState} from "vuex";
-import EnabledTwoFactorBlock from "@/components/settings/two-factor/EnabledTwoFactorBlock";
-import DisabledTwoFactorBlock from "@/components/settings/two-factor/DisabledTwoFactorBlock";
-import replaceDataInUri from "@/mixins/replaceDataInUri";
+import EnabledTwoFactorBlock from "@/components/settings/two-factor/EnabledTwoFactorBlock.vue";
+import DisabledTwoFactorBlock from "@/components/settings/two-factor/DisabledTwoFactorBlock.vue";
+import replaceDataInUri from "@/mixins/replaceDataInUri.js";
 import {
     API_TWO_FACTOR_DISABLE_URL,
     API_TWO_FACTOR_ENABLE_URL, API_TWO_FACTOR_GET_RECOVERY_CODES_URL,
     API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL
-} from "@/api/twoFactor";
-import RecentlyEnabledTwoFactorBlock from "@/components/settings/two-factor/RecentlyEnabledTwoFactorBlock";
-import usePending from "@/mixins/usePending";
-import recoveryCodes from "@/components/settings/two-factor/RecoveryCodes";
+} from "@/api/twoFactor.js";
+import RecentlyEnabledTwoFactorBlock from "@/components/settings/two-factor/RecentlyEnabledTwoFactorBlock.vue";
+import usePending from "@/mixins/usePending.js";
 
 export default {
     name: "TwoFactorSettingsBlock",
