@@ -6,6 +6,7 @@ import {loadLayoutMiddleware} from "@/routes/middleware/loadLayout.js";
 
 const routes = [
     ...authRoutes,
+    ...menuRoutes,
     {
         path: '/404',
         name: 'PageNotExist',
@@ -14,7 +15,6 @@ const routes = [
             layout: 'ErrorLayout'
         }
     },
-    ...menuRoutes,
     {
         path: "/:catchAll(.*)", // Unrecognized path automatically matches 404
         redirect: {'name': 'PageNotExist'}

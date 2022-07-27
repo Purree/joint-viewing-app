@@ -20,6 +20,11 @@ export default [
                 name: 'Rooms',
                 component: () => import('@/views/Menu/Rooms.vue'),
             },
+            {
+                path: '/room/:id',
+                name: 'Room',
+                component: () => import('@/views/Room/Index.vue'),
+            }
         ],
         meta: {
             layout: 'MainLayout',

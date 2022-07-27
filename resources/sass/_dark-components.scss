@@ -12,3 +12,7 @@ $divider-background-color: $border-dark;
         color: $white;
     }
 }
+
+.is-hovered:hover {
+    background-color: lighten($background-dark, 5%) !important;
+}

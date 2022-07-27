@@ -46,3 +46,8 @@ div.file-image {
     background-size: contain;
     background-position: center;
 }
+
+.is-hovered:hover {
+    cursor: pointer;
+    background-color: lighten($background, 1%) !important;
+}
