@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ChangeAvatarRequest;
 use App\Http\Requests\ChangeNameRequest;
 use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\ImageDecorator;
 use App\Services\Results\ResponseResult;
@@ -20,9 +21,7 @@ class UserController extends Controller
     public function show(Request $request, int $id): JsonResponse
     {
         return ResponseResult::success(
-            User::where('id', $id)
-                ->first()
-                ->getValidatedData()
+            new UserResource(User::where('id', $id)->first())
         )->returnValue;
     }
 

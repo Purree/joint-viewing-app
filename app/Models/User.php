@@ -13,6 +13,7 @@ use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Notifications\Notifiable;
@@ -37,6 +38,7 @@ class User extends Authenticatable
         'secret',
         'two_factor_recovery_codes',
         'two_factor_secret',
+        'current_room_id',
     ];
 
     /**
@@ -59,12 +61,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $with = ['sessions'];
+    protected $appends = ['current_room'];
 
-    public function getValidatedData(): JsonResource
-    {
-        return new UserResource($this);
-    }
+    protected $with = ['sessions'];
 
     public function sessions(): HasMany
     {
@@ -73,7 +72,7 @@ class User extends Authenticatable
 
     public function hasEnabledTwoFactorAuthentication(): bool
     {
-        return ! is_null($this->two_factor_secret);
+        return !is_null($this->two_factor_secret);
     }
 
     /**
@@ -124,5 +123,20 @@ class User extends Authenticatable
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
         ])->save();
+    }
+
+    public function getCurrentRoomAttribute(): ?Room
+    {
+        return Room::whereId($this->current_room_id)->first();
+    }
+
+    public function createdRoom(): HasOne
+    {
+        return $this->hasOne(Room::class, 'owner_id');
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Queue::class, 'customer_id');
     }
 }

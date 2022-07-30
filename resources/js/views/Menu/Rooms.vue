@@ -1,6 +1,6 @@
 <template>
     <div class="divider">Current room</div>
-    <div v-if="!!this.user.room">
+    <div v-if="this.user.current_room !== null">
         <room-column name="Normal room name" :is-locked="true" link="testRoom"></room-column>
     </div>
     <div v-else>
