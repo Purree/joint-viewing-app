@@ -19,6 +19,6 @@ class Queue extends Model
 
     public function customer(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id', 'customer_id');
+        return $this->belongsTo(User::class, 'customer_id');
     }
 }

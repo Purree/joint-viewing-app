@@ -14,8 +14,8 @@ use BaconQrCode\Writer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Notifications\Notifiable;
 use JsonException;
 use Laravel\Sanctum\HasApiTokens;
@@ -60,8 +60,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    protected $appends = ['current_room'];
 
     protected $with = ['sessions'];
 
@@ -125,9 +123,9 @@ class User extends Authenticatable
         ])->save();
     }
 
-    public function getCurrentRoomAttribute(): ?Room
+    public function currentRoom(): HasOne
     {
-        return Room::whereId($this->current_room_id)->first();
+        return $this->hasOne(Room::class, 'id', 'current_room_id');
     }
 
     public function createdRoom(): HasOne

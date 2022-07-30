@@ -21,7 +21,7 @@ class UserController extends Controller
     public function show(Request $request, int $id): JsonResponse
     {
         return ResponseResult::success(
-            new UserResource(User::where('id', $id)->first())
+            new UserResource(User::where('id', $id)->with('createdRoom', 'currentRoom')->first())
         )->returnValue;
     }
 

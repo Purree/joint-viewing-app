@@ -26,8 +26,8 @@ class UserResource extends JsonResource
                 ?
                 [
                     'use_two_factor' => $this->hasEnabledTwoFactorAuthentication(),
-                    'current_room' => $this->current_room,
-                    'created_room' => $this->created_room,
+                    'current_room' => new RoomResource($this->whenLoaded('currentRoom')),
+                    'created_room' => new RoomResource($this->whenLoaded('createdRoom')),
                 ]
                 :
                 []

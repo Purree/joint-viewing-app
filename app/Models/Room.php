@@ -11,9 +11,13 @@ class Room extends Model
 {
     use HasFactory;
 
+    protected $hidden = [
+        'password'
+    ];
+
     public function owner(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id', 'owner_id');
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
     public function queue(): HasMany
