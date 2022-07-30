@@ -1,5 +1,5 @@
 <template>
-    <div class="divider is-unselectable">Two factor authentication</div>
+    <divider>Two factor authentication</divider>
 
     <enabled-two-factor-block v-if="user.use_two_factor"
                               @regenerate-codes="usePending(regenerateRecoveryCodes, 'regenerateRecoveryCodesPending')"
@@ -37,10 +37,11 @@ import {
 } from "@/api/twoFactor.js";
 import RecentlyEnabledTwoFactorBlock from "@/components/settings/two-factor/RecentlyEnabledTwoFactorBlock.vue";
 import usePending from "@/mixins/usePending.js";
+import Divider from "@/components/Divider";
 
 export default {
     name: "TwoFactorSettingsBlock",
-    components: {RecentlyEnabledTwoFactorBlock, DisabledTwoFactorBlock, EnabledTwoFactorBlock},
+    components: {RecentlyEnabledTwoFactorBlock, DisabledTwoFactorBlock, EnabledTwoFactorBlock, Divider},
     computed: {
         ...mapState('auth', ['user'])
     },

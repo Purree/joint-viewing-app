@@ -1,5 +1,5 @@
 <template>
-    <div class="divider is-unselectable">Authorizations</div>
+    <divider>Authorizations</divider>
 
     <ErrorMessage :errors="errors"></ErrorMessage>
 
@@ -30,10 +30,11 @@ import {API_SHOW_ALL_SESSIONS_URL} from "@/api/sessions.js";
 import replaceDataInUri from "@/mixins/replaceDataInUri.js";
 import SessionsContainer from "@/components/settings/auths/SessionsContainer.vue";
 import usePending from "@/mixins/usePending.js";
+import Divider from "@/components/Divider";
 
 export default {
     name: "AuthsSettingsBlock",
-    components: {SessionsContainer, LogoutAllAuthsButton, TokensContainer, SubmitButton, ErrorMessage},
+    components: {SessionsContainer, LogoutAllAuthsButton, TokensContainer, SubmitButton, ErrorMessage, Divider},
     mixins: [getErrorsFromResponse, replaceDataInUri, usePending],
     data() {
         return {

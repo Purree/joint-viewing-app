@@ -1,11 +1,11 @@
 <template>
-    <div class="divider is-unselectable">Avatar</div>
+    <divider>Avatar</divider>
 
     <ErrorMessage :errors="errors"></ErrorMessage>
 
-    <div v-if="currentAvatar" class="is-flex is-align-items-center is-flex-direction-column mb-3">
+    <div v-if="this.user.avatar" class="is-flex is-align-items-center is-flex-direction-column mb-3">
         <div>Current avatar</div>
-        <file-image :file-url="asset(currentAvatar)"></file-image>
+        <file-image :file-url="asset(this.user.avatar)"></file-image>
         <submit-button class="mt-3"
                        variant="danger"
                        @click="usePending(deleteAvatar, 'avatarDeletePending')"
@@ -54,10 +54,11 @@ import usePending from "@/mixins/usePending.js";
 import {API_DELETE_AVATAR_URL, API_UPDATE_AVATAR_URL} from "@/api/users.js";
 import replaceDataInUri from "@/mixins/replaceDataInUri.js";
 import ErrorMessage from "@/components/errors/ErrorMessage.vue";
+import Divider from "@/components/Divider";
 
 export default {
     name: "AvatarSettingsBlock",
-    components: {SubmitButton, FileImage, ErrorMessage},
+    components: {SubmitButton, FileImage, ErrorMessage, Divider},
     mixins: [asset, getErrorsFromResponse, usePending, replaceDataInUri],
     data() {
         return {
@@ -77,7 +78,7 @@ export default {
         deleteAvatar() {
             return axios.delete(replaceDataInUri(API_DELETE_AVATAR_URL, {'id': this.user.id})).then(() => {
                 this.errors = {}
-                this.currentAvatar = null
+                this.user.avatar = null
             }).catch(error => {
                 this.errors = getErrorsFromResponse(error)
             })
@@ -108,7 +109,7 @@ export default {
                     }
                 })
                 .then((response) => {
-                    this.currentAvatar = response.data.avatarPath;
+                    this.user.avatar = response.data.avatarPath;
                     this.errors = {}
                 }).catch(errors => {
                     console.log(errors);
@@ -118,14 +119,6 @@ export default {
     },
     computed: {
         ...mapState('auth', ['user']),
-        currentAvatar: {
-            get() {
-                return this.user.avatar
-            },
-            set(value) {
-                this.user.avatar = value
-            }
-        }
     }
 }
 </script>

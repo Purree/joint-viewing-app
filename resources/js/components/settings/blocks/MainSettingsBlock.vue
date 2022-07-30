@@ -1,5 +1,5 @@
 <template>
-    <div class="divider is-unselectable">User settings</div>
+    <divider>User settings</divider>
 
 
     <ErrorMessage :errors="errors"></ErrorMessage>
@@ -28,10 +28,11 @@ import {mapState} from "vuex";
 import getErrorsFromResponse from "@/mixins/getErrorsFromResponse.js";
 import replaceDataInUri from "@/mixins/replaceDataInUri.js";
 import usePending from "@/mixins/usePending.js";
+import Divider from "@/components/Divider";
 
 export default {
     name: "MainSettingsBlock",
-    components: {SuccessfulArticle, SubmitButton, SettingsRow, ErrorMessage},
+    components: {SuccessfulArticle, SubmitButton, SettingsRow, ErrorMessage, Divider},
     mixins: [replaceDataInUri, usePending],
     data() {
         return {

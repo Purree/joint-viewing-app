@@ -1,9 +1,16 @@
 <template>
     <main>
         <UnableToAuthenticateModal :is-modal-active="failedToLogin" v-if="failedToLogin"></UnableToAuthenticateModal>
-        <AppLayout>
+        <AppLayout v-if="isLoaded">
             <router-view></router-view>
         </AppLayout>
+        <p v-else style="position: relative">
+            <o-loading animation="fade"
+                       :full-page="true"
+                       :active.sync="!isLoaded"
+                       :can-cancel="false"
+                       icon="spinner"></o-loading>
+        </p>
     </main>
 </template>
 
@@ -38,12 +45,17 @@ export default {
                     return;
                 }
                 this.failedToLogin = true
-            })
+            }).then(() => {
+                this.isLoaded = true;
+            });
+        } else {
+            this.isLoaded = true;
         }
     },
     data() {
         return {
-            failedToLogin: false
+            failedToLogin: false,
+            isLoaded: false
         }
     },
     computed: {

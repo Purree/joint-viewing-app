@@ -1,5 +1,5 @@
 <template>
-    <div class="divider">{{ dividerText }}</div>
+    <divider>{{ dividerText }}</divider>
 
     <columns :columns="headerColumns"></columns>
     <div v-for="auth in auths" :key="auth.id">
@@ -25,10 +25,11 @@ import Columns from "@/components/Columns.vue";
 import getErrorsFromResponse from "@/mixins/getErrorsFromResponse.js";
 import replaceDataInUri from "@/mixins/replaceDataInUri.js";
 import {mapState} from "vuex";
+import Divider from "@/components/Divider";
 
 export default {
     name: "AuthContainer",
-    components: {Columns, RevokeAuthButton},
+    components: {Columns, RevokeAuthButton, Divider},
     emits: ['delete', 'update'],
     props: ['auths', 'deletingAuths', 'dividerText', 'headerColumns', 'arrayKeys', 'deleteRequestParams'],
     methods: {
