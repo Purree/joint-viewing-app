@@ -27,7 +27,8 @@ return new class extends Migration
             $table->foreign('owner_id')
                 ->references('id')
                 ->on('users')
-                ->cascadeOnDelete();
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
         });
     }
 

@@ -4,7 +4,7 @@
         <AppLayout v-if="isLoaded">
             <router-view></router-view>
         </AppLayout>
-        <p v-else style="position: relative">
+        <p v-else class="is-relative">
             <o-loading animation="fade"
                        :full-page="true"
                        :active.sync="!isLoaded"
