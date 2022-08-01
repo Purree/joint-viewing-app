@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Http\Resources\UserResource;
 use App\Services\Secrets\TwoFactorSecret;
 use App\Services\TwoFactorAuthenticationProvider;
 use BaconQrCode\Renderer\Color\Rgb;
@@ -14,7 +13,6 @@ use BaconQrCode\Writer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use JsonException;
@@ -70,7 +68,7 @@ class User extends Authenticatable
 
     public function hasEnabledTwoFactorAuthentication(): bool
     {
-        return !is_null($this->two_factor_secret);
+        return ! is_null($this->two_factor_secret);
     }
 
     /**

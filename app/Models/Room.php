@@ -12,7 +12,7 @@ class Room extends Model
     use HasFactory;
 
     protected $hidden = [
-        'password'
+        'password',
     ];
 
     public function owner(): BelongsTo

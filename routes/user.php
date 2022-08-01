@@ -39,5 +39,4 @@ Route::name('users.')->prefix('users')->group(static function () {
             'revoke-session'
         );
     });
-
 });

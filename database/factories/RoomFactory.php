@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Room;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,14 +19,11 @@ class RoomFactory extends Factory
     public function definition(): array
     {
         $is_closed = $this->faker->boolean();
-        $owner = User::inRandomOrder()->first()->id;
-        $owner->current_room = $this->id;
-        $owner->save();
 
         return [
             'name' => $this->faker->name(),
-            'owner_id' => $owner,
-            'link' => $this->faker->asciify('*********'),
+            'owner_id' => User::inRandomOrder()->first(),
+            'link' => $this->faker->slug(),
             'is_closed' => $is_closed,
             'is_private' => $this->faker->boolean(),
             'everyone_control' => $this->faker->boolean(),
@@ -33,5 +31,19 @@ class RoomFactory extends Factory
             'created_at' => now(),
             'updated_at' => now(),
         ];
+    }
+
+    /**
+     * Configure the model factory.
+     *
+     * @return $this
+     */
+    public function configure(): static
+    {
+        return $this->afterCreating(function (Room $room) {
+            $owner = User::whereId($room->owner_id)->first();
+            $owner->current_room_id = $room->id;
+            $owner->save();
+        });
     }
 }
