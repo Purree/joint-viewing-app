@@ -16,3 +16,12 @@ $divider-background-color: $border-dark;
 .is-hovered:hover {
     background-color: lighten($background-dark, 5%) !important;
 }
+
+.pagination-previous[disabled],
+.pagination-previous.is-disabled,
+.pagination-next[disabled],
+.pagination-next.is-disabled,
+.pagination-link[disabled],
+.pagination-link.is-disabled {
+    color: #7a7a7a;
+}
