@@ -51,6 +51,10 @@ export default {
                 history.pushState({}, null, `${this.$route.path}?page=${page}`);
                 this.rooms = response.data.data;
                 this.pagination = response.data.pagination;
+
+                if (this.pagination.count === 0) {
+                    this.updatePublicRooms(this.pagination.total_pages);
+                }
             }).catch((error) => {
                 console.log(error.response);
             });

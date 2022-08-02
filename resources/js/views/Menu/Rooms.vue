@@ -10,7 +10,6 @@
 import RoomColumn from "@/components/rooms/RoomColumn.vue";
 import {mapState} from "vuex";
 import SubmitButton from "@/components/SubmitButton";
-import usePending from "@/mixins/usePending";
 import Divider from "@/components/Divider";
 import CurrentRoom from "@/components/rooms/CurrentRoom";
 import PublicRooms from "@/components/rooms/PublicRooms";
@@ -18,7 +17,6 @@ import PublicRooms from "@/components/rooms/PublicRooms";
 export default {
     name: "Rooms",
     components: {PublicRooms, CurrentRoom, SubmitButton, RoomColumn, Divider},
-    mixins: [usePending],
     data() {
         return {
             createNewRoomPending: false,
