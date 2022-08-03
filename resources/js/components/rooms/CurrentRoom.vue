@@ -23,11 +23,10 @@ import Divider from "@/components/Divider";
 export default {
     name: "CurrentRoom",
     components: {SubmitButton, RoomColumn, Divider},
-    props: {
-        createNewRoomPending: {
-            type: Boolean,
-            default: false,
-        },
+    data() {
+        return {
+            createNewRoomPending: false,
+        };
     },
     computed: {
         ...mapState('auth', ['user']),

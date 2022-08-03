@@ -16,4 +16,11 @@ class RoomController extends Controller
 
         return ResponseResult::success(new RoomCollection($rooms))->returnValue;
     }
+
+    public function destroy(Request $request, Room $room): JsonResponse
+    {
+        $room->delete();
+
+        return ResponseResult::success()->returnValue;
+    }
 }

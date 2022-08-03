@@ -2,6 +2,7 @@
 
 namespace App\Services\Results;
 
+use App\Services\Status;
 use Illuminate\Http\Response;
 
 class ResponseResult extends FunctionResult
@@ -9,7 +10,7 @@ class ResponseResult extends FunctionResult
     public static function success(mixed $returnValue = []): FunctionResult
     {
         $result = new self();
-        $result->success = true;
+        $result->status = Status::OK;
         $result->returnValue = response()->json($returnValue, Response::HTTP_OK);
 
         return $result;
@@ -20,7 +21,7 @@ class ResponseResult extends FunctionResult
         int $errorCode = Response::HTTP_INTERNAL_SERVER_ERROR
     ): FunctionResult {
         $result = new self();
-        $result->success = false;
+        $result->status = Status::ERROR;
 
         $result->error = response()->json(
             [

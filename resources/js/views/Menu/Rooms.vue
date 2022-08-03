@@ -1,6 +1,6 @@
 <template>
 
-    <current-room :create-new-room-pending="createNewRoomPending"></current-room>
+    <current-room></current-room>
 
     <public-rooms></public-rooms>
 
@@ -17,11 +17,6 @@ import PublicRooms from "@/components/rooms/PublicRooms";
 export default {
     name: "Rooms",
     components: {PublicRooms, CurrentRoom, SubmitButton, RoomColumn, Divider},
-    data() {
-        return {
-            createNewRoomPending: false,
-        };
-    },
     computed: {
         ...mapState('auth', ['user']),
     }

@@ -2,9 +2,11 @@
 
 namespace App\Services\Results;
 
+use App\Services\Status;
+
 class FunctionResult implements ResultInterface
 {
-    public bool $success;
+    public Status $status;
 
     public mixed $returnValue;
 
@@ -20,7 +22,7 @@ class FunctionResult implements ResultInterface
     public static function success(mixed $returnValue = null): FunctionResult
     {
         $result = new self();
-        $result->success = true;
+        $result->status = Status::OK;
         $result->returnValue = $returnValue;
 
         return $result;
@@ -29,7 +31,7 @@ class FunctionResult implements ResultInterface
     public static function error(string|array $error): FunctionResult
     {
         $result = new self();
-        $result->success = false;
+        $result->status = Status::ERROR;
         $result->error = $error;
 
         return $result;

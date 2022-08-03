@@ -2,6 +2,8 @@
 
 namespace App\Policies;
 
+use App\Models\Room;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class RoomPolicy
@@ -16,5 +18,10 @@ class RoomPolicy
     public function __construct()
     {
         //
+    }
+
+    public function delete(User $user, Room $room): bool
+    {
+        return $user->id === $room->owner_id;
     }
 }
