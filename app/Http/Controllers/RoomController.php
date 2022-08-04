@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\RoomCollection;
 use App\Models\Room;
 use App\Services\Results\ResponseResult;
+use App\Services\Status;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -20,6 +21,16 @@ class RoomController extends Controller
     public function destroy(Request $request, Room $room): JsonResponse
     {
         $room->delete();
+
+        return ResponseResult::success()->returnValue;
+    }
+
+    public function leave(Request $request, Room $room): JsonResponse
+    {
+        $result = $room->leave($request->user());
+        if ($result->status === Status::ERROR) {
+            return ResponseResult::error($result->error)->returnValue;
+        }
 
         return ResponseResult::success()->returnValue;
     }
