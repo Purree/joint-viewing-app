@@ -17,6 +17,10 @@ class Room extends Model
         'password',
     ];
 
+    protected $guarded = [
+        'id',
+    ];
+
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'owner_id');
@@ -32,7 +36,7 @@ class Room extends Model
         return User::where('current_room_id', $this->id)->get();
     }
 
-    public function leave(User $user): FunctionResult
+    public function kick(User $user): FunctionResult
     {
         if ($user->current_room_id !== $this->id) {
             return FunctionResult::error('User is not in this room.');

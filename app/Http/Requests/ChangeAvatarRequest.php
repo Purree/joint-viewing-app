@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\ApngRule;
+use App\Rules\NotApng;
 use Illuminate\Foundation\Http\FormRequest;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -27,7 +27,7 @@ class ChangeAvatarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'photo' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048', new ApngRule()],
+            'photo' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048', new NotApng()],
         ];
     }
 }

@@ -5,7 +5,7 @@ namespace App\Rules;
 use App\Services\ImageDecorator;
 use Illuminate\Contracts\Validation\Rule;
 
-class ApngRule implements Rule
+class NotApng implements Rule
 {
     /**
      * Determine if the validation rule passes.

@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('rooms', static function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('owner_id');
+            $table->unsignedBigInteger('owner_id')->unique();
             $table->string('name');
             $table->string('link')->unique();
             $table->boolean('is_closed')->default(false);
-            $table->boolean('everyone_control')->default(true);
+            $table->boolean('can_everyone_control')->default(true);
             $table->string('password')->nullable();
             $table->boolean('is_private')->default(false);
             $table->timestamps();

@@ -22,11 +22,11 @@ class RoomFactory extends Factory
 
         return [
             'name' => $this->faker->name(),
-            'owner_id' => User::inRandomOrder()->first(),
+            'owner_id' => $this->faker->unique()->randomElement(User::pluck('id')->toArray()),
             'link' => $this->faker->slug(),
             'is_closed' => $is_closed,
             'is_private' => $this->faker->boolean(),
-            'everyone_control' => $this->faker->boolean(),
+            'can_everyone_control' => $this->faker->boolean(),
             'password' => $is_closed ? $this->faker->password() : null,
             'created_at' => now(),
             'updated_at' => now(),

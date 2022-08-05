@@ -112,7 +112,6 @@ export default {
                     this.user.avatar = response.data.avatarPath;
                     this.errors = {}
                 }).catch(errors => {
-                    console.log(errors);
                     this.errors = getErrorsFromResponse(errors);
                 })
         },
