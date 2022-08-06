@@ -46,4 +46,9 @@ class RoomPolicy
     {
         return $this->manage($user, $room);
     }
+
+    public function update(User $user, Room $room): bool
+    {
+        return $this->manage($user, $room);
+    }
 }

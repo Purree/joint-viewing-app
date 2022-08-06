@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRoomRequest;
+use App\Http\Requests\EditRoomRequest;
 use App\Http\Resources\RoomCollection;
 use App\Models\Room;
 use App\Models\User;
@@ -58,7 +59,7 @@ class RoomController extends Controller
             'is_closed' => $request->has('is_closed'),
             'can_everyone_control' => $request->has('can_everyone_control'),
             'is_private' => $request->has('is_private'),
-            'password' => $request->password === null || ! $request->has('is_closed') ?
+            'password' => $request->password === null || !$request->has('is_closed') ?
                 null :
                 Hash::make($request->password),
         ]);
@@ -75,6 +76,32 @@ class RoomController extends Controller
         if ($result->status === Status::ERROR) {
             return ResponseResult::error($result->error, Response::HTTP_NOT_FOUND)->error;
         }
+
+        return ResponseResult::success()->returnValue;
+    }
+
+    public function update(EditRoomRequest $request, Room $room): JsonResponse
+    {
+        if ($room->password === null && $request->has('is_closed') && !$request->has('password')) {
+            return ResponseResult::error(
+                'The password must be present when closing the channel.',
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            )->error;
+        }
+
+        $room->update(
+            $request->only([
+                'name',
+            ]) +
+            ['is_closed' => $request->has('is_closed')] +
+            ['is_private' => $request->has('is_private')] +
+            ['can_everyone_control' => $request->has('can_everyone_control')] +
+            (!$request->has('is_closed') ? ['password' => null] : []) +
+            ($request->password !== null && ($request->has('is_closed') || $room->is_closed) ?
+                ['password' => Hash::make($request->password)] :
+                [])
+        );
+        $room->save();
 
         return ResponseResult::success()->returnValue;
     }

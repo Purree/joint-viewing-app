@@ -4,7 +4,9 @@ namespace Database\Factories;
 
 use App\Models\Room;
 use App\Models\User;
+use Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 /**
  * @extends Factory
@@ -27,7 +29,7 @@ class RoomFactory extends Factory
             'is_closed' => $is_closed,
             'is_private' => $this->faker->boolean(),
             'can_everyone_control' => $this->faker->boolean(),
-            'password' => $is_closed ? $this->faker->password() : null,
+            'password' => $is_closed ? Hash::make('password') : null,
             'created_at' => now(),
             'updated_at' => now(),
         ];
