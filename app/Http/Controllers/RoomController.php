@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateRoomRequest;
 use App\Http\Resources\RoomCollection;
 use App\Models\Room;
+use App\Models\User;
 use App\Services\Results\ResponseResult;
 use App\Services\Status;
 use Hash;
@@ -64,6 +65,16 @@ class RoomController extends Controller
 
         $user->current_room_id = $room->id;
         $user->save();
+
+        return ResponseResult::success()->returnValue;
+    }
+
+    public function kick(Request $request, Room $room, User $user): JsonResponse
+    {
+        $result = $room->kick($user);
+        if ($result->status === Status::ERROR) {
+            return ResponseResult::error($result->error, Response::HTTP_NOT_FOUND)->error;
+        }
 
         return ResponseResult::success()->returnValue;
     }

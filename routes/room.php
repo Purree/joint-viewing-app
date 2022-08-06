@@ -9,5 +9,6 @@ Route::name('rooms.')->prefix('rooms')->group(static function () {
     Route::middleware('can:interact,room')->prefix('{room}')->group(static function () {
         Route::delete('/', [RoomController::class, 'destroy'])->middleware('can:delete,room')->name('destroy');
         Route::post('/leave', [RoomController::class, 'leave'])->name('leave');
+        Route::post('/kick/{user}', [RoomController::class, 'kick'])->middleware('can:kick,room')->name('kick');
     });
 });

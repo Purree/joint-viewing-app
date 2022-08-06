@@ -41,4 +41,9 @@ class RoomPolicy
     {
         return $room->members()->contains($user);
     }
+
+    public function kick(User $user, Room $room): bool
+    {
+        return $this->manage($user, $room);
+    }
 }
