@@ -5,7 +5,9 @@
         <room-column v-for="room in rooms"
                      :name="room.name"
                      :is-locked="room.is_closed"
-                     :link="room.link"></room-column>
+                     :link="room.link"
+                     :is-owned="this.user.created_room.id === room.id"
+                     :is-current="[this.user.current_room.id, this.user.created_room.id].includes(room.id)"></room-column>
 
         <o-pagination
             :total="this.pagination.total"
@@ -29,6 +31,7 @@ import RoomColumn from "@/components/rooms/RoomColumn";
 import Divider from "@/components/Divider";
 import {API_ALL_ROOMS_URL} from "@/api/rooms";
 import usePending from "@/mixins/usePending";
+import {mapState} from "vuex";
 
 export default {
     name: "PublicRooms",
@@ -47,7 +50,7 @@ export default {
             this.rooms = [];
             this.pagination = [];
 
-            return axios.get(API_ALL_ROOMS_URL, { params: {'page': page, 'rooms_count': count }}).then((response) => {
+            return axios.get(API_ALL_ROOMS_URL, {params: {'page': page, 'rooms_count': count}}).then((response) => {
                 history.pushState({}, null, `${this.$route.path}?page=${page}`);
                 this.rooms = response.data.data;
                 this.pagination = response.data.pagination;
@@ -65,11 +68,14 @@ export default {
             this.pending = false;
         });
     },
+    computed: {
+        ...mapState('auth', ['user']),
+    }
 }
 </script>
 
 <style>
-    .loading-block {
-        height: 100px;
-    }
+.loading-block {
+    height: 100px;
+}
 </style>

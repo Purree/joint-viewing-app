@@ -1,9 +1,17 @@
 <template>
     <divider>Current room</divider>
-    <div v-if="this.user.current_room !== null">
+    <div v-if="this.user.current_room !== null || this.user.created_room !== null">
         <room-column :name="this.user.current_room.name || 'Empty name'"
                      :is-locked="this.user.current_room.is_closed"
-                     :link="this.user.current_room.link"></room-column>
+                     :link="this.user.current_room.link"
+                     :is-owned="this.user.created_room.id === this.user.current_room.id"
+                     :is-current="true"></room-column>
+
+        <room-column v-if="this.user.current_room.id !== this.user.created_room.id"
+                     :name="this.user.created_room.name || 'Empty name'"
+                     :is-locked="this.user.created_room.is_closed"
+                     :link="this.user.created_room.link"
+                     :is-owned="true"></room-column>
     </div>
     <div v-else>
         <submit-button class="is-fullwidth"
