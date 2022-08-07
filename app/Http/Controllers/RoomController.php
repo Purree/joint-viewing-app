@@ -8,14 +8,21 @@ use App\Http\Resources\RoomCollection;
 use App\Models\Room;
 use App\Models\User;
 use App\Services\Results\ResponseResult;
+use App\Services\RoomService;
 use App\Services\Status;
-use Hash;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class RoomController extends Controller
 {
+    protected RoomService $roomService;
+
+    public function __construct(RoomService $roomService)
+    {
+        $this->roomService = $roomService;
+    }
+
     public function index(Request $request): JsonResponse
     {
         $rooms = Room::where('is_private', false)->paginate($request->rooms_count ?: 15);
@@ -42,30 +49,10 @@ class RoomController extends Controller
 
     public function create(CreateRoomRequest $request): JsonResponse
     {
-        $user = $request->user();
-
-        if ($user->createdRoom) {
-            return ResponseResult::error('You are already have a room.', Response::HTTP_CONFLICT)->error;
+        $result = $this->roomService->create($request->user(), collect($request->validated()));
+        if ($result->status === Status::ERROR) {
+            return ResponseResult::error($result->error, Response::HTTP_UNPROCESSABLE_ENTITY)->error;
         }
-
-        if ($user->currentRoom) {
-            $user->currentRoom->kick($user);
-        }
-
-        $room = Room::create([
-            'owner_id' => $user->id,
-            'name' => $request->name,
-            'link' => $request->link ?: uniqid('', true),
-            'is_closed' => $request->has('is_closed'),
-            'can_everyone_control' => $request->has('can_everyone_control'),
-            'is_private' => $request->has('is_private'),
-            'password' => $request->password === null || !$request->has('is_closed') ?
-                null :
-                Hash::make($request->password),
-        ]);
-
-        $user->current_room_id = $room->id;
-        $user->save();
 
         return ResponseResult::success()->returnValue;
     }
@@ -82,26 +69,10 @@ class RoomController extends Controller
 
     public function update(EditRoomRequest $request, Room $room): JsonResponse
     {
-        if ($room->password === null && $request->has('is_closed') && !$request->has('password')) {
-            return ResponseResult::error(
-                'The password must be present when closing the channel.',
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            )->error;
+        $result = $this->roomService->update($room, collect($request->validated()));
+        if ($result->status === Status::ERROR) {
+            return ResponseResult::error($result->error, Response::HTTP_UNPROCESSABLE_ENTITY)->error;
         }
-
-        $room->update(
-            $request->only([
-                'name',
-            ]) +
-            ['is_closed' => $request->has('is_closed')] +
-            ['is_private' => $request->has('is_private')] +
-            ['can_everyone_control' => $request->has('can_everyone_control')] +
-            (!$request->has('is_closed') ? ['password' => null] : []) +
-            ($request->password !== null && ($request->has('is_closed') || $room->is_closed) ?
-                ['password' => Hash::make($request->password)] :
-                [])
-        );
-        $room->save();
 
         return ResponseResult::success()->returnValue;
     }

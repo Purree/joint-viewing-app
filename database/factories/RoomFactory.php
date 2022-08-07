@@ -6,7 +6,6 @@ use App\Models\Room;
 use App\Models\User;
 use Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Testing\Fluent\Concerns\Has;
 
 /**
  * @extends Factory
