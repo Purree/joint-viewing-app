@@ -10,10 +10,10 @@
                :type="'email'" :error-condition="'email' in errors"/>
 
     <FormInput :label="'New Password'" v-model:model-value="form.password" :placeholder="'******'"
-               :type="'password'" :error-condition="'password' in errors"/>
+               password-reveal :type="'password'" :error-condition="'password' in errors"/>
 
     <FormInput :label="'New Password Confirmation'" v-model:model-value="form.password_confirmation"
-               :placeholder="'******'"
+               :placeholder="'******'" password-reveal
                :type="'password'" :error-condition="'password_confirmation' in errors"/>
 
     <SubmitButton :is-loading="pending" @click="usePending(sendForm)" :pending="pending" :form="form" :text="'Recovery'"/>

@@ -6,8 +6,8 @@
                      :name="room.name"
                      :is-locked="room.is_closed"
                      :link="room.link"
-                     :is-owned="this.user.created_room.id === room.id"
-                     :is-current="[this.user.current_room.id, this.user.created_room.id].includes(room.id)"></room-column>
+                     :is-owned="this.user.created_room?.id === room.id"
+                     :is-current="[this.user.current_room?.id, this.user.created_room?.id].includes(room.id)"></room-column>
 
         <o-pagination
             :total="this.pagination.total"

@@ -6,13 +6,13 @@
     <SuccessfulArticle :show-when="successed" :text="'Successfully change password'"></SuccessfulArticle>
 
     <settings-row :property-name="'Old password'">
-        <o-input type="password" v-model="form.old_password"></o-input>
+        <o-input password-reveal type="password" v-model="form.old_password"></o-input>
     </settings-row>
     <settings-row :property-name="'New password'">
-        <o-input type="password" v-model="form.password"></o-input>
+        <o-input password-reveal type="password" v-model="form.password"></o-input>
     </settings-row>
     <settings-row :property-name="'Confirm new password'">
-        <o-input type="password" v-model="form.password_confirmation"></o-input>
+        <o-input password-reveal type="password" v-model="form.password_confirmation"></o-input>
     </settings-row>
 
     <submit-button :pending="pending" :form="form" :text="'Change password'"

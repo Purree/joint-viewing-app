@@ -14,11 +14,16 @@
                      :is-owned="true"></room-column>
     </div>
     <div v-else>
-        <submit-button class="is-fullwidth"
-                       :is-loading="createNewRoomPending"
-                       :pending="createNewRoomPending"
+        <room-manipulate-block send-request-button-text="Create room"
+                               :send-request-pending="createRoomPending"
+                               v-if="wantToCreateRoom"
+                               :errors="roomCreateErrors"
+                               :is-creating="true"></room-manipulate-block>
+
+        <submit-button v-else
+                       class="is-fullwidth"
                        text="Create new room"
-                       @click="usePending"></submit-button>
+                       @click="wantToCreateRoom = true"></submit-button>
     </div>
 </template>
 
@@ -27,13 +32,16 @@ import {mapState} from "vuex";
 import SubmitButton from "@/components/SubmitButton";
 import RoomColumn from "@/components/rooms/RoomColumn";
 import Divider from "@/components/Divider";
+import RoomManipulateBlock from "@/components/rooms/RoomManipulateBlock";
 
 export default {
     name: "CurrentRoom",
-    components: {SubmitButton, RoomColumn, Divider},
+    components: {RoomManipulateBlock, SubmitButton, RoomColumn, Divider},
     data() {
         return {
-            createNewRoomPending: false,
+            createRoomPending: false,
+            wantToCreateRoom: false,
+            roomCreateErrors: {},
         };
     },
     computed: {

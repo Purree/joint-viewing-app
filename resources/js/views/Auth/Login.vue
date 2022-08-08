@@ -5,7 +5,7 @@
                :type="'email'" :error-condition="'email' in errors"/>
 
     <FormInput :label="'Password'" v-model:model-value="form.password" :placeholder="'******'"
-               :type="'password'" :error-condition="'password' in errors"/>
+               password-reveal :type="'password'" :error-condition="'password' in errors"/>
 
     <div class="field is-grouped is-align-items-center">
         <p class="control">

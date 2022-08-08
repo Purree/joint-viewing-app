@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Hash;
 
 class Room extends Model
 {
@@ -55,5 +56,14 @@ class Room extends Model
         $user->save();
 
         return FunctionResult::success();
+    }
+
+    public function canJoin(User $user, string $password = null): bool
+    {
+        return auth('sanctum')->check() &&
+            (
+                ! $this->is_closed || Hash::check($password, $this->password) ||
+                $this->owner->id === $user->id || $this->members()->contains($user)
+            );
     }
 }
