@@ -39,7 +39,7 @@ class RoomPolicy
 
     public function interact(User $user, Room $room): bool
     {
-        return $room->members()->contains($user);
+        return $room->have($user);
     }
 
     public function kick(User $user, Room $room): bool

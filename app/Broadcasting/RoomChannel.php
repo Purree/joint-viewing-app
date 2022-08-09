@@ -18,9 +18,9 @@ class RoomChannel
         //
     }
 
-    public function join(User $user, Room $room, string $password): bool|UserResource
+    public function join(User $user, Room $room): bool|UserResource
     {
-        if ($room->canJoin($user, $password)) {
+        if ($room->have($user)) {
             return new UserResource($user);
         }
 

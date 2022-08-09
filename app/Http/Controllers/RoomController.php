@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRoomRequest;
 use App\Http\Requests\EditRoomRequest;
+use App\Http\Requests\JoinRoomRequest;
 use App\Http\Resources\RoomCollection;
 use App\Models\Room;
 use App\Models\User;
@@ -70,6 +71,16 @@ class RoomController extends Controller
     public function update(EditRoomRequest $request, Room $room): JsonResponse
     {
         $result = $this->roomService->update($room, collect($request->validated()));
+        if ($result->status === Status::ERROR) {
+            return ResponseResult::error($result->error, Response::HTTP_UNPROCESSABLE_ENTITY)->error;
+        }
+
+        return ResponseResult::success()->returnValue;
+    }
+
+    public function join(JoinRoomRequest $request, Room $room): JsonResponse
+    {
+        $result = $request->user()->join($room, $request->password);
         if ($result->status === Status::ERROR) {
             return ResponseResult::error($result->error, Response::HTTP_UNPROCESSABLE_ENTITY)->error;
         }

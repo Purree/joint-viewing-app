@@ -6,7 +6,7 @@
 export default {
     name: "Index",
     mounted() {
-        Echo.join(`room.23.null`)
+        Echo.join(`room.23`)
             .listen('test', (e) => {
                 console.log(e);
             });

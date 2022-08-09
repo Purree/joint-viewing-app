@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('room.{room}.{password}', RoomChannel::class);
+Broadcast::channel('room.{room}', RoomChannel::class);

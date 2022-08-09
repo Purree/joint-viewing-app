@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Results\FunctionResult;
 use App\Services\Secrets\TwoFactorSecret;
 use App\Services\TwoFactorAuthenticationProvider;
 use BaconQrCode\Renderer\Color\Rgb;
@@ -10,6 +11,7 @@ use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\Fill;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
+use Hash;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -134,5 +136,21 @@ class User extends Authenticatable
     public function orders(): HasMany
     {
         return $this->hasMany(Queue::class, 'customer_id');
+    }
+
+    public function join(Room $room, ?string $password = null): FunctionResult
+    {
+        if ($this->currentRoom || $this->createdRoom) {
+            return FunctionResult::error('You are already in a room.');
+        }
+
+        if ($room->is_closed && ! Hash::check($password, $room->password)) {
+            return FunctionResult::error('Incorrect password.');
+        }
+
+        $this->current_room_id = $room->id;
+        $this->save();
+
+        return FunctionResult::success();
     }
 }
