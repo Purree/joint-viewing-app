@@ -18,7 +18,8 @@
                                :send-request-pending="createRoomPending"
                                v-if="wantToCreateRoom"
                                :errors="roomCreateErrors"
-                               :is-creating="true"></room-manipulate-block>
+                               :is-creating="true"
+                               @update-room="createRoom"></room-manipulate-block>
 
         <submit-button v-else
                        class="is-fullwidth"
@@ -33,6 +34,8 @@ import SubmitButton from "@/components/SubmitButton";
 import RoomColumn from "@/components/rooms/RoomColumn";
 import Divider from "@/components/Divider";
 import RoomManipulateBlock from "@/components/rooms/RoomManipulateBlock";
+import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
+import {API_CREATE_ROOM_URL} from "@/api/rooms";
 
 export default {
     name: "CurrentRoom",
@@ -43,6 +46,30 @@ export default {
             wantToCreateRoom: false,
             roomCreateErrors: {},
         };
+    },
+    methods: {
+        createRoom(form) {
+            if (this.createRoomPending) {
+                return;
+            }
+            this.createRoomPending = true;
+
+            if (!form.is_closed) {
+                delete form.password;
+            }
+
+            return axios.post(API_CREATE_ROOM_URL, form)
+                .then(response => {
+                    this.user.created_room = response.data;
+                    this.user.current_room = response.data;
+                    this.wantToCreateRoom = false;
+                })
+                .catch(errors => {
+                    this.roomCreateErrors = getErrorsFromResponse(errors);
+                }).then(() => {
+                    this.createRoomPending = false;
+                });
+        },
     },
     computed: {
         ...mapState('auth', ['user']),

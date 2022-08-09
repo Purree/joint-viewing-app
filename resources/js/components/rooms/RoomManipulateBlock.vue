@@ -24,7 +24,7 @@
                    :is-loading="sendRequestPending"
                    :pending="sendRequestPending"
                    :text="sendRequestButtonText"
-                   @click="$emit('updateRoom')"></submit-button>
+                   @click="$emit('updateRoom', form)"></submit-button>
 </template>
 
 <script>
@@ -35,6 +35,7 @@ import SettingsRow from "@/components/settings/SettingsRow";
 export default {
     name: "RoomManipulateBlock",
     components: {SettingsRow, ErrorMessage, SubmitButton},
+    emits: ['updateRoom'],
     data() {
         return {
             form: {
@@ -68,9 +69,6 @@ export default {
             type: Object,
             default: () => ({}),
         },
-    },
-    mounted() {
-
     }
 }
 </script>

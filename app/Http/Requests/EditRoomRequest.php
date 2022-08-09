@@ -25,9 +25,9 @@ class EditRoomRequest extends FormRequest
     {
         return [
             'name' => 'string|max:255',
-            'is_closed' => 'nullable|in:on',
-            'can_everyone_control' => 'nullable|in:on',
-            'is_private' => 'nullable|in:on',
+            'is_closed' => 'required|boolean',
+            'can_everyone_control' => 'required|boolean',
+            'is_private' => 'required|boolean',
             'password' => 'string|max:255',
         ];
     }

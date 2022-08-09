@@ -54,7 +54,7 @@ class RoomController extends Controller
             return ResponseResult::error($result->error, Response::HTTP_UNPROCESSABLE_ENTITY)->error;
         }
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success($result->returnValue)->returnValue;
     }
 
     public function kick(Request $request, Room $room, User $user): JsonResponse

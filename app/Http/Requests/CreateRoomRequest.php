@@ -27,10 +27,10 @@ class CreateRoomRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'link' => ['string', 'nullable', 'max:255', 'unique:rooms', new ValidSlug()],
-            'is_closed' => 'in:on',
-            'can_everyone_control' => 'in:on',
-            'is_private' => 'in:on',
-            'password' => 'string|max:255|required_with:is_closed',
+            'is_closed' => 'required|boolean',
+            'can_everyone_control' => 'required|boolean',
+            'is_private' => 'required|boolean',
+            'password' => 'string|max:255',
         ];
     }
 }
