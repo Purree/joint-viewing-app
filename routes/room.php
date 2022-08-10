@@ -8,6 +8,7 @@ Route::name('rooms.')->prefix('rooms')->controller(RoomController::class)->group
     Route::post('{room}/join', 'join')->name('join');
 
     Route::middleware('can:interact,room')->prefix('{room}')->group(static function () {
+        Route::get('/', 'show')->name('show');
         Route::delete('/', 'destroy')->middleware('can:delete,room')->name('destroy');
         Route::put('/', 'update')->middleware('can:update,room')->name('update');
         Route::post('/leave', 'leave')->name('leave');

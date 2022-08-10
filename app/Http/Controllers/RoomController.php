@@ -6,6 +6,7 @@ use App\Http\Requests\CreateRoomRequest;
 use App\Http\Requests\EditRoomRequest;
 use App\Http\Requests\JoinRoomRequest;
 use App\Http\Resources\RoomCollection;
+use App\Http\Resources\RoomResource;
 use App\Models\Room;
 use App\Models\User;
 use App\Services\Results\ResponseResult;
@@ -29,6 +30,11 @@ class RoomController extends Controller
         $rooms = Room::where('is_private', false)->paginate($request->rooms_count ?: 15);
 
         return ResponseResult::success(new RoomCollection($rooms))->returnValue;
+    }
+
+    public function show(Request $request, Room $room): JsonResponse
+    {
+        return ResponseResult::success(new RoomResource($room))->returnValue;
     }
 
     public function destroy(Request $request, Room $room): JsonResponse
@@ -55,7 +61,7 @@ class RoomController extends Controller
             return ResponseResult::error($result->error, Response::HTTP_UNPROCESSABLE_ENTITY)->error;
         }
 
-        return ResponseResult::success($result->returnValue)->returnValue;
+        return ResponseResult::success($result->returnValue, Response::HTTP_CREATED)->returnValue;
     }
 
     public function kick(Request $request, Room $room, User $user): JsonResponse

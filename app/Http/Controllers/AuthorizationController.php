@@ -55,7 +55,7 @@ class AuthorizationController extends Controller
             'secret' => $secret['hash'],
         ]);
 
-        return ResponseResult::success(['secret_phrase' => $secret['phrase']])->returnValue;
+        return ResponseResult::success(['secret_phrase' => $secret['phrase']], Response::HTTP_CREATED)->returnValue;
     }
 
     public function logout(Request $request): JsonResponse

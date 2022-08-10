@@ -7,11 +7,11 @@ use Illuminate\Http\Response;
 
 class ResponseResult extends FunctionResult
 {
-    public static function success(mixed $returnValue = []): FunctionResult
+    public static function success(mixed $returnValue = [], int $responseCode = Response::HTTP_OK): FunctionResult
     {
         $result = new self();
         $result->status = Status::OK;
-        $result->returnValue = response()->json($returnValue, Response::HTTP_OK);
+        $result->returnValue = response()->json($returnValue, $responseCode);
 
         return $result;
     }
