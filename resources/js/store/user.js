@@ -1,6 +1,7 @@
 import axios from "axios";
 import {API_LOGOUT_URL} from "@/api/auth.js";
 import router from "@/routes/index.js";
+import index from "@/store/index.js";
 
 export default {
     state: {
@@ -9,6 +10,10 @@ export default {
     },
     mutations: {
         setUser(state, user) {
+            index.commit("rooms/setCurrentRoom", user.current_room);
+            index.commit("rooms/setCreatedRoom", user.created_room);
+            delete user.current_room;
+            delete user.created_room;
             state.user = user
         },
         setIsLoggedIn(state, isLoggedIn = !state.isLoggedIn) {

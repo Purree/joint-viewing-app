@@ -1,16 +1,16 @@
 <template>
     <divider>Current room</divider>
-    <div v-if="this.user.current_room !== null || this.user.created_room !== null">
-        <room-column :name="this.user.current_room.name || 'Empty name'"
-                     :is-locked="this.user.current_room.is_closed"
-                     :link="this.user.current_room.link"
-                     :is-owned="this.user.created_room.id === this.user.current_room.id"
+    <div v-if="this.current_room !== null || this.created_room !== null">
+        <room-column :name="this.current_room.name || 'Empty name'"
+                     :is-locked="this.current_room.is_closed"
+                     :link="this.current_room.link"
+                     :is-owned="this.created_room.id === this.current_room.id"
                      :is-current="true"></room-column>
 
-        <room-column v-if="this.user.current_room.id !== this.user.created_room.id"
-                     :name="this.user.created_room.name || 'Empty name'"
-                     :is-locked="this.user.created_room.is_closed"
-                     :link="this.user.created_room.link"
+        <room-column v-if="this.current_room.id !== this.created_room.id"
+                     :name="this.created_room.name || 'Empty name'"
+                     :is-locked="this.created_room.is_closed"
+                     :link="this.created_room.link"
                      :is-owned="true"></room-column>
     </div>
     <div v-else>
@@ -60,8 +60,8 @@ export default {
 
             return axios.post(API_CREATE_ROOM_URL, form)
                 .then(response => {
-                    this.user.created_room = response.data;
-                    this.user.current_room = response.data;
+                    this.$store.commit('rooms/setCreatedRoom', response.data);
+                    this.$store.commit('rooms/setCurrentRoom', response.data);
                     this.wantToCreateRoom = false;
                 })
                 .catch(errors => {
@@ -73,6 +73,7 @@ export default {
     },
     computed: {
         ...mapState('auth', ['user']),
+        ...mapState('rooms', ['current_room', 'created_room']),
     }
 }
 </script>

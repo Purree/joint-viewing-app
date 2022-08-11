@@ -29,7 +29,7 @@ export default {
             return axios.post(replaceDataInUri(API_JOIN_ROOM_URL, {'roomId': roomId}), {
                 password: password
             }).then((response) => {
-                this.user.current_room = response.data();
+                this.$store.commit('rooms/setCurrentRoom', response.data());
                 this.$router.push({ name: 'Room', params: { 'id': roomId } });
             }).catch(errors => {
                 this.errors = getErrorsFromResponse(errors.response);

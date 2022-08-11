@@ -1,5 +1,6 @@
 import {createStore} from "vuex";
-import userStore from "@/store/userStore.js";
+import user from "@/store/user.js";
+import rooms from "@/store/rooms.js";
 
 const store = createStore({
     state: {
@@ -18,7 +19,7 @@ const store = createStore({
         }
     },
     actions: {},
-    modules: {auth: userStore}
+    modules: {auth: user, rooms: rooms},
 })
 
 export default store;
