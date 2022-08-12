@@ -1,16 +1,12 @@
 <template>
     <divider>Current room</divider>
     <div v-if="this.current_room !== null || this.created_room !== null">
-        <room-column :name="this.current_room.name || 'Empty name'"
-                     :is-locked="this.current_room.is_closed"
-                     :link="this.current_room.link"
+        <room-column :room="this.current_room"
                      :is-owned="this.created_room.id === this.current_room.id"
                      :is-current="true"></room-column>
 
         <room-column v-if="this.current_room.id !== this.created_room.id"
-                     :name="this.created_room.name || 'Empty name'"
-                     :is-locked="this.created_room.is_closed"
-                     :link="this.created_room.link"
+                     :room="this.created_room"
                      :is-owned="true"></room-column>
     </div>
     <div v-else>

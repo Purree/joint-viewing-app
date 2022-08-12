@@ -3,9 +3,7 @@
 
     <div v-if="!pending" class="is-flex is-flex-direction-column">
         <room-column v-for="room in rooms"
-                     :name="room.name"
-                     :is-locked="room.is_closed"
-                     :link="room.link"
+                     :room="room"
                      :is-owned="this.created_room?.id === room.id"
                      :is-current="[this.current_room?.id, this.created_room?.id].includes(room.id)"></room-column>
 
