@@ -3,6 +3,7 @@
 
     <div v-if="!pending" class="is-flex is-flex-direction-column">
         <room-column v-for="room in rooms"
+                     :pending="roomToJoin === room.id"
                      @open-room="openRoom"
                      :room="room"
                      :is-owned="this.created_room?.id === room.id"
@@ -32,7 +33,6 @@ import {API_ALL_ROOMS_URL} from "@/api/rooms";
 import usePending from "@/mixins/usePending";
 import {mapState} from "vuex";
 import errorsHelper from "@/mixins/errors";
-import router from "@/routes";
 
 export default {
     name: "PublicRooms",
@@ -44,6 +44,7 @@ export default {
             rooms: [],
             pagination: {},
             pending: true,
+            roomToJoin: 0,
         };
     },
     methods: {
@@ -72,16 +73,24 @@ export default {
                 return errorsHelper.methods.openNotification('You are already in room');
             }
 
+            if (this.roomToJoin) {
+                return errorsHelper.methods.openNotification('You are already try to connect to another room');
+            }
+
+            this.roomToJoin = room.id;
+
             try {
                 let roomData = await this.$store.dispatch('rooms/getData', room.id);
                 if (roomData.is_closed) {
-                    return await this.$router.push({ name: 'RoomEntrance', params: { 'id': room.id } });
+                    await this.$router.push({ name: 'RoomEntrance', params: { 'id': room.id } });
+                } else {
+                    await this.$store.dispatch('rooms/join', {'id': room.id, 'link': room.link});
                 }
-
-                return await this.$store.dispatch('rooms/join', {'id': room.id, 'link': room.link});
             } catch (errors) {
                 errorsHelper.methods.openResponseNotification(errors);
             }
+
+            this.roomToJoin = 0;
         }
     },
     mounted() {

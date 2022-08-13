@@ -1,5 +1,7 @@
 <template>
-    <div class="column box is-flex is-align-items-center is-hovered" @click="$emit('openRoom', this.room)">
+    <div class="column box is-flex is-align-items-center is-hovered"
+         :class="pending ? 'is-disabled' : ''"
+         @click="$emit('openRoom', this.room)">
         <div class="mr-2">
             <o-icon pack="fas" :icon="this.room.is_closed ? 'lock' : 'unlock'" size="medium"></o-icon>
         </div>
@@ -35,6 +37,9 @@ export default {
             type: Boolean,
             default: false,
         }, isCurrent: {
+            type: Boolean,
+            default: false,
+        }, pending: {
             type: Boolean,
             default: false,
         },

@@ -42,6 +42,12 @@
     }
 }
 
+.is-disabled {
+    opacity: 70%;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
 div.file-image {
     width: 200px;
     height: 82px;
