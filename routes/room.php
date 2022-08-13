@@ -6,6 +6,7 @@ Route::name('rooms.')->prefix('rooms')->controller(RoomController::class)->group
     Route::get('/', 'index')->name('index');
     Route::post('/', 'create')->name('create');
 
+    Route::get('/link/{room:link}/', 'show')->name('show.by-link');
     Route::prefix('{room}')->group(static function () {
         Route::post('/join', 'join')->name('join');
         Route::get('/', 'show')->name('show');
