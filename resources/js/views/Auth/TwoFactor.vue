@@ -36,7 +36,7 @@ import SubmitButton from "@/components/SubmitButton.vue";
 import FormInput from "@/components/authentication/FormInput.vue";
 import ErrorMessage from "@/components/errors/ErrorMessage.vue";
 import {API_TWO_FACTOR_LOGIN_URL} from "@/api/twoFactor.js";
-import getErrorsFromResponse from "@/mixins/getErrorsFromResponse.js";
+import errorsHelper from "@/mixins/errors.js";
 import loginUser from "@/mixins/loginUser.js";
 import usePending from "@/mixins/usePending.js";
 
@@ -63,7 +63,7 @@ export default {
                     this.loginUser()
                 })
                 .catch(errors => {
-                    this.errors = getErrorsFromResponse(errors);
+                    this.errors = errorsHelper.methods.getFromResponse(errors);
                 })
         }
     }

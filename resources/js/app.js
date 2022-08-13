@@ -40,3 +40,6 @@ const app = createApp(App)
 app.component("VueFontawesome", FontAwesomeIcon);
 app.component('AppLayout', AppLayout);
 app.mount('#app');
+
+window.$oruga = app.config.globalProperties.$oruga;
+

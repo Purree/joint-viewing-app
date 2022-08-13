@@ -27,7 +27,7 @@ import FormInput from "@/components/authentication/FormInput.vue";
 import ErrorMessage from "@/components/errors/ErrorMessage.vue";
 import UserSecretModal from "@/components/modals/UserSecretModal.vue";
 import SuccessfulArticle from "@/components/SuccessfulArticle.vue";
-import getErrorsFromResponse from "@/mixins/getErrorsFromResponse.js";
+import errorsHelper from "@/mixins/errors.js";
 import usePending from "@/mixins/usePending.js";
 
 export default {
@@ -67,7 +67,7 @@ export default {
                 })
                 .catch(errors => {
                     this.registered = false;
-                    this.errors = getErrorsFromResponse(errors);
+                    this.errors = errorsHelper.methods.getFromResponse(errors);
                 })
         }
     }

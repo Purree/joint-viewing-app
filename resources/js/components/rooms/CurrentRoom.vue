@@ -1,11 +1,13 @@
 <template>
     <divider>Current room</divider>
     <div v-if="this.current_room !== null || this.created_room !== null">
-        <room-column :room="this.current_room"
-                     :is-owned="this.created_room.id === this.current_room.id"
+        <room-column @open-room="openRoom"
+                     :room="this.current_room"
+                     :is-owned="this.created_room?.id === this.current_room?.id"
                      :is-current="true"></room-column>
 
-        <room-column v-if="this.current_room.id !== this.created_room.id"
+        <room-column @open-room="openRoom"
+                     v-if="this.created_room?.id && this.current_room?.id !== this.created_room.id"
                      :room="this.created_room"
                      :is-owned="true"></room-column>
     </div>
@@ -30,7 +32,7 @@ import SubmitButton from "@/components/SubmitButton";
 import RoomColumn from "@/components/rooms/RoomColumn";
 import Divider from "@/components/Divider";
 import RoomManipulateBlock from "@/components/rooms/RoomManipulateBlock";
-import getErrorsFromResponse from "@/mixins/getErrorsFromResponse";
+import errorsHelper from "@/mixins/errors";
 import {API_CREATE_ROOM_URL} from "@/api/rooms";
 
 export default {
@@ -61,11 +63,14 @@ export default {
                     this.wantToCreateRoom = false;
                 })
                 .catch(errors => {
-                    this.roomCreateErrors = getErrorsFromResponse(errors);
+                    this.roomCreateErrors = errorsHelper.methods.getFromResponse(errors);
                 }).then(() => {
                     this.createRoomPending = false;
                 });
         },
+        openRoom(room) {
+            this.$store.dispatch('rooms/openRoom', room.link);
+        }
     },
     computed: {
         ...mapState('auth', ['user']),

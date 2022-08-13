@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\RoomResource;
 use App\Services\Results\FunctionResult;
 use App\Services\Secrets\TwoFactorSecret;
 use App\Services\TwoFactorAuthenticationProvider;
@@ -151,6 +152,6 @@ class User extends Authenticatable
         $this->current_room_id = $room->id;
         $this->save();
 
-        return FunctionResult::success();
+        return FunctionResult::success(new RoomResource($room));
     }
 }

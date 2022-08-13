@@ -22,7 +22,7 @@
 <script>
 import RevokeAuthButton from "@/components/settings/auths/RevokeAuthButton.vue";
 import Columns from "@/components/Columns.vue";
-import getErrorsFromResponse from "@/mixins/getErrorsFromResponse.js";
+import errorsHelper from "@/mixins/errors.js";
 import replaceDataInUri from "@/mixins/replaceDataInUri.js";
 import {mapState} from "vuex";
 import Divider from "@/components/Divider";
@@ -34,38 +34,29 @@ export default {
     props: ['auths', 'deletingAuths', 'dividerText', 'headerColumns', 'arrayKeys', 'deleteRequestParams'],
     methods: {
         deleteAuth(id) {
-            if (!this.deletingAuths.includes(id)) {
-                this.deletingAuths.push(id);
+            if (this.deletingAuths.includes(id)) {
+                return;
+            }
 
-                if (this.deleteRequestParams) {
-                    axios.delete(
-                        replaceDataInUri(
-                            this.deleteRequestParams.uri,
-                            {'userId': this.user.id, 'authId': id}
-                        )
-                    ).then((response) => {
-                        if (response.data.logout) {
-                            this.$store.dispatch('auth/logout');
-                        }
+            if (this.deleteRequestParams.uri) {
+                axios.delete(
+                    replaceDataInUri(
+                        this.deleteRequestParams.uri,
+                        {'userId': this.user.id, 'authId': id}
+                    )
+                ).then((response) => {
+                    if (response.data.logout) {
+                        this.$store.dispatch('auth/logout');
+                    }
 
-                        this.$emit('update')
-                    }).catch(errors => {
-                        Object.values(getErrorsFromResponse(errors)).forEach((error) => {
-                            this.$oruga.notification.open({
-                                duration: 15000,
-                                message: error[0],
-                                position: 'bottom-right',
-                                variant: 'danger',
-                                closable: true
-                            })
-                        })
-                    }).then(() => {
-                        this.deletingAuths.splice(this.deletingAuths.indexOf(id), 1)
-                    })
-                } else {
-                    this.$emit('delete', id)
-                }
-
+                    this.$emit('update')
+                }).catch(errors => {
+                    errorsHelper.methods.openResponseNotification(errors);
+                }).then(() => {
+                    this.deletingAuths.splice(this.deletingAuths.indexOf(id), 1)
+                })
+            } else {
+                this.$emit('delete', id)
             }
         }
     },

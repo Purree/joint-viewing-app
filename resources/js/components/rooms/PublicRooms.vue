@@ -3,6 +3,7 @@
 
     <div v-if="!pending" class="is-flex is-flex-direction-column">
         <room-column v-for="room in rooms"
+                     @open-room="openRoom"
                      :room="room"
                      :is-owned="this.created_room?.id === room.id"
                      :is-current="[this.current_room?.id, this.created_room?.id].includes(room.id)"></room-column>
@@ -30,6 +31,7 @@ import Divider from "@/components/Divider";
 import {API_ALL_ROOMS_URL} from "@/api/rooms";
 import usePending from "@/mixins/usePending";
 import {mapState} from "vuex";
+import errorsHelper from "@/mixins/errors";
 
 export default {
     name: "PublicRooms",
@@ -59,6 +61,24 @@ export default {
             }).catch((error) => {
                 console.log(error.response);
             });
+        },
+        async openRoom(room) {
+            if (this.current_room?.id === room.id) {
+                return this.$store.dispatch('rooms/openRoom', room.link);
+            }
+
+            if (this.current_room?.id) {
+                return errorsHelper.methods.openNotification('You are already in room');
+            }
+
+            try {
+                let roomData = await this.$store.dispatch('rooms/getRoomData', room.id);
+                if (!roomData.is_closed) {
+                    return await this.$store.dispatch('rooms/joinRoom', room.id, room.link);
+                }
+            } catch (errors) {
+                errorsHelper.methods.openResponseNotification(errors);
+            }
         }
     },
     mounted() {

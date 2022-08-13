@@ -27,7 +27,7 @@ import UserSecretModal from "@/components/modals/UserSecretModal.vue";
 import axios from "axios";
 import {API_PASSWORD_RECOVERY_URL} from "@/api/auth.js";
 import SuccessfulArticle from "@/components/SuccessfulArticle.vue";
-import getErrorsFromResponse from "@/mixins/getErrorsFromResponse.js";
+import errorsHelper from "@/mixins/errors.js";
 import usePending from "@/mixins/usePending.js";
 
 export default {
@@ -67,7 +67,7 @@ export default {
                 })
                 .catch(errors => {
                     this.recovery = false;
-                    this.errors = getErrorsFromResponse(errors);
+                    this.errors = errorsHelper.methods.getFromResponse(errors);
                 })
 
         }

@@ -25,7 +25,7 @@ import ErrorMessage from "@/components/errors/ErrorMessage.vue";
 import axios from "axios";
 import {API_CHANGE_NICKNAME_URL} from "@/api/users.js";
 import {mapState} from "vuex";
-import getErrorsFromResponse from "@/mixins/getErrorsFromResponse.js";
+import errorsHelper from "@/mixins/errors.js";
 import replaceDataInUri from "@/mixins/replaceDataInUri.js";
 import usePending from "@/mixins/usePending.js";
 import Divider from "@/components/Divider";
@@ -56,7 +56,7 @@ export default {
                     this.successed = true;
                 })
                 .catch(errors => {
-                    this.errors = getErrorsFromResponse(errors);
+                    this.errors = errorsHelper.methods.getFromResponse(errors);
                 })
         }
     },

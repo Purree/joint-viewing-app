@@ -24,14 +24,17 @@ export default {
         },
         joinRoom({commit}, roomId, roomLink = null, password = null) {
             return axios.post(replaceDataInUri(API_JOIN_ROOM_URL, {'roomId': roomId}), {
-                password: password
+                ...password ? {password: password}: {}
             }).then((response) => {
-                commit('rooms/setCurrentRoom', response.data());
+                commit('setCurrentRoom', response.data);
 
                 if (roomLink) {
-                    router.push({ name: 'Room', params: { 'id': roomLink } });
+                    commit('openRoom', roomLink);
                 }
             })
+        },
+        openRoom({_commit}, roomLink) {
+            router.push({ name: 'Room', params: { 'id': roomLink } });
         }
     },
     namespaced: true

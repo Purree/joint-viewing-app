@@ -23,7 +23,7 @@ import SubmitButton from "@/components/SubmitButton.vue";
 import {API_SHOW_ALL_TOKENS_URL} from "@/api/tokens.js";
 import {mapState} from "vuex";
 import ErrorMessage from "@/components/errors/ErrorMessage.vue";
-import getErrorsFromResponse from "@/mixins/getErrorsFromResponse.js";
+import errorsHelper from "@/mixins/errors.js";
 import TokensContainer from "@/components/settings/auths/TokensContainer.vue";
 import LogoutAllAuthsButton from "@/components/settings/auths/LogoutAllAuthsButton.vue";
 import {API_SHOW_ALL_SESSIONS_URL} from "@/api/sessions.js";
@@ -35,7 +35,7 @@ import Divider from "@/components/Divider";
 export default {
     name: "AuthsSettingsBlock",
     components: {SessionsContainer, LogoutAllAuthsButton, TokensContainer, SubmitButton, ErrorMessage, Divider},
-    mixins: [getErrorsFromResponse, replaceDataInUri, usePending],
+    mixins: [errorsHelper, replaceDataInUri, usePending],
     data() {
         return {
             isAuthsLoading: false,
@@ -62,7 +62,7 @@ export default {
                     this.errors = {}
                 })
                 .catch((errors) => {
-                    this.errors = getErrorsFromResponse(errors);
+                    this.errors = errorsHelper.methods.getFromResponse(errors);
                 })
         },
         loadSessions() {
@@ -72,7 +72,7 @@ export default {
                     this.errors = {}
                 })
                 .catch((errors) => {
-                    this.errors = getErrorsFromResponse(errors);
+                    this.errors = errorsHelper.methods.getFromResponse(errors);
                 })
         }
     },

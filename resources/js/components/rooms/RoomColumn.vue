@@ -1,7 +1,7 @@
 <template>
-    <div class="column box is-flex is-align-items-center is-hovered" @click="openRoom">
+    <div class="column box is-flex is-align-items-center is-hovered" @click="$emit('openRoom', this.room)">
         <div class="mr-2">
-            <o-icon pack="fas" :icon="this.room.isLocked ? 'lock' : 'unlock'" size="medium"></o-icon>
+            <o-icon pack="fas" :icon="this.room.is_closed ? 'lock' : 'unlock'" size="medium"></o-icon>
         </div>
         <div class="room-text-information">
             <div>{{ this.room.name || 'Empty room name' }}</div>
@@ -19,7 +19,6 @@
 </template>
 
 <script>
-
 export default {
     name: "RoomColumn",
     props: {
@@ -40,15 +39,6 @@ export default {
             default: false,
         },
     },
-    methods: {
-        async openRoom() {
-            let roomData = await this.$store.dispatch('rooms/getRoomData', this.room.id);
-            if (!roomData.is_closed) {
-                return this.$store.dispatch('rooms/joinRoom', this.room.id, this.room.link);
-            }
-
-        }
-    }
 }
 </script>
 

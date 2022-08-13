@@ -23,7 +23,7 @@ import {API_LOGIN_URL, API_LOGOUT_URL} from '@/api/auth.js';
 import SubmitButton from "@/components/SubmitButton.vue";
 import FormInput from "@/components/authentication/FormInput.vue";
 import ErrorMessage from "@/components/errors/ErrorMessage.vue";
-import getErrorsFromResponse from "@/mixins/getErrorsFromResponse.js";
+import errorsHelper from "@/mixins/errors.js";
 import loginUser from "@/mixins/loginUser.js";
 import usePending from "@/mixins/usePending.js";
 
@@ -65,7 +65,7 @@ export default {
                             });
                         }
 
-                        this.errors = getErrorsFromResponse(errors);
+                        this.errors = errorsHelper.methods.getFromResponse(errors);
                     });
             })
         }

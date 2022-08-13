@@ -42,12 +42,12 @@ class Room extends Model
             return FunctionResult::error('User is not in this room.');
         }
 
-        if ($this->owner_id === $user->id) {
+        if ($this->owner_id === $user->id && $this->members()->count() > 1) {
             $this->owner_id = $this->members()->except($user->id)->first()->id;
             $this->save();
         }
 
-        if ($this->members()->count() === 1) {
+        if ($this->members()->count() <= 1) {
             $this->delete();
         }
 

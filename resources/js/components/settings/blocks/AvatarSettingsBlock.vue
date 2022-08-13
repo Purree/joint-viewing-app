@@ -49,7 +49,7 @@ import {mapState} from "vuex";
 import FileImage from "@/components/FileImage.vue";
 import asset from "@/mixins/asset.js";
 import SubmitButton from "@/components/SubmitButton.vue";
-import getErrorsFromResponse from "@/mixins/getErrorsFromResponse.js";
+import errorsHelper from "@/mixins/errors.js";
 import usePending from "@/mixins/usePending.js";
 import {API_DELETE_AVATAR_URL, API_UPDATE_AVATAR_URL} from "@/api/users.js";
 import replaceDataInUri from "@/mixins/replaceDataInUri.js";
@@ -59,7 +59,7 @@ import Divider from "@/components/Divider";
 export default {
     name: "AvatarSettingsBlock",
     components: {SubmitButton, FileImage, ErrorMessage, Divider},
-    mixins: [asset, getErrorsFromResponse, usePending, replaceDataInUri],
+    mixins: [asset, errorsHelper, usePending, replaceDataInUri],
     data() {
         return {
             uploadedFile: new File([], ""),
@@ -80,7 +80,7 @@ export default {
                 this.errors = {}
                 this.user.avatar = null
             }).catch(error => {
-                this.errors = getErrorsFromResponse(error)
+                this.errors = errorsHelper.methods.getFromResponse(error)
             })
         },
         updateAvatar() {
@@ -112,7 +112,7 @@ export default {
                     this.user.avatar = response.data.avatarPath;
                     this.errors = {}
                 }).catch(errors => {
-                    this.errors = getErrorsFromResponse(errors);
+                    this.errors = errorsHelper.methods.getFromResponse(errors);
                 })
         },
     },
