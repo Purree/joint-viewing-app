@@ -142,11 +142,11 @@ class User extends Authenticatable
     public function join(Room $room, ?string $password = null): FunctionResult
     {
         if ($this->currentRoom || $this->createdRoom) {
-            return FunctionResult::error('You are already in a room.');
+            return FunctionResult::error(['room' => ['You are already in a room.']]);
         }
 
         if ($room->is_closed && ! Hash::check($password, $room->password)) {
-            return FunctionResult::error('Incorrect password.');
+            return FunctionResult::error(['password' => ['Incorrect password.']]);
         }
 
         $this->current_room_id = $room->id;

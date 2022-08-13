@@ -16,25 +16,25 @@ export default {
         },
     },
     actions: {
-        getRoomData({_commit}, roomId) {
-            return axios.get(replaceDataInUri(API_GET_ROOM_DATA_URL, {'roomId': roomId}))
+        getData({_commit}, id) {
+            return axios.get(replaceDataInUri(API_GET_ROOM_DATA_URL, {'roomId': id}))
                 .then(response => {
                     return response.data;
                 });
         },
-        joinRoom({commit}, roomId, roomLink = null, password = null) {
-            return axios.post(replaceDataInUri(API_JOIN_ROOM_URL, {'roomId': roomId}), {
-                ...password ? {password: password}: {}
+        join({commit, dispatch}, payload) {
+            return axios.post(replaceDataInUri(API_JOIN_ROOM_URL, {'roomId': payload['id']}), {
+                ...payload['password'] ? {password: payload['password']}: {}
             }).then((response) => {
                 commit('setCurrentRoom', response.data);
 
-                if (roomLink) {
-                    commit('openRoom', roomLink);
+                if (payload['link']) {
+                    dispatch('open', payload['link']);
                 }
             })
         },
-        openRoom({_commit}, roomLink) {
-            router.push({ name: 'Room', params: { 'id': roomLink } });
+        open({_commit}, link) {
+            router.push({ name: 'Room', params: { 'link': link } });
         }
     },
     namespaced: true

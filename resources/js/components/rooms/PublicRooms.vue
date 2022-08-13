@@ -32,6 +32,7 @@ import {API_ALL_ROOMS_URL} from "@/api/rooms";
 import usePending from "@/mixins/usePending";
 import {mapState} from "vuex";
 import errorsHelper from "@/mixins/errors";
+import router from "@/routes";
 
 export default {
     name: "PublicRooms",
@@ -64,7 +65,7 @@ export default {
         },
         async openRoom(room) {
             if (this.current_room?.id === room.id) {
-                return this.$store.dispatch('rooms/openRoom', room.link);
+                return this.$store.dispatch('rooms/open', room.link);
             }
 
             if (this.current_room?.id) {
@@ -72,10 +73,12 @@ export default {
             }
 
             try {
-                let roomData = await this.$store.dispatch('rooms/getRoomData', room.id);
-                if (!roomData.is_closed) {
-                    return await this.$store.dispatch('rooms/joinRoom', room.id, room.link);
+                let roomData = await this.$store.dispatch('rooms/getData', room.id);
+                if (roomData.is_closed) {
+                    return await this.$router.push({ name: 'RoomEntrance', params: { 'id': room.id } });
                 }
+
+                return await this.$store.dispatch('rooms/join', {'id': room.id, 'link': room.link});
             } catch (errors) {
                 errorsHelper.methods.openResponseNotification(errors);
             }

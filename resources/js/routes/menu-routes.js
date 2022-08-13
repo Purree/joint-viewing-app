@@ -21,7 +21,12 @@ export default [
                 component: () => import('@/views/Menu/Rooms.vue'),
             },
             {
-                path: '/room/:id',
+                path: '/room/entrance/:id',
+                name: 'RoomEntrance',
+                component: () => import('@/views/Room/Entrance.vue'),
+            },
+            {
+                path: '/room/:link',
                 name: 'Room',
                 component: () => import('@/views/Room/Index.vue'),
             }

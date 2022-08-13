@@ -69,7 +69,7 @@ export default {
                 });
         },
         openRoom(room) {
-            this.$store.dispatch('rooms/openRoom', room.link);
+            this.$store.dispatch('rooms/open', room.link);
         }
     },
     computed: {

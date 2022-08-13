@@ -6,7 +6,7 @@
         <div class="room-text-information">
             <div>{{ this.room.name || 'Empty room name' }}</div>
             <div>
-                <router-link :to="{ name: 'Room', params: { 'id': this.room.link } }">{{ this.room.link }}</router-link>
+                <router-link :to="{ name: 'Room', params: { 'link': this.room.link } }">{{ this.room.link }}</router-link>
             </div>
         </div>
         <div class="status_icon" v-if="isOwned">
