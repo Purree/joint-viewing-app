@@ -1,11 +1,16 @@
 <template>
     <div class="room-content">
-        <div class="activity-block is-flex">
+        <div class="activity-block is-flex is-relative" :class="is_queue_closed ? 'fullscreen' : ''">
             <player class="player"></player>
-            <chat class="chat"></chat>
+            <chat v-if="!is_chat_closed" @close-chat="manipulateChatVisibility" class="chat"></chat>
+            <visibility-manipulating-block v-if="is_chat_closed || is_queue_closed"
+                                           @open-chat="manipulateChatVisibility"
+                                           @open-queue="manipulateQueueVisibility"
+                                           :is_chat_closed="is_chat_closed"
+                                           :is_queue_closed="is_queue_closed"></visibility-manipulating-block>
         </div>
-        <div class="queue-block">
-            <queue></queue>
+        <div class="queue-block" v-if="!is_queue_closed">
+            <queue @closeQueue="manipulateQueueVisibility"></queue>
         </div>
     </div>
 </template>
@@ -18,16 +23,19 @@ import {mapState} from "vuex";
 import Player from "@/components/room/Player";
 import Chat from "@/components/room/Chat";
 import Queue from "@/components/room/Queue";
+import VisibilityManipulatingBlock from "@/components/room/VisibilityManipulatingBlock";
 
 export default {
     name: "Index",
-    components: {Queue, Player, Chat},
+    components: {VisibilityManipulatingBlock, Queue, Player, Chat},
     data() {
         return {
             room: {
                 'id': 0,
             },
             users: [],
+            is_chat_closed: false,
+            is_queue_closed: false,
         }
     },
     async mounted() {
@@ -61,6 +69,14 @@ export default {
                 this.users = this.users.filter(u => (u.id !== user.id))
             });
     },
+    methods: {
+        manipulateChatVisibility() {
+            this.is_chat_closed = !this.is_chat_closed
+        },
+        manipulateQueueVisibility() {
+            this.is_queue_closed = !this.is_queue_closed
+        }
+    },
     computed: {
         ...mapState('rooms', ['current_room']),
     }
@@ -77,6 +93,13 @@ export default {
     .queue-block {
         height: 30%;
     }
+    .fullscreen {
+        height: 100%;
+
+        & .chat {
+            margin-bottom: 0 !important;
+        }
+    }
 
     @media (max-width: 600px) {
         .activity-block {
@@ -84,10 +107,11 @@ export default {
         }
         .chat {
             margin-top: 20px;
-        }
-        .chat, .player {
-            width: 100%;
-            height: calc(50% - 20px);
+            margin-left: 0;
+            &,.player {
+                width: 100%;
+                height: calc(50% - 20px);
+            }
         }
     }
 </style>

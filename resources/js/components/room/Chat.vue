@@ -1,16 +1,24 @@
 <template>
-    <div class="box">
+    <div class="is-relative box">
+        <div class="is-absolute">
+            <o-button iconRightClass="regular" icon-right="arrow-right" @click="$emit('closeChat')"></o-button>
+        </div>
+        <div>
+
+        </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: "Chat"
+    name: "Chat",
+    emits: ['closeChat'],
 }
 </script>
 
 <style scoped>
 .chat {
-    width: 50%;
+    margin-left: 10px;
+    width: calc(50% - 10px);
 }
 </style>

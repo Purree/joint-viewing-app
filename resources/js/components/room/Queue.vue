@@ -1,6 +1,11 @@
 <template>
-    <div class="queue-content box">
+    <div class="queue-content is-relative box">
+        <div class="is-absolute">
+            <o-button iconRightClass="regular" icon-right="arrow-right" @click="$emit('closeQueue')"></o-button>
+        </div>
+        <div>
 
+        </div>
     </div>
 </template>
 
