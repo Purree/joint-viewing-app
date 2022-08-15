@@ -55,22 +55,32 @@ export default {
                 this.errors = errorsHelper.methods.getFromResponse(errors);
                 return errors;
             }
+        },
+        throwError(error) {
+            if (error?.response?.status) {
+                errorsHelper.methods.openResponseNotification(error)
+            } else {
+                errorsHelper.methods.openNotification(error)
+            }
+
+            if (window.history.length > 2) {
+                this.$router.back()
+            } else {
+                this.$router.push('/')
+            }
         }
     },
     async mounted() {
         await this.$store.dispatch('rooms/getData', this.$route.params.id).then(response => {
             this.room = response
+        }).catch((error) => {
+            return this.throwError(error)
         })
 
         if (!this.room.is_closed || this.current_room?.id) {
             let joinAttempt = await this.tryToJoin();
             if (joinAttempt.response.status >= 400) {
-                errorsHelper.methods.openResponseNotification(joinAttempt)
-                if (window.history.length > 2) {
-                    this.$router.back()
-                } else {
-                    this.$router.push('/')
-                }
+                this.throwError(joinAttempt)
             }
         } else {
             this.isLoading = false;

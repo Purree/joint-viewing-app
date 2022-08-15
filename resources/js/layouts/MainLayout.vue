@@ -1,6 +1,6 @@
 <template>
     <Header/>
-    <div class="is-fullheight container box border-0 is-under-header">
+    <div class="is-flex main-content is-fullheight container box border-0 is-under-header">
         <slot></slot>
     </div>
 </template>
@@ -14,6 +14,10 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+.main-content {
+    &, &>* {
+        width: 100%;
+    }
+}
 </style>
