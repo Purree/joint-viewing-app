@@ -1,6 +1,7 @@
 <template>
     <div class="room-content">
-        <div class="activity-block is-flex is-relative" :class="is_queue_closed ? 'fullscreen' : ''">
+        <div class="activity-block is-flex is-relative"
+             :class="is_queue_closed ? 'fullscreen chat-below': ''">
             <player class="player"></player>
             <chat v-if="!is_chat_closed" @close-chat="manipulateChatVisibility" class="chat"></chat>
             <visibility-manipulating-block v-if="is_chat_closed || is_queue_closed"
@@ -21,8 +22,8 @@ import replaceDataInUri from "@/mixins/replaceDataInUri";
 import errorsHelper from "@/mixins/errors.js";
 import {mapState} from "vuex";
 import Player from "@/components/room/Player";
-import Chat from "@/components/room/Chat";
-import Queue from "@/components/room/Queue";
+import Chat from "@/components/room/Chat/Index";
+import Queue from "@/components/room/Queue/Index";
 import VisibilityManipulatingBlock from "@/components/room/VisibilityManipulatingBlock";
 
 export default {
@@ -84,34 +85,51 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .room-content {
-        height: 100%;
+.room-content {
+    height: 100%;
+}
+
+.activity-block {
+    height: 70%;
+}
+
+.queue-block {
+    height: 30%;
+}
+
+.fullscreen {
+    height: 100%;
+
+    & .chat {
+        margin-bottom: 0 !important;
     }
+}
+
+.chat-below {
+    flex-direction: column;
+}
+.chat-below .chat {
+    margin-top: 20px;
+    margin-left: 0;
+
+    & {
+        width: 100%;
+        height: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 600px) {
     .activity-block {
-        height: 70%;
+        flex-direction: column;
     }
-    .queue-block {
-        height: 30%;
-    }
-    .fullscreen {
-        height: 100%;
+    .chat {
+        margin-top: 20px;
+        margin-left: 0;
 
-        & .chat {
-            margin-bottom: 0 !important;
+        & {
+            width: 100%;
+            height: calc(50% - 20px);
         }
     }
-
-    @media (max-width: 600px) {
-        .activity-block {
-            flex-direction: column;
-        }
-        .chat {
-            margin-top: 20px;
-            margin-left: 0;
-            &,.player {
-                width: 100%;
-                height: calc(50% - 20px);
-            }
-        }
-    }
+}
 </style>

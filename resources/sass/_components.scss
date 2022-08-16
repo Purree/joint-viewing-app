@@ -61,3 +61,11 @@ div.file-image {
     cursor: pointer;
     background-color: lighten($background, 1%) !important;
 }
+
+.is-fixed {
+    position: fixed;
+}
+
+.is-absolute {
+    position: absolute;
+}

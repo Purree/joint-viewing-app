@@ -29,6 +29,9 @@ export default [
                 path: '/room/:link',
                 name: 'Room',
                 component: () => import('@/views/Room/Index.vue'),
+                meta: {
+                    layout: 'RoomLayout'
+                }
             }
         ],
         meta: {

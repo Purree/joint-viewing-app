@@ -15,6 +15,7 @@ export default {
 
 <style scoped>
 .home-icon {
-    margin: 10px;
+    left: 10px;
+    top: 10px;
 }
 </style>
