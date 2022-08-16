@@ -1,6 +1,6 @@
 <template>
     <Header/>
-    <div class="is-flex main-content is-fullheight container box border-0 is-under-header">
+    <div class="is-flex main-content is-fullheight container box is-radiusless is-under-header">
         <slot></slot>
     </div>
 </template>

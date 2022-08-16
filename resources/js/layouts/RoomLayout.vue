@@ -1,7 +1,7 @@
 <template>
     <sidebar></sidebar>
 
-    <div class="is-flex main-content container box border-0">
+    <div class="is-flex main-content container box is-radiusless">
         <slot></slot>
     </div>
 </template>
