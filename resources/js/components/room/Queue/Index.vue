@@ -1,6 +1,6 @@
 <template>
     <div class="queue-content is-relative box">
-        <div class="is-fixed close-queue-button">
+        <div class="is-sticky close-queue-button">
             <o-button iconRightClass="regular" icon-right="close" @click="$emit('closeQueue')"></o-button>
         </div>
         <div>
@@ -66,6 +66,8 @@ export default {
 }
 
 .close-queue-button {
+    height: 0;
+    top: 0;
     opacity: 50%;
 }
 
