@@ -6,7 +6,7 @@
         <div class="menu-buttons is-flex is-flex-direction-column is-justify-content-space-between">
             <ul class="menu-list">
                 <li v-for="tab in tabs" class="is-clipped">
-                    <router-link :to="{'name': tab.route-name}">
+                    <router-link :to="{'name': tab['route-name']}">
                         {{ tab.text }}
                     </router-link>
                 </li>
