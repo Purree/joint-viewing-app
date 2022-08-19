@@ -1,7 +1,7 @@
 <template>
-    <div class="room-content">
+    <div class="h-100">
         <div class="activity-block is-flex is-relative"
-             :class="is_queue_closed ? 'fullscreen chat-below': ''">
+             :class="is_queue_closed ? 'fullscreen h-100 chat-below': ''">
             <player class="player"></player>
             <chat v-if="!is_chat_closed" @close-chat="manipulateChatVisibility" class="chat"></chat>
             <visibility-manipulating-block v-if="is_chat_closed || is_queue_closed"
@@ -85,10 +85,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.room-content {
-    height: 100%;
-}
-
 .activity-block {
     height: 70%;
 }
@@ -98,8 +94,6 @@ export default {
 }
 
 .fullscreen {
-    height: 100%;
-
     & .chat {
         margin-bottom: 0 !important;
     }

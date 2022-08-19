@@ -3,7 +3,7 @@
               class="sidebar-opened-burger is-fixed"></o-button>
     <aside class="navbar is-fixed menu is-flex-direction-column" :class="isOpened ? 'is-opened': 'is-closed'">
         <o-button class="is-fullwidth" @click="isOpened=!isOpened" icon-right="close"></o-button>
-        <div class="menu-buttons is-flex is-flex-direction-column is-justify-content-space-between">
+        <div class="menu-buttons h-100 w-100 is-flex is-flex-direction-column is-justify-content-space-between">
             <ul class="menu-list">
                 <li v-for="tab in tabs" class="is-clipped">
                     <router-link :to="{'name': tab['route-name']}">
@@ -50,8 +50,6 @@ export default {
     background-color: var(--lt-color-gray-300) !important
 
 .menu-buttons
-    height: 100%
-    width: 100%
     padding: 8px
 
 .is-opened
