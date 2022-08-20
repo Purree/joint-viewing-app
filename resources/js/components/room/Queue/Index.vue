@@ -5,10 +5,10 @@
         </div>
         <div class="is-flex is-justify-content-space-between is-flex-direction-column h-100">
             <div>
-                <queue-column v-for="order in orders"
+                <queue-row v-for="order in orders"
                               :key="order.id"
                               :can-control="user.id === order.customer.id"
-                              :order="order"></queue-column>
+                              :order="order"></queue-row>
             </div>
             <div class="queue-add-order-container w-100 is-flex is-sticky">
                 <div class="w-100 is-radiusless">
@@ -30,12 +30,12 @@
 </template>
 
 <script>
-import QueueColumn from "@/components/room/Queue/Column";
+import QueueRow from "@/components/room/Queue/Row";
 import {mapState} from "vuex";
 
 export default {
     name: "Queue",
-    components: {QueueColumn},
+    components: {QueueRow},
     computed: {
         ...mapState('auth', ['user'])
     },

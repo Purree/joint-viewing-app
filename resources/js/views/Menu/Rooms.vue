@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import RoomColumn from "@/components/rooms/RoomColumn.vue";
+import RoomRow from "@/components/rooms/RoomRow.vue";
 import {mapState} from "vuex";
 import SubmitButton from "@/components/SubmitButton";
 import Divider from "@/components/Divider";
@@ -16,7 +16,7 @@ import PublicRooms from "@/components/rooms/PublicRooms";
 
 export default {
     name: "Rooms",
-    components: {PublicRooms, CurrentRoom, SubmitButton, RoomColumn, Divider},
+    components: {PublicRooms, CurrentRoom, SubmitButton, RoomRow, Divider},
     computed: {
         ...mapState('auth', ['user']),
     }

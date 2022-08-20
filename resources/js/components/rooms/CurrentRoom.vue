@@ -1,15 +1,15 @@
 <template>
     <divider>Current room</divider>
     <div v-if="this.current_room !== null || this.created_room !== null">
-        <room-column @open-room="openRoom"
+        <room-row @open-room="openRoom"
                      :room="this.current_room"
                      :is-owned="this.created_room?.id === this.current_room?.id"
-                     :is-current="true"></room-column>
+                     :is-current="true"></room-row>
 
-        <room-column @open-room="openRoom"
+        <room-row @open-room="openRoom"
                      v-if="this.created_room?.id && this.current_room?.id !== this.created_room.id"
                      :room="this.created_room"
-                     :is-owned="true"></room-column>
+                     :is-owned="true"></room-row>
     </div>
     <div v-else>
         <room-manipulate-block send-request-button-text="Create room"
@@ -29,7 +29,7 @@
 <script>
 import {mapState} from "vuex";
 import SubmitButton from "@/components/SubmitButton";
-import RoomColumn from "@/components/rooms/RoomColumn";
+import RoomRow from "@/components/rooms/RoomRow";
 import Divider from "@/components/Divider";
 import RoomManipulateBlock from "@/components/rooms/RoomManipulateBlock";
 import errorsHelper from "@/mixins/errors";
@@ -37,7 +37,7 @@ import {API_CREATE_ROOM_URL} from "@/api/rooms";
 
 export default {
     name: "CurrentRoom",
-    components: {RoomManipulateBlock, SubmitButton, RoomColumn, Divider},
+    components: {RoomManipulateBlock, SubmitButton, RoomRow, Divider},
     data() {
         return {
             createRoomPending: false,

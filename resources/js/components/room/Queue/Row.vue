@@ -16,7 +16,7 @@
 
 <script>
 export default {
-    name: "QueueColumn",
+    name: "QueueRow",
     props: {
         order: {
             type: Object,

@@ -2,12 +2,12 @@
     <divider>All public rooms</divider>
 
     <div v-if="!pending" class="is-flex is-flex-direction-column">
-        <room-column v-for="room in rooms"
+        <room-row v-for="room in rooms"
                      :pending="roomToJoin === room.id"
                      @open-room="openRoom"
                      :room="room"
                      :is-owned="this.created_room?.id === room.id"
-                     :is-current="[this.current_room?.id, this.created_room?.id].includes(room.id)"></room-column>
+                     :is-current="[this.current_room?.id, this.created_room?.id].includes(room.id)"></room-row>
 
         <o-pagination
             :total="this.pagination.total"
@@ -27,7 +27,7 @@
 
 <script>
 import SubmitButton from "@/components/SubmitButton";
-import RoomColumn from "@/components/rooms/RoomColumn";
+import RoomRow from "@/components/rooms/RoomRow";
 import Divider from "@/components/Divider";
 import {API_ALL_ROOMS_URL} from "@/api/rooms";
 import usePending from "@/mixins/usePending";
@@ -36,7 +36,7 @@ import errorsHelper from "@/mixins/errors";
 
 export default {
     name: "PublicRooms",
-    components: {SubmitButton, RoomColumn, Divider},
+    components: {SubmitButton, RoomRow, Divider},
     emits: ['updatePaginationPage'],
     mixins: [usePending],
     data() {

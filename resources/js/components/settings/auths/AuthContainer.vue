@@ -1,10 +1,10 @@
 <template>
     <divider>{{ dividerText }}</divider>
 
-    <columns :columns="headerColumns"></columns>
+    <rows :columns="headerColumns"></rows>
     <div v-for="auth in auths" :key="auth.id">
         <hr/>
-        <columns :columns="arrayKeys.map((el) => {
+        <rows :columns="arrayKeys.map((el) => {
             if (typeof el === 'string')
                 return auth[el]
 
@@ -15,13 +15,13 @@
             <div class="column">
                 <revoke-auth-button :deleting-auths="deletingAuths" @delete="deleteAuth" :auth-id="auth.id"/>
             </div>
-        </columns>
+        </rows>
     </div>
 </template>
 
 <script>
 import RevokeAuthButton from "@/components/settings/auths/RevokeAuthButton.vue";
-import Columns from "@/components/Columns.vue";
+import Rows from "@/components/Rows.vue";
 import errorsHelper from "@/mixins/errors.js";
 import replaceDataInUri from "@/mixins/replaceDataInUri.js";
 import {mapState} from "vuex";
@@ -29,7 +29,7 @@ import Divider from "@/components/Divider";
 
 export default {
     name: "AuthContainer",
-    components: {Columns, RevokeAuthButton, Divider},
+    components: {Rows, RevokeAuthButton, Divider},
     emits: ['delete', 'update'],
     props: ['auths', 'deletingAuths', 'dividerText', 'headerColumns', 'arrayKeys', 'deleteRequestParams'],
     methods: {

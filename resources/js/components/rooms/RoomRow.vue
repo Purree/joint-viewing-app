@@ -24,7 +24,7 @@
 
 <script>
 export default {
-    name: "RoomColumn",
+    name: "RoomRow",
     props: {
         room: {
             type: Object,
