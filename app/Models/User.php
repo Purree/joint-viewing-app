@@ -139,6 +139,11 @@ class User extends Authenticatable
         return $this->hasMany(Queue::class, 'customer_id');
     }
 
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class);
+    }
+
     public function join(Room $room, ?string $password = null): FunctionResult
     {
         if ($this->currentRoom || $this->createdRoom) {

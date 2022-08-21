@@ -4,7 +4,7 @@
             <o-button iconRightClass="regular" icon-right="close" @click="$emit('closeQueue')"></o-button>
         </div>
         <div class="is-flex is-justify-content-space-between is-flex-direction-column h-100">
-            <div>
+            <div class="queue-container">
                 <queue-row v-for="order in orders"
                               :key="order.id"
                               :can-control="user.id === order.customer.id"
@@ -78,7 +78,9 @@ export default {
 .queue-content {
     margin-top: 10px;
     padding: 0;
-    height: calc(100% - 10px);
+    height: 100%;
+}
+.queue-container {
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -94,7 +96,6 @@ export default {
 }
 
 .queue-add-order-container {
-    bottom: -3px;
     left: 0;
     height: 15%;
     z-index: 1;
