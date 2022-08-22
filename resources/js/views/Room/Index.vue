@@ -94,6 +94,7 @@ export default {
 }
 
 .fullscreen {
+    height: 100%;
     & .chat {
         margin-bottom: 0 !important;
     }
@@ -105,6 +106,8 @@ export default {
 .chat-below .chat {
     margin-top: 20px;
     margin-left: 0;
+    max-width: 100%;
+    max-height: 100%;
 
     & {
         width: 100%;
@@ -119,6 +122,7 @@ export default {
     .chat {
         margin-top: 20px;
         margin-left: 0;
+        max-width: 100%;
 
         & {
             width: 100%;
