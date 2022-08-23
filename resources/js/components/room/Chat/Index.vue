@@ -4,21 +4,35 @@
             <o-button iconRightClass="regular" icon-right="close" @click="$emit('closeChat')"></o-button>
         </div>
         <div class="messages">
-            <chat-message v-for="message in messages" :message="message" :is-sent-by-current-user="message.user.id === this.user.id"></chat-message>
+            <chat-message v-for="message in messages" :message="message"
+                          :is-sent-by-current-user="message.user.id === this.user.id"></chat-message>
         </div>
-        <div class="send-message-form box"></div>
+        <div class="send-message-form box is-flex is-sticky">
+            <div class="w-100 is-radiusless">
+                <o-input v-model="userMessage"
+                         required
+                         rootClass="is-radiusless h-100"
+                         class="is-radiusless h-100"
+                         placeholder="Hello!"></o-input>
+            </div>
+            <div>
+                <o-button class="is-radiusless h-100" icon-right="paper-plane" @click=""></o-button>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import ChatMessage from "@/components/room/Chat/Message";
 import {mapState} from "vuex";
+
 export default {
     name: "Chat",
     components: {ChatMessage},
     emits: ['closeChat'],
     data() {
         return {
+            userMessage: "",
             messages: [
                 {
                     id: 1,
@@ -123,18 +137,21 @@ $input-margin: 15px;
     padding-bottom: 0;
     padding-right: 0;
 }
+
 .messages {
     overflow-x: hidden;
     overflow-y: scroll;
     height: calc(100% - $input-height + $box-border-size - $input-margin);
     padding-right: $box-border-size;
 }
+
 .send-message-form {
     height: $input-height;
     margin-left: -$box-border-size;
     margin-top: $input-margin;
     padding: 0;
 }
+
 .close-chat-button {
     top: -$box-border-size;
     margin-left: -$box-border-size;
