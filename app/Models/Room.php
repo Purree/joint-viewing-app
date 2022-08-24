@@ -61,4 +61,9 @@ class Room extends Model
     {
         return $this->owner->id === $user->id || $this->members()->contains($user);
     }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class);
+    }
 }
