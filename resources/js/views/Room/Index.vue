@@ -3,7 +3,7 @@
         <div class="activity-block is-flex is-relative"
              :class="is_queue_closed ? 'fullscreen h-100 chat-below': ''">
             <player class="player"></player>
-            <chat v-if="!is_chat_closed" @close-chat="manipulateChatVisibility" class="chat"></chat>
+            <chat :room="current_room" v-if="!is_chat_closed" @close-chat="manipulateChatVisibility" class="chat"></chat>
             <visibility-manipulating-block v-if="is_chat_closed || is_queue_closed"
                                            @open-chat="manipulateChatVisibility"
                                            @open-queue="manipulateQueueVisibility"
