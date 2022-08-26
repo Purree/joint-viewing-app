@@ -20,6 +20,7 @@
                 <div class="w-100 is-radiusless">
                     <o-input v-model="userMessage"
                              required
+                             :disabled="sendMessagePending"
                              rootClass="is-radiusless h-100"
                              class="is-radiusless h-100"
                              placeholder="Hello!"></o-input>
