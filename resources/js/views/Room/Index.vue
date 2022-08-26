@@ -25,6 +25,7 @@ import Player from "@/components/room/Player";
 import Chat from "@/components/room/Chat/Index";
 import Queue from "@/components/room/Queue/Index";
 import VisibilityManipulatingBlock from "@/components/room/VisibilityManipulatingBlock";
+import broadcastConnections from "@/mixins/broadcastConnections";
 
 export default {
     name: "Index",
@@ -59,7 +60,7 @@ export default {
             this.$router.push({'name': 'RoomEntrance', 'params': {'id': this.room.id}});
         }
 
-        Echo.join(`room.${this.room.id}`)
+        broadcastConnections.methods.connectToRoom(this.room.id)
             .here((users) => {
                 this.users = users;
             })

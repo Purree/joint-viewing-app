@@ -22,7 +22,7 @@ class MessageSent implements ShouldBroadcast
      * @return void
      */
     public function __construct(
-        private readonly MessageResource $message,
+        public MessageResource $message,
     ) {
     }
 

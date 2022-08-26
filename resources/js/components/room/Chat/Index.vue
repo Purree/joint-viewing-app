@@ -1,7 +1,8 @@
 <template>
     <div class="is-relative box">
         <div v-if="chatPending">
-            <o-loading overlayClass="is-transparent" :full-page="false" :active="chatPending" :can-cancel="false"></o-loading>
+            <o-loading overlayClass="is-transparent" :full-page="false" :active="chatPending"
+                       :can-cancel="false"></o-loading>
         </div>
         <div class="h-100" v-else>
             <div class="is-sticky close-chat-button">
@@ -20,7 +21,9 @@
                              placeholder="Hello!"></o-input>
                 </div>
                 <div>
-                    <o-button class="is-radiusless h-100" icon-right="paper-plane" @click=""></o-button>
+                    <o-button @click="usePending(sendMessage, 'sendMessagePending')" class="is-radiusless h-100"
+                              icon-right="paper-plane"
+                              :disabled="sendMessagePending || userMessage.length === 0"></o-button>
                 </div>
             </div>
         </div>
@@ -33,10 +36,13 @@ import {mapState} from "vuex";
 import errorsHelper from "@/mixins/errors";
 import replaceDataInUri from "@/mixins/replaceDataInUri";
 import {API_GET_ALL_MESSAGES_URL, API_SEND_MESSAGE_URL} from "@/api/chat";
+import usePending from "@/mixins/usePending";
+import broadcastConnections from "@/mixins/broadcastConnections";
 
 export default {
     name: "Chat",
     components: {ChatMessage},
+    mixins: [usePending],
     props: {
         room: {
             type: Object,
@@ -48,6 +54,7 @@ export default {
         return {
             userMessage: "",
             chatPending: true,
+            sendMessagePending: false,
             messages: [],
             errors: []
         };
@@ -65,14 +72,27 @@ export default {
                     errorsHelper.methods.openResponseNotification(errors);
                 });
         },
-        sendMessage(message) {
-            return axios.get(replaceDataInUri(API_SEND_MESSAGE_URL, {'roomId': this.room.id}), {'message': message})
+        sendMessage() {
+            return axios.post(replaceDataInUri(API_SEND_MESSAGE_URL, {'roomId': this.room.id}), {'message': this.userMessage})
+                .then(() => {
+                    this.userMessage = '';
+                }).catch(errors => {
+                    this.errors = errorsHelper.methods.getFromResponse(errors);
+                    errorsHelper.methods.openResponseNotification(errors);
+                });
+
         }
     },
     mounted() {
         this.getMessages().then(() => {
             this.chatPending = false;
         });
+
+        broadcastConnections.methods.connectToRoom(this.room.id)
+            .listen('MessageSent', response => {
+                console.log(response.message);
+                this.messages.push(response.message);
+            });
     }
 }
 </script>
