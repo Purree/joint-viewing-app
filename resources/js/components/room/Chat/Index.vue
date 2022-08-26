@@ -8,11 +8,12 @@
             <div class="is-sticky close-chat-button">
                 <o-button iconRightClass="regular" icon-right="close" @click="$emit('closeChat')"></o-button>
             </div>
-            <div class="messages">
+            <div class="messages" ref="messages">
                 <chat-message v-for="message in messages" :message="message"
                               :is-sent-by-current-user="message.user.id === this.user.id"></chat-message>
             </div>
-            <div class="send-message-form box is-flex is-sticky">
+            <form @submit.prevent="usePending(sendMessage, 'sendMessagePending')"
+                  class="send-message-form box is-flex is-sticky">
                 <div class="w-100 is-radiusless">
                     <o-input v-model="userMessage"
                              required
@@ -21,11 +22,11 @@
                              placeholder="Hello!"></o-input>
                 </div>
                 <div>
-                    <o-button @click="usePending(sendMessage, 'sendMessagePending')" class="is-radiusless h-100"
+                    <o-button nativeType="submit" class="is-radiusless h-100"
                               icon-right="paper-plane"
                               :disabled="sendMessagePending || userMessage.length === 0"></o-button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </template>
@@ -60,7 +61,7 @@ export default {
         };
     },
     computed: {
-        ...mapState('auth', ['user'])
+        ...mapState('auth', ['user']),
     },
     methods: {
         getMessages() {
@@ -81,19 +82,31 @@ export default {
                     errorsHelper.methods.openResponseNotification(errors);
                 });
 
+        },
+        scrollToLastMessage() {
+            this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
         }
     },
     mounted() {
         this.getMessages().then(() => {
             this.chatPending = false;
+        }).then(() => {
+            this.scrollToLastMessage();
         });
 
         broadcastConnections.methods.connectToRoom(this.room.id)
             .listen('MessageSent', response => {
-                console.log(response.message);
                 this.messages.push(response.message);
+
+                this.$nextTick(() => {
+                    if (this.$refs.messages.scrollHeight -
+                        this.$refs.messages.clientHeight -
+                        this.$refs.messages.lastElementChild.clientHeight - 10 <= this.$refs.messages.scrollTop) {
+                        this.scrollToLastMessage();
+                    }
+                });
             });
-    }
+    },
 }
 </script>
 
