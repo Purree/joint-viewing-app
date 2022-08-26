@@ -5,8 +5,11 @@
                        :can-cancel="false"></o-loading>
         </div>
         <div class="h-100" v-else>
-            <div class="is-sticky close-chat-button">
-                <o-button iconRightClass="regular" icon-right="close" @click="$emit('closeChat')"></o-button>
+            <div class="is-sticky chat-control-buttons">
+                <div>
+                    <o-button iconRightClass="regular" icon-right="close" @click="$emit('closeChat')"></o-button>
+                    <o-button iconRightClass="regular" icon-right="arrow-down" v-if="showScrollDownButton" @click="scrollToLastMessage"></o-button>
+                </div>
             </div>
             <div class="messages" ref="messages">
                 <chat-message v-for="message in messages" :message="message"
@@ -54,6 +57,7 @@ export default {
     data() {
         return {
             userMessage: "",
+            showScrollDownButton: false,
             chatPending: true,
             sendMessagePending: false,
             messages: [],
@@ -61,7 +65,7 @@ export default {
         };
     },
     computed: {
-        ...mapState('auth', ['user']),
+        ...mapState('auth', ['user'])
     },
     methods: {
         getMessages() {
@@ -83,14 +87,23 @@ export default {
                 });
 
         },
+        handleMessagesScroll() {
+            this.showScrollDownButton = !this.checkIsChatScrolledDown();
+        },
         scrollToLastMessage() {
             this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
+        },
+        checkIsChatScrolledDown() {
+            return this.$refs.messages.scrollHeight -
+                this.$refs.messages.clientHeight -
+                this.$refs.messages.lastElementChild.clientHeight - 10 <= this.$refs.messages.scrollTop;
         }
     },
     mounted() {
         this.getMessages().then(() => {
             this.chatPending = false;
         }).then(() => {
+            this.$refs.messages.addEventListener('scroll', this.handleMessagesScroll);
             this.scrollToLastMessage();
         });
 
@@ -99,9 +112,7 @@ export default {
                 this.messages.push(response.message);
 
                 this.$nextTick(() => {
-                    if (this.$refs.messages.scrollHeight -
-                        this.$refs.messages.clientHeight -
-                        this.$refs.messages.lastElementChild.clientHeight - 10 <= this.$refs.messages.scrollTop) {
+                    if (this.checkIsChatScrolledDown()) {
                         this.scrollToLastMessage();
                     }
                 });
@@ -138,7 +149,7 @@ $input-margin: 15px;
     padding: 0;
 }
 
-.close-chat-button {
+.chat-control-buttons {
     top: -$box-border-size;
     margin-left: -$box-border-size;
     margin-top: -$box-border-size;
