@@ -37,9 +37,11 @@ export default {
 
 <style scoped lang="sass">
 @import "@@/bulma/prefers-dark/utilities/mixins.sass"
+@import "@@/_variables.scss"
+
 +prefers-scheme(dark)
     .menu, .sidebar-opened-burger
-        background-color: var(--lt-color-gray-700) !important
+        background-color: $sidebarBackgroundColorDark !important
 
 .sidebar-opened-burger
     z-index: 100
@@ -47,7 +49,7 @@ export default {
 .menu
     position: fixed
     height: 100vh
-    background-color: var(--lt-color-gray-300) !important
+    background-color: $sidebarBackgroundColor !important
 
 .menu-buttons
     padding: 8px

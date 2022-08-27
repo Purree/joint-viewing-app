@@ -1,5 +1,11 @@
+@import "@@/bulma/bulma.scss";
+
 // Scroll
 $scrollColor: darken($box-background-color, 10%);
 $scrollBackgroundColor: none;
 $scrollHoverColor: darken($box-background-color, 20%);
 $scrollBorderColor: darken($box-background-color, 50%);
+
+// Sidebar
+$sidebarBackgroundColor: #dee3ed;
+$sidebarBackgroundColorDark: #2f3237;

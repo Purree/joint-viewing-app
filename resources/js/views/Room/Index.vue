@@ -1,5 +1,5 @@
 <template>
-    <div class="h-100">
+    <div v-if="is_loaded" class="h-100">
         <div class="activity-block is-flex is-relative"
              :class="{'fullscreen h-100 chat-below': is_queue_closed}">
             <player class="player"></player>
@@ -13,6 +13,9 @@
         <div class="queue-block" v-if="!is_queue_closed">
             <queue @closeQueue="manipulateQueueVisibility"></queue>
         </div>
+    </div>
+    <div v-else>
+        <o-loading overlayClass="is-transparent" :full-page="true" :active="!is_loaded" :can-cancel="false"></o-loading>
     </div>
 </template>
 
@@ -32,6 +35,7 @@ export default {
     components: {VisibilityManipulatingBlock, Queue, Player, Chat},
     data() {
         return {
+            is_loaded: false,
             room: {
                 'id': 0,
             },
@@ -40,7 +44,7 @@ export default {
             is_queue_closed: false,
         }
     },
-    async mounted() {
+    async beforeCreate() {
         try {
             await axios.get(replaceDataInUri(API_GET_ROOM_DATA_BY_LINK_URL, {'roomLink': this.$route.params.link}))
                 .then((response) => {
@@ -57,7 +61,7 @@ export default {
         if (this.current_room?.id !== this.room.id) {
             errorsHelper.methods.openNotification('You are not in this room');
 
-            this.$router.push({'name': 'RoomEntrance', 'params': {'id': this.room.id}});
+            await this.$router.push({'name': 'RoomEntrance', 'params': {'id': this.room.id}});
         }
 
         broadcastConnections.methods.connectToRoom(this.room.id)
@@ -70,6 +74,8 @@ export default {
             .leaving((user) => {
                 this.users = this.users.filter(u => (u.id !== user.id))
             });
+
+        this.is_loaded = true;
     },
     methods: {
         manipulateChatVisibility() {
