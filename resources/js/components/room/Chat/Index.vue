@@ -6,9 +6,14 @@
         </div>
         <div class="h-100" v-else>
             <div class="is-sticky chat-control-buttons">
-                <div>
+                <div class="is-flex">
                     <o-button iconRightClass="regular" icon-right="close" @click="$emit('closeChat')"></o-button>
-                    <o-button iconRightClass="regular" icon-right="arrow-down" v-if="showScrollDownButton" @click="scrollToLastMessage"></o-button>
+                    <o-button iconRightClass="regular" icon-right="arrow-down" v-if="showScrollDownButton"
+                              @click="scrollToLastMessage"></o-button>
+                    <div class="box is-relative" v-if="addMessagePending">
+                        <o-loading overlayClass="is-transparent" :full-page="false" :active="addMessagePending"
+                                   :can-cancel="false"></o-loading>
+                    </div>
                 </div>
             </div>
             <div class="messages" ref="messages">
@@ -61,18 +66,23 @@ export default {
             showScrollDownButton: false,
             chatPending: true,
             sendMessagePending: false,
+            addMessagePending: false,
             messages: [],
-            errors: []
+            errors: [],
+            totalMessagePages: 0,
+            currentMessagePage: 0,
         };
     },
     computed: {
         ...mapState('auth', ['user'])
     },
     methods: {
-        getMessages() {
-            return axios.get(replaceDataInUri(API_GET_ALL_MESSAGES_URL, {'roomId': this.room.id}))
+        getMessages(page = 1) {
+            return axios.get(replaceDataInUri(API_GET_ALL_MESSAGES_URL, {'roomId': this.room.id}), {params: {'page': page}})
                 .then(response => {
-                    this.messages = response.data;
+                    this.totalMessagePages = response.data.pagination.total_pages;
+                    this.currentMessagePage = response.data.pagination.current_page;
+                    return response;
                 }).catch(errors => {
                     this.errors = errorsHelper.methods.getFromResponse(errors);
                     errorsHelper.methods.openResponseNotification(errors);
@@ -90,6 +100,26 @@ export default {
         },
         handleMessagesScroll() {
             this.showScrollDownButton = !this.checkIsChatScrolledDown();
+
+            if (
+                (this.$refs.messages.scrollHeight - this.$refs.messages.clientHeight) / 5 >= this.$refs.messages.scrollTop
+                && this.currentMessagePage < this.totalMessagePages && !this.addMessagePending
+            ) {
+                this.addMessagePending = true;
+                let scrollDifference = 0;
+
+                this.getMessages(this.currentMessagePage + 1)
+                    .then((response) => {
+                        scrollDifference = this.$refs.messages.scrollHeight - this.$refs.messages.scrollTop
+                        this.messages.unshift(...response.data.data)
+                        this.addMessagePending = false;
+                    })
+                    .then(() => {
+                        this.$nextTick(() => {
+                            this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight - scrollDifference;
+                        });
+                    });
+            }
         },
         scrollToLastMessage() {
             this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
@@ -101,7 +131,10 @@ export default {
         }
     },
     mounted() {
-        this.getMessages().then(() => {
+        this.getMessages().then((response) => {
+            this.messages = response.data.data;
+            this.chatPending = false;
+        }).catch(() => {
             this.chatPending = false;
         }).then(() => {
             this.$refs.messages.addEventListener('scroll', this.handleMessagesScroll);

@@ -14,7 +14,7 @@ final class AuthorizationService
     {
         $attempt_user = User::where('email', $email)->first();
 
-        if (!($attempt_user && Hash::check($password, $attempt_user->password))) {
+        if (! ($attempt_user && Hash::check($password, $attempt_user->password))) {
             return FunctionResult::error(['auth' => ['Incorrect user or password.']]);
         }
 
@@ -68,7 +68,7 @@ final class AuthorizationService
     {
         $user = User::where('email', $email)->first();
 
-        if (!Hash::check($password_recovery_secret, $user->secret)) {
+        if (! Hash::check($password_recovery_secret, $user->secret)) {
             return FunctionResult::error(
                 ['secret' => ['Incorrect secret']],
             );

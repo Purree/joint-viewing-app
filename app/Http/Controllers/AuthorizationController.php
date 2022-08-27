@@ -6,18 +6,12 @@ use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RecoveryPasswordRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\TwoFactorLoginRequest;
-use App\Models\User;
 use App\Services\AuthorizationService;
 use App\Services\Results\ResponseResult;
-use App\Services\Secrets\Secret;
 use App\Services\Status;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-
-use function PHPUnit\Framework\returnValue;
 
 class AuthorizationController extends Controller
 {
