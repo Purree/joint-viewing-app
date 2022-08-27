@@ -3,7 +3,7 @@
         <div class="box container">
             <div class="tabs is-fullwidth is-toggle">
                 <ul v-for="route in routes">
-                    <li :class="route === this.$route.name ? 'is-active' : ''">
+                    <li :class="{'is-active': route === this.$route.name}">
                         <router-link :to="{ name: route }">{{ route }}</router-link>
                     </li>
                 </ul>

@@ -15,7 +15,7 @@ class RateLimiterServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('register', static function () {
-            return Limit::perHour(1);
+            return Limit::perMinute(5);
         });
 
         RateLimiter::for('change_name', static function () {

@@ -1,6 +1,6 @@
 <template>
     <div class="column box is-flex is-align-items-center is-hovered"
-         :class="pending ? 'is-disabled' : ''"
+         :class="{'is-disabled' : pending}"
          @click="$emit('openRoom', this.room)">
         <div class="mr-2">
             <o-icon pack="fas" :icon="this.room.is_closed ? 'lock' : 'unlock'" size="medium"></o-icon>

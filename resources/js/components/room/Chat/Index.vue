@@ -33,6 +33,7 @@
                 <div>
                     <o-button nativeType="submit" class="is-radiusless h-100"
                               icon-right="paper-plane"
+                              :class="{'is-loading': sendMessagePending}"
                               :disabled="sendMessagePending || userMessage.length === 0"></o-button>
                 </div>
             </form>

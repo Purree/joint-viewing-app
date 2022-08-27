@@ -1,5 +1,5 @@
 <template>
-    <o-button :disabled="pending" variant="light" :class="pending ? 'is-loading' : ''" @click="usePending(logout)">
+    <o-button :disabled="pending" variant="light" :class="{'is-loading' : pending}" @click="usePending(logout)">
         Logout
     </o-button>
 </template>

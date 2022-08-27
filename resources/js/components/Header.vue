@@ -2,7 +2,7 @@
     <nav class="navbar is-fixed-top has-shadow" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a role="button" @click="isDropdownActive=!isDropdownActive" class="navbar-burger" aria-label="menu"
-               aria-expanded="false" data-target="menuNavbar" :class="isDropdownActive ? 'is-active' : ''">
+               aria-expanded="false" data-target="menuNavbar" :class="{'is-active' : isDropdownActive}">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -12,7 +12,7 @@
         <div id="menuNavbar" class="navbar-menu container" :class="isDropdownActive ? 'is-active' : 'is-hidden-touch'">
             <div class="navbar-start">
                 <router-link v-for="tab in tabs" class="navbar-item is-tab" :to="{name: tab['route-name']}"
-                             :class="tab['route-name'] === $route.name ? 'is-active' : ''">
+                             :class="{'is-active' : tab['route-name'] === $route.name}">
                     {{ tab.text }}
                 </router-link>
             </div>
