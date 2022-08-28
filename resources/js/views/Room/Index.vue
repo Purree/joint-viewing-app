@@ -3,7 +3,8 @@
         <div class="activity-block is-flex is-relative"
              :class="{'fullscreen h-100 chat-below': is_orders_closed}">
             <player class="player"></player>
-            <chat :room="current_room" v-if="!is_chat_closed" @close-chat="manipulateChatVisibility" class="chat"></chat>
+            <chat :can-control="can_manipulate_room" :room="current_room" v-if="!is_chat_closed"
+                  @close-chat="manipulateChatVisibility" class="chat"></chat>
             <visibility-manipulating-block v-if="is_chat_closed || is_orders_closed"
                                            @open-chat="manipulateChatVisibility"
                                            @open-orders="manipulateOrdersVisibility"
@@ -11,7 +12,7 @@
                                            :is_orders_closed="is_orders_closed"></visibility-manipulating-block>
         </div>
         <div class="orders-block" v-if="!is_orders_closed">
-            <orders @closeOrders="manipulateOrdersVisibility"></orders>
+            <orders :can-control="can_manipulate_room" @closeOrders="manipulateOrdersVisibility"></orders>
         </div>
     </div>
     <div v-else>
@@ -36,10 +37,9 @@ export default {
     data() {
         return {
             is_loaded: false,
-            room: {
-                'id': 0,
-            },
+            room: {},
             users: [],
+            can_manipulate_room: false,
             is_chat_closed: false,
             is_orders_closed: false,
         }
@@ -75,6 +75,7 @@ export default {
                 this.users = this.users.filter(u => (u.id !== user.id))
             });
 
+        this.can_manipulate_room = !!this.current_room.can_everyone_control || this.room.owner.id === this.user.id;
         this.is_loaded = true;
     },
     methods: {
@@ -86,6 +87,7 @@ export default {
         }
     },
     computed: {
+        ...mapState('auth', ['user']),
         ...mapState('rooms', ['current_room']),
     }
 }
@@ -102,6 +104,7 @@ export default {
 
 .fullscreen {
     height: 100%;
+
     & .chat {
         margin-bottom: 0 !important;
     }
@@ -110,6 +113,7 @@ export default {
 .chat-below {
     flex-direction: column;
 }
+
 .chat-below .chat {
     margin-top: 20px;
     margin-left: 0;

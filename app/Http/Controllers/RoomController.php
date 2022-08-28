@@ -6,7 +6,6 @@ use App\Http\Requests\CreateRoomRequest;
 use App\Http\Requests\EditRoomRequest;
 use App\Http\Requests\JoinRoomRequest;
 use App\Http\Resources\RoomCollection;
-use App\Http\Resources\RoomResource;
 use App\Models\Room;
 use App\Models\User;
 use App\Services\Results\ResponseResult;
@@ -34,7 +33,7 @@ class RoomController extends Controller
 
     public function show(Request $request, Room $room): JsonResponse
     {
-        return ResponseResult::success(new RoomResource($room))->returnValue;
+        return ResponseResult::success($this->roomService->show($room)->returnValue)->returnValue;
     }
 
     public function destroy(Request $request, Room $room): JsonResponse

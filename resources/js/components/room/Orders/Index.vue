@@ -7,7 +7,7 @@
             <div class="orders-container">
                 <orders-row v-for="order in orders"
                               :key="order.id"
-                              :can-control="user.id === order.customer.id"
+                              :can-control="user.id === order.customer.id || this.canControl"
                               :order="order"></orders-row>
             </div>
             <div class="orders-add-order-container w-100 is-flex is-sticky">
@@ -36,6 +36,12 @@ import {mapState} from "vuex";
 export default {
     name: "Orders",
     components: {OrdersRow},
+    props: {
+        canControl: {
+            type: Boolean,
+            default: false
+        },
+    },
     computed: {
         ...mapState('auth', ['user'])
     },

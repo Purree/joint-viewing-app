@@ -63,11 +63,7 @@ export default {
                 errorsHelper.methods.openNotification(error)
             }
 
-            if (window.history.length > 2) {
-                this.$router.back()
-            } else {
-                this.$router.push('/')
-            }
+            this.$router.push('/')
         }
     },
     async mounted() {
