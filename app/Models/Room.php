@@ -26,9 +26,9 @@ class Room extends Model
         return $this->belongsTo(User::class, 'owner_id');
     }
 
-    public function queue(): HasMany
+    public function orders(): HasMany
     {
-        return $this->hasMany(Queue::class);
+        return $this->hasMany(Order::class);
     }
 
     public function members(): Collection

@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class QueueResource extends JsonResource
+class OrderResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,7 +17,7 @@ class QueueResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'queued_id' => $this->queued_id,
+            'order_id' => $this->order_id,
             'room' => new RoomResource($this->whenLoaded('room')),
             'customer' => new UserResource($this->whenLoaded('customer')),
             'video_url' => $this->video_url,

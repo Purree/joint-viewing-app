@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('queues', static function (Blueprint $table) {
+        Schema::create('orders', static function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('queued_id');
+            $table->unsignedBigInteger('order_id');
             $table->foreignId('room_id')->constrained()->cascadeOnDelete();
             $table->unsignedBigInteger('customer_id');
             $table->string('video_url', 2048);
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('queues');
+        Schema::dropIfExists('orders');
     }
 };

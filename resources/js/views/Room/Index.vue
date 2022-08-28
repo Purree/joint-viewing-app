@@ -1,17 +1,17 @@
 <template>
     <div v-if="is_loaded" class="h-100">
         <div class="activity-block is-flex is-relative"
-             :class="{'fullscreen h-100 chat-below': is_queue_closed}">
+             :class="{'fullscreen h-100 chat-below': is_orders_closed}">
             <player class="player"></player>
             <chat :room="current_room" v-if="!is_chat_closed" @close-chat="manipulateChatVisibility" class="chat"></chat>
-            <visibility-manipulating-block v-if="is_chat_closed || is_queue_closed"
+            <visibility-manipulating-block v-if="is_chat_closed || is_orders_closed"
                                            @open-chat="manipulateChatVisibility"
-                                           @open-queue="manipulateQueueVisibility"
+                                           @open-orders="manipulateOrdersVisibility"
                                            :is_chat_closed="is_chat_closed"
-                                           :is_queue_closed="is_queue_closed"></visibility-manipulating-block>
+                                           :is_orders_closed="is_orders_closed"></visibility-manipulating-block>
         </div>
-        <div class="queue-block" v-if="!is_queue_closed">
-            <queue @closeQueue="manipulateQueueVisibility"></queue>
+        <div class="orders-block" v-if="!is_orders_closed">
+            <orders @closeOrders="manipulateOrdersVisibility"></orders>
         </div>
     </div>
     <div v-else>
@@ -26,13 +26,13 @@ import errorsHelper from "@/mixins/errors.js";
 import {mapState} from "vuex";
 import Player from "@/components/room/Player";
 import Chat from "@/components/room/Chat/Index";
-import Queue from "@/components/room/Queue/Index";
+import Orders from "@/components/room/Orders/Index";
 import VisibilityManipulatingBlock from "@/components/room/VisibilityManipulatingBlock";
 import broadcastConnections from "@/mixins/broadcastConnections";
 
 export default {
     name: "Index",
-    components: {VisibilityManipulatingBlock, Queue, Player, Chat},
+    components: {VisibilityManipulatingBlock, Orders, Player, Chat},
     data() {
         return {
             is_loaded: false,
@@ -41,7 +41,7 @@ export default {
             },
             users: [],
             is_chat_closed: false,
-            is_queue_closed: false,
+            is_orders_closed: false,
         }
     },
     async beforeCreate() {
@@ -81,8 +81,8 @@ export default {
         manipulateChatVisibility() {
             this.is_chat_closed = !this.is_chat_closed
         },
-        manipulateQueueVisibility() {
-            this.is_queue_closed = !this.is_queue_closed
+        manipulateOrdersVisibility() {
+            this.is_orders_closed = !this.is_orders_closed
         }
     },
     computed: {
@@ -96,7 +96,7 @@ export default {
     height: 70%;
 }
 
-.queue-block {
+.orders-block {
     height: 30%;
 }
 

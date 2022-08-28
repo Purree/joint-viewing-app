@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Queue Connection Name
+    | Default Order Connection Name
     |--------------------------------------------------------------------------
     |
     | Laravel's queue API supports an assortment of back-ends via a single
@@ -17,7 +17,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Queue Connections
+    | Order Connections
     |--------------------------------------------------------------------------
     |
     | Here you may configure the connection information for each server that
@@ -75,7 +75,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Failed Queue Jobs
+    | Failed Order Jobs
     |--------------------------------------------------------------------------
     |
     | These options configure the behavior of failed queue job logging so you

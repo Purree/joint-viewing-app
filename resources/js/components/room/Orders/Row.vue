@@ -1,7 +1,7 @@
 <template>
-    <div class="column box queue-column is-radiusless">
+    <div class="column box orders-column is-radiusless">
         <div class="is-flex is-justify-content-space-between is-align-items-center">
-            <div class="queue-column-text-box">
+            <div class="orders-column-text-box">
                 <div>
                     <a :href="this.order.video_url">
                         {{ this.order.video_url }}
@@ -16,7 +16,7 @@
 
 <script>
 export default {
-    name: "QueueRow",
+    name: "OrdersRow",
     props: {
         order: {
             type: Object,
@@ -37,14 +37,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.queue-column {
+.orders-column {
     white-space: nowrap;
     overflow: hidden;
     &:not(:last-child) {
         margin-bottom: 10px;
     }
 }
-.queue-column-text-box {
+.orders-column-text-box {
     max-width: 100%;
     overflow: hidden;
     white-space: nowrap;

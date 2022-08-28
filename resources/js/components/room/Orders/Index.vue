@@ -1,16 +1,16 @@
 <template>
-    <div class="queue-content is-relative box">
-        <div class="is-sticky close-queue-button">
-            <o-button iconRightClass="regular" icon-right="close" @click="$emit('closeQueue')"></o-button>
+    <div class="orders-content is-relative box">
+        <div class="is-sticky close-orders-button">
+            <o-button iconRightClass="regular" icon-right="close" @click="$emit('closeOrders')"></o-button>
         </div>
         <div class="is-flex is-justify-content-space-between is-flex-direction-column h-100">
-            <div class="queue-container">
-                <queue-row v-for="order in orders"
+            <div class="orders-container">
+                <orders-row v-for="order in orders"
                               :key="order.id"
                               :can-control="user.id === order.customer.id"
-                              :order="order"></queue-row>
+                              :order="order"></orders-row>
             </div>
-            <div class="queue-add-order-container w-100 is-flex is-sticky">
+            <div class="orders-add-order-container w-100 is-flex is-sticky">
                 <div class="w-100 is-radiusless">
                     <o-input v-model="requestedUrl"
                              required
@@ -30,12 +30,12 @@
 </template>
 
 <script>
-import QueueRow from "@/components/room/Queue/Row";
+import OrdersRow from "@/components/room/Orders/Row";
 import {mapState} from "vuex";
 
 export default {
-    name: "Queue",
-    components: {QueueRow},
+    name: "Orders",
+    components: {OrdersRow},
     computed: {
         ...mapState('auth', ['user'])
     },
@@ -75,27 +75,27 @@ export default {
 </script>
 
 <style scoped>
-.queue-content {
+.orders-content {
     margin-top: 10px;
     padding: 0;
     height: 100%;
 }
-.queue-container {
+.orders-container {
     overflow-y: scroll;
     overflow-x: hidden;
 }
 
-.close-queue-button {
+.close-orders-button {
     height: 0;
     top: 0;
     opacity: 50%;
 }
 
-.close-queue-button:hover {
+.close-orders-button:hover {
     opacity: 100%;
 }
 
-.queue-add-order-container {
+.orders-add-order-container {
     left: 0;
     height: 15%;
     z-index: 1;

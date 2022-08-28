@@ -136,7 +136,7 @@ class User extends Authenticatable
 
     public function orders(): HasMany
     {
-        return $this->hasMany(Queue::class, 'customer_id');
+        return $this->hasMany(Order::class, 'customer_id');
     }
 
     public function messages(): HasMany
