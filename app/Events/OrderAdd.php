@@ -2,15 +2,14 @@
 
 namespace App\Events;
 
-use App\Http\Resources\MessageResource;
+use App\Http\Resources\OrderResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageSent implements ShouldBroadcast
+class OrderAdd
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -20,7 +19,7 @@ class MessageSent implements ShouldBroadcast
      * @return void
      */
     public function __construct(
-        public MessageResource $message,
+        public OrderResource $order,
     ) {
     }
 
@@ -31,6 +30,6 @@ class MessageSent implements ShouldBroadcast
      */
     public function broadcastOn(): Channel|PresenceChannel|array
     {
-        return new PresenceChannel('room.'.$this->message->room->id);
+        return new PresenceChannel('room.'.$this->order->room->id);
     }
 }

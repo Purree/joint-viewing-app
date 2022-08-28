@@ -32,6 +32,11 @@ class RoomPolicy
         return $user->id === $room->owner_id;
     }
 
+    public function manipulate(User $user, Room $room): bool
+    {
+        return $this->manage($user, $room) || $room->can_everyone_control;
+    }
+
     public function delete(User $user, Room $room): bool
     {
         return $this->manage($user, $room);

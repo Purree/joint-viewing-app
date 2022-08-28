@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RoomController;
 
 Route::name('rooms.')->prefix('rooms')->group(static function () {
@@ -39,6 +40,15 @@ Route::name('rooms.')->prefix('rooms')->group(static function () {
                             ['throttle:send_message']
                         );
                     });
+                });
+
+                Route::name('orders.')->prefix('orders')->controller(OrderController::class)->group(static function () {
+                    Route::get('/', 'index')->name('index')->middleware(
+                        ['throttle:get_all_orders']
+                    );
+                    Route::post('/', 'add')->name('add')->middleware(
+                        ['throttle:add_order', 'can:add,App\Models\Order,room']
+                    );
                 });
             });
         });

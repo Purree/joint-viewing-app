@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('orders', static function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('order_id');
             $table->foreignId('room_id')->constrained()->cascadeOnDelete();
             $table->unsignedBigInteger('customer_id');
             $table->string('video_url', 2048);

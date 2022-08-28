@@ -12,6 +12,12 @@ class Order extends Model
 
     public $timestamps = false;
 
+    public $fillable = [
+        'room_id',
+        'customer_id',
+        'video_url',
+    ];
+
     public function room(): BelongsTo
     {
         return $this->belongsTo(Room::class);
