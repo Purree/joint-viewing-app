@@ -4,14 +4,20 @@
             <div class="is-sticky close-orders-button">
                 <o-button iconRightClass="regular" icon-right="close" @click="$emit('closeOrders')"></o-button>
             </div>
-            <div class="is-flex is-justify-content-space-between is-flex-direction-column h-100">
+            <div class="is-flex is-flex-direction-column h-100"
+                 :class="orders.length === 0 ?
+                 'is-justify-content-center is-align-items-center':
+                 'is-justify-content-space-between'">
                 <div class="orders-container">
-                    <orders-row v-for="order in orders"
+                    <orders-row v-if="orders.length !== 0" v-for="order in orders"
                                 :key="order.id"
                                 :can-control="user.id === order.customer.id || this.canControl"
                                 :order="order"
                                 :delete-pending="this.ordersToDelete.includes(order.id)"
                                 @delete-order="deleteOrder"></orders-row>
+                    <div class="mb-4" v-else>
+                        There are no orders yet{{this.canControl ? ', but you can add a video using the form below.' : '.'}}
+                    </div>
                 </div>
                 <form v-if="canControl" @submit.prevent="usePending(addOrder, 'addOrderPending')"
                       class="orders-add-order-container w-100 is-flex is-sticky">

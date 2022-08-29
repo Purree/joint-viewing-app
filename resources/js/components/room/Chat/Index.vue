@@ -16,9 +16,15 @@
                     </div>
                 </div>
             </div>
-            <div class="messages" ref="messages">
-                <chat-message v-for="message in messages" :message="message"
+            <div class="messages" ref="messages"
+                 :class="{'is-flex is-justify-content-center is-align-items-center has-text-grey-light': messages.length === 0}">
+                <chat-message v-for="message in messages"
+                              v-if="messages.length > 0"
+                              :message="message"
                               :is-sent-by-current-user="message.user.id === this.user.id"></chat-message>
+                <div v-else>
+                    There are no messages yet, but you can send message using the form below.
+                </div>
             </div>
             <form @submit.prevent="usePending(sendMessage, 'sendMessagePending')"
                   class="send-message-form box is-flex is-sticky">

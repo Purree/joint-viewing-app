@@ -83,7 +83,7 @@ class RoomService
             new RoomResource(
                 Room::when($room->have(\Auth::user()), function ($query) {
                     $query->with('owner');
-                })->take($room->id)->first()
+                })->where('id', $room->id)->first()
             )
         );
     }
