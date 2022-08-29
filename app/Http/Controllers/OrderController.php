@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Events\OrderAdd;
+use App\Events\OrderDelete;
 use App\Http\Requests\AddOrderRequest;
 use App\Http\Resources\OrderResource;
+use App\Models\Order;
 use App\Models\Room;
 use App\Services\Results\ResponseResult;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class OrderController extends Controller
 {
@@ -33,5 +36,14 @@ class OrderController extends Controller
         broadcast(new OrderAdd($order_resource));
 
         return ResponseResult::success($order_resource)->returnValue;
+    }
+
+    public function delete(Request $request, Room $room, Order $order): JsonResponse
+    {
+        $order->delete();
+
+        broadcast(new OrderDelete(new OrderResource($order)));
+
+        return ResponseResult::success()->returnValue;
     }
 }

@@ -25,6 +25,10 @@ class RoomPolicy
         if ($user->id === $room->owner_id) {
             return true;
         }
+
+        if (!$room->have($user)) {
+            return false;
+        }
     }
 
     public function manage(User $user, Room $room): bool

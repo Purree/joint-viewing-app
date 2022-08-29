@@ -49,6 +49,9 @@ Route::name('rooms.')->prefix('rooms')->group(static function () {
                     Route::post('/', 'add')->name('add')->middleware(
                         ['throttle:add_order', 'can:add,App\Models\Order,room']
                     );
+                    Route::delete('/{order}', 'delete')->name('delete')->middleware(
+                        ['throttle:add_order', 'can:delete,App\Models\Order,room,order']
+                    );
                 });
             });
         });
