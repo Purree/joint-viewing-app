@@ -50,7 +50,7 @@ Route::name('rooms.')->prefix('rooms')->group(static function () {
                         ['throttle:add_order', 'can:add,App\Models\Order,room']
                     );
                     Route::delete('/{order}', 'delete')->name('delete')->middleware(
-                        ['throttle:add_order', 'can:delete,App\Models\Order,room,order']
+                        ['throttle:delete_order', 'can:delete,App\Models\Order,room,order']
                     );
                 });
             });

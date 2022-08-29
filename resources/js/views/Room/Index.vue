@@ -12,7 +12,7 @@
                                            :is_orders_closed="is_orders_closed"></visibility-manipulating-block>
         </div>
         <div class="orders-block" v-if="!is_orders_closed">
-            <orders :can-control="can_manipulate_room" @closeOrders="manipulateOrdersVisibility"></orders>
+            <orders :room="current_room" :can-control="can_manipulate_room" @closeOrders="manipulateOrdersVisibility"></orders>
         </div>
     </div>
     <div v-else>

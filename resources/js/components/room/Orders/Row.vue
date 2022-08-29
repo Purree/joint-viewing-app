@@ -9,7 +9,9 @@
                 </div>
                 <div>Ordered by {{ this.order.customer.name }}</div>
             </div>
-            <o-button class="delete-order-button" v-if="canControl" variant="danger" icon-right="trash-can"></o-button>
+            <o-button @click="$emit('deleteOrder', this.order.id)" class="delete-order-button" v-if="canControl"
+                      variant="danger" icon-right="trash-can" :class="{'is-loading': deletePending}"
+                      :disabled="deletePending"></o-button>
         </div>
     </div>
 </template>
@@ -17,6 +19,7 @@
 <script>
 export default {
     name: "OrdersRow",
+    emits: ["deleteOrder"],
     props: {
         order: {
             type: Object,
@@ -27,6 +30,10 @@ export default {
                     "name": 'Test user',
                 },
             })
+        },
+        deletePending: {
+            type: Boolean,
+            default: false
         },
         canControl: {
             type: Boolean,
@@ -40,15 +47,18 @@ export default {
 .orders-column {
     white-space: nowrap;
     overflow: hidden;
+
     &:not(:last-child) {
         margin-bottom: 10px;
     }
 }
+
 .orders-column-text-box {
     max-width: 100%;
     overflow: hidden;
     white-space: nowrap;
 }
+
 .delete-order-button {
     margin-left: 5px;
 }
