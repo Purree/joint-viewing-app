@@ -3,7 +3,7 @@
         <div class="activity-block is-flex is-relative"
              :class="{'fullscreen h-100': is_orders_closed, 'chat-below': is_chat_below}">
             <player class="player"></player>
-            <chat :can-control="can_manipulate_room" :room="current_room" v-if="!is_chat_closed"
+            <chat :can-control="can_manipulate_room" :room="room" v-if="!is_chat_closed"
                   :is-chat-below="is_chat_below"
                   @change-chat-position="is_chat_below = !is_chat_below"
                   @close-chat="manipulateChatVisibility" class="chat"></chat>
@@ -14,7 +14,7 @@
                                            :is_orders_closed="is_orders_closed"></visibility-manipulating-block>
         </div>
         <div class="orders-block" v-if="!is_orders_closed">
-            <orders :room="current_room" :can-control="can_manipulate_room"
+            <orders :room="room" :can-control="can_manipulate_room"
                     @closeOrders="manipulateOrdersVisibility"></orders>
         </div>
     </div>
@@ -62,7 +62,7 @@ export default {
             }
         }
 
-        if (this.current_room?.id !== this.room.id) {
+        if (this.current_room?.id !== this.room.id && this.created_room?.id !== this.room.id) {
             errorsHelper.methods.openNotification('You are not in this room');
 
             await this.$router.push({'name': 'RoomEntrance', 'params': {'id': this.room.id}});
@@ -92,7 +92,7 @@ export default {
     },
     computed: {
         ...mapState('auth', ['user']),
-        ...mapState('rooms', ['current_room']),
+        ...mapState('rooms', ['current_room', 'created_room']),
     }
 }
 </script>
