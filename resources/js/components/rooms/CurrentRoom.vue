@@ -2,14 +2,14 @@
     <divider>Current room</divider>
     <div v-if="this.current_room !== null || this.created_room !== null">
         <room-row @open-room="openRoom"
-                     :room="this.current_room"
-                     :is-owned="this.created_room?.id === this.current_room?.id"
-                     :is-current="true"></room-row>
+                  :room="this.current_room"
+                  :is-owned="this.created_room?.id === this.current_room?.id"
+                  :is-current="true"></room-row>
 
         <room-row @open-room="openRoom"
-                     v-if="this.created_room?.id && this.current_room?.id !== this.created_room.id"
-                     :room="this.created_room"
-                     :is-owned="true"></room-row>
+                  v-if="this.created_room?.id && this.current_room?.id !== this.created_room.id"
+                  :room="this.created_room"
+                  :is-owned="true"></room-row>
     </div>
     <div v-else>
         <room-manipulate-block send-request-button-text="Create room"

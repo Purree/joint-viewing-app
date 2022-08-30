@@ -3,11 +3,11 @@
 
     <div v-if="!pending" class="is-flex is-flex-direction-column">
         <room-row v-for="room in rooms"
-                     :pending="roomToJoin === room.id"
-                     @open-room="openRoom"
-                     :room="room"
-                     :is-owned="this.created_room?.id === room.id"
-                     :is-current="[this.current_room?.id, this.created_room?.id].includes(room.id)"></room-row>
+                  :pending="roomToJoin === room.id"
+                  @open-room="openRoom"
+                  :room="room"
+                  :is-owned="this.created_room?.id === room.id"
+                  :is-current="[this.current_room?.id, this.created_room?.id].includes(room.id)"></room-row>
 
         <o-pagination
             :total="this.pagination.total"
@@ -82,7 +82,7 @@ export default {
             try {
                 let roomData = await this.$store.dispatch('rooms/getData', room.id);
                 if (roomData.is_closed) {
-                    await this.$router.push({ name: 'RoomEntrance', params: { 'id': room.id } });
+                    await this.$router.push({name: 'RoomEntrance', params: {'id': room.id}});
                 } else {
                     await this.$store.dispatch('rooms/join', {'id': room.id, 'link': room.link});
                 }

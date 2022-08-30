@@ -1,5 +1,5 @@
 import replaceDataInUri from "@/mixins/replaceDataInUri";
-import {API_GET_ROOM_DATA_URL, API_JOIN_ROOM_URL} from "@/api/rooms";
+import {API_GET_ROOM_DATA_URL, API_JOIN_ROOM_URL, API_LEAVE_ROOM_URL} from "@/api/rooms";
 import router from "@/routes/index.js";
 
 export default {
@@ -24,7 +24,7 @@ export default {
         },
         join({commit, dispatch}, payload) {
             return axios.post(replaceDataInUri(API_JOIN_ROOM_URL, {'roomId': payload['id']}), {
-                ...payload['password'] ? {password: payload['password']}: {}
+                ...payload['password'] ? {password: payload['password']} : {}
             }).then((response) => {
                 commit('setCurrentRoom', response.data);
 
@@ -33,8 +33,23 @@ export default {
                 }
             })
         },
+        leave({commit, state}, payload) {
+            return axios.post(replaceDataInUri(API_LEAVE_ROOM_URL, {'roomId': payload['id']}))
+                .then(() => {
+                    if (payload['id'] === state.current_room?.id) {
+                        commit('setCurrentRoom', null);
+                    }
+                    if (payload['id'] === state.created_room?.id) {
+                        commit('setCreatedRoom', null);
+                    }
+
+                    if (payload['redirectToRooms']) {
+                        router.push({'name': 'Rooms'});
+                    }
+                })
+        },
         open({_commit}, link) {
-            router.push({ name: 'Room', params: { 'link': link } });
+            router.push({name: 'Room', params: {'link': link}});
         }
     },
     namespaced: true

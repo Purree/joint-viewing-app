@@ -13,6 +13,15 @@
                 </router-link>
             </div>
         </div>
+        <div v-if="isOwned || isCurrent">
+            <o-button variant="danger"
+                      @click.stop="usePending(leaveRoom, 'leavePending')"
+                      icon-right="arrow-right-from-bracket"
+                      outlined
+                      rounded
+                      :disabled="leavePending"
+                      :class="{'is-loading': leavePending}"></o-button>
+        </div>
         <div class="status_icon" v-if="isOwned">
             <o-icon pack="fas" :icon="'star'" size="medium"></o-icon>
         </div>
@@ -23,8 +32,17 @@
 </template>
 
 <script>
+import usePending from "@/mixins/usePending";
+
 export default {
     name: "RoomRow",
+    emits: ['openRoom'],
+    mixins: [usePending],
+    data() {
+        return {
+            leavePending: false,
+        }
+    },
     props: {
         room: {
             type: Object,
@@ -46,6 +64,11 @@ export default {
             default: false,
         },
     },
+    methods: {
+        leaveRoom() {
+            return this.$store.dispatch('rooms/leave', {'id': this.room.id});
+        }
+    }
 }
 </script>
 
