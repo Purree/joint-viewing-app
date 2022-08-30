@@ -36,7 +36,7 @@ import usePending from "@/mixins/usePending";
 
 export default {
     name: "RoomRow",
-    emits: ['openRoom'],
+    emits: ['openRoom', 'deleteRoom'],
     mixins: [usePending],
     data() {
         return {
@@ -65,8 +65,18 @@ export default {
         },
     },
     methods: {
-        leaveRoom() {
-            return this.$store.dispatch('rooms/leave', {'id': this.room.id});
+        async leaveRoom() {
+            return this.$store.dispatch('rooms/leave', {'id': this.room.id}).then(async () => {
+                try {
+                    let response = await this.$store.dispatch('rooms/getData', this.room.id)
+
+                    if (response.data.is_private) {
+                        this.$emit('deleteRoom', this.room.id);
+                    }
+                } catch (error) {
+                    this.$emit('deleteRoom', this.room.id);
+                }
+            });
         }
     }
 }

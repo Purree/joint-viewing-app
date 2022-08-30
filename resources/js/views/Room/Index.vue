@@ -79,7 +79,7 @@ export default {
                 this.users = this.users.filter(u => (u.id !== user.id))
             });
 
-        this.can_manipulate_room = !!this.current_room.can_everyone_control || this.room.owner.id === this.user.id;
+        this.can_manipulate_room = !!this.room.can_everyone_control || this.room.owner.id === this.user.id;
         this.is_loaded = true;
     },
     methods: {

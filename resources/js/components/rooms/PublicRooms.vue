@@ -4,10 +4,11 @@
     <div v-if="!pending" class="is-flex is-flex-direction-column">
         <room-row v-for="room in rooms"
                   :pending="roomToJoin === room.id"
+                  @delete-room="removeRoom"
                   @open-room="openRoom"
                   :room="room"
                   :is-owned="this.created_room?.id === room.id"
-                  :is-current="[this.current_room?.id, this.created_room?.id].includes(room.id)"></room-row>
+                  :is-current="this.current_room?.id === room.id"></room-row>
 
         <o-pagination
             :total="this.pagination.total"
@@ -16,7 +17,7 @@
             :range-before="3"
             :range-after="2"
             order="centered"
-            @update:current="usePending(updatePublicRooms, 'pending', $event)">
+            @update:current="usePending(getPublicRooms, 'pending', $event)">
         </o-pagination>
     </div>
 
@@ -48,7 +49,7 @@ export default {
         };
     },
     methods: {
-        updatePublicRooms(page = 1, count = 15) {
+        getPublicRooms(page = 1, count = 15) {
             this.rooms = [];
             this.pagination = [];
 
@@ -58,18 +59,18 @@ export default {
                 this.pagination = response.data.pagination;
 
                 if (this.pagination.count === 0) {
-                    this.updatePublicRooms(this.pagination.total_pages);
+                    this.getPublicRooms(this.pagination.total_pages);
                 }
             }).catch((error) => {
                 console.log(error.response);
             });
         },
         async openRoom(room) {
-            if (this.current_room?.id === room.id) {
+            if (this.current_room?.id === room.id || this.created_room?.id === room.id) {
                 return this.$store.dispatch('rooms/open', room.link);
             }
 
-            if (this.current_room?.id) {
+            if (this.current_room?.id || this.created_room?.id) {
                 return errorsHelper.methods.openNotification('You are already in room');
             }
 
@@ -91,10 +92,13 @@ export default {
             }
 
             this.roomToJoin = 0;
+        },
+        removeRoom(id) {
+            this.rooms = this.rooms.filter((room) => room.id !== id);
         }
     },
     mounted() {
-        this.updatePublicRooms(this.$route.query.page).then(() => {
+        this.getPublicRooms(this.$route.query.page).then(() => {
             this.pending = false;
         });
     },

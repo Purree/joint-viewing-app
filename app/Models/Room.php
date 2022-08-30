@@ -38,7 +38,7 @@ class Room extends Model
 
     public function kick(User $user): FunctionResult
     {
-        if ($user->current_room_id !== $this->id) {
+        if (!$this->have($user)) {
             return FunctionResult::error('User is not in this room.');
         }
 

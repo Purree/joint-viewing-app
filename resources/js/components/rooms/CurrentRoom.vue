@@ -2,6 +2,7 @@
     <divider>Current room</divider>
     <div v-if="this.current_room !== null || this.created_room !== null">
         <room-row @open-room="openRoom"
+                  v-if="this.current_room?.id"
                   :room="this.current_room"
                   :is-owned="this.created_room?.id === this.current_room?.id"
                   :is-current="true"></room-row>
