@@ -1,9 +1,11 @@
 <template>
     <div v-if="is_loaded" class="h-100">
         <div class="activity-block is-flex is-relative"
-             :class="{'fullscreen h-100 chat-below': is_orders_closed}">
+             :class="{'fullscreen h-100': is_orders_closed, 'chat-below': is_chat_below}">
             <player class="player"></player>
             <chat :can-control="can_manipulate_room" :room="current_room" v-if="!is_chat_closed"
+                  :is-chat-below="is_chat_below"
+                  @change-chat-position="is_chat_below = !is_chat_below"
                   @close-chat="manipulateChatVisibility" class="chat"></chat>
             <visibility-manipulating-block v-if="is_chat_closed || is_orders_closed"
                                            @open-chat="manipulateChatVisibility"
@@ -12,7 +14,8 @@
                                            :is_orders_closed="is_orders_closed"></visibility-manipulating-block>
         </div>
         <div class="orders-block" v-if="!is_orders_closed">
-            <orders :room="current_room" :can-control="can_manipulate_room" @closeOrders="manipulateOrdersVisibility"></orders>
+            <orders :room="current_room" :can-control="can_manipulate_room"
+                    @closeOrders="manipulateOrdersVisibility"></orders>
         </div>
     </div>
     <div v-else>
@@ -40,6 +43,7 @@ export default {
             room: {},
             users: [],
             can_manipulate_room: false,
+            is_chat_below: false,
             is_chat_closed: false,
             is_orders_closed: false,
         }

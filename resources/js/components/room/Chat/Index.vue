@@ -10,6 +10,8 @@
                     <o-button iconRightClass="regular" icon-right="close" @click="$emit('closeChat')"></o-button>
                     <o-button iconRightClass="regular" icon-right="arrow-down" v-if="showScrollDownButton"
                               @click="scrollToLastMessage"></o-button>
+                    <o-button iconRightClass="regular" :icon-right="isChatBelow ? 'arrow-right' : 'arrow-left'"
+                              @click="$emit('changeChatPosition')"></o-button>
                     <div class="box is-relative" v-if="addMessagePending">
                         <o-loading overlayClass="is-transparent" :full-page="false" :active="addMessagePending"
                                    :can-cancel="false"></o-loading>
@@ -59,14 +61,18 @@ import broadcastConnections from "@/mixins/broadcastConnections";
 export default {
     name: "Chat",
     components: {ChatMessage},
+    emits: ['closeChat', 'changeChatPosition'],
     mixins: [usePending],
     props: {
         room: {
             type: Object,
             required: true
+        },
+        isChatBelow: {
+            type: Boolean,
+            default: false
         }
     },
-    emits: ['closeChat'],
     data() {
         return {
             userMessage: "",
