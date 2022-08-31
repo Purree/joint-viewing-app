@@ -26,7 +26,7 @@ class RoomPolicy
             return true;
         }
 
-        if (!$room->have($user)) {
+        if (! $room->have($user)) {
             return false;
         }
     }

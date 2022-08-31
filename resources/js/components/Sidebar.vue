@@ -51,6 +51,7 @@ $sidebarBackgroundColorDark: #2f3237
     z-index: 100
 
 .menu
+    z-index: 100
     position: fixed
     height: 100vh
     background-color: $sidebarBackgroundColor !important

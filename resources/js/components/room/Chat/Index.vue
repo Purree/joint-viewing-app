@@ -24,7 +24,7 @@
                               v-if="messages.length > 0"
                               :message="message"
                               :is-sent-by-current-user="message.user.id === this.user.id"></chat-message>
-                <div v-else>
+                <div v-else class="has-text-centered">
                     There are no messages yet, but you can send message using the form below.
                 </div>
             </div>

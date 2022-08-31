@@ -41,10 +41,10 @@ export default {
             form: {
                 name: this.roomData.name || '',
                 link: this.roomData.link || '',
-                is_closed: this.roomData.is_closed || false,
+                is_closed: !!this.roomData.is_closed || false,
                 password: this.roomData.password || '',
-                can_everyone_control: this.roomData.can_everyone_control || false,
-                is_private: this.roomData.is_private || false,
+                can_everyone_control: !!this.roomData.can_everyone_control || false,
+                is_private: !!this.roomData.is_private || false,
             },
         };
     },

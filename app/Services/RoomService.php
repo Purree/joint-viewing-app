@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\RoomUpdate;
 use App\Http\Resources\RoomResource;
 use App\Models\Room;
 use App\Models\User;
@@ -16,6 +17,13 @@ class RoomService
         return $parameters->filter(static function ($value) {
             return ! is_null($value);
         });
+    }
+
+    protected function getRoomData(Room $room): RoomResource
+    {
+        return new RoomResource(
+            $room->getWithOwner()
+        );
     }
 
     public function create(User $user, Collection $parameters): FunctionResult
@@ -74,17 +82,15 @@ class RoomService
         );
         $room->save();
 
-        return FunctionResult::success();
+        broadcast(new RoomUpdate($this->getRoomData($room)));
+
+        return FunctionResult::success($room);
     }
 
     public function show(Room $room): FunctionResult
     {
         return FunctionResult::success(
-            new RoomResource(
-                Room::when($room->have(\Auth::user()), function ($query) {
-                    $query->with('owner');
-                })->where('id', $room->id)->first()
-            )
+            $this->getRoomData($room)
         );
     }
 }

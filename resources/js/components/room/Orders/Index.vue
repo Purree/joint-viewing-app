@@ -15,7 +15,7 @@
                                 :order="order"
                                 :delete-pending="this.ordersToDelete.includes(order.id)"
                                 @delete-order="deleteOrder"></orders-row>
-                    <div class="mb-4" v-else>
+                    <div class="mb-4 has-text-centered" v-else>
                         There are no orders yet{{this.canControl ? ', but you can add a video using the form below.' : '.'}}
                     </div>
                 </div>

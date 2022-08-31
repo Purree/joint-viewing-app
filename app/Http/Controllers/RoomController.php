@@ -80,7 +80,7 @@ class RoomController extends Controller
             return ResponseResult::error($result->error, Response::HTTP_UNPROCESSABLE_ENTITY)->error;
         }
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success($result->returnValue)->returnValue;
     }
 
     public function join(JoinRoomRequest $request, Room $room): JsonResponse

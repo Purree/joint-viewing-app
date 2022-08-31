@@ -11,7 +11,6 @@ use App\Models\Room;
 use App\Services\Results\ResponseResult;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class OrderController extends Controller
 {

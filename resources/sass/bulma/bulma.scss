@@ -1,2 +1,8 @@
 @import "~/bulma/bulma.sass";
 @import '~/@oruga-ui/theme-bulma/dist/scss/bulma.scss';
+
+.modal .animation-content {
+    z-index: 3;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}

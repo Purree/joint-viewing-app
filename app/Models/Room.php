@@ -21,6 +21,12 @@ class Room extends Model
         'id',
     ];
 
+    protected $casts = [
+        'is_closed' => 'boolean',
+        'can_everyone_control' => 'boolean',
+        'is_private' => 'boolean',
+    ];
+
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'owner_id');
@@ -38,7 +44,7 @@ class Room extends Model
 
     public function kick(User $user): FunctionResult
     {
-        if (!$this->have($user)) {
+        if (! $this->have($user)) {
             return FunctionResult::error('User is not in this room.');
         }
 
@@ -65,5 +71,12 @@ class Room extends Model
     public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
+    }
+
+    public function getWithOwner(): Room
+    {
+        return self::when($this->have(\Auth::user()), static function ($query) {
+            $query->with('owner');
+        })->where('id', $this->id)->first();
     }
 }

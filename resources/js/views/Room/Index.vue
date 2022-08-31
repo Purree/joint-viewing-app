@@ -7,12 +7,14 @@
                   :is-chat-below="is_chat_below"
                   @change-chat-position="is_chat_below = !is_chat_below"
                   @close-chat="manipulateChatVisibility" class="chat"></chat>
-            <visibility-manipulating-block v-if="is_chat_closed || is_orders_closed"
-                                           @open-chat="manipulateChatVisibility"
-                                           @open-orders="manipulateOrdersVisibility"
-                                           :is_chat_closed="is_chat_closed"
-                                           :is_orders_closed="is_orders_closed"></visibility-manipulating-block>
+            <room-settings-manipulating-block @open-chat="manipulateChatVisibility"
+                                              @open-orders="manipulateOrdersVisibility"
+                                              @open-settings="openSettingsModal"
+                                              :is_chat_closed="is_chat_closed"
+                                              :is_orders_closed="is_orders_closed"
+                                              :is_user_owner="user.id === room.owner.id"></room-settings-manipulating-block>
         </div>
+
         <div class="orders-block" v-if="!is_orders_closed">
             <orders :room="room" :can-control="can_manipulate_room"
                     @closeOrders="manipulateOrdersVisibility"></orders>
@@ -31,12 +33,13 @@ import {mapState} from "vuex";
 import Player from "@/components/room/Player";
 import Chat from "@/components/room/Chat/Index";
 import Orders from "@/components/room/Orders/Index";
-import VisibilityManipulatingBlock from "@/components/room/VisibilityManipulatingBlock";
 import broadcastConnections from "@/mixins/broadcastConnections";
+import RoomSettingsManipulatingBlock from "@/components/room/SettingsManipulatingBlock";
+import RoomSettingsModal from "@/components/modals/RoomSettingsModal";
 
 export default {
     name: "Index",
-    components: {VisibilityManipulatingBlock, Orders, Player, Chat},
+    components: {RoomSettingsManipulatingBlock, Orders, Player, Chat},
     data() {
         return {
             is_loaded: false,
@@ -77,17 +80,34 @@ export default {
             })
             .leaving((user) => {
                 this.users = this.users.filter(u => (u.id !== user.id))
-            });
+            })
+            .listen('RoomUpdate', (response) => {
+                this.$store.dispatch('rooms/changeCachedData', response.room);
+                this.room = response.room;
+                this.updateCanManipulateRoom();
+            })
 
-        this.can_manipulate_room = !!this.room.can_everyone_control || this.room.owner.id === this.user.id;
+        this.updateCanManipulateRoom();
         this.is_loaded = true;
     },
     methods: {
+        updateCanManipulateRoom() {
+            this.can_manipulate_room = !!this.room.can_everyone_control || this.room.owner.id === this.user.id;
+        },
         manipulateChatVisibility() {
             this.is_chat_closed = !this.is_chat_closed
         },
         manipulateOrdersVisibility() {
             this.is_orders_closed = !this.is_orders_closed
+        },
+        openSettingsModal() {
+            this.$oruga.modal.open({
+                component: RoomSettingsModal,
+                props: {
+                    room: this.room,
+                },
+                trapFocus: true,
+            })
         }
     },
     computed: {
@@ -98,6 +118,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.chat {
+    margin-bottom: 0 !important;
+}
+
 .activity-block {
     height: 70%;
 }
@@ -115,19 +139,15 @@ export default {
 }
 
 .chat-below {
-    flex-direction: column;
-}
-
-.chat-below .chat {
-    margin-top: 20px;
-    margin-left: 0;
-    max-width: 100%;
-    max-height: 100%;
-
-    & {
+    & .chat {
+        margin-top: 20px;
+        margin-left: 0;
+        max-width: 100%;
+        max-height: 100%;
         width: 100%;
         height: calc(50% - 20px);
     }
+    flex-direction: column;
 }
 
 @media (max-width: 600px) {
@@ -138,11 +158,8 @@ export default {
         margin-top: 20px;
         margin-left: 0;
         max-width: 100%;
-
-        & {
-            width: 100%;
-            height: calc(50% - 20px);
-        }
+        width: 100%;
+        height: calc(50% - 20px);
     }
 }
 </style>
