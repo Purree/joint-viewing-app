@@ -67,6 +67,7 @@ export default {
         }
     },
     async mounted() {
+        debugger
         await this.$store.dispatch('rooms/getData', this.$route.params.id).then(response => {
             this.room = response
         }).catch((error) => {
@@ -74,7 +75,7 @@ export default {
         })
 
         if (!this.room.is_closed || this.current_room?.id) {
-            let joinAttempt = this.tryToJoin();
+            let joinAttempt = await this.tryToJoin();
 
             if (joinAttempt?.response?.status >= 400) {
                 this.throwError(joinAttempt)
