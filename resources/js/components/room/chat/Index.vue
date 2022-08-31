@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import ChatMessage from "@/components/room/Chat/Message";
+import ChatMessage from "@/components/room/chat/Message";
 import {mapState} from "vuex";
 import errorsHelper from "@/mixins/errors";
 import replaceDataInUri from "@/mixins/replaceDataInUri";

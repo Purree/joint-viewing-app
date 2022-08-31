@@ -10,6 +10,7 @@
             <room-settings-manipulating-block @open-chat="manipulateChatVisibility"
                                               @open-orders="manipulateOrdersVisibility"
                                               @open-settings="openSettingsModal"
+                                              @open-users="openMembersModal"
                                               :is_chat_closed="is_chat_closed"
                                               :is_orders_closed="is_orders_closed"
                                               :is_user_owner="user.id === room.owner.id"></room-settings-manipulating-block>
@@ -31,11 +32,12 @@ import replaceDataInUri from "@/mixins/replaceDataInUri";
 import errorsHelper from "@/mixins/errors.js";
 import {mapState} from "vuex";
 import Player from "@/components/room/Player";
-import Chat from "@/components/room/Chat/Index";
-import Orders from "@/components/room/Orders/Index";
+import Chat from "@/components/room/chat/Index";
+import Orders from "@/components/room/orders/Index";
 import broadcastConnections from "@/mixins/broadcastConnections";
 import RoomSettingsManipulatingBlock from "@/components/room/SettingsManipulatingBlock";
 import RoomSettingsModal from "@/components/modals/RoomSettingsModal";
+import RoomMembersModal from "@/components/modals/RoomMembersModal";
 
 export default {
     name: "Index",
@@ -105,6 +107,15 @@ export default {
                 component: RoomSettingsModal,
                 props: {
                     room: this.room,
+                },
+                trapFocus: true,
+            })
+        },
+        openMembersModal() {
+            this.$oruga.modal.open({
+                component: RoomMembersModal,
+                props: {
+                    currentMembers: this.users,
                 },
                 trapFocus: true,
             })

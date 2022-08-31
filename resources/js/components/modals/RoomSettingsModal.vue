@@ -1,5 +1,5 @@
 <template>
-    <div class="box">
+    <div class="box box-bordered">
         <SuccessfulArticle :show-when="isSuccess" text="Successfully update room"/>
 
         <room-manipulate-block :is-creating="false"

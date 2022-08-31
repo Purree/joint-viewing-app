@@ -1,9 +1,9 @@
 <template>
     <div class="columns">
-        <div class="column is-justify-content-end is-flex has-text-right is-align-items-center">
+        <div class="column is-justify-content-center is-flex has-text-centered is-align-items-center">
             {{ propertyName }}
         </div>
-        <div class="column" :class="propertyStyles">
+        <div class="column is-flex is-justify-content-center is-align-items-center" :class="propertyStyles">
             <slot></slot>
         </div>
     </div>

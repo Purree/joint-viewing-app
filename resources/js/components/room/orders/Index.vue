@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import OrdersRow from "@/components/room/Orders/Row";
+import OrdersRow from "@/components/room/orders/Row";
 import {mapState} from "vuex";
 import replaceDataInUri from "@/mixins/replaceDataInUri";
 import errorsHelper from "@/mixins/errors";
