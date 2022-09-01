@@ -82,3 +82,13 @@ div.file-image {
 .box-bordered {
     border: 1px solid gray;
 }
+
+.is-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.is-overflow-hidden {
+    overflow: hidden;
+}

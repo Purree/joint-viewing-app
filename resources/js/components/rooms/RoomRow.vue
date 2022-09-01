@@ -5,7 +5,7 @@
         <div class="mr-2">
             <o-icon pack="fas" :icon="this.room.is_closed ? 'lock' : 'unlock'" size="medium"></o-icon>
         </div>
-        <div class="room-text-information">
+        <div class="room-text-information is-overflow-hidden">
             <div>{{ this.room.name || 'Empty room name' }}</div>
             <div>
                 <router-link to="">
@@ -85,7 +85,6 @@ export default {
 <style scoped>
 .room-text-information {
     width: 95%;
-    overflow: hidden;
     white-space: nowrap;
 }
 

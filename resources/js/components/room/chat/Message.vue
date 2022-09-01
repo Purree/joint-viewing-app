@@ -1,7 +1,6 @@
 <template>
     <div class="chat-message is-flex is-align-items-flex-end" :class="{'is-justify-content-end' : this.isSentByCurrentUser}">
-        <div v-if="!this.isSentByCurrentUser" class="is-rounded sender-avatar"
-             :style="`background-image: url(${ asset(this.message.user?.avatar || 'profile-photos/default.png') })`"></div>
+        <user-avatar v-if="!this.isSentByCurrentUser" :avatar-path="this.message.user?.avatar" class="sender-avatar"/>
         <div class="is-flex is-flex-direction-column message-text-container"
              :class="this.isSentByCurrentUser ? 'is-justify-content-flex-end is-align-items-flex-end' : 'another-user-message-container'">
             <div class="message-text"
@@ -12,7 +11,7 @@
                 </span>
                 <div class="message-sent-at">Sent {{ formatDate(this.message.created_at) }}</div>
             </div>
-            <div class="sender-name" v-if="!isSentByCurrentUser">
+            <div class="sender-name is-ellipsis" v-if="!isSentByCurrentUser">
                 <span>{{ this.message.user.name }}</span>
             </div>
         </div>
@@ -22,9 +21,11 @@
 <script>
 import asset from "@/mixins/asset";
 import formatDate from "@/mixins/formatDate";
+import UserAvatar from "@/components/UserAvatar";
 
 export default {
     name: "ChatMessage",
+    components: {UserAvatar},
     mixins: [asset, formatDate],
     props: {
         message: {
@@ -50,7 +51,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$sender-image-size: 40px;
 $message-min-width: 15rem;
 $message-max-width: 100%;
 
@@ -82,20 +82,12 @@ $message-max-width: 100%;
 }
 
 .sender-avatar {
-    width: $sender-image-size;
-    height: $sender-image-size;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     margin-right: 5px;
 }
 
 .sender-name {
     min-width: $message-min-width;
     max-width: $message-max-width;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .message-sent-at {

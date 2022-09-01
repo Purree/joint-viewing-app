@@ -116,6 +116,7 @@ export default {
                 component: RoomMembersModal,
                 props: {
                     currentMembers: this.users,
+                    canControl: this.room.owner.id === this.user.id,
                 },
                 trapFocus: true,
             })

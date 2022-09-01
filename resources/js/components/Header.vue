@@ -18,12 +18,11 @@
             </div>
 
             <div class="navbar-end">
-                <div class="navbar-item header-nickname">
+                <div class="navbar-item header-nickname is-overflow-hidden">
                     {{ this.user.name || 'Undefined user' }}
                 </div>
                 <div class="navbar-item pl-0 is-hidden-touch">
-                    <div class="user-avatar"
-                         :style="`background-image: url(${ asset(this.user.avatar || 'profile-photos/default.png') })`"></div>
+                    <user-avatar :avatar-path="this.user?.avatar"></user-avatar>
                 </div>
                 <div class="navbar-item">
                     <div class="buttons">
@@ -40,12 +39,11 @@
 import LogoutButton from "@/components/authentication/LogoutButton.vue";
 import ChangeThemeButton from "@/components/ChangeThemeButton.vue";
 import {mapState} from "vuex";
-import asset from "@/mixins/asset";
+import UserAvatar from "@/components/UserAvatar";
 
 export default {
     name: "Header",
-    components: {ChangeThemeButton, LogoutButton},
-    mixins: [asset],
+    components: {UserAvatar, ChangeThemeButton, LogoutButton},
     data() {
         return {
             isDropdownActive: false,
@@ -72,14 +70,5 @@ export default {
 <style scoped>
 .header-nickname {
     max-width: 20ch;
-    overflow: hidden;
-}
-.user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 </style>

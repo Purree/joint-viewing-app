@@ -1,7 +1,7 @@
 <template>
-    <div class="column box orders-column is-radiusless">
+    <div class="column box orders-column is-overflow-hidden is-radiusless">
         <div class="is-flex is-justify-content-space-between is-align-items-center">
-            <div class="orders-column-text-box">
+            <div class="orders-column-text-box is-overflow-hidden">
                 <div>
                     <a :href="this.order.video_url">
                         {{ this.order.video_url }}
@@ -46,7 +46,6 @@ export default {
 <style lang="scss" scoped>
 .orders-column {
     white-space: nowrap;
-    overflow: hidden;
 
     &:not(:last-child) {
         margin-bottom: 10px;
@@ -55,7 +54,6 @@ export default {
 
 .orders-column-text-box {
     max-width: 100%;
-    overflow: hidden;
     white-space: nowrap;
 }
 
