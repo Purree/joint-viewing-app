@@ -1,15 +1,19 @@
 <template>
-    <div class="box columns is-align-items-center is-justify-content-space-between">
-        <user-avatar class="column is-1 mr-3" :avatar-path="member?.avatar"></user-avatar>
-        <div class="column is-overflow-hidden">
-            <div class="is-ellipsis">
-                {{ member.name }}
-            </div>
-            <div :class="isOnline ? 'has-text-success' : 'has-text-danger'">
-                This user is {{ isOnline ? 'online' : 'offline' }} now
+    <div class="box is-flex is-align-items-center is-justify-content-space-between">
+        <div class="is-flex is-overflow-hidden">
+            <user-avatar class="user-avatar mr-3" :avatar-path="member?.avatar"></user-avatar>
+            <div class="is-overflow-hidden">
+                <div class="is-ellipsis">
+                    {{ member.name }}
+                </div>
+                <div :class="isOnline ? 'has-text-success' : 'has-text-danger'">
+                    This user is {{ isOnline ? 'online' : 'offline' }} now
+                </div>
+                <div v-if="isOnline">тест</div>
+                <div v-else>Тест2</div>
             </div>
         </div>
-        <div class="column is-1" v-if="canControl">
+        <div class="" v-if="canControl">
             <o-button variant="danger">Kick</o-button>
         </div>
     </div>
@@ -47,5 +51,8 @@ export default {
             border-top-left-radius: 0;
             border-top-right-radius: 0;
         }
+    }
+    .user-avatar {
+        flex-shrink: 0;
     }
 </style>

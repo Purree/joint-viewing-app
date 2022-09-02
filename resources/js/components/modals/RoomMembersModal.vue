@@ -1,21 +1,38 @@
 <template>
-    <div class="box box-bordered">
-        <o-button variant="danger" class="is-fullwidth refresh-button">Refresh</o-button>
-        <room-members-row v-for="member in members"
-                          :can-control="canControl || member.id === user.id"
-                          :member="member"
-                          :is-online="currentMembers.some(onlineMember => onlineMember.id === member.id)"></room-members-row>
+    <div class="box box-bordered members-modal">
+        <div v-if="!modalPending">
+            <o-button @click="usePending(updateMembers, 'updateMembersPending')"
+                      variant="danger"
+                      class="is-fullwidth refresh-button"
+                      :disabled="updateMembersPending"
+                      :class="{'is-loading': updateMembersPending}">Refresh</o-button>
+            <room-members-row v-for="member in members"
+                              :can-control="canControl"
+                              :member="member"
+                              :is-online="currentMembers.some(onlineMember => onlineMember.id === member.id)"></room-members-row>
+        </div>
+        <div v-else>
+            <o-loading :full-page="false" overlayClass="is-transparent" class="mb-5" :can-cancel="false" :active="modalPending"></o-loading>
+        </div>
     </div>
 </template>
 
 <script>
 import RoomMembersRow from "@/components/room/members/Row";
-import {mapState} from "vuex";
+import replaceDataInUri from "@/mixins/replaceDataInUri";
+import {API_GET_ALL_MEMBERS_URL} from "@/api/rooms";
+import errorsHelper from "@/mixins/errors.js";
+import usePending from "@/mixins/usePending";
 
 export default {
     name: "RoomMembersModal",
     components: {RoomMembersRow},
+    mixins: [usePending],
     props: {
+        roomId: {
+            type: Number,
+            required: true
+        },
         currentMembers: {
             type: Array,
             required: true
@@ -27,28 +44,35 @@ export default {
     },
     data() {
         return {
-            members: [
-                {
-                    'id': 1,
-                    'name': 'Test',
-                    'avatar': '',
-                },
-                {
-                    'id': 2,
-                    'name': 'фыввыфывфыфвывфыфвыфвдвыфдыдалдыавфлдавылджавфылждавдлжфваыжлдфваыдлжажвфыдлавыфждлфыввыфывфыфвывфыфвыфвдвыфдыдалдыавфлдавылджавфылждавдлжфваыжлдфваыдлжажвфыдлавыфждлфыввыфывфыфвывфыфвыфвдвыфдыдалдыавфлдавылджавфылждавдлжфваыжлдфваыдлжажвфыдлавыфждл',
-                    'avatar': 'profile-photos/$2y$10$4pVVys2RuIM6p7GA21nVnQkBEVf5bn3XxccJ5TxJhCjnVRrUmC.jpg',
-                },
-            ],
+            members: [],
+            updateMembersPending: false,
+            modalPending: true,
         }
     },
-    computed: {
-        ...mapState('auth', ['user']),
+    methods: {
+        updateMembers() {
+            return axios.get(replaceDataInUri(API_GET_ALL_MEMBERS_URL, {'roomId': this.roomId}))
+                .then((response) => {
+                    this.members = response.data;
+                }).catch((errors) => {
+                    errorsHelper.methods.openResponseNotification(errors);
+                })
+        }
     },
+    created() {
+        this.updateMembers().then(() => {
+            this.modalPending = false;
+        });
+    }
 }
 </script>
 
 <style scoped>
-    .refresh-button {
-        margin-bottom: 1rem;
-    }
+.refresh-button {
+    margin-bottom: 1rem;
+}
+.members-modal {
+    min-width: 40vw;
+    min-height: 10vh;
+}
 </style>

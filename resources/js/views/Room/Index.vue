@@ -81,7 +81,9 @@ export default {
                 this.users.push(user);
             })
             .leaving((user) => {
-                this.users = this.users.filter(u => (u.id !== user.id))
+                let leavedUserIndex = this.users.findIndex(object => object.id === user.id);
+                if (leavedUserIndex !== -1)
+                    this.users.splice(leavedUserIndex, 1)
             })
             .listen('RoomUpdate', (response) => {
                 this.$store.dispatch('rooms/changeCachedData', response.room);
@@ -117,6 +119,7 @@ export default {
                 props: {
                     currentMembers: this.users,
                     canControl: this.room.owner.id === this.user.id,
+                    roomId: this.room.id,
                 },
                 trapFocus: true,
             })
@@ -159,6 +162,7 @@ export default {
         width: 100%;
         height: calc(50% - 20px);
     }
+
     flex-direction: column;
 }
 

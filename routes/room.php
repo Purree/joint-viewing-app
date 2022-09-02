@@ -29,7 +29,13 @@ Route::name('rooms.')->prefix('rooms')->group(static function () {
                 Route::put('/', 'update')->middleware('can:update,room', 'throttle:update_room_data')
                     ->name('update');
                 Route::post('/leave', 'leave')->name('leave');
-                Route::post('/kick/{user}', 'kick')->middleware('can:kick,room')->name('kick');
+
+                Route::name('members.')->prefix('members')->group(static function () {
+                    Route::get('/', 'members')->name('index');
+                    Route::prefix('{user}')->group(static function () {
+                        Route::delete('/', 'kick')->middleware('can:kick,room')->name('kick');
+                    });
+                });
 
                 Route::name('chat.')->prefix('chat')->controller(ChatController::class)->group(static function () {
                     Route::prefix('messages')->group(static function () {

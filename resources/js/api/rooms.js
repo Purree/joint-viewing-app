@@ -7,4 +7,5 @@ export const API_JOIN_ROOM_URL = API + 'rooms/{roomId}/join';
 export const API_LEAVE_ROOM_URL = API + 'rooms/{roomId}/leave';
 export const API_GET_ROOM_DATA_URL = API + 'rooms/{roomId}';
 export const API_GET_ROOM_DATA_BY_LINK_URL = API + 'rooms/link/{roomLink}';
-export const API_KICK_USER_URL = API + 'rooms/{roomId}/kick/{userId}';
+export const API_GET_ALL_MEMBERS_URL = API + 'rooms/{roomId}/members';
+export const API_KICK_MEMBER_URL = API + 'rooms/{roomId}/members/{userId}/kick';

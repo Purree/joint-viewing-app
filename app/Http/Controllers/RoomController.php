@@ -92,4 +92,9 @@ class RoomController extends Controller
 
         return ResponseResult::success($result->returnValue)->returnValue;
     }
+
+    public function members(Request $request, Room $room): JsonResponse
+    {
+        return ResponseResult::success($room->members())->returnValue;
+    }
 }
