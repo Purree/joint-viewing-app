@@ -9,7 +9,9 @@
             <room-members-row v-for="member in members"
                               :can-control="canControl"
                               :member="member"
-                              :is-online="currentMembers.some(onlineMember => onlineMember.id === member.id)"></room-members-row>
+                              :kick-pending="contendersForKick.includes(member.id)"
+                              :is-online="currentMembers.some(onlineMember => onlineMember.id === member.id)"
+                              @kick="kickUser"></room-members-row>
         </div>
         <div v-else>
             <o-loading :full-page="false" overlayClass="is-transparent" class="mb-5" :can-cancel="false" :active="modalPending"></o-loading>
@@ -20,7 +22,7 @@
 <script>
 import RoomMembersRow from "@/components/room/members/Row";
 import replaceDataInUri from "@/mixins/replaceDataInUri";
-import {API_GET_ALL_MEMBERS_URL} from "@/api/rooms";
+import {API_GET_ALL_MEMBERS_URL, API_KICK_MEMBER_URL} from "@/api/rooms";
 import errorsHelper from "@/mixins/errors.js";
 import usePending from "@/mixins/usePending";
 
@@ -47,6 +49,7 @@ export default {
             members: [],
             updateMembersPending: false,
             modalPending: true,
+            contendersForKick: []
         }
     },
     methods: {
@@ -56,6 +59,21 @@ export default {
                     this.members = response.data;
                 }).catch((errors) => {
                     errorsHelper.methods.openResponseNotification(errors);
+                })
+        },
+        kickUser(userId) {
+            if (this.contendersForKick.includes(userId)) {
+                return;
+            }
+
+            this.contendersForKick.push(userId);
+            return axios.delete(replaceDataInUri(API_KICK_MEMBER_URL, {'roomId': this.roomId, 'userId': userId}))
+                .then(() => {
+                    this.members = this.members.filter(member => member.id !== userId);
+                }).catch((errors) => {
+                    errorsHelper.methods.openResponseNotification(errors);
+                }).then(() => {
+                    this.contendersForKick = this.contendersForKick.filter(id => id !== userId);
                 })
         }
     },

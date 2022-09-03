@@ -67,7 +67,6 @@ export default {
         }
     },
     async mounted() {
-        debugger
         await this.$store.dispatch('rooms/getData', this.$route.params.id).then(response => {
             this.room = response
         }).catch((error) => {

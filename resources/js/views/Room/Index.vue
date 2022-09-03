@@ -81,14 +81,21 @@ export default {
                 this.users.push(user);
             })
             .leaving((user) => {
-                let leavedUserIndex = this.users.findIndex(object => object.id === user.id);
-                if (leavedUserIndex !== -1)
-                    this.users.splice(leavedUserIndex, 1)
+                this.deleteMember(user.id)
             })
             .listen('RoomUpdate', (response) => {
                 this.$store.dispatch('rooms/changeCachedData', response.room);
                 this.room = response.room;
                 this.updateCanManipulateRoom();
+            })
+            .listen('RoomMemberKick', (response) => {
+                if (response.user.id === this.user.id) {
+                    this.$store.dispatch('rooms/clearCachedData', {'id': this.room.id});
+                    errorsHelper.methods.openNotification('You were kicked from this room');
+                    this.$router.push({'name': 'Rooms'})
+                }
+
+                this.deleteMember(response.user.id);
             })
 
         this.updateCanManipulateRoom();
@@ -97,6 +104,11 @@ export default {
     methods: {
         updateCanManipulateRoom() {
             this.can_manipulate_room = !!this.room.can_everyone_control || this.room.owner.id === this.user.id;
+        },
+        deleteMember(memberId) {
+            let leavedUserIndex = this.users.findIndex(object => object.id === memberId);
+            if (leavedUserIndex !== -1)
+                this.users.splice(leavedUserIndex, 1)
         },
         manipulateChatVisibility() {
             this.is_chat_closed = !this.is_chat_closed

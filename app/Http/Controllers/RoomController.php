@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\RoomMemberKick;
 use App\Http\Requests\CreateRoomRequest;
 use App\Http\Requests\EditRoomRequest;
 use App\Http\Requests\JoinRoomRequest;
 use App\Http\Resources\RoomCollection;
+use App\Http\Resources\UserResource;
 use App\Models\Room;
 use App\Models\User;
 use App\Services\Results\ResponseResult;
@@ -70,6 +72,7 @@ class RoomController extends Controller
             return ResponseResult::error($result->error, Response::HTTP_NOT_FOUND)->error;
         }
 
+        broadcast(new RoomMemberKick(new UserResource($user), $room->id));
         return ResponseResult::success()->returnValue;
     }
 

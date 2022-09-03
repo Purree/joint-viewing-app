@@ -31,6 +31,15 @@ export default {
                 commit('setCreatedRoom', payload);
             }
         },
+        clearCachedData({commit, state}, payload) {
+            if (payload['id'] === state.current_room?.id) {
+                commit('setCurrentRoom', null);
+            }
+
+            if (payload['id'] === state.created_room?.id) {
+                commit('setCreatedRoom', null);
+            }
+        },
         join({commit, dispatch}, payload) {
             return axios.post(replaceDataInUri(API_JOIN_ROOM_URL, {'roomId': payload['id']}), {
                 ...payload['password'] ? {password: payload['password']} : {}
@@ -42,15 +51,10 @@ export default {
                 }
             })
         },
-        leave({commit, state}, payload) {
+        leave({dispatch}, payload) {
             return axios.post(replaceDataInUri(API_LEAVE_ROOM_URL, {'roomId': payload['id']}))
                 .then(() => {
-                    if (payload['id'] === state.current_room?.id) {
-                        commit('setCurrentRoom', null);
-                    }
-                    if (payload['id'] === state.created_room?.id) {
-                        commit('setCreatedRoom', null);
-                    }
+                    dispatch('clearCachedData', payload);
 
                     if (payload['redirectToRooms']) {
                         router.push({'name': 'Rooms'});

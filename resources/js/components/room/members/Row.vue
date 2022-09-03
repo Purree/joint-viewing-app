@@ -9,12 +9,13 @@
                 <div :class="isOnline ? 'has-text-success' : 'has-text-danger'">
                     This user is {{ isOnline ? 'online' : 'offline' }} now
                 </div>
-                <div v-if="isOnline">тест</div>
-                <div v-else>Тест2</div>
             </div>
         </div>
-        <div class="" v-if="canControl">
-            <o-button variant="danger">Kick</o-button>
+        <div v-if="canControl">
+            <o-button :disabled="kickPending"
+                      :class="{'is-loading': kickPending}"
+                      variant="danger"
+                      @click="$emit('kick', member.id)">Kick</o-button>
         </div>
     </div>
 </template>
@@ -24,6 +25,7 @@ import UserAvatar from "@/components/UserAvatar";
 export default {
     name: "RoomMembersRow",
     components: {UserAvatar},
+    emits: ['kick'],
     props: {
         member: {
             type: Object,
@@ -37,6 +39,10 @@ export default {
             type: Boolean,
             required: true
         },
+        kickPending: {
+            type: Boolean,
+            required: true
+        }
     },
 }
 </script>
