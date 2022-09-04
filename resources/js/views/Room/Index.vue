@@ -70,7 +70,7 @@ export default {
         if (this.current_room?.id !== this.room.id && this.created_room?.id !== this.room.id) {
             errorsHelper.methods.openNotification('You are not in this room');
 
-            await this.$router.push({'name': 'RoomEntrance', 'params': {'id': this.room.id}});
+            return this.$router.push({'name': 'RoomEntrance', 'params': {'id': this.room.id}});
         }
 
         broadcastConnections.methods.connectToRoom(this.room.id)
