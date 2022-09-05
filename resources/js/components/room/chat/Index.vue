@@ -10,7 +10,8 @@
                     <o-button iconRightClass="regular" icon-right="close" @click="$emit('closeChat')"></o-button>
                     <o-button iconRightClass="regular" icon-right="arrow-down" v-if="showScrollDownButton"
                               @click="scrollToLastMessage"></o-button>
-                    <o-button iconRightClass="regular" :icon-right="isChatBelow ? 'arrow-right' : 'arrow-left'"
+                    <o-button iconRightClass="regular" v-if="is_chat_move_active"
+                              :icon-right="isChatBelow ? 'arrow-right' : 'arrow-left'"
                               @click="$emit('changeChatPosition')"></o-button>
                     <div class="box is-relative" v-if="addMessagePending">
                         <o-loading overlayClass="is-transparent" :full-page="false" :active="addMessagePending"
@@ -84,6 +85,7 @@ export default {
             errors: [],
             totalMessagePages: 0,
             currentMessagePage: 0,
+            is_chat_move_active: true
         };
     },
     computed: {
@@ -141,7 +143,10 @@ export default {
             return this.$refs.messages.scrollHeight -
                 this.$refs.messages.clientHeight -
                 this.$refs.messages.lastElementChild.clientHeight - 10 <= this.$refs.messages.scrollTop;
-        }
+        },
+        checkIsWindowSmall(windowWidth = document.body.clientWidth) {
+            this.is_chat_move_active = windowWidth > 590;
+        },
     },
     mounted() {
         this.getMessages().then((response) => {
@@ -153,6 +158,9 @@ export default {
             this.$refs.messages.addEventListener('scroll', this.handleMessagesScroll);
             this.scrollToLastMessage();
         });
+
+        this.checkIsWindowSmall()
+        window.addEventListener('resize', () => {this.checkIsWindowSmall()})
 
         broadcastConnections.methods.connectToRoom(this.room.id)
             .listen('MessageSent', response => {
