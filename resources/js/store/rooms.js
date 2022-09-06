@@ -1,6 +1,7 @@
-import replaceDataInUri from "@/mixins/replaceDataInUri";
+import replaceDataInUri from "@/helpers/replaceDataInUri";
 import {API_GET_ROOM_DATA_URL, API_JOIN_ROOM_URL, API_LEAVE_ROOM_URL, API_UPDATE_ROOM_URL} from "@/api/rooms";
 import router from "@/routes/index.js";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     state: {
@@ -17,7 +18,7 @@ export default {
     },
     actions: {
         getData({_commit}, id) {
-            return axios.get(replaceDataInUri(API_GET_ROOM_DATA_URL, {'roomId': id}))
+            return apiRequest(API_GET_ROOM_DATA_URL, {'roomId': id})
                 .then(response => {
                     return response.data;
                 });
@@ -41,7 +42,7 @@ export default {
             }
         },
         join({commit, dispatch}, payload) {
-            return axios.post(replaceDataInUri(API_JOIN_ROOM_URL, {'roomId': payload['id']}), {
+            return apiRequest(API_JOIN_ROOM_URL, {'roomId': payload['id']}, {
                 ...payload['password'] ? {password: payload['password']} : {}
             }).then((response) => {
                 commit('setCurrentRoom', response.data);
@@ -52,7 +53,7 @@ export default {
             })
         },
         leave({dispatch}, payload) {
-            return axios.post(replaceDataInUri(API_LEAVE_ROOM_URL, {'roomId': payload['id']}))
+            return apiRequest(API_LEAVE_ROOM_URL, {'roomId': payload['id']})
                 .then(() => {
                     dispatch('clearCachedData', payload);
 
@@ -62,7 +63,7 @@ export default {
                 })
         },
         update({dispatch}, payload) {
-            return axios.put(replaceDataInUri(API_UPDATE_ROOM_URL, {'roomId': payload['id']}), payload)
+            return apiRequest(API_UPDATE_ROOM_URL, {'roomId': payload['id']}, payload)
                 .then((response) => {
                     dispatch('changeCachedData', response.data);
                 });

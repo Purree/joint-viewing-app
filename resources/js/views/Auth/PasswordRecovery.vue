@@ -24,11 +24,11 @@ import SubmitButton from "@/components/SubmitButton.vue";
 import FormInput from "@/components/authentication/FormInput.vue";
 import ErrorMessage from "@/components/errors/ErrorMessage.vue";
 import UserSecretModal from "@/components/modals/UserSecretModal.vue";
-import axios from "axios";
 import {API_PASSWORD_RECOVERY_URL} from "@/api/auth.js";
 import SuccessfulArticle from "@/components/SuccessfulArticle.vue";
 import errorsHelper from "@/mixins/errors.js";
 import usePending from "@/mixins/usePending.js";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: "PasswordRecovery",
@@ -59,7 +59,7 @@ export default {
             })
         },
         sendForm() {
-            return axios.put(API_PASSWORD_RECOVERY_URL, this.form)
+            return apiRequest(API_PASSWORD_RECOVERY_URL, {}, this.form)
                 .then(response => {
                     this.recovery = true;
                     this.errors = {};

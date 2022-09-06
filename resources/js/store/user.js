@@ -1,7 +1,7 @@
-import axios from "axios";
 import {API_LOGOUT_URL} from "@/api/auth.js";
 import router from "@/routes/index.js";
 import index from "@/store/index.js";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     state: {
@@ -30,7 +30,7 @@ export default {
     },
     actions: {
         logout({ commit }) {
-            return axios.post(API_LOGOUT_URL)
+            return apiRequest(API_LOGOUT_URL)
                 .catch((error) => {
                     console.log(error.response.data)
                 }).then(() => {

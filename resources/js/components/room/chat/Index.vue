@@ -54,10 +54,11 @@
 import ChatMessage from "@/components/room/chat/Message";
 import {mapState} from "vuex";
 import errorsHelper from "@/mixins/errors";
-import replaceDataInUri from "@/mixins/replaceDataInUri";
+import replaceDataInUri from "@/helpers/replaceDataInUri";
 import {API_GET_ALL_MESSAGES_URL, API_SEND_MESSAGE_URL} from "@/api/chat";
 import usePending from "@/mixins/usePending";
 import broadcastConnections from "@/mixins/broadcastConnections";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: "Chat",
@@ -93,7 +94,7 @@ export default {
     },
     methods: {
         getMessages(page = 1) {
-            return axios.get(replaceDataInUri(API_GET_ALL_MESSAGES_URL, {'roomId': this.room.id}), {params: {'page': page}})
+            return apiRequest(API_GET_ALL_MESSAGES_URL, {'roomId': this.room.id}, {params: {'page': page}})
                 .then(response => {
                     this.totalMessagePages = response.data.pagination.total_pages;
                     this.currentMessagePage = response.data.pagination.current_page;
@@ -104,7 +105,7 @@ export default {
                 });
         },
         sendMessage() {
-            return axios.post(replaceDataInUri(API_SEND_MESSAGE_URL, {'roomId': this.room.id}), {'message': this.userMessage})
+            return apiRequest(API_SEND_MESSAGE_URL, {'roomId': this.room.id}, {'message': this.userMessage})
                 .then(() => {
                     this.userMessage = '';
                 }).catch(errors => {

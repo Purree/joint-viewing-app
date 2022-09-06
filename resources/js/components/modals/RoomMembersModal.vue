@@ -21,10 +21,11 @@
 
 <script>
 import RoomMembersRow from "@/components/room/members/Row";
-import replaceDataInUri from "@/mixins/replaceDataInUri";
+import replaceDataInUri from "@/helpers/replaceDataInUri";
 import {API_GET_ALL_MEMBERS_URL, API_KICK_MEMBER_URL} from "@/api/rooms";
 import errorsHelper from "@/mixins/errors.js";
 import usePending from "@/mixins/usePending";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: "RoomMembersModal",
@@ -54,7 +55,7 @@ export default {
     },
     methods: {
         updateMembers() {
-            return axios.get(replaceDataInUri(API_GET_ALL_MEMBERS_URL, {'roomId': this.roomId}))
+            return apiRequest(API_GET_ALL_MEMBERS_URL, {'roomId': this.roomId})
                 .then((response) => {
                     this.members = response.data;
                 }).catch((errors) => {
@@ -67,7 +68,7 @@ export default {
             }
 
             this.contendersForKick.push(userId);
-            return axios.delete(replaceDataInUri(API_KICK_MEMBER_URL, {'roomId': this.roomId, 'userId': userId}))
+            return apiRequest(API_KICK_MEMBER_URL, {'roomId': this.roomId, 'userId': userId})
                 .then(() => {
                     this.members = this.members.filter(member => member.id !== userId);
                 }).catch((errors) => {

@@ -28,7 +28,7 @@
 
 <script>
 import {API_GET_ROOM_DATA_BY_LINK_URL} from "@/api/rooms";
-import replaceDataInUri from "@/mixins/replaceDataInUri";
+import replaceDataInUri from "@/helpers/replaceDataInUri";
 import errorsHelper from "@/mixins/errors.js";
 import {mapState} from "vuex";
 import Player from "@/components/room/Player";
@@ -38,6 +38,7 @@ import broadcastConnections from "@/mixins/broadcastConnections";
 import RoomSettingsManipulatingBlock from "@/components/room/SettingsManipulatingBlock";
 import RoomSettingsModal from "@/components/modals/RoomSettingsModal";
 import RoomMembersModal from "@/components/modals/RoomMembersModal";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: "Index",
@@ -55,7 +56,7 @@ export default {
     },
     async beforeCreate() {
         try {
-            await axios.get(replaceDataInUri(API_GET_ROOM_DATA_BY_LINK_URL, {'roomLink': this.$route.params.link}))
+            await apiRequest(API_GET_ROOM_DATA_BY_LINK_URL, {'roomLink': this.$route.params.link})
                 .then((response) => {
                     this.room = response.data;
                 })

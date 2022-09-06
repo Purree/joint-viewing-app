@@ -8,9 +8,10 @@
 import SubmitButton from "@/components/SubmitButton.vue";
 import {API_DELETE_ALL_TOKENS_URL} from "@/api/tokens.js";
 import {mapState} from "vuex";
-import replaceDataInUri from "@/mixins/replaceDataInUri.js";
+import replaceDataInUri from "@/helpers/replaceDataInUri.js";
 import {API_DELETE_ALL_SESSIONS_URL} from "@/api/sessions.js";
 import usePending from "@/mixins/usePending.js";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: "LogoutAllAuthsButton",
@@ -30,12 +31,12 @@ export default {
             return this.$router.push({ name: 'Login' })
         },
         logoutTokens() {
-            return axios.delete(replaceDataInUri(API_DELETE_ALL_TOKENS_URL, {'id': this.user.id})).catch(errors => {
+            return apiRequest(API_DELETE_ALL_TOKENS_URL, {'id': this.user.id}).catch(errors => {
                 console.log(errors.response)
             })
         },
         logoutSessions() {
-            return axios.delete(replaceDataInUri(API_DELETE_ALL_SESSIONS_URL, {'id': this.user.id})).catch(errors => {
+            return apiRequest(API_DELETE_ALL_SESSIONS_URL, {'id': this.user.id}).catch(errors => {
                 console.log(errors.response)
             })
         }

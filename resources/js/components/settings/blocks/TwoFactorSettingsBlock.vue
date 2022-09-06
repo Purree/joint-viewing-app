@@ -29,7 +29,7 @@
 import {mapState} from "vuex";
 import EnabledTwoFactorBlock from "@/components/settings/two-factor/EnabledTwoFactorBlock.vue";
 import DisabledTwoFactorBlock from "@/components/settings/two-factor/DisabledTwoFactorBlock.vue";
-import replaceDataInUri from "@/mixins/replaceDataInUri.js";
+import replaceDataInUri from "@/helpers/replaceDataInUri.js";
 import {
     API_TWO_FACTOR_DISABLE_URL,
     API_TWO_FACTOR_ENABLE_URL, API_TWO_FACTOR_GET_RECOVERY_CODES_URL,
@@ -38,6 +38,7 @@ import {
 import RecentlyEnabledTwoFactorBlock from "@/components/settings/two-factor/RecentlyEnabledTwoFactorBlock.vue";
 import usePending from "@/mixins/usePending.js";
 import Divider from "@/components/Divider";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: "TwoFactorSettingsBlock",
@@ -58,7 +59,7 @@ export default {
     mixins: [usePending],
     methods: {
         enableTwoFactor() {
-            return axios.post(replaceDataInUri(API_TWO_FACTOR_ENABLE_URL, {'user': this.user.id}))
+            return apiRequest(API_TWO_FACTOR_ENABLE_URL, {'user': this.user.id})
                 .then(() => {
                     this.userEnableTwoFactor = true;
                     return this.updateRecoveryCodes();
@@ -68,7 +69,7 @@ export default {
                 })
         },
         regenerateRecoveryCodes() {
-            return axios.put(replaceDataInUri(API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL, {'user': this.user.id}))
+            return apiRequest(API_TWO_FACTOR_REGENERATE_RECOVERY_CODES_URL, {'user': this.user.id})
                 .then(() => {
                     return this.updateRecoveryCodes();
                 })
@@ -77,7 +78,7 @@ export default {
                 })
         },
         disableTwoFactor() {
-            return axios.delete(replaceDataInUri(API_TWO_FACTOR_DISABLE_URL, {'user': this.user.id}))
+            return apiRequest(API_TWO_FACTOR_DISABLE_URL, {'user': this.user.id})
                 .then(() => {
                     this.user.use_two_factor = this.userEnableTwoFactor = false;
                 })
@@ -86,7 +87,7 @@ export default {
                 })
         },
         updateRecoveryCodes() {
-            return axios.get(replaceDataInUri(API_TWO_FACTOR_GET_RECOVERY_CODES_URL, {'user': this.user.id})).then(response => {
+            return apiRequest(API_TWO_FACTOR_GET_RECOVERY_CODES_URL, {'user': this.user.id}).then(response => {
                 this.recoveryCodes = response.data
             }).catch((errors) => {
                 console.log(errors.response)

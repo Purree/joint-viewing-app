@@ -25,13 +25,13 @@ import SuccessfulArticle from "@/components/SuccessfulArticle.vue";
 import SubmitButton from "@/components/SubmitButton.vue";
 import SettingsRow from "@/components/settings/SettingsRow.vue";
 import ErrorMessage from "@/components/errors/ErrorMessage.vue";
-import axios from "axios";
 import {API_CHANGE_PASSWORD_URL} from "@/api/users.js";
 import {mapState} from "vuex";
 import errorsHelper from "@/mixins/errors.js";
-import replaceDataInUri from "@/mixins/replaceDataInUri.js";
+import replaceDataInUri from "@/helpers/replaceDataInUri.js";
 import usePending from "@/mixins/usePending.js";
 import Divider from "@/components/Divider";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: "PasswordSettingsBlock",
@@ -52,7 +52,7 @@ export default {
     methods: {
         changePassword() {
         this.successed = false;
-        return axios.put(replaceDataInUri(API_CHANGE_PASSWORD_URL, {'id': this.user.id}), this.form)
+        return apiRequest(API_CHANGE_PASSWORD_URL, {'id': this.user.id}, this.form)
             .then(() => {
                 this.errors = {};
                 this.successed = true;

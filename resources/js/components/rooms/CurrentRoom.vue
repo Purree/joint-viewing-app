@@ -35,6 +35,7 @@ import Divider from "@/components/Divider";
 import RoomManipulateBlock from "@/components/rooms/RoomManipulateBlock";
 import errorsHelper from "@/mixins/errors";
 import {API_CREATE_ROOM_URL} from "@/api/rooms";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: "CurrentRoom",
@@ -57,7 +58,7 @@ export default {
                 delete form.password;
             }
 
-            return axios.post(API_CREATE_ROOM_URL, form)
+            return apiRequest(API_CREATE_ROOM_URL, {}, form)
                 .then(response => {
                     this.$store.commit('rooms/setCreatedRoom', response.data);
                     this.$store.commit('rooms/setCurrentRoom', response.data);

@@ -39,6 +39,7 @@ import {API_TWO_FACTOR_LOGIN_URL} from "@/api/twoFactor.js";
 import errorsHelper from "@/mixins/errors.js";
 import loginUser from "@/mixins/loginUser.js";
 import usePending from "@/mixins/usePending.js";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: "TwoFactor",
@@ -55,7 +56,7 @@ export default {
     },
     methods: {
         checkCode() {
-            return axios.post(API_TWO_FACTOR_LOGIN_URL,
+            return apiRequest(API_TWO_FACTOR_LOGIN_URL,
                 this.is_recovery_codes_used ?
                     {'recovery_code': this.recovery_code} :
                     {'code': this.code})

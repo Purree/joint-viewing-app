@@ -4,9 +4,10 @@
 </template>
 
 <script>
-import replaceDataInUri from "@/mixins/replaceDataInUri.js";
+import replaceDataInUri from "@/helpers/replaceDataInUri.js";
 import {mapState} from "vuex";
 import {API_TWO_FACTOR_GET_QR_CODE_URL} from "@/api/twoFactor.js";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: "QrCode",
@@ -17,7 +18,7 @@ export default {
         }
     },
     mounted() {
-        axios.get(replaceDataInUri(API_TWO_FACTOR_GET_QR_CODE_URL, {'user': this.user.id})).then(response => {
+        apiRequest(API_TWO_FACTOR_GET_QR_CODE_URL, {'user': this.user.id}).then(response => {
             this.QRCodeSVG = response.data.svg
         }).catch(errors => {
             console.log(errors.response)

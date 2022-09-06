@@ -22,13 +22,13 @@ import SuccessfulArticle from "@/components/SuccessfulArticle.vue";
 import SubmitButton from "@/components/SubmitButton.vue";
 import SettingsRow from "@/components/settings/SettingsRow.vue";
 import ErrorMessage from "@/components/errors/ErrorMessage.vue";
-import axios from "axios";
 import {API_CHANGE_NICKNAME_URL} from "@/api/users.js";
 import {mapState} from "vuex";
 import errorsHelper from "@/mixins/errors.js";
-import replaceDataInUri from "@/mixins/replaceDataInUri.js";
+import replaceDataInUri from "@/helpers/replaceDataInUri.js";
 import usePending from "@/mixins/usePending.js";
 import Divider from "@/components/Divider";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: "MainSettingsBlock",
@@ -48,7 +48,7 @@ export default {
         changeNickname() {
             this.successed = false;
 
-            return axios.put(replaceDataInUri(API_CHANGE_NICKNAME_URL, {'id': this.user.id}), this.form)
+            return apiRequest(API_CHANGE_NICKNAME_URL, {'id': this.user.id}, this.form)
                 .then(response => {
                     this.$store.commit('auth/setUser', response.data);
 

@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import {API_REGISTRATION_URL} from '@/api/auth.js';
 import AuthenticationLayout from "@/layouts/AuthenticationLayout.vue";
 import SubmitButton from "@/components/SubmitButton.vue";
@@ -29,6 +28,7 @@ import UserSecretModal from "@/components/modals/UserSecretModal.vue";
 import SuccessfulArticle from "@/components/SuccessfulArticle.vue";
 import errorsHelper from "@/mixins/errors.js";
 import usePending from "@/mixins/usePending.js";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: 'Register',
@@ -59,7 +59,7 @@ export default {
             })
         },
         sendForm() {
-            return axios.post(API_REGISTRATION_URL, this.form)
+            return apiRequest(API_REGISTRATION_URL, this.form)
                 .then(response => {
                     this.registered = true;
                     this.errors = {};

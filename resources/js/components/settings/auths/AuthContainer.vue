@@ -23,9 +23,10 @@
 import RevokeAuthButton from "@/components/settings/auths/RevokeAuthButton.vue";
 import Rows from "@/components/Rows.vue";
 import errorsHelper from "@/mixins/errors.js";
-import replaceDataInUri from "@/mixins/replaceDataInUri.js";
+import replaceDataInUri from "@/helpers/replaceDataInUri.js";
 import {mapState} from "vuex";
 import Divider from "@/components/Divider";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: "AuthContainer",
@@ -39,11 +40,9 @@ export default {
             }
 
             if (this.deleteRequestParams.uri) {
-                axios.delete(
-                    replaceDataInUri(
-                        this.deleteRequestParams.uri,
-                        {'userId': this.user.id, 'authId': id}
-                    )
+                apiRequest(
+                    this.deleteRequestParams.uri,
+                    {'userId': this.user.id, 'authId': id}
                 ).then((response) => {
                     if (response.data.logout) {
                         this.$store.dispatch('auth/logout');

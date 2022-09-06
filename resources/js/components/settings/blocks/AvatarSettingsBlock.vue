@@ -52,9 +52,10 @@ import SubmitButton from "@/components/SubmitButton.vue";
 import errorsHelper from "@/mixins/errors.js";
 import usePending from "@/mixins/usePending.js";
 import {API_DELETE_AVATAR_URL, API_UPDATE_AVATAR_URL} from "@/api/users.js";
-import replaceDataInUri from "@/mixins/replaceDataInUri.js";
+import replaceDataInUri from "@/helpers/replaceDataInUri.js";
 import ErrorMessage from "@/components/errors/ErrorMessage.vue";
 import Divider from "@/components/Divider";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: "AvatarSettingsBlock",
@@ -76,12 +77,13 @@ export default {
             this.uploadedFile = new File([], "")
         },
         deleteAvatar() {
-            return axios.delete(replaceDataInUri(API_DELETE_AVATAR_URL, {'id': this.user.id})).then(() => {
-                this.errors = {}
-                this.user.avatar = null
-            }).catch(error => {
-                this.errors = errorsHelper.methods.getFromResponse(error)
-            })
+            return apiRequest(API_DELETE_AVATAR_URL, {'id': this.user.id})
+                .then(() => {
+                    this.errors = {}
+                    this.user.avatar = null
+                }).catch(error => {
+                    this.errors = errorsHelper.methods.getFromResponse(error)
+                })
         },
         updateAvatar() {
             if (this.uploadedFile.size / 1024 === 0) {
@@ -101,7 +103,8 @@ export default {
             let formData = new FormData();
             formData.append("photo", this.uploadedFile);
 
-            return axios.post(replaceDataInUri(API_UPDATE_AVATAR_URL, {'id': this.user.id}),
+            return apiRequest(API_UPDATE_AVATAR_URL,
+                {'id': this.user.id},
                 formData,
                 {
                     headers: {

@@ -20,6 +20,7 @@ import {API_CURRENT_USER_URL} from "@/api/users.js";
 import changeTheme from "@/mixins/changeTheme.js";
 import {mapState} from "vuex";
 import UnableToAuthenticateModal from "@/components/modals/UnableToAuthenticateModal.vue";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: 'App',
@@ -33,7 +34,7 @@ export default {
         this.$store.commit('auth/setIsLoggedIn', localStorage.getItem('isLoggedIn'));
 
         if (this.isLoggedIn) {
-            axios.get(API_CURRENT_USER_URL).then((response) => {
+            apiRequest(API_CURRENT_USER_URL).then((response) => {
                 this.$store.commit('auth/setUser', response.data)
             }).catch((error) => {
                 console.log(error.response)

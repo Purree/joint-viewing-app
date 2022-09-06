@@ -26,6 +26,7 @@ import ErrorMessage from "@/components/errors/ErrorMessage.vue";
 import errorsHelper from "@/mixins/errors.js";
 import loginUser from "@/mixins/loginUser.js";
 import usePending from "@/mixins/usePending.js";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: 'Login',
@@ -48,7 +49,7 @@ export default {
         },
         tryToLogin(logoutAndRetryOnForbidden = true) {
             return axios.get('/sanctum/csrf-cookie').then(() => {
-                return axios.post(API_LOGIN_URL, this.form)
+                return apiRequest(API_LOGIN_URL, this.form)
                     .then(response => {
                         if (response.data["two-factor"]) {
                             return this.$router.push({name: 'TwoFactor', query: this.$route.query})
@@ -58,7 +59,7 @@ export default {
                     })
                     .catch(errors => {
                         if (logoutAndRetryOnForbidden && errors.response.status === 403) {
-                            return axios.post(API_LOGOUT_URL).then(() => {
+                            return apiRequest(API_LOGOUT_URL).then(() => {
                                 return this.tryToLogin(false)
                             }).catch((logoutErrors) => {
                                 console.log(logoutErrors)

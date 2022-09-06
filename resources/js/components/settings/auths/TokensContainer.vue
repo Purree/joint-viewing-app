@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import replaceDataInUri from "@/mixins/replaceDataInUri.js";
+import replaceDataInUri from "@/helpers/replaceDataInUri.js";
 import AuthContainer from "@/components/settings/auths/AuthContainer.vue";
 import formatDate from "@/mixins/formatDate.js";
 import {API_DELETE_TOKEN_URL} from "@/api/tokens.js";

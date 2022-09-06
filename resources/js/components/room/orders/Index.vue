@@ -51,11 +51,12 @@
 <script>
 import OrdersRow from "@/components/room/orders/Row";
 import {mapState} from "vuex";
-import replaceDataInUri from "@/mixins/replaceDataInUri";
+import replaceDataInUri from "@/helpers/replaceDataInUri";
 import errorsHelper from "@/mixins/errors";
 import {API_ADD_ORDER_URL, API_DELETE_ORDER_URL, API_GET_ALL_ORDERS_URL} from "@/api/orders";
 import broadcastConnections from "@/mixins/broadcastConnections";
 import usePending from "@/mixins/usePending";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: "Orders",
@@ -85,7 +86,7 @@ export default {
     },
     methods: {
         getOrders() {
-            return axios.get(replaceDataInUri(API_GET_ALL_ORDERS_URL, {'roomId': this.room.id}))
+            return apiRequest(API_GET_ALL_ORDERS_URL, {'roomId': this.room.id})
                 .then(response => {
                     return response;
                 }).catch(errors => {
@@ -94,7 +95,7 @@ export default {
                 });
         },
         addOrder() {
-            return axios.post(replaceDataInUri(API_ADD_ORDER_URL, {'roomId': this.room.id}), {'video_url': this.requestedUrl})
+            return apiRequest(API_ADD_ORDER_URL, {'roomId': this.room.id}, {'video_url': this.requestedUrl})
                 .then(() => {
                     this.requestedUrl = '';
                 }).catch(errors => {
@@ -109,7 +110,7 @@ export default {
             }
             this.ordersToDelete.push(orderId)
 
-            return axios.delete(replaceDataInUri(API_DELETE_ORDER_URL, {'roomId': this.room.id, 'orderId': orderId}))
+            return apiRequest(API_DELETE_ORDER_URL, {'roomId': this.room.id, 'orderId': orderId})
                 .then((response) => {
                     return response;
                 }).catch(errors => {

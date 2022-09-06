@@ -34,6 +34,7 @@ import {API_ALL_ROOMS_URL} from "@/api/rooms";
 import usePending from "@/mixins/usePending";
 import {mapState} from "vuex";
 import errorsHelper from "@/mixins/errors";
+import apiRequest from "@/helpers/apiRequest";
 
 export default {
     name: "PublicRooms",
@@ -53,7 +54,7 @@ export default {
             this.rooms = [];
             this.pagination = [];
 
-            return axios.get(API_ALL_ROOMS_URL, {params: {'page': page, 'rooms_count': count}}).then((response) => {
+            return apiRequest(API_ALL_ROOMS_URL, {params: {'page': page, 'rooms_count': count}}).then((response) => {
                 history.pushState({}, null, `${this.$route.path}?page=${page}`);
                 this.rooms = response.data.data;
                 this.pagination = response.data.pagination;

@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import replaceDataInUri from "@/mixins/replaceDataInUri.js";
+import replaceDataInUri from "@/helpers/replaceDataInUri.js";
 import {API_DELETE_SESSIONS_URL} from "@/api/sessions.js";
 import AuthContainer from "@/components/settings/auths/AuthContainer.vue";
 import formatDate from "@/mixins/formatDate.js";
