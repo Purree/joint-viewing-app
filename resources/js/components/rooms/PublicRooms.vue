@@ -54,7 +54,7 @@ export default {
             this.rooms = [];
             this.pagination = [];
 
-            return apiRequest(API_ALL_ROOMS_URL, {params: {'page': page, 'rooms_count': count}}).then((response) => {
+            return apiRequest(API_ALL_ROOMS_URL, {}, {params: {'page': page, 'rooms_count': count}}).then((response) => {
                 history.pushState({}, null, `${this.$route.path}?page=${page}`);
                 this.rooms = response.data.data;
                 this.pagination = response.data.pagination;

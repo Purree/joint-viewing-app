@@ -59,7 +59,7 @@ export default {
             })
         },
         sendForm() {
-            return apiRequest(API_REGISTRATION_URL, this.form)
+            return apiRequest(API_REGISTRATION_URL, {}, this.form)
                 .then(response => {
                     this.registered = true;
                     this.errors = {};

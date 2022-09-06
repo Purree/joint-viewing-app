@@ -3,7 +3,7 @@
         <div class="is-flex is-justify-content-space-between is-align-items-center">
             <div class="orders-column-text-box is-overflow-hidden">
                 <div>
-                    <a :href="this.order.video_url">
+                    <a :href="this.order.video_url" target="_blank">
                         {{ this.order.video_url }}
                     </a>
                 </div>

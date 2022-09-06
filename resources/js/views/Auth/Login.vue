@@ -49,7 +49,7 @@ export default {
         },
         tryToLogin(logoutAndRetryOnForbidden = true) {
             return axios.get('/sanctum/csrf-cookie').then(() => {
-                return apiRequest(API_LOGIN_URL, this.form)
+                return apiRequest(API_LOGIN_URL, {}, this.form)
                     .then(response => {
                         if (response.data["two-factor"]) {
                             return this.$router.push({name: 'TwoFactor', query: this.$route.query})

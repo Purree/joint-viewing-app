@@ -56,7 +56,7 @@ export default {
     },
     methods: {
         checkCode() {
-            return apiRequest(API_TWO_FACTOR_LOGIN_URL,
+            return apiRequest(API_TWO_FACTOR_LOGIN_URL, {},
                 this.is_recovery_codes_used ?
                     {'recovery_code': this.recovery_code} :
                     {'code': this.code})
