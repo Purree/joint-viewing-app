@@ -51,7 +51,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$message-min-width: 15rem;
+$message-min-width: 10rem;
 $message-max-width: 100%;
 
 .message-text-container {
