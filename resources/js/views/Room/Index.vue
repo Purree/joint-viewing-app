@@ -2,7 +2,7 @@
     <div v-if="is_loaded" class="h-100">
         <div class="activity-block is-flex is-relative"
              :class="{'fullscreen h-100': is_orders_closed, 'chat-below': is_chat_below}">
-            <player class="player"></player>
+            <player :can-control="can_manipulate_room" video-id="dQw4w9WgXcQ" class="player"></player>
             <chat :can-control="can_manipulate_room" :room="room" v-if="!is_chat_closed"
                   :is-chat-below="is_chat_below"
                   @change-chat-position="is_chat_below = !is_chat_below"

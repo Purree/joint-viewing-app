@@ -1,12 +1,24 @@
 <template>
     <div class="h-100 w-100">
-<!--        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+        <youtube :video-id="videoId" :can-control="canControl"></youtube>
     </div>
 </template>
 
 <script>
+import Youtube from "@/components/players/Youtube";
 export default {
-    name: "Player"
+    name: "Player",
+    components: {Youtube},
+    props: {
+        canControl: {
+            type: Boolean,
+            required: true,
+        },
+        videoId: {
+            type: String,
+            required: true,
+        },
+    }
 }
 </script>
 
