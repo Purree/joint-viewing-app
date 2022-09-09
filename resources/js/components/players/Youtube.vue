@@ -3,13 +3,10 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 export default {
     name: "Youtube",
-    data() {
-        return {
-            player: null,
-        }
-    },
     props: {
         videoId: {
             type: String,
@@ -27,13 +24,13 @@ export default {
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
         window.onYouTubePlayerAPIReady = () => {
-            this.player = new YT.Player('ytplayer', {
+            this.$store.commit('player/setPlayer', new YT.Player('ytplayer', {
                 height: '100%',
                 width: '100%',
                 videoId: this.videoId,
                 events: {
                     'onReady': (e) => {console.log(e)},
-                    'onStateChange': (e) => {console.log(e)}
+                    'onStateChange': (e) => {console.log(e);}
                 },
                 playerVars: {
                     'autoplay': 0,
@@ -41,13 +38,16 @@ export default {
                     'rel': 0,
                     'color': 'white'
                 },
-            });
+            }));
         }
     },
     watch: {
         videoId() {
             this.player.loadVideoById(this.videoId);
         }
+    },
+    computed: {
+        ...mapState('player', ['player']),
     }
 }
 </script>

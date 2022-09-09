@@ -2,7 +2,7 @@
     <div v-if="is_loaded" class="h-100">
         <div class="activity-block is-flex is-relative"
              :class="{'fullscreen h-100': is_orders_closed, 'chat-below': is_chat_below}">
-            <player :can-control="can_manipulate_room" video-id="dQw4w9WgXcQ" class="player"></player>
+            <player :host="host_id" :can-control="can_manipulate_room" video-id="dQw4w9WgXcQ" class="player"></player>
             <chat :can-control="can_manipulate_room" :room="room" v-if="!is_chat_closed"
                   :is-chat-below="is_chat_below"
                   @change-chat-position="is_chat_below = !is_chat_below"
@@ -28,7 +28,6 @@
 
 <script>
 import {API_GET_ROOM_DATA_BY_LINK_URL} from "@/api/rooms";
-import replaceDataInUri from "@/helpers/replaceDataInUri";
 import errorsHelper from "@/mixins/errors.js";
 import {mapState} from "vuex";
 import Player from "@/components/room/Player";
@@ -52,6 +51,7 @@ export default {
             is_chat_below: false,
             is_chat_closed: false,
             is_orders_closed: false,
+            host_id: 0,
         }
     },
     async beforeCreate() {
@@ -77,12 +77,20 @@ export default {
         broadcastConnections.methods.connectToRoom(this.room.id)
             .here((users) => {
                 this.users = users;
+
+                this.updateHost();
             })
             .joining((user) => {
                 this.users.push(user);
             })
             .leaving((user) => {
                 this.deleteMember(user.id)
+
+                if (!this.room.can_everyone_control && user.id === this.room.owner.id) {
+                    this.player.pauseVideo()
+                } else {
+                    this.updateHost();
+                }
             })
             .listen('RoomUpdate', (response) => {
                 this.$store.dispatch('rooms/changeCachedData', response.room);
@@ -133,14 +141,24 @@ export default {
                     currentMembers: this.users,
                     canControl: this.room.owner.id === this.user.id,
                     roomId: this.room.id,
+                    host: this.host_id
                 },
                 trapFocus: true,
             })
+        },
+        updateHost() {
+            if (!this.room.can_everyone_control) {
+                this.host_id = this.room.owner.id;
+                return;
+            }
+
+            this.host_id = this.users.map(user => user.id).includes(this.room.owner.id) ? this.room.owner.id : this.users[0].id;
         }
     },
     computed: {
         ...mapState('auth', ['user']),
         ...mapState('rooms', ['current_room', 'created_room']),
+        ...mapState('player', ['player']),
     }
 }
 </script>

@@ -92,3 +92,11 @@ div.file-image {
 .is-overflow-hidden {
     overflow: hidden;
 }
+
+.translucent-element {
+    opacity: 50%;
+}
+
+.translucent-element:hover {
+    opacity: 100%;
+}

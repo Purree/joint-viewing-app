@@ -18,6 +18,10 @@ export default {
             type: String,
             required: true,
         },
+        host: {
+            type: Number,
+            required: true,
+        }
     }
 }
 </script>

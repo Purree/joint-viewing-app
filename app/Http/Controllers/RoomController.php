@@ -73,6 +73,7 @@ class RoomController extends Controller
         }
 
         broadcast(new RoomMemberKick(new UserResource($user), $room->id));
+
         return ResponseResult::success()->returnValue;
     }
 

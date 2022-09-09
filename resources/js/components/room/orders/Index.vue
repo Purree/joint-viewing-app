@@ -1,7 +1,7 @@
 <template>
     <div class="orders-content is-relative box">
         <div class="orders-content" v-if="!ordersPending">
-            <div class="is-sticky close-orders-button">
+            <div class="is-sticky close-orders-button translucent-element">
                 <o-button iconRightClass="regular" icon-right="close" @click="$emit('closeOrders')"></o-button>
             </div>
             <div class="is-flex is-flex-direction-column h-100"
@@ -156,11 +156,6 @@ export default {
 .close-orders-button {
     height: 0;
     top: 0;
-    opacity: 50%;
-}
-
-.close-orders-button:hover {
-    opacity: 100%;
 }
 
 .orders-add-order-container {

@@ -11,6 +11,7 @@
                               :member="member"
                               :kick-pending="contendersForKick.includes(member.id)"
                               :is-online="currentMembers.some(onlineMember => onlineMember.id === member.id)"
+                              :is-host="member.id === host"
                               @kick="kickUser"></room-members-row>
         </div>
         <div v-else>
@@ -44,6 +45,10 @@ export default {
             type: Boolean,
             required: true
         },
+        host: {
+            type: Number,
+            required: true
+        }
     },
     data() {
         return {

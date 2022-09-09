@@ -11,7 +11,12 @@
                 </div>
             </div>
         </div>
-        <div v-if="canControl">
+        <div v-if="canControl" class="is-flex is-align-items-center">
+            <o-tooltip
+                label="Host"
+            >
+                <o-icon v-if="isHost" pack="fas" icon="crown" size="medium"></o-icon>
+            </o-tooltip>
             <o-button :disabled="kickPending"
                       :class="{'is-loading': kickPending}"
                       variant="danger"
@@ -40,6 +45,10 @@ export default {
             required: true
         },
         kickPending: {
+            type: Boolean,
+            required: true
+        },
+        isHost: {
             type: Boolean,
             required: true
         }

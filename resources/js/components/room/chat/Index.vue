@@ -5,7 +5,7 @@
                        :can-cancel="false"></o-loading>
         </div>
         <div class="h-100" v-else>
-            <div class="is-sticky chat-control-buttons">
+            <div class="is-sticky chat-control-buttons translucent-element">
                 <div class="is-flex">
                     <o-button iconRightClass="regular" icon-right="close" @click="$emit('closeChat')"></o-button>
                     <o-button iconRightClass="regular" icon-right="arrow-down" v-if="showScrollDownButton"
@@ -21,10 +21,12 @@
             </div>
             <div class="messages" ref="messages"
                  :class="{'is-flex is-justify-content-center is-align-items-center has-text-grey-light': messages.length === 0}">
-                <chat-message v-for="message in messages"
-                              v-if="messages.length > 0"
-                              :message="message"
-                              :is-sent-by-current-user="message.user.id === this.user.id"></chat-message>
+                <div v-for="message in messages" v-if="messages.length > 0">
+                    <chat-message v-if="message.user !== null"
+                                  :message="message"
+                                  :is-sent-by-current-user="message.user.id === this.user.id"></chat-message>
+                    <system-chat-message v-else :message="message"></system-chat-message>
+                </div>
                 <div v-else class="has-text-centered">
                     There are no messages yet, but you can send message using the form below.
                 </div>
@@ -59,10 +61,11 @@ import {API_GET_ALL_MESSAGES_URL, API_SEND_MESSAGE_URL} from "@/api/chat";
 import usePending from "@/mixins/usePending";
 import broadcastConnections from "@/mixins/broadcastConnections";
 import apiRequest from "@/helpers/apiRequest";
+import SystemChatMessage from "@/components/room/chat/SystemMessage";
 
 export default {
     name: "Chat",
-    components: {ChatMessage},
+    components: {SystemChatMessage, ChatMessage},
     emits: ['closeChat', 'changeChatPosition'],
     mixins: [usePending],
     props: {
