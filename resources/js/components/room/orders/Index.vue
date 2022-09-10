@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <form v-if="canControl" @submit.prevent="usePending(addOrder, 'addOrderPending')"
-                      class="orders-add-order-container w-100 is-flex is-sticky">
+                      class="w-100 is-flex">
                     <div class="w-100 is-radiusless">
                         <o-input v-model="requestedUrl"
                                  required
@@ -156,11 +156,5 @@ export default {
 .close-orders-button {
     height: 0;
     top: 0;
-}
-
-.orders-add-order-container {
-    left: 0;
-    height: 15%;
-    z-index: 1;
 }
 </style>

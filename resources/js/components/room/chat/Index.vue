@@ -149,7 +149,7 @@ export default {
                 this.$refs.messages.lastElementChild.clientHeight - 10 <= this.$refs.messages.scrollTop;
         },
         checkIsWindowSmall(windowWidth = document.body.clientWidth) {
-            this.is_chat_move_active = windowWidth > 590;
+            this.is_chat_move_active = windowWidth > 600;
         },
     },
     mounted() {
