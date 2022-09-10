@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\RoomController;
 
 Route::name('rooms.')->prefix('rooms')->group(static function () {
@@ -59,6 +60,17 @@ Route::name('rooms.')->prefix('rooms')->group(static function () {
                         ['throttle:delete_order', 'can:delete,App\Models\Order,room,order']
                     );
                 });
+
+                Route::name('player.')->prefix('player')->controller(PlayerController::class)->group(
+                    static function () {
+                        Route::post('/client/synchronize', 'synchronizationRequest')
+                            ->name('synchronization-request')->middleware(
+                                ['throttle:synchronization_request']
+                            );
+                        Route::post('/host/synchronize', 'synchronize')->name('synchronize')
+                            ->middleware(['can:manipulate,room', 'throttle:synchronization']);
+                    }
+                );
             });
         });
     });

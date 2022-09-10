@@ -69,5 +69,13 @@ class RateLimiterServiceProvider extends ServiceProvider
         RateLimiter::for('delete_order', static function () {
             return Limit::perMinute(100);
         });
+
+        RateLimiter::for('synchronization_request', static function () {
+            return Limit::perMinute(20);
+        });
+
+        RateLimiter::for('synchronization', static function () {
+            return Limit::perMinute(100);
+        });
     }
 }
