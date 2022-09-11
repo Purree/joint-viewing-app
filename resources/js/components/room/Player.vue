@@ -34,22 +34,39 @@ export default {
     },
     methods: {
         requestSynchronization() {
-            apiRequest(API_REQUEST_SYNCHRONIZATION_URL, {'roomId': this.room.id})
+            return apiRequest(API_REQUEST_SYNCHRONIZATION_URL, {'roomId': this.room.id})
         },
-        synchronizeClients(time, is_paused, playback_rate) {
-            apiRequest(API_SYNCHRONIZATION_URL, {'roomId': this.room.id}, {
+        synchronizeClients(time = this.player.getCurrentTime(), player_state = this.player.getPlayerState(), playback_rate = this.player.getPlaybackRate()) {
+            return apiRequest(API_SYNCHRONIZATION_URL, {'roomId': this.room.id}, {
                 'time': time,
-                'is_paused': is_paused,
+                'is_paused': [-1, 0, 2, 5].includes(player_state),
                 'playback_rate': playback_rate
             })
+        },
+        synchronize(time, is_paused, playback_rate) {
+            if (this.player.getCurrentTime() < time - 3 || time + 3 > this.player.getCurrentTime()) {
+                this.player.seekTo(time, true);
+            }
+            if (is_paused) {
+                this.player.pauseVideo();
+            } else {
+                this.player.playVideo();
+            }
+
+            this.player.setPlaybackRate(playback_rate);
         },
         onPlayerReady() {
             broadcastConnections.methods.connectToRoom(this.room.id)
                 .listen('PlayerSynchronizeRequest', () => {
                     if (this.host === this.user.id) {
-                        this.synchronizeClients(this.player.getCurrentTime(), this.player.getPlayerState(), this.player.getPlaybackRate())
+                        this.synchronizeClients()
                     }
-                });
+                })
+                .listen('PlayerSynchronize', (response) => {
+                    if (this.host !== this.user.id) {
+                        this.synchronize(response.time, response.is_paused, response.playback_rate)
+                    }
+                })
         },
     },
     computed: {
