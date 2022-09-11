@@ -17,6 +17,12 @@ export default {
             required: true,
         }
     },
+    emits: ['PlayerReady'],
+    methods: {
+        onPlayerReady(event) {
+            this.$emit('PlayerReady')
+        },
+    },
     mounted() {
         const tag = document.createElement('script');
         tag.src = "https://www.youtube.com/player_api";
@@ -29,7 +35,7 @@ export default {
                 width: '100%',
                 videoId: this.videoId,
                 events: {
-                    'onReady': (e) => {console.log(e)},
+                    'onReady': this.onPlayerReady,
                     'onStateChange': (e) => {console.log(e);}
                 },
                 playerVars: {

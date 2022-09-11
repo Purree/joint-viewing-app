@@ -8,7 +8,7 @@
 
 <script>
 import Sidebar from "@/components/Sidebar";
-export default{
+export default {
     name: "RoomLayout",
     components: {Sidebar}
 }
