@@ -15,13 +15,29 @@ export default {
         canControl: {
             type: Boolean,
             required: true,
+        },
+        isHost: {
+            type: Boolean,
+            required: true,
         }
     },
-    emits: ['PlayerReady'],
+    emits: ['playerReady', 'synchronize', 'requestSynchronization', 'videoEnded'],
     methods: {
         onPlayerReady(event) {
-            this.$emit('PlayerReady')
+            this.$emit('playerReady')
         },
+        onPlayerStateChange(event) {
+            if (event.data === 0) {
+                this.$emit('videoEnded')
+            }
+            if (event.data === 1 || event.data === 2) {
+                if (!this.canControl) {
+                    this.player.pauseVideo();
+                }
+
+                this.$emit(this.canControl || this.isHost ? 'synchronize' : 'requestSynchronization')
+            }
+        }
     },
     mounted() {
         const tag = document.createElement('script');
@@ -36,7 +52,9 @@ export default {
                 videoId: this.videoId,
                 events: {
                     'onReady': this.onPlayerReady,
-                    'onStateChange': (e) => {console.log(e);}
+                    'onStateChange': this.onPlayerStateChange,
+                    'onPlaybackQualityChange': this.onPlayerStateChange,
+                    'onPlaybackRateChange': this.onPlayerStateChange,
                 },
                 playerVars: {
                     'autoplay': 0,

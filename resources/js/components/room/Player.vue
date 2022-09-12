@@ -1,6 +1,12 @@
 <template>
     <div class="h-100 w-100">
-        <youtube ref="player" @player-ready="onPlayerReady" :video-id="videoId" :can-control="canControl"></youtube>
+        <youtube :is-host="host === user.id"
+                 ref="player"
+                 @player-ready="onPlayerReady"
+                 @synchronize="synchronizeClients()"
+                 @request-synchronization="requestSynchronization()"
+                 :video-id="videoId"
+                 :can-control="canControl"></youtube>
     </div>
 </template>
 
