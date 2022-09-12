@@ -5,8 +5,12 @@
                  @player-ready="onPlayerReady"
                  @synchronize="synchronizeClients()"
                  @request-synchronization="requestSynchronization()"
+                 @ignore-next-event="this.skipNextEvent = true"
+                 @listen-next-event="this.skipNextEvent = false"
                  :video-id="videoId"
-                 :can-control="canControl"></youtube>
+                 :can-control="canControl"
+                 :last-synchronization-data="lastSynchronizationData"
+                 :skip-next-event="skipNextEvent"></youtube>
     </div>
 </template>
 
@@ -20,6 +24,12 @@ import {mapState} from "vuex";
 export default {
     name: "Player",
     components: {Youtube},
+    data() {
+        return {
+            skipNextEvent: false,
+            lastSynchronizationData: {},
+        }
+    },
     props: {
         room: {
             type: Object,
@@ -36,7 +46,7 @@ export default {
         host: {
             type: Number,
             required: true,
-        }
+        },
     },
     methods: {
         requestSynchronization() {
@@ -50,16 +60,33 @@ export default {
             })
         },
         synchronize(time, is_paused, playback_rate) {
-            if (this.player.getCurrentTime() < time - 3 || time + 3 > this.player.getCurrentTime()) {
-                this.player.seekTo(time, true);
-            }
-            if (is_paused) {
-                this.player.pauseVideo();
-            } else {
-                this.player.playVideo();
+            this.lastSynchronizationData = {
+                'time': time,
+                'is_paused': is_paused,
+                'playback_rate': playback_rate
             }
 
-            this.player.setPlaybackRate(playback_rate);
+            if (this.player.getCurrentTime() < time - 3 || time + 3 > this.player.getCurrentTime()) {
+                this.skipNextEvent = true;
+                this.player.seekTo(time, true);
+            }
+
+            if (is_paused) {
+                if (this.player.getPlayerState() !== 2) {
+                    this.skipNextEvent = true;
+                    this.player.pauseVideo();
+                }
+            } else {
+                if (this.player.getPlayerState() !== 1) {
+                    this.skipNextEvent = true;
+                    this.player.playVideo();
+                }
+            }
+
+            if (this.player.getPlaybackRate() !== playback_rate) {
+                this.skipNextEvent = true;
+                this.player.setPlaybackRate(playback_rate);
+            }
         },
         onPlayerReady() {
             broadcastConnections.methods.connectToRoom(this.room.id)
