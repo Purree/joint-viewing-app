@@ -60,7 +60,7 @@ export default {
         },
         addVideoSeekListener() {
             setInterval(() => {
-                if (this.lastTime !== 0 && Math.abs(this.player.getCurrentTime() - this.lastTime - 1 * this.player.getPlaybackRate()) > 1.5) {
+                if (this.lastTime !== 0 && Math.abs(this.player.getCurrentTime() - this.lastTime - (this.player.getPlayerState() !== 1 * this.player.getPlaybackRate())) > 1.5) {
                     this.$emit(this.canControl || this.isHost ? 'synchronize' : 'requestSynchronization')
                 }
                 this.lastTime = this.player.getCurrentTime()
