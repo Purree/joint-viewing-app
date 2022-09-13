@@ -1,10 +1,18 @@
 <template>
     <div class="h-100 w-100">
+        <div v-if="synchronizationPending" class="is-absolute synchronization">
+            <section class="hero is-success">
+                <div class="hero-body">
+                    <o-loading overlayClass="is-transparent" :full-page="false" :active="true"
+                               :can-cancel="false"></o-loading>
+                </div>
+            </section>
+        </div>
         <youtube :is-host="host === user.id"
                  ref="player"
                  @player-ready="onPlayerReady"
-                 @synchronize="synchronizeClients()"
-                 @request-synchronization="requestSynchronization()"
+                 @synchronize="usePending(synchronizeClients, 'synchronizationPending')"
+                 @request-synchronization="usePending(requestSynchronization, 'synchronizationPending')"
                  @ignore-next-event="this.skipNextEvent = true"
                  @listen-next-event="this.skipNextEvent = false"
                  :video-id="videoId"
@@ -20,14 +28,17 @@ import apiRequest from "@/helpers/apiRequest";
 import {API_REQUEST_SYNCHRONIZATION_URL, API_SYNCHRONIZATION_URL} from "@/api/synchronization";
 import broadcastConnections from "@/mixins/broadcastConnections";
 import {mapState} from "vuex";
+import usePending from "@/mixins/usePending";
 
 export default {
     name: "Player",
     components: {Youtube},
+    mixins: [usePending],
     data() {
         return {
             skipNextEvent: false,
             lastSynchronizationData: {},
+            synchronizationPending: false,
         }
     },
     props: {
@@ -92,7 +103,10 @@ export default {
             broadcastConnections.methods.connectToRoom(this.room.id)
                 .listen('PlayerSynchronizeRequest', () => {
                     if (this.host === this.user.id) {
-                        this.synchronizeClients()
+                        this.synchronizationPending = true;
+                        this.synchronizeClients().then(() => {
+                            this.synchronizationPending = false;
+                        })
                     }
                 })
                 .listen('PlayerSynchronize', (response) => {
@@ -110,5 +124,9 @@ export default {
 </script>
 
 <style scoped>
-
+    .synchronization {
+        z-index: 1;
+        left: 50%;
+        transform: translate(-50%);
+    }
 </style>
