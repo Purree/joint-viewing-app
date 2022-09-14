@@ -36,8 +36,12 @@ export default {
     },
     emits: ['playerReady', 'synchronize', 'requestSynchronization', 'videoEnded', 'ignoreNextEvent', 'listenNextEvent'],
     methods: {
+        synchronize() {
+            this.$emit(this.canControl || this.isHost ? 'synchronize' : 'requestSynchronization')
+        },
         onPlayerReady(event) {
             this.addVideoSeekListener()
+            this.addCheckForVideoChangeListener()
             this.$emit('playerReady')
         },
         onPlayerStateChange(event) {
@@ -55,16 +59,21 @@ export default {
                     this.player.pauseVideo()
                 }
 
-                this.$emit(this.canControl || this.isHost ? 'synchronize' : 'requestSynchronization')
+                this.synchronize();
             }
         },
         addVideoSeekListener() {
             setInterval(() => {
                 if (this.lastTime !== 0 && Math.abs(this.player.getCurrentTime() - this.lastTime - (this.player.getPlayerState() !== 1 * this.player.getPlaybackRate())) > 1.5) {
-                    this.$emit(this.canControl || this.isHost ? 'synchronize' : 'requestSynchronization')
+                    this.synchronize();
                 }
                 this.lastTime = this.player.getCurrentTime()
             }, 1000)
+        },
+        addCheckForVideoChangeListener() {
+            setInterval(() => {
+                this.synchronize();
+            }, 30000)
         },
     },
     mounted() {
