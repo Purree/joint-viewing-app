@@ -1,9 +1,13 @@
 <template>
     <div class="h-100 w-100">
-        <div v-if="synchronizationPending" class="is-absolute synchronization">
-            <section class="hero is-success">
+        <div v-if="synchronizationPending || synchronizationErrorPending" class="is-absolute synchronization">
+            <section class="hero" :class="synchronizationErrorPending ? 'is-danger' : 'is-success'">
                 <div class="hero-body">
-                    <o-loading overlayClass="is-transparent" :full-page="false" :active="true"
+                    <o-loading :icon="synchronizationErrorPending ? 'xmark': 'spinner'"
+                               :iconSpin="synchronizationErrorPending"
+                               overlayClass="is-transparent"
+                               :full-page="false"
+                               :active="true"
                                :can-cancel="false"></o-loading>
                 </div>
             </section>
@@ -29,6 +33,7 @@ import {API_REQUEST_SYNCHRONIZATION_URL, API_SYNCHRONIZATION_URL} from "@/api/sy
 import broadcastConnections from "@/mixins/broadcastConnections";
 import {mapState} from "vuex";
 import usePending from "@/mixins/usePending";
+import errorsHelper from "@/mixins/errors";
 
 export default {
     name: "Player",
@@ -39,6 +44,8 @@ export default {
             skipNextEvent: false,
             lastSynchronizationData: {},
             synchronizationPending: false,
+            synchronizationErrorText: '',
+            synchronizationErrorPending: false,
         }
     },
     props: {
@@ -62,6 +69,10 @@ export default {
     methods: {
         requestSynchronization() {
             return apiRequest(API_REQUEST_SYNCHRONIZATION_URL, {'roomId': this.room.id})
+                .catch((error) => {
+                    errorsHelper.methods.openResponseNotification(error);
+                    this.synchronizationError = errorsHelper.methods.getFromResponse(error);
+                })
         },
         synchronizeClients(time = this.player.getCurrentTime(), player_state = this.player.getPlayerState(), playback_rate = this.player.getPlaybackRate()) {
             return apiRequest(API_SYNCHRONIZATION_URL, {'roomId': this.room.id}, {
@@ -69,6 +80,10 @@ export default {
                 'is_paused': [-1, 0, 2, 5].includes(player_state),
                 'playback_rate': playback_rate
             })
+                .catch((error) => {
+                    errorsHelper.methods.openResponseNotification(error);
+                    this.synchronizationError = errorsHelper.methods.getFromResponse(error);
+                })
         },
         synchronize(time, is_paused, playback_rate) {
             this.lastSynchronizationData = {
@@ -119,14 +134,30 @@ export default {
     computed: {
         ...mapState('auth', ['user']),
         ...mapState('player', ['player']),
+        synchronizationError: {
+            get: function () {
+                return this.synchronizationErrorText;
+            },
+            set: function (error = '') {
+                this.synchronizationErrorText = error;
+
+                if (error !== '') {
+                    this.synchronizationErrorPending = true;
+
+                    setTimeout(() => {
+                        this.synchronizationErrorPending = false;
+                    }, 1000)
+                }
+            }
+        }
     },
 }
 </script>
 
 <style scoped>
-    .synchronization {
-        z-index: 1;
-        left: 50%;
-        transform: translate(-50%);
-    }
+.synchronization {
+    z-index: 1;
+    left: 50%;
+    transform: translate(-50%);
+}
 </style>
