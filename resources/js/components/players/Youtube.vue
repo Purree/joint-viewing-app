@@ -50,11 +50,11 @@ export default {
                 return
             }
 
-            if (event.data === 0) {
+            if (event.data === YT.PlayerState.ENDED) {
                 this.$emit('videoEnded')
             }
-            if (event.data === 1 || event.data === 2) {
-                if (!this.canControl && this.player.getPlayerState() !== 2 && !!this.lastSynchronizationData?.is_paused) {
+            if (event.data === YT.PlayerState.PLAYING || event.data === YT.PlayerState.PAUSED) {
+                if (!this.canControl && this.player.getPlayerState() !== YT.PlayerState.PAUSED && !!this.lastSynchronizationData?.is_paused) {
                     this.$emit('ignoreNextEvent')
                     this.player.pauseVideo()
                 }
@@ -64,7 +64,7 @@ export default {
         },
         addVideoSeekListener() {
             setInterval(() => {
-                if (this.lastTime !== 0 && Math.abs(this.player.getCurrentTime() - this.lastTime - (this.player.getPlayerState() !== 1 * this.player.getPlaybackRate())) > 1.5) {
+                if (this.lastTime !== 0 && Math.abs(this.player.getCurrentTime() - this.lastTime - (this.player.getPlayerState() !== YT.PlayerState.PLAYING * this.player.getPlaybackRate())) > 1.5) {
                     this.synchronize();
                 }
                 this.lastTime = this.player.getCurrentTime()
@@ -91,11 +91,10 @@ export default {
                     events: {
                         'onReady': this.onPlayerReady,
                         'onStateChange': this.onPlayerStateChange,
-                        'onPlaybackQualityChange': this.onPlayerStateChange,
-                        'onPlaybackRateChange': this.onPlayerStateChange,
+                        'onPlaybackQualityChange': this.synchronize,
+                        'onPlaybackRateChange': this.synchronize,
                     },
                     playerVars: {
-                        'autoplay': 0,
                         'showinfo': 0,
                         'rel': 0,
                         'color': 'white'
