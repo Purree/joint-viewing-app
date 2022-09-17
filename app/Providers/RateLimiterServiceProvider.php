@@ -71,11 +71,11 @@ class RateLimiterServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('synchronization_request', static function () {
-            return Limit::perMinute(20);
+            return Limit::perMinute(40);
         });
 
         RateLimiter::for('synchronization', static function () {
-            return Limit::perMinute(100);
+            return Limit::perMinute(400);
         });
     }
 }

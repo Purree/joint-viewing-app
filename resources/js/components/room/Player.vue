@@ -4,7 +4,7 @@
             <section class="hero" :class="synchronizationErrorPending ? 'is-danger' : 'is-success'">
                 <div class="hero-body">
                     <o-loading :icon="synchronizationErrorPending ? 'xmark': 'spinner'"
-                               :iconSpin="synchronizationErrorPending"
+                               :iconSpin="!synchronizationErrorPending"
                                overlayClass="is-transparent"
                                :full-page="false"
                                :active="true"
@@ -89,7 +89,16 @@ export default {
             this.lastSynchronizationData = {
                 'time': time,
                 'is_paused': is_paused,
-                'playback_rate': playback_rate
+                'playback_rate': playback_rate,
+                'synchronizationTime': Date.now(),
+                'synchronizationAttemptPerMinute':
+                    new Date().getMinutes() === new Date(this.lastSynchronizationData.synchronizationTime).getMinutes() ?
+                        ++this.lastSynchronizationData.synchronizationAttemptPerMinute :
+                        1
+            }
+
+            if (this.lastSynchronizationData.synchronizationAttemptPerMinute > 20) {
+                errorsHelper.methods.openNotification('It looks like your player is syncing too often. Perhaps you or your leader has a video playback speed that is different from the speed set in the player, check this, if this does not help, then try to reduce the number of actions with the player. If so many requests come from you, we will be forced to block you for a short time.');
             }
 
             if (this.player.getCurrentTime() < time - 3 || time + 3 > this.player.getCurrentTime()) {
