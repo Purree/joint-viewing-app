@@ -74,36 +74,40 @@ export default {
                     this.synchronizationError = errorsHelper.methods.getFromResponse(error);
                 })
         },
-        synchronizeClients(time = this.player.getCurrentTime(), player_state = this.player.getPlayerState(), playback_rate = this.player.getPlaybackRate()) {
+        synchronizeClients(time = this.player.getCurrentTime(), player_state = this.player.getPlayerState(), playback_rate = this.player.getPlaybackRate(), timestamp = new Date().getTime()) {
             return apiRequest(API_SYNCHRONIZATION_URL, {'roomId': this.room.id}, {
                 'time': time,
                 'is_paused': [-1, 0, 2, 5].includes(player_state),
-                'playback_rate': playback_rate
+                'playback_rate': playback_rate,
+                'synchronizer_timestamp': timestamp,
             })
                 .catch((error) => {
                     errorsHelper.methods.openResponseNotification(error);
                     this.synchronizationError = errorsHelper.methods.getFromResponse(error);
                 })
         },
-        synchronize(time, is_paused, playback_rate) {
+        synchronize(time, is_paused, playback_rate, synchronizer_timestamp) {
             this.lastSynchronizationData = {
                 'time': time,
                 'is_paused': is_paused,
                 'playback_rate': playback_rate,
-                'synchronizationTime': Date.now(),
+                'synchronizer_timestamp': synchronizer_timestamp,
+                'synchronizationTime': new Date().getTime(),
                 'synchronizationAttemptPerMinute':
                     new Date().getMinutes() === new Date(this.lastSynchronizationData.synchronizationTime).getMinutes() ?
                         ++this.lastSynchronizationData.synchronizationAttemptPerMinute :
                         1
             }
 
+            let timeWithUncertainty = is_paused ? time : time + (new Date().getTime() - synchronizer_timestamp) / 1000 * playback_rate;
+
             if (this.lastSynchronizationData.synchronizationAttemptPerMinute > 20) {
                 errorsHelper.methods.openNotification('It looks like your player is syncing too often. Perhaps you or your leader has a video playback speed that is different from the speed set in the player, check this, if this does not help, then try to reduce the number of actions with the player. If so many requests come from you, we will be forced to block you for a short time.');
             }
 
-            if (this.player.getCurrentTime() < time - 3 || time + 3 > this.player.getCurrentTime()) {
+            if (this.player.getCurrentTime() < timeWithUncertainty - 3 || timeWithUncertainty + 3 > this.player.getCurrentTime()) {
                 this.skipNextEvent = true;
-                this.player.seekTo(time, true);
+                this.player.seekTo(timeWithUncertainty, true);
             }
 
             if (is_paused) {
@@ -135,7 +139,7 @@ export default {
                 })
                 .listen('PlayerSynchronize', (response) => {
                     if (this.host !== this.user.id) {
-                        this.synchronize(response.time, response.is_paused, response.playback_rate)
+                        this.synchronize(response.time, response.is_paused, response.playback_rate, response.synchronizer_timestamp)
                     }
                 })
         },

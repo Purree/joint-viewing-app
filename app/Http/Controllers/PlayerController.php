@@ -21,7 +21,15 @@ class PlayerController extends Controller
 
     public function synchronize(SynchronizationRequest $request, Room $room): JsonResponse
     {
-        broadcast(new PlayerSynchronize($room->id, $request->time, $request->is_paused, $request->playback_rate));
+        broadcast(
+            new PlayerSynchronize(
+                $room->id,
+                $request->time,
+                $request->is_paused,
+                $request->playback_rate,
+                $request->synchronizer_timestamp
+            )
+        );
 
         return ResponseResult::success()->returnValue;
     }
