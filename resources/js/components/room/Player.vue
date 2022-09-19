@@ -22,7 +22,7 @@
                  :video-id="videoId"
                  :can-control="canControl"
                  :last-synchronization-data="lastSynchronizationData"
-                 :skip-next-event="skipNextEvent"></youtube>
+                 :skip-next-event="this.skipNextEvent"></youtube>
     </div>
 </template>
 
@@ -87,6 +87,8 @@ export default {
                 })
         },
         synchronize(time, is_paused, playback_rate, synchronizer_timestamp) {
+            this.skipNextEvent = true;
+
             this.lastSynchronizationData = {
                 'time': time,
                 'is_paused': is_paused,
@@ -101,29 +103,25 @@ export default {
 
             let timeWithUncertainty = is_paused ? time : time + (new Date().getTime() - synchronizer_timestamp) / 1000 * playback_rate;
 
-            if (this.lastSynchronizationData.synchronizationAttemptPerMinute > 20) {
+            if (this.lastSynchronizationData.synchronizationAttemptPerMinute > 30) {
                 errorsHelper.methods.openNotification('It looks like your player is syncing too often. Perhaps you or your leader has a video playback speed that is different from the speed set in the player, check this, if this does not help, then try to reduce the number of actions with the player. If so many requests come from you, we will be forced to block you for a short time.');
             }
 
             if (this.player.getCurrentTime() < timeWithUncertainty - 3 || timeWithUncertainty + 3 > this.player.getCurrentTime()) {
-                this.skipNextEvent = true;
                 this.player.seekTo(timeWithUncertainty, true);
             }
 
             if (is_paused) {
                 if (this.player.getPlayerState() !== 2) {
-                    this.skipNextEvent = true;
                     this.player.pauseVideo();
                 }
             } else {
                 if (this.player.getPlayerState() !== 1) {
-                    this.skipNextEvent = true;
                     this.player.playVideo();
                 }
             }
 
             if (this.player.getPlaybackRate() !== playback_rate) {
-                this.skipNextEvent = true;
                 this.player.setPlaybackRate(playback_rate);
             }
         },
@@ -162,7 +160,7 @@ export default {
                     }, 1000)
                 }
             }
-        }
+        },
     },
 }
 </script>

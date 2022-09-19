@@ -45,21 +45,21 @@ export default {
             this.$emit('playerReady')
         },
         onPlayerStateChange(event) {
-            if (this.skipNextEvent) {
-                this.$emit('listenNextEvent')
-                return
-            }
-
             if (event.data === YT.PlayerState.ENDED) {
                 this.$emit('videoEnded')
             }
             if (event.data === YT.PlayerState.PLAYING || event.data === YT.PlayerState.PAUSED) {
                 if (!this.canControl && this.player.getPlayerState() !== YT.PlayerState.PAUSED && !!this.lastSynchronizationData?.is_paused) {
-                    this.$emit('ignoreNextEvent')
                     this.player.pauseVideo()
                 }
 
-                this.synchronize();
+                if (this.skipNextEvent && !this.isHost) {
+                    this.$emit('listenNextEvent')
+                } else {
+                    this.$emit('ignoreNextEvent')
+                    this.synchronize();
+                }
+
             }
         },
         addVideoSeekListener() {
