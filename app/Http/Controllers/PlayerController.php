@@ -24,6 +24,7 @@ class PlayerController extends Controller
         broadcast(
             new PlayerSynchronize(
                 $room->id,
+                $request->user()->id,
                 $request->time,
                 $request->is_paused,
                 $request->playback_rate,

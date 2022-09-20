@@ -41,11 +41,12 @@ export default {
     mixins: [usePending],
     data() {
         return {
-            skipNextEvent: false,
+            skipNextEventPending: false,
             lastSynchronizationData: {},
             synchronizationPending: false,
             synchronizationErrorText: '',
             synchronizationErrorPending: false,
+            skipNextEventTimeout: null,
         }
     },
     props: {
@@ -136,7 +137,7 @@ export default {
                     }
                 })
                 .listen('PlayerSynchronize', (response) => {
-                    if (this.host !== this.user.id) {
+                    if (response.synchronizer_id !== this.user.id) {
                         this.synchronize(response.time, response.is_paused, response.playback_rate, response.synchronizer_timestamp)
                     }
                 })
@@ -159,6 +160,19 @@ export default {
                         this.synchronizationErrorPending = false;
                     }, 1000)
                 }
+            }
+        },
+        skipNextEvent: {
+            get: function () {
+                return this.skipNextEventPending;
+            },
+            set: function (value) {
+                clearTimeout(this.skipNextEventTimeout);
+                this.skipNextEventPending = value;
+
+                this.skipNextEventTimeout = setTimeout(() => {
+                    this.skipNextEventPending = false;
+                }, 10000)
             }
         },
     },
