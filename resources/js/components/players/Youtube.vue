@@ -83,23 +83,27 @@ export default {
             const firstScriptTag = document.getElementsByTagName('script')[0];
             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-            window.onYouTubePlayerAPIReady = () => {
-                this.$store.commit('player/setPlayer', new YT.Player('ytplayer', {
-                    height: '100%',
-                    width: '100%',
-                    videoId: this.videoId,
-                    events: {
-                        'onReady': this.onPlayerReady,
-                        'onStateChange': this.onPlayerStateChange,
-                        'onPlaybackQualityChange': this.synchronize,
-                        'onPlaybackRateChange': this.synchronize,
-                    },
-                    playerVars: {
-                        'showinfo': 0,
-                        'rel': 0,
-                        'color': 'white'
-                    },
-                }));
+            if (window.onYouTubePlayerAPIReady) {
+                window.onYouTubePlayerAPIReady()
+            } else {
+                window.onYouTubePlayerAPIReady = () => {
+                    this.$store.commit('player/setPlayer', new YT.Player('ytplayer', {
+                        height: '100%',
+                        width: '100%',
+                        videoId: this.videoId,
+                        events: {
+                            'onReady': this.onPlayerReady,
+                            'onStateChange': this.onPlayerStateChange,
+                            'onPlaybackQualityChange': this.synchronize,
+                            'onPlaybackRateChange': this.synchronize,
+                        },
+                        playerVars: {
+                            'showinfo': 0,
+                            'rel': 0,
+                            'color': 'white'
+                        },
+                    }));
+                }
             }
         }
     },
