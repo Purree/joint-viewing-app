@@ -108,7 +108,7 @@ export default {
                 errorsHelper.methods.openNotification('It looks like your player is syncing too often. Perhaps you or your leader has a video playback speed that is different from the speed set in the player, check this, if this does not help, then try to reduce the number of actions with the player. If so many requests come from you, we will be forced to block you for a short time.');
             }
 
-            if (this.player.getCurrentTime() < timeWithUncertainty - 3 || timeWithUncertainty + 3 > this.player.getCurrentTime()) {
+            if (this.player.getCurrentTime() < timeWithUncertainty - 3 || timeWithUncertainty + 3 < this.player.getCurrentTime()) {
                 this.player.seekTo(timeWithUncertainty, true);
             }
 
