@@ -53,7 +53,7 @@ export default {
                     this.player.pauseVideo()
                 }
 
-                if (this.skipNextEvent && !this.isHost) {
+                if (this.skipNextEvent && !this.isHost && !this.canControl) {
                     this.$emit('listenNextEvent')
                 } else {
                     this.$emit('ignoreNextEvent')
