@@ -114,10 +114,12 @@ export default {
 
             if (is_paused) {
                 if (this.player.getPlayerState() !== 2) {
+                    this.player.seekTo(time, true);
                     this.player.pauseVideo();
                 }
             } else {
                 if (this.player.getPlayerState() !== 1) {
+                    this.player.seekTo(timeWithUncertainty, true);
                     this.player.playVideo();
                 }
             }
