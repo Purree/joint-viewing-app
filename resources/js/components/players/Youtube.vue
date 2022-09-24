@@ -103,6 +103,7 @@ export default {
                             'color': 'white'
                         },
                     }));
+                    this.$emit('requestSynchronization')
                 }
             }
         }

@@ -174,7 +174,7 @@ export default {
 
                 this.skipNextEventTimeout = setTimeout(() => {
                     this.skipNextEventPending = false;
-                }, 10000)
+                }, 5000)
             }
         },
     },
