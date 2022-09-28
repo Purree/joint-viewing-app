@@ -9,7 +9,8 @@ export default {
     name: "Youtube",
     data() {
         return {
-            'lastTime': 0,
+            lastTime: 0,
+            synchronizationInterval: null,
         }
     },
     props: {
@@ -63,7 +64,7 @@ export default {
             }
         },
         addVideoSeekListener() {
-            setInterval(() => {
+            this.synchronizationInterval = setInterval(() => {
                 if (this.lastTime !== 0 && Math.abs(this.player.getCurrentTime() - this.lastTime - (this.player.getPlayerState() !== YT.PlayerState.PLAYING * this.player.getPlaybackRate())) > 1.5) {
                     this.synchronize();
                 }
@@ -76,6 +77,11 @@ export default {
             }, 30000)
         },
     },
+    beforeCreate() {
+        if (window.onYouTubePlayerAPIReady) {
+            location.reload();
+        }
+    },
     mounted() {
         if (!document.querySelector('script[src="https://www.youtube.com/player_api"]')) {
             const tag = document.createElement('script');
@@ -83,33 +89,32 @@ export default {
             const firstScriptTag = document.getElementsByTagName('script')[0];
             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-            if (window.onYouTubePlayerAPIReady) {
-                window.onYouTubePlayerAPIReady()
-            } else {
-                window.onYouTubePlayerAPIReady = () => {
-                    this.$store.commit('player/setPlayer', new YT.Player('ytplayer', {
-                        height: '100%',
-                        width: '100%',
-                        videoId: this.videoId,
-                        events: {
-                            'onReady': this.onPlayerReady,
-                            'onStateChange': this.onPlayerStateChange,
-                            'onPlaybackQualityChange': this.synchronize,
-                            'onPlaybackRateChange': this.synchronize,
-                        },
-                        playerVars: {
-                            'showinfo': 0,
-                            'rel': 0,
-                            'color': 'white'
-                        },
-                    }));
-                    this.$emit('requestSynchronization')
-                }
+            window.onYouTubePlayerAPIReady = () => {
+                this.$store.commit('player/setPlayer', new YT.Player('ytplayer', {
+                    height: '100%',
+                    width: '100%',
+                    videoId: this.videoId,
+                    events: {
+                        'onReady': this.onPlayerReady,
+                        'onStateChange': this.onPlayerStateChange,
+                        'onPlaybackQualityChange': this.synchronize,
+                        'onPlaybackRateChange': this.synchronize,
+                    },
+                    playerVars: {
+                        'showinfo': 0,
+                        'rel': 0,
+                        'color': 'white'
+                    },
+                }));
+                this.$emit('requestSynchronization')
             }
         }
     },
-    unmounted() {
+    beforeUnmount() {
+        clearInterval(this.synchronizationInterval);
+        this.player.destroy();
         document.querySelector('script[src="https://www.youtube.com/player_api"]').remove()
+        document.querySelector('script#www-widgetapi-script').remove()
         this.$store.commit('player/setPlayer', null)
     },
     watch: {
