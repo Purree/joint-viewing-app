@@ -20,12 +20,12 @@ Route::middleware('throttle:auth')->group(static function () {
     Route::put('/users/password', [AuthorizationController::class, 'recoveryPassword']);
 });
 
-require 'two-factor.php';
+require_once 'two-factor.php';
 
 Route::middleware('auth:sanctum')->group(static function () {
     Route::post('/logout', [AuthorizationController::class, 'logout']);
 
-    require 'user.php';
+    require_once 'user.php';
 
-    require 'room.php';
+    require_once 'room.php';
 });

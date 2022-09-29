@@ -37,4 +37,11 @@ class OrderController extends Controller
             $this->orderService->deleteOrder($request->user(), $room, $order)->returnValue
         )->returnValue;
     }
+
+    public function getFirst(Request $request, Room $room): JsonResponse
+    {
+        return ResponseResult::success(
+            $this->orderService->getOrders($room)->returnValue->first()
+        )->returnValue;
+    }
 }

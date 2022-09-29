@@ -66,6 +66,10 @@ class RateLimiterServiceProvider extends ServiceProvider
             return Limit::perMinute(10);
         });
 
+        RateLimiter::for('get_first_order', static function () {
+            return Limit::perMinute(60);
+        });
+
         RateLimiter::for('delete_order', static function () {
             return Limit::perMinute(100);
         });

@@ -59,6 +59,9 @@ Route::name('rooms.')->prefix('rooms')->group(static function () {
                     Route::delete('/{order}', 'delete')->name('delete')->middleware(
                         ['throttle:delete_order', 'can:delete,App\Models\Order,room,order']
                     );
+                    Route::get('/first', 'getFirst')->name('first')->middleware(
+                        ['throttle:get_first_order']
+                    );
                 });
 
                 Route::name('player.')->prefix('player')->controller(PlayerController::class)->group(
