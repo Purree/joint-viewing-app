@@ -1,28 +1,35 @@
 <template>
     <div class="h-100 w-100">
-        <div v-if="synchronizationPending || synchronizationErrorPending" class="is-absolute synchronization">
-            <section class="hero" :class="synchronizationErrorPending ? 'is-danger' : 'is-success'">
-                <div class="hero-body">
-                    <o-loading :icon="synchronizationErrorPending ? 'xmark': 'spinner'"
-                               :iconSpin="!synchronizationErrorPending"
-                               overlayClass="is-transparent"
-                               :full-page="false"
-                               :active="true"
-                               :can-cancel="false"></o-loading>
-                </div>
-            </section>
+        <div class="h-100 w-100" v-if="!!videoId">
+            <div v-if="synchronizationPending || synchronizationErrorPending" class="is-absolute synchronization">
+                <section class="hero" :class="synchronizationErrorPending ? 'is-danger' : 'is-success'">
+                    <div class="hero-body">
+                        <o-loading :icon="synchronizationErrorPending ? 'xmark': 'spinner'"
+                                   :iconSpin="!synchronizationErrorPending"
+                                   overlayClass="is-transparent"
+                                   :full-page="false"
+                                   :active="true"
+                                   :can-cancel="false"></o-loading>
+                    </div>
+                </section>
+            </div>
+            <youtube :is-host="host === user.id"
+                     ref="player"
+                     @player-ready="onPlayerReady"
+                     @synchronize="usePending(synchronizeClients, 'synchronizationPending')"
+                     @request-synchronization="usePending(requestSynchronization, 'synchronizationPending')"
+                     @ignore-next-event="this.skipNextEvent = true"
+                     @listen-next-event="this.skipNextEvent = false"
+                     :video-id="videoId"
+                     :can-control="canControl"
+                     :last-synchronization-data="lastSynchronizationData"
+                     :skip-next-event="this.skipNextEvent"></youtube>
         </div>
-        <youtube :is-host="host === user.id"
-                 ref="player"
-                 @player-ready="onPlayerReady"
-                 @synchronize="usePending(synchronizeClients, 'synchronizationPending')"
-                 @request-synchronization="usePending(requestSynchronization, 'synchronizationPending')"
-                 @ignore-next-event="this.skipNextEvent = true"
-                 @listen-next-event="this.skipNextEvent = false"
-                 :video-id="videoId"
-                 :can-control="canControl"
-                 :last-synchronization-data="lastSynchronizationData"
-                 :skip-next-event="this.skipNextEvent"></youtube>
+        <div class="h-100 w-100" v-else>
+            <div class="has-text-centered" style="padding-top: 50%">
+                Empty video.
+            </div>
+        </div>
     </div>
 </template>
 

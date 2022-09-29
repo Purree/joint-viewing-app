@@ -51,7 +51,6 @@
 <script>
 import OrdersRow from "@/components/room/orders/Row";
 import {mapState} from "vuex";
-import replaceDataInUri from "@/helpers/replaceDataInUri";
 import errorsHelper from "@/mixins/errors";
 import {API_ADD_ORDER_URL, API_DELETE_ORDER_URL, API_GET_ALL_ORDERS_URL} from "@/api/orders";
 import broadcastConnections from "@/mixins/broadcastConnections";
@@ -62,6 +61,7 @@ export default {
     name: "Orders",
     components: {OrdersRow},
     mixins: [usePending],
+    emits: ['closeOrders', 'changeCurrentVideo'],
     props: {
         canControl: {
             type: Boolean,
@@ -73,7 +73,7 @@ export default {
         }
     },
     computed: {
-        ...mapState('auth', ['user'])
+        ...mapState('auth', ['user']),
     },
     data() {
         return {
@@ -121,6 +121,11 @@ export default {
                 });
 
         },
+    },
+    watch: {
+        orders(orders) {
+            this.$emit('changeCurrentVideo', orders[0])
+        }
     },
     mounted() {
         this.getOrders().then((response) => {

@@ -76,6 +76,11 @@ export default {
                 this.synchronize();
             }, 30000)
         },
+        parseVideoLink(url) {
+            const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            return match[2] || '';
+        },
     },
     beforeCreate() {
         if (window.onYouTubePlayerAPIReady) {
@@ -93,7 +98,7 @@ export default {
                 this.$store.commit('player/setPlayer', new YT.Player('ytplayer', {
                     height: '100%',
                     width: '100%',
-                    videoId: this.videoId,
+                    videoId: this.parseVideoLink(this.videoId),
                     events: {
                         'onReady': this.onPlayerReady,
                         'onStateChange': this.onPlayerStateChange,
@@ -119,7 +124,7 @@ export default {
     },
     watch: {
         videoId() {
-            this.player.loadVideoById(this.videoId);
+            this.parseVideoLink(this.player.loadVideoById(this.videoId));
         }
     },
     computed: {

@@ -2,7 +2,7 @@
     <div v-if="is_loaded" class="h-100">
         <div class="activity-block is-flex is-relative"
              :class="{'fullscreen h-100': is_orders_closed, 'chat-below': is_chat_below}">
-            <player :room="room" :host="host_id" :can-control="can_manipulate_room" video-id="dQw4w9WgXcQ" class="player"></player>
+            <player :room="room" :host="host_id" :can-control="can_manipulate_room" :video-id="videoId" class="player"></player>
             <chat :can-control="can_manipulate_room" :room="room" v-if="!is_chat_closed"
                   :is-chat-below="is_chat_below"
                   @change-chat-position="is_chat_below = !is_chat_below"
@@ -18,7 +18,8 @@
 
         <div class="orders-block" v-if="!is_orders_closed">
             <orders :room="room" :can-control="can_manipulate_room"
-                    @closeOrders="manipulateOrdersVisibility"></orders>
+                    @closeOrders="manipulateOrdersVisibility"
+                    @changeCurrentVideo="changeCurrentVideo"></orders>
         </div>
     </div>
     <div v-else>
@@ -52,6 +53,7 @@ export default {
             is_chat_closed: false,
             is_orders_closed: false,
             host_id: 0,
+            videoId: '',
         }
     },
     async beforeCreate() {
@@ -153,6 +155,9 @@ export default {
             }
 
             this.host_id = this.users.map(user => user.id).includes(this.room.owner.id) ? this.room.owner.id : this.users[0].id;
+        },
+        changeCurrentVideo(video) {
+            this.videoId = video?.video_url;
         }
     },
     computed: {
