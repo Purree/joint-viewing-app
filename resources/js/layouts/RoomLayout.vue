@@ -14,13 +14,13 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .main-content {
     &, & > * {
         width: 100%;
     }
 
-    max-height: 100vh;
     min-height: 100vh;
+    max-height: 100vh;
 }
 </style>
