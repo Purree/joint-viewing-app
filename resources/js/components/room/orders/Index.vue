@@ -142,6 +142,9 @@ export default {
             .listen('OrderDelete', response => {
                 this.orders = this.orders.filter(order => order.id !== response.order.id);
             })
+            .listen('ChangePlayingVideo', response => {
+                this.$emit('changeCurrentVideo', response.order)
+            })
     },
 }
 </script>
