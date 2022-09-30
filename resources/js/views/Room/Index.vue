@@ -3,10 +3,12 @@
         <div class="activity-block is-flex is-relative"
              :class="{'fullscreen h-100': is_orders_closed, 'chat-below': is_chat_below}">
             <player :room="room" :host="host_id" :can-control="can_manipulate_room" :video-id="videoId" class="player"></player>
-            <chat :can-control="can_manipulate_room" :room="room" v-if="!is_chat_closed"
-                  :is-chat-below="is_chat_below"
-                  @change-chat-position="is_chat_below = !is_chat_below"
-                  @close-chat="manipulateChatVisibility" class="chat"></chat>
+            <transition name="horizontal-downsize">
+                <chat :can-control="can_manipulate_room" :room="room" v-if="!is_chat_closed"
+                      :is-chat-below="is_chat_below"
+                      @change-chat-position="is_chat_below = !is_chat_below"
+                      @close-chat="manipulateChatVisibility" class="chat"></chat>
+            </transition>
             <room-settings-manipulating-block @open-chat="manipulateChatVisibility"
                                               @open-orders="manipulateOrdersVisibility"
                                               @open-settings="openSettingsModal"
@@ -16,11 +18,13 @@
                                               :is_user_owner="user.id === room.owner.id"></room-settings-manipulating-block>
         </div>
 
-        <div class="orders-block" v-if="!is_orders_closed">
-            <orders :room="room" :can-control="can_manipulate_room"
-                    @closeOrders="manipulateOrdersVisibility"
-                    @changeCurrentVideo="changeCurrentVideo"></orders>
-        </div>
+        <transition name="vertical-downsize">
+            <div class="orders-block" v-if="!is_orders_closed">
+                <orders :room="room" :can-control="can_manipulate_room"
+                        @closeOrders="manipulateOrdersVisibility"
+                        @changeCurrentVideo="changeCurrentVideo"></orders>
+            </div>
+        </transition>
     </div>
     <div v-else>
         <o-loading overlayClass="is-transparent" :full-page="true" :active="!is_loaded" :can-cancel="false"></o-loading>
@@ -182,6 +186,7 @@ export default {
 }
 
 .fullscreen {
+    transition: height 250ms;
     height: 100%;
 
     & .chat {

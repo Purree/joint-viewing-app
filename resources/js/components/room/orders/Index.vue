@@ -8,17 +8,20 @@
                  :class="orders.length === 0 ?
                  'is-justify-content-center is-align-items-center':
                  'is-justify-content-space-between'">
-                <div class="orders-container">
-                    <orders-row v-if="orders.length !== 0" v-for="order in orders"
+
+                <transition-group v-if="orders.length !== 0" name="slide-next" tag="div" class="orders-container">
+                    <orders-row  v-for="order in orders"
                                 :key="order.id"
                                 :can-control="user.id === order.customer.id || this.canControl"
                                 :order="order"
                                 :delete-pending="this.ordersToDelete.includes(order.id)"
                                 @delete-order="deleteOrder"></orders-row>
-                    <div class="mb-4 has-text-centered" v-else>
-                        There are no orders yet{{this.canControl ? ', but you can add a video using the form below.' : '.'}}
-                    </div>
+                </transition-group>
+                <div class="mb-4 has-text-centered" v-else>
+                    There are no orders
+                    yet{{ this.canControl ? ', but you can add a video using the form below.' : '.' }}
                 </div>
+
                 <form v-if="canControl" @submit.prevent="usePending(addOrder, 'addOrderPending')"
                       class="w-100 is-flex">
                     <div class="w-100 is-radiusless">

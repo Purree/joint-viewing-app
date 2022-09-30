@@ -2,19 +2,22 @@
     <div>
         <o-button v-if="!isOpened" @click="isOpened=!isOpened" icon-right="bars"
                   class="sidebar-opened-burger is-fixed"></o-button>
-        <aside class="navbar is-fixed menu is-flex-direction-column" :class="isOpened ? 'is-opened': 'is-closed'">
-            <o-button class="is-fullwidth" @click="isOpened=!isOpened" icon-right="close"></o-button>
-            <div class="menu-buttons h-100 w-100 is-flex is-flex-direction-column is-justify-content-space-between">
-                <ul class="menu-list">
-                    <li v-for="tab in tabs" class="is-clipped">
-                        <router-link :to="{'name': tab['route-name']}">
-                            {{ tab.text }}
-                        </router-link>
-                    </li>
-                </ul>
-                <change-theme-button></change-theme-button>
-            </div>
-        </aside>
+        <transition name="left-slide">
+            <aside v-if="isOpened" class="navbar is-fixed menu is-flex-direction-column"
+                   :class="isOpened ? 'is-opened': 'is-closed'">
+                <o-button class="is-fullwidth" @click="isOpened=!isOpened" icon-right="close"></o-button>
+                <div class="menu-buttons h-100 w-100 is-flex is-flex-direction-column is-justify-content-space-between">
+                    <ul class="menu-list">
+                        <li v-for="tab in tabs" class="is-clipped">
+                            <router-link :to="{'name': tab['route-name']}">
+                                {{ tab.text }}
+                            </router-link>
+                        </li>
+                    </ul>
+                    <change-theme-button></change-theme-button>
+                </div>
+            </aside>
+        </transition>
     </div>
 </template>
 

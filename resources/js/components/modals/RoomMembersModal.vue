@@ -6,13 +6,15 @@
                       class="is-fullwidth refresh-button"
                       :disabled="updateMembersPending"
                       :class="{'is-loading': updateMembersPending}">Refresh</o-button>
-            <room-members-row v-for="member in members"
-                              :can-control="canControl"
-                              :member="member"
-                              :kick-pending="contendersForKick.includes(member.id)"
-                              :is-online="currentMembers.some(onlineMember => onlineMember.id === member.id)"
-                              :is-host="member.id === host"
-                              @kick="kickUser"></room-members-row>
+            <transition-group name="slide-next">
+                <room-members-row v-for="member in members"
+                                  :can-control="canControl"
+                                  :member="member"
+                                  :kick-pending="contendersForKick.includes(member.id)"
+                                  :is-online="currentMembers.some(onlineMember => onlineMember.id === member.id)"
+                                  :is-host="member.id === host"
+                                  @kick="kickUser"></room-members-row>
+            </transition-group>
         </div>
         <div v-else>
             <o-loading :full-page="false" overlayClass="is-transparent" class="mb-5" :can-cancel="false" :active="modalPending"></o-loading>

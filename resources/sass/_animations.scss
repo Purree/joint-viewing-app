@@ -1,0 +1,37 @@
+@import "@@/_variables.scss";
+
+.left-slide-enter-active,
+.left-slide-leave-active {
+    transition: transform $animation-speed $animation-timing-function;
+}
+
+.left-slide-leave-to,
+.left-slide-enter,
+.left-slide-enter-from {
+    transform: translate3d(-100%, 0, 0);
+    position: absolute;
+}
+
+
+
+.vertical-downsize-enter-active,
+.vertical-downsize-leave-active {
+    transition: height $animation-speed $animation-timing-function;
+}
+
+.vertical-downsize-leave-to,
+.vertical-downsize-enter,
+.vertical-downsize-enter-from {
+    height: 0 !important;
+}
+
+.horizontal-downsize-enter-active,
+.horizontal-downsize-leave-active {
+    transition: width $animation-speed $animation-timing-function;
+}
+
+.horizontal-downsize-leave-to,
+.horizontal-downsize-enter,
+.horizontal-downsize-enter-from {
+    width: 0 !important;
+}

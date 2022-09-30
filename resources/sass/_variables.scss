@@ -7,3 +7,7 @@ $scrollBorderColor: darken($box-background-color, 50%);
 // Sidebar
 $sidebarBackgroundColor: #dee3ed;
 $sidebarBackgroundColorDark: #2f3237;
+
+// Animation
+$animation-speed: 250ms;
+$animation-timing-function: cubic-bezier(0.785, 0.135, 0.150, 0.860);
