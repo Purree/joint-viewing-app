@@ -157,7 +157,7 @@ export default {
             this.host_id = this.users.map(user => user.id).includes(this.room.owner.id) ? this.room.owner.id : this.users[0].id;
         },
         changeCurrentVideo(video) {
-            this.videoId = video?.video_url;
+            this.videoId = video?.video_url || '';
         }
     },
     computed: {

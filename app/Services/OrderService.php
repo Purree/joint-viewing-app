@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\ChangePlayingVideo;
 use App\Events\OrderAdd;
 use App\Events\OrderDelete;
 use App\Http\Resources\OrderResource;
@@ -25,29 +26,49 @@ class OrderService
         );
     }
 
-    public function addOrder(User $user, string $video_url, Room $room): FunctionResult
+    public function addOrder(User $user, string $videoUrl, Room $room): FunctionResult
     {
         $order = $room->orders()->create([
             'customer_id' => $user->id,
-            'video_url' => $video_url,
+            'video_url' => $videoUrl,
         ]);
 
-        $order_resource = new OrderResource($order);
+        $orderResource = new OrderResource($order);
 
-        broadcast(new OrderAdd($order_resource));
 
-        $this->chatService->sendMessage("User $user->name add new order $video_url", $room);
+        broadcast(new OrderAdd($orderResource));
 
-        return FunctionResult::success($order_resource);
+        if ($room->orders->count() === 1) {
+            broadcast(new ChangePlayingVideo($room, new OrderResource($order)));
+        }
+
+        $this->chatService->sendMessage("User $user->name add new order $videoUrl", $room);
+
+
+        return FunctionResult::success($orderResource);
     }
 
     public function deleteOrder(User $user, Room $room, Order $order): FunctionResult
     {
+        $orders = $room->orders()->with('customer')->get();
+
+
         $order->delete();
+
+
+        if ($orders->first()->id === $order->id) {
+            if ($orders->count() > 1) {
+                $nextOrder = $orders->get(1);
+                broadcast(new ChangePlayingVideo($room, new OrderResource($nextOrder)));
+            } else {
+                broadcast(new ChangePlayingVideo($room, null));
+            }
+        }
 
         broadcast(new OrderDelete(new OrderResource($order)));
 
         $this->chatService->sendMessage("User $user->name delete order $order->video_url", $room);
+
 
         return FunctionResult::success();
     }
