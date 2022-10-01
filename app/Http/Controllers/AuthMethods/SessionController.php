@@ -9,6 +9,7 @@ use App\Services\Results\ResponseResult;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Str;
 
 class SessionController extends Controller implements AuthMethodControllerInterface
 {
@@ -22,6 +23,8 @@ class SessionController extends Controller implements AuthMethodControllerInterf
     public function revokeAll(Request $request, User $user): JsonResponse
     {
         $user->sessions()->delete();
+        $user->remember_token = Str::random(60);
+        $user->save();
 
         return ResponseResult::success()->returnValue;
     }
