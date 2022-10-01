@@ -7,6 +7,8 @@
     <FormInput :label="'Password'" v-model:model-value="form.password" :placeholder="'******'"
                password-reveal :type="'password'" :error-condition="'password' in errors"/>
 
+    <o-checkbox v-model="form.remember" class="mb-5">Remember me</o-checkbox>
+
     <div class="field is-grouped is-align-items-center">
         <p class="control">
             <SubmitButton :is-loading="pending" @click="usePending(sendForm)" :pending="pending" :form="form" :text="'Login'"/>
@@ -38,7 +40,8 @@ export default {
             loggedIn: false,
             form: {
                 email: null,
-                password: null
+                password: null,
+                remember: false
             },
             errors: {}
         }

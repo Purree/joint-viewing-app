@@ -1,7 +1,9 @@
 <template>
     <o-button :variant="variant || 'primary'" @click.prevent="$emit('click')"
               nativeType="submit"
-              :disabled="pending || (form && Object.values(form).some((el)=>el === null || el.trim() === ''))"
+              :disabled="pending ||
+              (form && Object.values(form).some((el) => el === null ||
+              (typeof (el) === 'string' && el.trim() === '')))"
               :class="{'is-loading' : isLoading}">
         {{ text }}
     </o-button>

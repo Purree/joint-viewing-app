@@ -10,45 +10,45 @@ use Illuminate\Support\Facades\Hash;
 
 final class AuthorizationService
 {
-    public function login(string $email, string $password, ?bool $need_token = null): FunctionResult
+    public function login(string $email, string $password, bool $remember, ?bool $needToken = null): FunctionResult
     {
-        $attempt_user = User::where('email', $email)->first();
+        $attemptUser = User::where('email', $email)->first();
 
-        if (! ($attempt_user && Hash::check($password, $attempt_user->password))) {
+        if (! ($attemptUser && Hash::check($password, $attemptUser->password))) {
             return FunctionResult::error(['auth' => ['Incorrect user or password.']]);
         }
 
-        if ($attempt_user->hasEnabledTwoFactorAuthentication()) {
-            return FunctionResult::success(['two-factor' => true, 'attempt_user' => $attempt_user]);
+        if ($attemptUser->hasEnabledTwoFactorAuthentication()) {
+            return FunctionResult::success(['two-factor' => true, 'attempt_user' => $attemptUser]);
         }
 
-        Auth::login($attempt_user);
+        Auth::login($attemptUser, $remember);
 
-        $additional_data = [];
+        $additionalData = [];
 
-        if ($need_token) {
+        if ($needToken) {
             $token = Auth::user()->createToken('api');
 
-            $additional_data['token'] = [
+            $additionalData['token'] = [
                 $token->plainTextToken,
             ];
         }
 
-        return FunctionResult::success($additional_data);
+        return FunctionResult::success($additionalData);
     }
 
     public function registration(string $name, string $email, string $password): FunctionResult
     {
-        $password_recovery_secret = Secret::create();
+        $passwordRecoverySecret = Secret::create();
         User::create([
             'name' => $name,
             'email' => $email,
             'password' => Hash::make($password),
-            'secret' => $password_recovery_secret['hash'],
+            'secret' => $passwordRecoverySecret['hash'],
         ]);
 
         return FunctionResult::success(
-            ['secret_phrase' => $password_recovery_secret['phrase']],
+            ['secret_phrase' => $passwordRecoverySecret['phrase']],
         );
     }
 
@@ -64,27 +64,27 @@ final class AuthorizationService
         return FunctionResult::success();
     }
 
-    public function recoveryPassword(string $email, string $password, string $password_recovery_secret): FunctionResult
+    public function recoveryPassword(string $email, string $password, string $passwordRecoverySecret): FunctionResult
     {
         $user = User::where('email', $email)->first();
 
-        if (! Hash::check($password_recovery_secret, $user->secret)) {
+        if (! Hash::check($passwordRecoverySecret, $user->secret)) {
             return FunctionResult::error(
                 ['secret' => ['Incorrect secret']],
             );
         }
 
-        $new_password_recovery_secret = Secret::create();
+        $newPasswordRecoverySecret = Secret::create();
 
         $user->tokens()->delete();
         $user->sessions()->delete();
 
-        $user->secret = $new_password_recovery_secret['hash'];
+        $user->secret = $newPasswordRecoverySecret['hash'];
         $user->password = Hash::make($password);
         $user->save();
 
         $user->disableTwoFactor();
 
-        return FunctionResult::success(['new_secret_phrase' => $new_password_recovery_secret['phrase']]);
+        return FunctionResult::success(['new_secret_phrase' => $newPasswordRecoverySecret['phrase']]);
     }
 }
