@@ -12,7 +12,7 @@ Route::name('users.')->prefix('users')->group(static function () {
             ['throttle:change_name']
         );
 
-        // Doesn't put method because laravel can't get files from put requests
+        // Doesn't "put" method because laravel can't get files from put requests
         Route::post('/avatar/', [UserController::class, 'changeAvatar'])->name('change-avtar')->middleware(
             ['throttle:change_avatar']
         );
