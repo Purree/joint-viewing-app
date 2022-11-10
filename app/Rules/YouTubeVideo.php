@@ -9,9 +9,9 @@ class YouTubeVideo implements InvokableRule
     public function __invoke($attribute, $value, $fail): void
     {
         if (preg_match(
-                '/http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-_]*)(&(amp;)?[\w?=]*)?/',
-                $value
-            ) !== 1) {
+            '/http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-_]*)(&(amp;)?[\w?=]*)?/',
+            $value
+        ) !== 1) {
             $fail('The :attribute may be youtube video url.');
         }
     }

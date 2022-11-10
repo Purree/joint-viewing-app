@@ -35,7 +35,6 @@ class OrderService
 
         $orderResource = new OrderResource($order);
 
-
         broadcast(new OrderAdd($orderResource));
 
         if ($room->orders->count() === 1) {
@@ -44,7 +43,6 @@ class OrderService
 
         $this->chatService->sendMessage("User $user->name add new order $videoUrl", $room);
 
-
         return FunctionResult::success($orderResource);
     }
 
@@ -52,9 +50,7 @@ class OrderService
     {
         $orders = $room->orders()->with('customer')->get();
 
-
         $order->delete();
-
 
         if ($orders->first()->id === $order->id) {
             if ($orders->count() > 1) {
@@ -68,7 +64,6 @@ class OrderService
         broadcast(new OrderDelete(new OrderResource($order)));
 
         $this->chatService->sendMessage("User $user->name delete order $order->video_url", $room);
-
 
         return FunctionResult::success();
     }

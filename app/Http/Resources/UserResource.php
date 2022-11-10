@@ -22,15 +22,15 @@ class UserResource extends JsonResource
             'avatar' => $this->avatar,
         ] +
             (
-            \Gate::check('use-authenticated-route', [$request->user(), $this])
-                ?
-                [
-                    'use_two_factor' => $this->hasEnabledTwoFactorAuthentication(),
-                    'current_room' => new RoomResource($this->whenLoaded('currentRoom')),
-                    'created_room' => new RoomResource($this->whenLoaded('createdRoom')),
-                ]
-                :
-                []
+                \Gate::check('use-authenticated-route', [$request->user(), $this])
+                    ?
+                    [
+                        'use_two_factor' => $this->hasEnabledTwoFactorAuthentication(),
+                        'current_room' => new RoomResource($this->whenLoaded('currentRoom')),
+                        'created_room' => new RoomResource($this->whenLoaded('createdRoom')),
+                    ]
+                    :
+                    []
             );
     }
 }
