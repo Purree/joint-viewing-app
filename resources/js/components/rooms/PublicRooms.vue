@@ -2,23 +2,30 @@
     <divider>All public rooms</divider>
 
     <div v-if="!pending" class="is-flex is-flex-direction-column">
-        <room-row v-for="room in rooms"
-                  :pending="roomToJoin === room.id"
-                  @delete-room="removeRoom"
-                  @open-room="openRoom"
-                  :room="room"
-                  :is-owned="this.created_room?.id === room.id"
-                  :is-current="this.current_room?.id === room.id"></room-row>
+        <div v-if="this.rooms.length > 0">
+            <room-row v-for="room in rooms"
+                      :pending="roomToJoin === room.id"
+                      @delete-room="removeRoom"
+                      @open-room="openRoom"
+                      :room="room"
+                      :is-owned="this.created_room?.id === room.id"
+                      :is-current="this.current_room?.id === room.id"></room-row>
 
-        <o-pagination
-            :total="this.pagination.total"
-            :per-page="this.pagination.per_page"
-            :current="this.pagination.current_page"
-            :range-before="3"
-            :range-after="2"
-            order="centered"
-            @update:current="usePending(getPublicRooms, 'pending', $event)">
-        </o-pagination>
+            <o-pagination
+                :total="this.pagination.total"
+                :per-page="this.pagination.per_page"
+                :current="this.pagination.current_page"
+                :range-before="3"
+                :range-after="2"
+                order="centered"
+                @update:current="usePending(getPublicRooms, 'pending', $event)">
+            </o-pagination>
+        </div>
+        <div v-else>
+            <div class="has-text-centered">
+                <p class="is-size-5">No public rooms</p>
+            </div>
+        </div>
     </div>
 
     <div class="is-relative loading-block" v-else>
@@ -59,7 +66,7 @@ export default {
                 this.rooms = response.data.data;
                 this.pagination = response.data.pagination;
 
-                if (this.pagination.count === 0) {
+                if (this.pagination.count === 0 && this.pagination.current_page > 1) {
                     this.getPublicRooms(this.pagination.total_pages);
                 }
             }).catch((error) => {
