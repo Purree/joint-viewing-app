@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use App\Services\Results\FunctionResult;
+use App\Exceptions\UserNotFoundException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\RelationNotFoundException;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -42,10 +43,13 @@ class Room extends Model
         return User::where('current_room_id', $this->id)->get();
     }
 
-    public function kick(User $user): FunctionResult
+    /**
+     * @throws UserNotFoundException
+     */
+    public function kick(User $user): void
     {
         if (! $this->have($user)) {
-            return FunctionResult::error('User is not in this room.');
+            throw new UserNotFoundException('User is not in this room.');
         }
 
         if ($this->owner_id === $user->id && $this->members()->count() > 1) {
@@ -59,8 +63,6 @@ class Room extends Model
 
         $user->current_room_id = null;
         $user->save();
-
-        return FunctionResult::success();
     }
 
     public function have(User $user): bool

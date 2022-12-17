@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\RoomMemberKick;
+use App\Exceptions\UserNotFoundException;
 use App\Http\Requests\CreateRoomRequest;
 use App\Http\Requests\EditRoomRequest;
 use App\Http\Requests\JoinRoomRequest;
@@ -47,9 +48,10 @@ class RoomController extends Controller
 
     public function leave(Request $request, Room $room): JsonResponse
     {
-        $result = $room->kick($request->user());
-        if ($result->status === Status::ERROR) {
-            return ResponseResult::error($result->error, Response::HTTP_NOT_FOUND)->error;
+        try {
+            $room->kick($request->user());
+        } catch (UserNotFoundException $e) {
+            return ResponseResult::error($e->getMessage(), Response::HTTP_NOT_FOUND)->error;
         }
 
         return ResponseResult::success()->returnValue;
@@ -67,9 +69,10 @@ class RoomController extends Controller
 
     public function kick(Request $request, Room $room, User $user): JsonResponse
     {
-        $result = $room->kick($user);
-        if ($result->status === Status::ERROR) {
-            return ResponseResult::error($result->error, Response::HTTP_NOT_FOUND)->error;
+        try {
+            $room->kick($user);
+        } catch (UserNotFoundException $e) {
+            return ResponseResult::error($e->getMessage(), Response::HTTP_NOT_FOUND)->error;
         }
 
         broadcast(new RoomMemberKick(new UserResource($user), $room->id));

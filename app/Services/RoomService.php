@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Events\RoomUpdate;
+use App\Exceptions\UserNotFoundException;
 use App\Http\Resources\RoomResource;
 use App\Models\Room;
 use App\Models\User;
@@ -39,7 +40,11 @@ class RoomService
         }
 
         if ($user->currentRoom) {
-            $user->currentRoom->kick($user);
+            try {
+                $user->currentRoom->kick($user);
+            } catch (UserNotFoundException $e) {
+                \Log::error($e);
+            }
         }
 
         $room = Room::create([
