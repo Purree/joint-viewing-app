@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Exceptions\UserAlreadyInRoomException;
 use App\Http\Resources\RoomResource;
-use App\Services\Results\FunctionResult;
 use App\Services\Secrets\TwoFactorSecret;
 use App\Services\TwoFactorAuthenticationProvider;
 use BaconQrCode\Renderer\Color\Rgb;
@@ -20,6 +20,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use JsonException;
 use Laravel\Sanctum\HasApiTokens;
+use Symfony\Component\String\Exception\InvalidArgumentException;
 
 class User extends Authenticatable
 {
@@ -144,19 +145,23 @@ class User extends Authenticatable
         return $this->hasMany(Message::class);
     }
 
-    public function join(Room $room, ?string $password = null): FunctionResult
+    /**
+     * @throws UserAlreadyInRoomException
+     * @throws InvalidArgumentException
+     */
+    public function join(Room $room, ?string $password = null): RoomResource
     {
         if ($this->currentRoom || $this->createdRoom) {
-            return FunctionResult::error(['room' => ['You are already in a room.']]);
+            throw new UserAlreadyInRoomException('You are already in a room.');
         }
 
         if ($room->is_closed && ! Hash::check($password, $room->password)) {
-            return FunctionResult::error(['password' => ['Incorrect password.']]);
+            throw new InvalidArgumentException('Incorrect password.');
         }
 
         $this->current_room_id = $room->id;
         $this->save();
 
-        return FunctionResult::success(new RoomResource($room));
+        return new RoomResource($room);
     }
 }

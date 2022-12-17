@@ -11,26 +11,24 @@ use App\Services\Results\FunctionResult;
 
 class ChatService
 {
-    public function getMessages(Room $room, int $messages_count = 100): FunctionResult
+    public function getMessages(Room $room, int $messagesCount = 100): MessageCollection
     {
-        $messages = $room->messages()->with('user')->latest()->paginate($messages_count);
+        $messages = $room->messages()->with('user')->latest()->paginate($messagesCount);
 
-        return FunctionResult::success(
-            new MessageCollection($messages)
-        );
+        return new MessageCollection($messages);
     }
 
-    public function sendMessage(string $messageText, Room $room, User $user = null): FunctionResult
+    public function sendMessage(string $messageText, Room $room, User $user = null): MessageResource
     {
         $message = $room->messages()->create([
             'user_id' => $user?->id,
             'message' => $messageText,
         ]);
 
-        $message_resource = new MessageResource($message);
+        $messageResource = new MessageResource($message);
 
-        broadcast(new MessageSent($message_resource));
+        broadcast(new MessageSent($messageResource));
 
-        return FunctionResult::success($message_resource);
+        return $messageResource;
     }
 }

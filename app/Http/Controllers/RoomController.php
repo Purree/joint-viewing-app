@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\RoomMemberKick;
+use App\Exceptions\UserAlreadyInRoomException;
 use App\Exceptions\UserNotFoundException;
 use App\Http\Requests\CreateRoomRequest;
 use App\Http\Requests\EditRoomRequest;
@@ -17,6 +18,7 @@ use App\Services\Status;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Symfony\Component\String\Exception\InvalidArgumentException;
 
 class RoomController extends Controller
 {
@@ -92,12 +94,20 @@ class RoomController extends Controller
 
     public function join(JoinRoomRequest $request, Room $room): JsonResponse
     {
-        $result = $request->user()->join($room, $request->password);
-        if ($result->status === Status::ERROR) {
-            return ResponseResult::error($result->error, Response::HTTP_UNPROCESSABLE_ENTITY)->error;
+        try {
+            $result = $request->user()->join($room, $request->password);
+        } catch (UserAlreadyInRoomException $e) {
+            return ResponseResult::error(['room' => [$e->getMessage()]], Response::HTTP_UNPROCESSABLE_ENTITY)->error;
+        } catch (InvalidArgumentException $e) {
+            return ResponseResult::error(
+                [
+                    'password' => [$e->getMessage()],
+                ],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            )->error;
         }
 
-        return ResponseResult::success($result->returnValue)->returnValue;
+        return ResponseResult::success($result)->returnValue;
     }
 
     public function members(Request $request, Room $room): JsonResponse
