@@ -7,7 +7,6 @@ use App\Http\Resources\MessageCollection;
 use App\Http\Resources\MessageResource;
 use App\Models\Room;
 use App\Models\User;
-use App\Services\Results\FunctionResult;
 
 class ChatService
 {
