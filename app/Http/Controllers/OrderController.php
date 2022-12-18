@@ -34,6 +34,7 @@ class OrderController extends Controller
     public function delete(Request $request, Room $room, Order $order): JsonResponse
     {
         $this->orderService->deleteOrder($request->user(), $room, $order);
+
         return ResponseResult::success()->returnValue;
     }
 

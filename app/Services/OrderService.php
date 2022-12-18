@@ -9,7 +9,6 @@ use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\Room;
 use App\Models\User;
-use App\Services\Results\FunctionResult;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class OrderService
