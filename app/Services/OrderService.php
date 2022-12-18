@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Room;
 use App\Models\User;
 use App\Services\Results\FunctionResult;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class OrderService
 {
@@ -17,16 +18,14 @@ class OrderService
     {
     }
 
-    public function getOrders(Room $room): FunctionResult
+    public function getOrders(Room $room): AnonymousResourceCollection
     {
         $orders = $room->orders()->with('customer')->get();
 
-        return FunctionResult::success(
-            OrderResource::collection($orders)
-        );
+        return OrderResource::collection($orders);
     }
 
-    public function addOrder(User $user, string $videoUrl, Room $room): FunctionResult
+    public function addOrder(User $user, string $videoUrl, Room $room): OrderResource
     {
         $order = $room->orders()->create([
             'customer_id' => $user->id,
@@ -43,10 +42,10 @@ class OrderService
 
         $this->chatService->sendMessage("User $user->name add new order $videoUrl", $room);
 
-        return FunctionResult::success($orderResource);
+        return $orderResource;
     }
 
-    public function deleteOrder(User $user, Room $room, Order $order): FunctionResult
+    public function deleteOrder(User $user, Room $room, Order $order): void
     {
         $orders = $room->orders()->with('customer')->get();
 
@@ -64,7 +63,5 @@ class OrderService
         broadcast(new OrderDelete(new OrderResource($order)));
 
         $this->chatService->sendMessage("User $user->name delete order $order->video_url", $room);
-
-        return FunctionResult::success();
     }
 }

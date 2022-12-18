@@ -2,6 +2,7 @@
     "private": true,
     "scripts": {
         "dev": "vite",
+        "sockets": "@php artisan websockets:serve",
         "build": "vite build"
     },
     "devDependencies": {

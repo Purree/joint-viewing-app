@@ -20,28 +20,27 @@ class OrderController extends Controller
     public function index(Request $request, Room $room): JsonResponse
     {
         return ResponseResult::success(
-            OrderResource::collection($this->orderService->getOrders($room)->returnValue)
+            OrderResource::collection($this->orderService->getOrders($room))
         )->returnValue;
     }
 
     public function add(AddOrderRequest $request, Room $room): JsonResponse
     {
         return ResponseResult::success(
-            $this->orderService->addOrder($request->user(), $request->video_url, $room)->returnValue
+            $this->orderService->addOrder($request->user(), $request->video_url, $room)
         )->returnValue;
     }
 
     public function delete(Request $request, Room $room, Order $order): JsonResponse
     {
-        return ResponseResult::success(
-            $this->orderService->deleteOrder($request->user(), $room, $order)->returnValue
-        )->returnValue;
+        $this->orderService->deleteOrder($request->user(), $room, $order);
+        return ResponseResult::success()->returnValue;
     }
 
     public function getFirst(Request $request, Room $room): JsonResponse
     {
         return ResponseResult::success(
-            $this->orderService->getOrders($room)->returnValue->first()
+            $this->orderService->getOrders($room)->first()
         )->returnValue;
     }
 }
