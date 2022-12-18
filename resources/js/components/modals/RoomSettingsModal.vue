@@ -41,7 +41,7 @@ export default {
             this.isSuccess = false;
             this.errors = {};
 
-            if (!newRoomData.password || !!newRoomData.is_closed) {
+            if (!newRoomData.password || !newRoomData.is_closed) {
                 delete newRoomData.password
             }
             newRoomData.id = this.room.id;

@@ -3,13 +3,14 @@
 namespace App\Services;
 
 use App\Events\RoomUpdate;
+use App\Exceptions\UserAlreadyInRoomException;
 use App\Exceptions\UserNotFoundException;
 use App\Http\Resources\RoomResource;
 use App\Models\Room;
 use App\Models\User;
-use App\Services\Results\FunctionResult;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\String\Exception\InvalidArgumentException;
 
 class RoomService
 {
@@ -27,16 +28,20 @@ class RoomService
         );
     }
 
-    public function create(User $user, Collection $parameters): FunctionResult
+    /**
+     * @throws UserAlreadyInRoomException
+     * @throws InvalidArgumentException
+     */
+    public function create(User $user, Collection $parameters): RoomResource
     {
         $parameters = $this->filterParameters($parameters);
 
         if ($user->createdRoom) {
-            return FunctionResult::error('You are already have a room.');
+            throw new UserAlreadyInRoomException('You are already have a room.');
         }
 
         if ($parameters['is_closed'] && ! $parameters->has('password')) {
-            return FunctionResult::error('Password is required when room is closed.');
+            throw new InvalidArgumentException('Password is required when room is closed.');
         }
 
         if ($user->currentRoom) {
@@ -62,15 +67,18 @@ class RoomService
         $user->current_room_id = $room->id;
         $user->save();
 
-        return FunctionResult::success(new RoomResource($room));
+        return new RoomResource($room);
     }
 
-    public function update(Room $room, Collection $parameters): FunctionResult
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function update(Room $room, Collection $parameters): Room
     {
         $parameters = $this->filterParameters($parameters);
 
-        if ($room->password === null && $parameters['is_closed'] && ! $parameters->has('password')) {
-            return FunctionResult::error('The password must be present when closing the channel.');
+        if (($room->password === null || ! $parameters->has('password')) && $parameters['is_closed']) {
+            throw new InvalidArgumentException('The password must be present when closing the channel.');
         }
 
         $room->update(
@@ -89,13 +97,11 @@ class RoomService
 
         broadcast(new RoomUpdate($this->getRoomData($room)));
 
-        return FunctionResult::success($room);
+        return $room;
     }
 
-    public function show(Room $room): FunctionResult
+    public function show(Room $room): RoomResource
     {
-        return FunctionResult::success(
-            $this->getRoomData($room)
-        );
+        return $this->getRoomData($room);
     }
 }

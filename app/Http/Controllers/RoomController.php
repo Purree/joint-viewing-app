@@ -38,7 +38,7 @@ class RoomController extends Controller
 
     public function show(Request $request, Room $room): JsonResponse
     {
-        return ResponseResult::success($this->roomService->show($room)->returnValue)->returnValue;
+        return ResponseResult::success($this->roomService->show($room))->returnValue;
     }
 
     public function destroy(Request $request, Room $room): JsonResponse
@@ -61,12 +61,13 @@ class RoomController extends Controller
 
     public function create(CreateRoomRequest $request): JsonResponse
     {
-        $result = $this->roomService->create($request->user(), collect($request->validated()));
-        if ($result->status === Status::ERROR) {
-            return ResponseResult::error($result->error, Response::HTTP_UNPROCESSABLE_ENTITY)->error;
+        try {
+            $result = $this->roomService->create($request->user(), collect($request->validated()));
+        } catch (UserAlreadyInRoomException|InvalidArgumentException $e) {
+            return ResponseResult::error($e->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY)->error;
         }
 
-        return ResponseResult::success($result->returnValue, Response::HTTP_CREATED)->returnValue;
+        return ResponseResult::success($result, Response::HTTP_CREATED)->returnValue;
     }
 
     public function kick(Request $request, Room $room, User $user): JsonResponse
@@ -84,12 +85,13 @@ class RoomController extends Controller
 
     public function update(EditRoomRequest $request, Room $room): JsonResponse
     {
-        $result = $this->roomService->update($room, collect($request->validated()));
-        if ($result->status === Status::ERROR) {
-            return ResponseResult::error($result->error, Response::HTTP_UNPROCESSABLE_ENTITY)->error;
+        try {
+            $result = $this->roomService->update($room, collect($request->validated()));
+        } catch (InvalidArgumentException $e) {
+            return ResponseResult::error($e->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY)->error;
         }
 
-        return ResponseResult::success($result->returnValue)->returnValue;
+        return ResponseResult::success($result)->returnValue;
     }
 
     public function join(JoinRoomRequest $request, Room $room): JsonResponse
