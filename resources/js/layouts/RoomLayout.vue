@@ -8,6 +8,7 @@
 
 <script>
 import Sidebar from "@/components/Sidebar";
+
 export default {
     name: "RoomLayout",
     components: {Sidebar}
@@ -16,10 +17,6 @@ export default {
 
 <style lang="scss" scoped>
 .main-content {
-    &, & > * {
-        width: 100%;
-    }
-
     min-height: 100vh;
     max-height: 100vh;
 }

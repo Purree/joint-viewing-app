@@ -100,3 +100,9 @@ div.file-image {
 .translucent-element:hover {
     opacity: 100%;
 }
+
+.main-content {
+    &, & > * {
+        width: 100%;
+    }
+}
