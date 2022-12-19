@@ -9,7 +9,6 @@ use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\TwoFactorLoginRequest;
 use App\Services\AuthorizationService;
 use App\Services\Results\ResponseResult;
-use App\Services\Status;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Exceptions\InvalidArgumentException;
 use App\Models\User;
-use App\Services\Results\FunctionResult;
 use App\Services\Secrets\Secret;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +17,7 @@ final class AuthorizationService
     {
         $attemptUser = User::where('email', $email)->first();
 
-        if (!($attemptUser && Hash::check($password, $attemptUser->password))) {
+        if (! ($attemptUser && Hash::check($password, $attemptUser->password))) {
             return throw new InvalidArgumentException('Incorrect user or password.');
         }
 
@@ -71,7 +70,7 @@ final class AuthorizationService
     {
         $user = User::where('email', $email)->first();
 
-        if (!Hash::check($passwordRecoverySecret, $user->secret)) {
+        if (! Hash::check($passwordRecoverySecret, $user->secret)) {
             throw new InvalidArgumentException(
                 'Incorrect secret',
             );
