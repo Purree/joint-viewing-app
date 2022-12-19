@@ -2,7 +2,6 @@
 
 namespace App\Services\Results;
 
-use App\Services\Status;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
