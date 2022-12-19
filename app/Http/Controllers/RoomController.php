@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\RoomMemberKick;
+use App\Exceptions\InvalidArgumentException;
 use App\Exceptions\UserAlreadyInRoomException;
 use App\Exceptions\UserNotFoundException;
 use App\Http\Requests\CreateRoomRequest;
@@ -17,7 +18,6 @@ use App\Services\RoomService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Symfony\Component\String\Exception\InvalidArgumentException;
 
 class RoomController extends Controller
 {

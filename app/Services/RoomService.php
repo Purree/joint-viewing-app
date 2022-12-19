@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Events\RoomUpdate;
+use App\Exceptions\InvalidArgumentException;
 use App\Exceptions\UserAlreadyInRoomException;
 use App\Exceptions\UserNotFoundException;
 use App\Http\Resources\RoomResource;
@@ -10,7 +11,6 @@ use App\Models\Room;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
-use Symfony\Component\String\Exception\InvalidArgumentException;
 
 class RoomService
 {

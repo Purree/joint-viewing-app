@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\InvalidArgumentException;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RecoveryPasswordRequest;
 use App\Http\Requests\RegisterUserRequest;
@@ -24,27 +25,27 @@ class AuthorizationController extends Controller
 
     public function login(LoginUserRequest $request): JsonResponse
     {
-        $loginAttempt = $this->authorizationService->login(
-            $request->email,
-            $request->password,
-            $request->has('remember') && $request->remember,
-            $request->token
-        );
-
-        if ($loginAttempt->status === Status::ERROR) {
-            return ResponseResult::error($loginAttempt->error)->error;
+        try {
+            $loginAttempt = $this->authorizationService->login(
+                $request->email,
+                $request->password,
+                $request->has('remember') && $request->remember,
+                $request->token
+            );
+        } catch (InvalidArgumentException $exception) {
+            return ResponseResult::error(['auth' => [$exception->getMessage()]], Response::HTTP_UNAUTHORIZED)->error;
         }
 
-        if (in_array('two-factor', $loginAttempt->returnValue, true) && $loginAttempt->returnValue['two-factor']) {
+        if (in_array('two-factor', $loginAttempt, true) && $loginAttempt['two-factor']) {
             $request->session()->put(
                 TwoFactorLoginRequest::SESSION_TWO_FACTOR_NAME,
-                $loginAttempt->returnValue['attempt_user']->id
+                $loginAttempt['attempt_user']->id
             );
 
             return ResponseResult::success(['two-factor' => true])->returnValue;
         }
 
-        return ResponseResult::success($loginAttempt->returnValue)->returnValue;
+        return ResponseResult::success($loginAttempt)->returnValue;
     }
 
     public function registration(RegisterUserRequest $request): JsonResponse
@@ -55,28 +56,28 @@ class AuthorizationController extends Controller
             $request->password
         );
 
-        return ResponseResult::success($registrationAttempt->returnValue, Response::HTTP_CREATED)->returnValue;
+        return ResponseResult::success($registrationAttempt, Response::HTTP_CREATED)->returnValue;
     }
 
     public function logout(Request $request): JsonResponse
     {
-        $logoutAttempt = $this->authorizationService->logout();
+        $this->authorizationService->logout();
 
-        return ResponseResult::success($logoutAttempt->returnValue)->returnValue;
+        return ResponseResult::success()->returnValue;
     }
 
     public function recoveryPassword(RecoveryPasswordRequest $request): JsonResponse
     {
-        $recoveryPasswordAttempt = $this->authorizationService->recoveryPassword(
-            $request->email,
-            $request->password,
-            $request->secret,
-        );
-
-        if ($recoveryPasswordAttempt->status === Status::ERROR) {
-            return ResponseResult::error($recoveryPasswordAttempt->error, Response::HTTP_UNPROCESSABLE_ENTITY)->error;
+        try {
+            $recoveryPasswordAttempt = $this->authorizationService->recoveryPassword(
+                $request->email,
+                $request->password,
+                $request->secret,
+            );
+        } catch (InvalidArgumentException $e) {
+            return ResponseResult::error(['secret' => [$e->getMessage()]], Response::HTTP_UNPROCESSABLE_ENTITY)->error;
         }
 
-        return ResponseResult::success($recoveryPasswordAttempt->returnValue)->returnValue;
+        return ResponseResult::success($recoveryPasswordAttempt)->returnValue;
     }
 }

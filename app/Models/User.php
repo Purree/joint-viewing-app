@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Exceptions\InvalidArgumentException;
 use App\Exceptions\UserAlreadyInRoomException;
 use App\Http\Resources\RoomResource;
 use App\Services\Secrets\TwoFactorSecret;
@@ -20,7 +21,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use JsonException;
 use Laravel\Sanctum\HasApiTokens;
-use Symfony\Component\String\Exception\InvalidArgumentException;
 
 class User extends Authenticatable
 {
