@@ -5,9 +5,11 @@
                       variant="danger"
                       class="is-fullwidth refresh-button"
                       :disabled="updateMembersPending"
-                      :class="{'is-loading': updateMembersPending}">Refresh</o-button>
+                      :class="{'is-loading': updateMembersPending}">Refresh
+            </o-button>
             <transition-group name="slide-next">
                 <room-members-row v-for="member in members"
+                                  :key="member.id"
                                   :can-control="canControl"
                                   :member="member"
                                   :kick-pending="contendersForKick.includes(member.id)"
@@ -17,14 +19,14 @@
             </transition-group>
         </div>
         <div v-else>
-            <o-loading :full-page="false" overlayClass="is-transparent" class="mb-5" :can-cancel="false" :active="modalPending"></o-loading>
+            <o-loading :full-page="false" overlayClass="is-transparent" class="mb-5" :can-cancel="false"
+                       :active="modalPending"></o-loading>
         </div>
     </div>
 </template>
 
 <script>
 import RoomMembersRow from "@/components/room/members/Row";
-import replaceDataInUri from "@/helpers/replaceDataInUri";
 import {API_GET_ALL_MEMBERS_URL, API_KICK_MEMBER_URL} from "@/api/rooms";
 import errorsHelper from "@/mixins/errors.js";
 import usePending from "@/mixins/usePending";
@@ -97,6 +99,7 @@ export default {
 .refresh-button {
     margin-bottom: 1rem;
 }
+
 .members-modal {
     min-width: 40vw;
     min-height: 10vh;
