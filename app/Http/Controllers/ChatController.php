@@ -19,13 +19,13 @@ class ChatController extends Controller
     {
         return ResponseResult::success(
             $this->chatService->getMessages($room, $request->messages_count ?: 100)
-        )->returnValue;
+        );
     }
 
     public function send(SendMessageRequest $request, Room $room): JsonResponse
     {
         return ResponseResult::success(
             $this->chatService->sendMessage($request->message, $room, $request->user())
-        )->returnValue;
+        );
     }
 }

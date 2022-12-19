@@ -2,9 +2,11 @@
 
 namespace App\Services\Results;
 
+use Illuminate\Http\JsonResponse;
+
 interface ResultInterface
 {
-    public static function success(mixed $returnValue = null): FunctionResult;
+    public static function success(mixed $returnValue = null): JsonResponse;
 
-    public static function error(string|array $error): FunctionResult;
+    public static function error(string|array $error): JsonResponse;
 }

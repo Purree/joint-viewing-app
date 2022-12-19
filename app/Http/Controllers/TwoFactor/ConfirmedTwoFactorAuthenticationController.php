@@ -29,9 +29,9 @@ class ConfirmedTwoFactorAuthenticationController extends Controller
             return ResponseResult::error(
                 ['code' => ['The provided two factor authentication code was invalid.']],
                 Response::HTTP_UNAUTHORIZED
-            )->error;
+            );
         }
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success();
     }
 }

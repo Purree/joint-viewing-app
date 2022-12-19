@@ -16,7 +16,7 @@ class PlayerController extends Controller
     {
         broadcast(new PlayerSynchronizeRequest($room->id, $request->user()->id));
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success();
     }
 
     public function synchronize(SynchronizationRequest $request, Room $room): JsonResponse
@@ -32,6 +32,6 @@ class PlayerController extends Controller
             )
         );
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success();
     }
 }

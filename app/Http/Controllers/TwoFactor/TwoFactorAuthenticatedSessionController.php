@@ -29,13 +29,13 @@ class TwoFactorAuthenticatedSessionController extends Controller
             return ResponseResult::error(
                 ['code' => ['The provided two factor authentication code was invalid.']],
                 Response::HTTP_UNAUTHORIZED
-            )->error;
+            );
         }
 
         Auth::login($user);
 
         $request->session()->regenerate();
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success();
     }
 }

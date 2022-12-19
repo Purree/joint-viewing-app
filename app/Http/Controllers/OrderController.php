@@ -21,27 +21,27 @@ class OrderController extends Controller
     {
         return ResponseResult::success(
             OrderResource::collection($this->orderService->getOrders($room))
-        )->returnValue;
+        );
     }
 
     public function add(AddOrderRequest $request, Room $room): JsonResponse
     {
         return ResponseResult::success(
             $this->orderService->addOrder($request->user(), $request->video_url, $room)
-        )->returnValue;
+        );
     }
 
     public function delete(Request $request, Room $room, Order $order): JsonResponse
     {
         $this->orderService->deleteOrder($request->user(), $room, $order);
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success();
     }
 
     public function getFirst(Request $request, Room $room): JsonResponse
     {
         return ResponseResult::success(
             $this->orderService->getOrders($room)->first()
-        )->returnValue;
+        );
     }
 }

@@ -30,7 +30,7 @@ class RecoveryCodeController extends Controller
             return ResponseResult::error(
                 'Two factor authentication has not been enabled.',
                 Response::HTTP_NOT_FOUND
-            )->error;
+            );
         }
 
         return ResponseResult::success(
@@ -42,7 +42,7 @@ class RecoveryCodeController extends Controller
                 512,
                 JSON_THROW_ON_ERROR
             )
-        )->returnValue;
+        );
     }
 
     /**
@@ -67,6 +67,6 @@ class RecoveryCodeController extends Controller
             ),
         ])->save();
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success();
     }
 }

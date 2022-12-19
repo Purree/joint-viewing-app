@@ -37,7 +37,7 @@ class TwoFactorAuthenticationController extends Controller
             ),
         ])->save();
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success();
     }
 
     /**
@@ -51,6 +51,6 @@ class TwoFactorAuthenticationController extends Controller
     {
         $user->disableTwoFactor();
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success();
     }
 }

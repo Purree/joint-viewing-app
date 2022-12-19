@@ -32,7 +32,7 @@ class AuthorizationController extends Controller
                 $request->token
             );
         } catch (InvalidArgumentException $exception) {
-            return ResponseResult::error(['auth' => [$exception->getMessage()]], Response::HTTP_UNAUTHORIZED)->error;
+            return ResponseResult::error(['auth' => [$exception->getMessage()]], Response::HTTP_UNAUTHORIZED);
         }
 
         if (in_array('two-factor', $loginAttempt, true) && $loginAttempt['two-factor']) {
@@ -41,10 +41,10 @@ class AuthorizationController extends Controller
                 $loginAttempt['attempt_user']->id
             );
 
-            return ResponseResult::success(['two-factor' => true])->returnValue;
+            return ResponseResult::success(['two-factor' => true]);
         }
 
-        return ResponseResult::success($loginAttempt)->returnValue;
+        return ResponseResult::success($loginAttempt);
     }
 
     public function registration(RegisterUserRequest $request): JsonResponse
@@ -55,14 +55,14 @@ class AuthorizationController extends Controller
             $request->password
         );
 
-        return ResponseResult::success($registrationAttempt, Response::HTTP_CREATED)->returnValue;
+        return ResponseResult::success($registrationAttempt, Response::HTTP_CREATED);
     }
 
     public function logout(Request $request): JsonResponse
     {
         $this->authorizationService->logout();
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success();
     }
 
     public function recoveryPassword(RecoveryPasswordRequest $request): JsonResponse
@@ -74,9 +74,9 @@ class AuthorizationController extends Controller
                 $request->secret,
             );
         } catch (InvalidArgumentException $e) {
-            return ResponseResult::error(['secret' => [$e->getMessage()]], Response::HTTP_UNPROCESSABLE_ENTITY)->error;
+            return ResponseResult::error(['secret' => [$e->getMessage()]], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        return ResponseResult::success($recoveryPasswordAttempt)->returnValue;
+        return ResponseResult::success($recoveryPasswordAttempt);
     }
 }

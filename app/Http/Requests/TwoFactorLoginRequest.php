@@ -123,7 +123,7 @@ class TwoFactorLoginRequest extends FormRequest
                 ResponseResult::error(
                     ['code' => ['The provided two factor authentication code was invalid.']],
                     Response::HTTP_UNAUTHORIZED
-                )->error
+                )
             );
         }
 

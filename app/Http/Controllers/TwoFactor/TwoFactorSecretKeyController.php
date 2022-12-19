@@ -24,11 +24,11 @@ class TwoFactorSecretKeyController extends Controller
             return ResponseResult::error(
                 'Two factor authentication has not been enabled.',
                 Response::HTTP_NOT_FOUND
-            )->error;
+            );
         }
 
         return  ResponseResult::success([
             'secretKey' => decrypt($user->two_factor_secret),
-        ])->returnValue;
+        ]);
     }
 }

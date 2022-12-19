@@ -17,7 +17,7 @@ class SessionController extends Controller implements AuthMethodControllerInterf
     {
         return ResponseResult::success(
             SessionResource::collection($user->sessions()->get())
-        )->returnValue;
+        );
     }
 
     public function revokeAll(Request $request, User $user): JsonResponse
@@ -26,7 +26,7 @@ class SessionController extends Controller implements AuthMethodControllerInterf
         $user->remember_token = Str::random(60);
         $user->save();
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success();
     }
 
     public function revoke(Request $request, User $user, int|string $authId): JsonResponse
@@ -34,13 +34,13 @@ class SessionController extends Controller implements AuthMethodControllerInterf
         $session = $user->sessions()->where('id', $authId)->first();
 
         if ($session === null) {
-            return ResponseResult::error(['token' => ['Session not found']], Response::HTTP_NOT_FOUND)->error;
+            return ResponseResult::error(['token' => ['Session not found']], Response::HTTP_NOT_FOUND);
         }
 
         $session->delete();
 
         return ResponseResult::success(
             ['logout' => $session->id === $request->session()->getId()]
-        )->returnValue;
+        );
     }
 }

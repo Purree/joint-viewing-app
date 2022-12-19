@@ -16,14 +16,14 @@ class TokenController extends Controller implements AuthMethodControllerInterfac
     {
         return ResponseResult::success(
             TokenResource::collection($user->tokens()->get())
-        )->returnValue;
+        );
     }
 
     public function revokeAll(Request $request, User $user): JsonResponse
     {
         $user->tokens()->delete();
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success();
     }
 
     public function revoke(Request $request, User $user, int|string $authId): JsonResponse
@@ -31,7 +31,7 @@ class TokenController extends Controller implements AuthMethodControllerInterfac
         $token = $user->tokens()->where('id', $authId)->first();
 
         if ($token === null) {
-            return ResponseResult::error(['token' => ['Token not found']], Response::HTTP_NOT_FOUND)->error;
+            return ResponseResult::error(['token' => ['Token not found']], Response::HTTP_NOT_FOUND);
         }
 
         $token->delete();
@@ -41,6 +41,6 @@ class TokenController extends Controller implements AuthMethodControllerInterfac
                 'logout' => method_exists(auth()->user()->currentAccessToken(), 'delete')
                     && $token->token === auth()->user()?->currentAccessToken()?->token,
             ]
-        )->returnValue;
+        );
     }
 }

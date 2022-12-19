@@ -24,12 +24,12 @@ class TwoFactorQrCodeController extends Controller
             return ResponseResult::error(
                 'Two factor authentication has not been enabled.',
                 Response::HTTP_NOT_FOUND
-            )->error;
+            );
         }
 
         return ResponseResult::success([
             'svg' => $user->twoFactorQrCodeSvg(),
             'url' => $user->twoFactorQrCodeUrl(),
-        ])->returnValue;
+        ]);
     }
 }

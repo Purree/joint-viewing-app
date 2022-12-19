@@ -55,7 +55,7 @@ class Handler extends ExceptionHandler
         Exception|Throwable $exception
     ): Response|JsonResponse|\Symfony\Component\HttpFoundation\Response {
         if ($exception instanceof ModelNotFoundException) {
-            return ResponseResult::error('Data not found.', Response::HTTP_NOT_FOUND)->error;
+            return ResponseResult::error('Data not found.', Response::HTTP_NOT_FOUND);
         }
 
         return parent::render($request, $exception);

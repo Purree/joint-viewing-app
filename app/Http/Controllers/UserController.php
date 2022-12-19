@@ -22,7 +22,7 @@ class UserController extends Controller
     {
         return ResponseResult::success(
             new UserResource(User::where('id', $id)->with('createdRoom', 'currentRoom')->first())
-        )->returnValue;
+        );
     }
 
     public function showAuthenticated(Request $request): JsonResponse
@@ -44,13 +44,13 @@ class UserController extends Controller
             return ResponseResult::error(
                 ['password' => ['Incorrect old password']],
                 Response::HTTP_UNPROCESSABLE_ENTITY
-            )->error;
+            );
         }
 
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success();
     }
 
     public function changeAvatar(ChangeAvatarRequest $request, User $user): JsonResponse
@@ -62,7 +62,7 @@ class UserController extends Controller
         $user->avatar = $image->save('profile-photos/');
         $user->save();
 
-        return ResponseResult::success(['avatarPath' => $user->avatar])->returnValue;
+        return ResponseResult::success(['avatarPath' => $user->avatar]);
     }
 
     public function deleteAvatar(User $user): JsonResponse
@@ -76,6 +76,6 @@ class UserController extends Controller
         $user->avatar = null;
         $user->save();
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success();
     }
 }

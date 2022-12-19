@@ -32,19 +32,19 @@ class RoomController extends Controller
     {
         $rooms = Room::where('is_private', false)->paginate($request->rooms_count ?: 15);
 
-        return ResponseResult::success(new RoomCollection($rooms))->returnValue;
+        return ResponseResult::success(new RoomCollection($rooms));
     }
 
     public function show(Request $request, Room $room): JsonResponse
     {
-        return ResponseResult::success($this->roomService->show($room))->returnValue;
+        return ResponseResult::success($this->roomService->show($room));
     }
 
     public function destroy(Request $request, Room $room): JsonResponse
     {
         $room->delete();
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success();
     }
 
     public function leave(Request $request, Room $room): JsonResponse
@@ -52,21 +52,21 @@ class RoomController extends Controller
         try {
             $room->kick($request->user());
         } catch (UserNotFoundException $e) {
-            return ResponseResult::error($e->getMessage(), Response::HTTP_NOT_FOUND)->error;
+            return ResponseResult::error($e->getMessage(), Response::HTTP_NOT_FOUND);
         }
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success();
     }
 
     public function create(CreateRoomRequest $request): JsonResponse
     {
         try {
-            $result = $this->roomService->create($request->user(), collect($request->validated()));
+            $roomCreatingResult = $this->roomService->create($request->user(), collect($request->validated()));
         } catch (UserAlreadyInRoomException|InvalidArgumentException $e) {
-            return ResponseResult::error($e->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY)->error;
+            return ResponseResult::error($e->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        return ResponseResult::success($result, Response::HTTP_CREATED)->returnValue;
+        return ResponseResult::success($roomCreatingResult, Response::HTTP_CREATED);
     }
 
     public function kick(Request $request, Room $room, User $user): JsonResponse
@@ -74,45 +74,45 @@ class RoomController extends Controller
         try {
             $room->kick($user);
         } catch (UserNotFoundException $e) {
-            return ResponseResult::error($e->getMessage(), Response::HTTP_NOT_FOUND)->error;
+            return ResponseResult::error($e->getMessage(), Response::HTTP_NOT_FOUND);
         }
 
         broadcast(new RoomMemberKick(new UserResource($user), $room->id));
 
-        return ResponseResult::success()->returnValue;
+        return ResponseResult::success();
     }
 
     public function update(EditRoomRequest $request, Room $room): JsonResponse
     {
         try {
-            $result = $this->roomService->update($room, collect($request->validated()));
+            $roomUpdatingResult = $this->roomService->update($room, collect($request->validated()));
         } catch (InvalidArgumentException $e) {
-            return ResponseResult::error($e->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY)->error;
+            return ResponseResult::error($e->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        return ResponseResult::success($result)->returnValue;
+        return ResponseResult::success($roomUpdatingResult);
     }
 
     public function join(JoinRoomRequest $request, Room $room): JsonResponse
     {
         try {
-            $result = $request->user()->join($room, $request->password);
+            $roomJoiningResult = $request->user()->join($room, $request->password);
         } catch (UserAlreadyInRoomException $e) {
-            return ResponseResult::error(['room' => [$e->getMessage()]], Response::HTTP_UNPROCESSABLE_ENTITY)->error;
+            return ResponseResult::error(['room' => [$e->getMessage()]], Response::HTTP_UNPROCESSABLE_ENTITY);
         } catch (InvalidArgumentException $e) {
             return ResponseResult::error(
                 [
                     'password' => [$e->getMessage()],
                 ],
                 Response::HTTP_UNPROCESSABLE_ENTITY
-            )->error;
+            );
         }
 
-        return ResponseResult::success($result)->returnValue;
+        return ResponseResult::success($roomJoiningResult);
     }
 
     public function members(Request $request, Room $room): JsonResponse
     {
-        return ResponseResult::success($room->members())->returnValue;
+        return ResponseResult::success($room->members());
     }
 }
