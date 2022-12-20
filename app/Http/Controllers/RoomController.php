@@ -6,6 +6,7 @@ use App\Events\RoomMemberKick;
 use App\Exceptions\InvalidArgumentException;
 use App\Exceptions\UserAlreadyInRoomException;
 use App\Exceptions\UserNotFoundException;
+use App\Helpers\DTO\RoomCreationDTO;
 use App\Helpers\Results\ResponseResult;
 use App\Http\Requests\CreateRoomRequest;
 use App\Http\Requests\EditRoomRequest;
@@ -61,7 +62,10 @@ class RoomController extends Controller
     public function create(CreateRoomRequest $request): JsonResponse
     {
         try {
-            $roomCreatingResult = $this->roomService->create($request->user(), collect($request->validated()));
+            $roomCreatingResult = $this->roomService->create(
+                $request->user(),
+                RoomCreationDTO::fromRequest($request)
+            );
         } catch (UserAlreadyInRoomException|InvalidArgumentException $e) {
             return ResponseResult::error($e->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }

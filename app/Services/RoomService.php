@@ -6,6 +6,7 @@ use App\Events\RoomUpdate;
 use App\Exceptions\InvalidArgumentException;
 use App\Exceptions\UserAlreadyInRoomException;
 use App\Exceptions\UserNotFoundException;
+use App\Helpers\DTO\RoomCreationDTO;
 use App\Http\Resources\RoomResource;
 use App\Models\Room;
 use App\Models\User;
@@ -32,15 +33,13 @@ class RoomService
      * @throws UserAlreadyInRoomException
      * @throws InvalidArgumentException
      */
-    public function create(User $user, Collection $parameters): RoomResource
+    public function create(User $user, RoomCreationDTO $parameters): RoomResource
     {
-        $parameters = $this->filterParameters($parameters);
-
         if ($user->createdRoom) {
             throw new UserAlreadyInRoomException('You are already have a room.');
         }
 
-        if ($parameters['is_closed'] && ! $parameters->has('password')) {
+        if ($parameters->isClosed && ! $parameters->password) {
             throw new InvalidArgumentException('Password is required when room is closed.');
         }
 
@@ -54,13 +53,13 @@ class RoomService
 
         $room = Room::create([
             'owner_id' => $user->id,
-            'name' => $parameters['name'],
-            'link' => $parameters->has('link') ? $parameters['link'] : uniqid('', true),
-            'is_closed' => $parameters['is_closed'],
-            'can_everyone_control' => $parameters['can_everyone_control'],
-            'is_private' => $parameters['is_private'],
-            'password' => $parameters->has('password') && $parameters['is_closed'] ?
-                Hash::make($parameters['password']) :
+            'name' => $parameters->name,
+            'link' => $parameters->link ?: uniqid('', true),
+            'is_closed' => $parameters->isClosed,
+            'can_everyone_control' => $parameters->canEveryoneControl,
+            'is_private' => $parameters->isPrivate,
+            'password' => $parameters->password && $parameters->isClosed ?
+                Hash::make($parameters->password) :
                 null,
         ]);
 
