@@ -88,7 +88,7 @@ class RoomController extends Controller
     public function update(EditRoomRequest $request, Room $room): JsonResponse
     {
         try {
-            $roomUpdatingResult = $this->roomService->update($room, collect($request->validated()));
+            $roomUpdatingResult = $this->roomService->update($room, $request->toDTO());
         } catch (InvalidArgumentException $e) {
             return ResponseResult::error($e->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }

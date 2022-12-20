@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use App\DataTransferObjects\RoomCreationDTO;
+use App\DataTransferObjects\CreateRoomDTO;
+use App\DataTransferObjects\UpdateRoomDTO;
 use App\Events\RoomUpdate;
 use App\Exceptions\InvalidArgumentException;
 use App\Exceptions\UserAlreadyInRoomException;
@@ -15,13 +16,6 @@ use Illuminate\Support\Facades\Hash;
 
 class RoomService
 {
-    protected function filterParameters(Collection $parameters): Collection
-    {
-        return $parameters->filter(static function ($value) {
-            return ! is_null($value);
-        });
-    }
-
     protected function getRoomData(Room $room): RoomResource
     {
         return new RoomResource(
@@ -33,13 +27,13 @@ class RoomService
      * @throws UserAlreadyInRoomException
      * @throws InvalidArgumentException
      */
-    public function create(User $user, RoomCreationDTO $roomCreationDTO): RoomResource
+    public function create(User $user, CreateRoomDTO $roomCreationDTO): RoomResource
     {
         if ($user->createdRoom) {
             throw new UserAlreadyInRoomException('You are already have a room.');
         }
 
-        if ($roomCreationDTO->isClosed && ! $roomCreationDTO->password) {
+        if ($roomCreationDTO->isClosed && !$roomCreationDTO->password) {
             throw new InvalidArgumentException('Password is required when room is closed.');
         }
 
@@ -72,25 +66,20 @@ class RoomService
     /**
      * @throws InvalidArgumentException
      */
-    public function update(Room $room, Collection $parameters): Room
+    public function update(Room $room, UpdateRoomDTO $updateRoomDTO): Room
     {
-        $parameters = $this->filterParameters($parameters);
-
-        if (($room->password === null || ! $parameters->has('password')) && $parameters['is_closed']) {
+        if (!$updateRoomDTO->password && $updateRoomDTO->isClosed) {
             throw new InvalidArgumentException('The password must be present when closing the channel.');
         }
 
         $room->update(
             [
-                'name' => $parameters['name'],
-                'is_closed' => $parameters['is_closed'],
-                'is_private' => $parameters['is_private'],
-                'can_everyone_control' => $parameters['can_everyone_control'],
-            ] +
-            (! $parameters['is_closed'] ? ['password' => null] : []) +
-            ($parameters->has('password') && ($parameters['is_closed'] || $room->is_closed) ?
-                ['password' => Hash::make($parameters['password'])] :
-                [])
+                'name' => $updateRoomDTO->name,
+                'is_closed' => $updateRoomDTO->isClosed,
+                'is_private' => $updateRoomDTO->isPrivate,
+                'can_everyone_control' => $updateRoomDTO->canEveryoneControl,
+                'password' => $updateRoomDTO->isClosed ? Hash::make($updateRoomDTO->password) : null,
+            ]
         );
         $room->save();
 

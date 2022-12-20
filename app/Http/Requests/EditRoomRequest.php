@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\DataTransferObjects\UpdateRoomDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EditRoomRequest extends FormRequest
@@ -30,5 +31,16 @@ class EditRoomRequest extends FormRequest
             'is_private' => 'required|boolean',
             'password' => 'string|max:255',
         ];
+    }
+
+    public function toDTO(): UpdateRoomDTO
+    {
+        return new UpdateRoomDTO(
+            name: $this->get('name'),
+            isClosed: $this->get('is_closed'),
+            isPrivate: $this->get('is_private'),
+            canEveryoneControl: $this->get('can_everyone_control'),
+            password: $this->get('password'),
+        );
     }
 }
