@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
+use App\DataTransferObjects\RoomCreationDTO;
 use App\Events\RoomUpdate;
 use App\Exceptions\InvalidArgumentException;
 use App\Exceptions\UserAlreadyInRoomException;
 use App\Exceptions\UserNotFoundException;
-use App\Helpers\DTO\RoomCreationDTO;
 use App\Http\Resources\RoomResource;
 use App\Models\Room;
 use App\Models\User;
@@ -18,7 +18,7 @@ class RoomService
     protected function filterParameters(Collection $parameters): Collection
     {
         return $parameters->filter(static function ($value) {
-            return ! is_null($value);
+            return !is_null($value);
         });
     }
 
@@ -33,13 +33,13 @@ class RoomService
      * @throws UserAlreadyInRoomException
      * @throws InvalidArgumentException
      */
-    public function create(User $user, RoomCreationDTO $parameters): RoomResource
+    public function create(User $user, RoomCreationDTO $roomCreationDTO): RoomResource
     {
         if ($user->createdRoom) {
             throw new UserAlreadyInRoomException('You are already have a room.');
         }
 
-        if ($parameters->isClosed && ! $parameters->password) {
+        if ($roomCreationDTO->isClosed && !$roomCreationDTO->password) {
             throw new InvalidArgumentException('Password is required when room is closed.');
         }
 
@@ -53,13 +53,13 @@ class RoomService
 
         $room = Room::create([
             'owner_id' => $user->id,
-            'name' => $parameters->name,
-            'link' => $parameters->link ?: uniqid('', true),
-            'is_closed' => $parameters->isClosed,
-            'can_everyone_control' => $parameters->canEveryoneControl,
-            'is_private' => $parameters->isPrivate,
-            'password' => $parameters->password && $parameters->isClosed ?
-                Hash::make($parameters->password) :
+            'name' => $roomCreationDTO->name,
+            'link' => $roomCreationDTO->link ?: uniqid('', true),
+            'is_closed' => $roomCreationDTO->isClosed,
+            'can_everyone_control' => $roomCreationDTO->canEveryoneControl,
+            'is_private' => $roomCreationDTO->isPrivate,
+            'password' => $roomCreationDTO->password && $roomCreationDTO->isClosed ?
+                Hash::make($roomCreationDTO->password) :
                 null,
         ]);
 
@@ -76,18 +76,18 @@ class RoomService
     {
         $parameters = $this->filterParameters($parameters);
 
-        if (($room->password === null || ! $parameters->has('password')) && $parameters['is_closed']) {
+        if (($room->password === null || !$parameters->has('password')) && $parameters['is_closed']) {
             throw new InvalidArgumentException('The password must be present when closing the channel.');
         }
 
         $room->update(
-            $parameters->only([
-                'name',
-            ])->toArray() +
-            ['is_closed' => $parameters['is_closed']] +
-            ['is_private' => $parameters['is_private']] +
-            ['can_everyone_control' => $parameters['can_everyone_control']] +
-            (! $parameters['is_closed'] ? ['password' => null] : []) +
+            [
+                'name' => $parameters['name'],
+                'is_closed' => $parameters['is_closed'],
+                'is_private' => $parameters['is_private'],
+                'can_everyone_control' => $parameters['can_everyone_control'],
+            ] +
+            (!$parameters['is_closed'] ? ['password' => null] : []) +
             ($parameters->has('password') && ($parameters['is_closed'] || $room->is_closed) ?
                 ['password' => Hash::make($parameters['password'])] :
                 [])

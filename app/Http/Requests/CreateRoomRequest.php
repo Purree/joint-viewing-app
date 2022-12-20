@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\DataTransferObjects\RoomCreationDTO;
 use App\Rules\ValidSlug;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -32,5 +33,17 @@ class CreateRoomRequest extends FormRequest
             'is_private' => 'required|boolean',
             'password' => 'string|max:255',
         ];
+    }
+
+    public function toDTO(): RoomCreationDTO
+    {
+        return new RoomCreationDTO(
+            name: $this->get('name'),
+            isClosed: $this->get('is_closed'),
+            isPrivate: $this->get('is_private'),
+            canEveryoneControl: $this->get('can_everyone_control'),
+            link: $this->get('link'),
+            password: $this->get('password')
+        );
     }
 }

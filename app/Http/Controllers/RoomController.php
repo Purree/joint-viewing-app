@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTransferObjects\RoomCreationDTO;
 use App\Events\RoomMemberKick;
 use App\Exceptions\InvalidArgumentException;
 use App\Exceptions\UserAlreadyInRoomException;
 use App\Exceptions\UserNotFoundException;
-use App\Helpers\DTO\RoomCreationDTO;
 use App\Helpers\Results\ResponseResult;
 use App\Http\Requests\CreateRoomRequest;
 use App\Http\Requests\EditRoomRequest;
@@ -64,7 +64,7 @@ class RoomController extends Controller
         try {
             $roomCreatingResult = $this->roomService->create(
                 $request->user(),
-                RoomCreationDTO::fromRequest($request)
+                $request->toDTO()
             );
         } catch (UserAlreadyInRoomException|InvalidArgumentException $e) {
             return ResponseResult::error($e->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
