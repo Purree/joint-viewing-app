@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidArgumentException;
+use App\Helpers\Results\ResponseResult;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RecoveryPasswordRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\TwoFactorLoginRequest;
 use App\Services\AuthorizationService;
-use App\Services\Results\ResponseResult;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

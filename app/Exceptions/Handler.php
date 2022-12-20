@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-use App\Services\Results\ResponseResult;
+use App\Helpers\Results\ResponseResult;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;

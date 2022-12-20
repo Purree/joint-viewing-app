@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Exceptions\InvalidArgumentException;
+use App\Helpers\Secrets\Secret;
 use App\Models\User;
-use App\Services\Secrets\Secret;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 

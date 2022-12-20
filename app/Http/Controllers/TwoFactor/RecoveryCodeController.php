@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\TwoFactor;
 
+use App\Helpers\Results\ResponseResult;
+use App\Helpers\Secrets\TwoFactorSecret;
 use App\Models\User;
-use App\Services\Results\ResponseResult;
-use App\Services\Secrets\TwoFactorSecret;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

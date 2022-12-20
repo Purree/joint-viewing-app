@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\TwoFactor;
 
+use App\Helpers\Results\ResponseResult;
 use App\Models\User;
-use App\Services\Results\ResponseResult;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Secrets;
+namespace App\Helpers\Secrets;
 
 use Faker\Factory;
 use Illuminate\Support\Facades\Hash;

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\AuthMethods;
 
+use App\Helpers\Results\ResponseResult;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SessionResource;
 use App\Models\User;
-use App\Services\Results\ResponseResult;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Results\ResponseResult;
 use App\Http\Requests\SendMessageRequest;
 use App\Models\Room;
 use App\Services\ChatService;
-use App\Services\Results\ResponseResult;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 

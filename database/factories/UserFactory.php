@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Services\Secrets\Secret;
+use App\Helpers\Secrets\Secret;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;

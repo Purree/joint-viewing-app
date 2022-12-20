@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\TwoFactor;
 
+use App\Helpers\Results\ResponseResult;
 use App\Http\Requests\TwoFactorLoginRequest;
-use App\Services\Results\ResponseResult;
 use Auth;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;

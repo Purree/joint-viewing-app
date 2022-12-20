@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\Results\ResponseResult;
+use App\Helpers\TwoFactorAuthenticationProvider;
 use App\Models\User;
-use App\Services\Results\ResponseResult;
-use App\Services\TwoFactorAuthenticationProvider;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;

@@ -4,9 +4,9 @@ namespace App\Models;
 
 use App\Exceptions\InvalidArgumentException;
 use App\Exceptions\UserAlreadyInRoomException;
+use App\Helpers\Secrets\TwoFactorSecret;
+use App\Helpers\TwoFactorAuthenticationProvider;
 use App\Http\Resources\RoomResource;
-use App\Services\Secrets\TwoFactorSecret;
-use App\Services\TwoFactorAuthenticationProvider;
 use BaconQrCode\Renderer\Color\Rgb;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
