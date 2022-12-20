@@ -11,7 +11,6 @@ use App\Exceptions\UserNotFoundException;
 use App\Http\Resources\RoomResource;
 use App\Models\Room;
 use App\Models\User;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 
 class RoomService
@@ -33,7 +32,7 @@ class RoomService
             throw new UserAlreadyInRoomException('You are already have a room.');
         }
 
-        if ($roomCreationDTO->isClosed && !$roomCreationDTO->password) {
+        if ($roomCreationDTO->isClosed && ! $roomCreationDTO->password) {
             throw new InvalidArgumentException('Password is required when room is closed.');
         }
 
@@ -68,7 +67,7 @@ class RoomService
      */
     public function update(Room $room, UpdateRoomDTO $updateRoomDTO): Room
     {
-        if (!$updateRoomDTO->password && $updateRoomDTO->isClosed) {
+        if (! $updateRoomDTO->password && $updateRoomDTO->isClosed) {
             throw new InvalidArgumentException('The password must be present when closing the channel.');
         }
 
