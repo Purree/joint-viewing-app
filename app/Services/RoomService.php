@@ -18,7 +18,7 @@ class RoomService
     protected function filterParameters(Collection $parameters): Collection
     {
         return $parameters->filter(static function ($value) {
-            return !is_null($value);
+            return ! is_null($value);
         });
     }
 
@@ -39,7 +39,7 @@ class RoomService
             throw new UserAlreadyInRoomException('You are already have a room.');
         }
 
-        if ($roomCreationDTO->isClosed && !$roomCreationDTO->password) {
+        if ($roomCreationDTO->isClosed && ! $roomCreationDTO->password) {
             throw new InvalidArgumentException('Password is required when room is closed.');
         }
 
@@ -76,7 +76,7 @@ class RoomService
     {
         $parameters = $this->filterParameters($parameters);
 
-        if (($room->password === null || !$parameters->has('password')) && $parameters['is_closed']) {
+        if (($room->password === null || ! $parameters->has('password')) && $parameters['is_closed']) {
             throw new InvalidArgumentException('The password must be present when closing the channel.');
         }
 
@@ -87,7 +87,7 @@ class RoomService
                 'is_private' => $parameters['is_private'],
                 'can_everyone_control' => $parameters['can_everyone_control'],
             ] +
-            (!$parameters['is_closed'] ? ['password' => null] : []) +
+            (! $parameters['is_closed'] ? ['password' => null] : []) +
             ($parameters->has('password') && ($parameters['is_closed'] || $room->is_closed) ?
                 ['password' => Hash::make($parameters['password'])] :
                 [])
