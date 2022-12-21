@@ -1,27 +1,28 @@
 <?php
 
-use App\Http\Controllers\ChatController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PlayerController;
-use App\Http\Controllers\RoomController;
+use App\Http\Controllers\Room\RoomMemberController;
+use App\Http\Controllers\Room\RoomController;
 
 Route::name('rooms.')->prefix('rooms')->group(static function () {
     Route::controller(RoomController::class)->group(static function () {
-        Route::get('/', 'index')->name('index')->middleware(
+        Route::get('/', 'getAll')->name('get-all')->middleware(
             ['throttle:get_all_rooms_data']
         );
         Route::post('/', 'create')->name('create')->middleware(
             ['throttle:create_room']
         );
 
-        Route::get('/link/{room:link}/', 'show')->name('show.by-link')->middleware(
+        Route::get('/link/{room:link}/', 'get')->name('get.by-link')->middleware(
             ['throttle:get_room_data']
         );
         Route::prefix('{room}')->group(static function () {
-            Route::post('/join', 'join')->name('join')->middleware(
+            Route::post('/join', [RoomMemberController::class, 'add'])->name('join')->middleware(
                 ['throttle:join_room']
             );
-            Route::get('/', 'show')->name('show')->middleware(
+            Route::get('/', 'get')->name('get')->middleware(
                 ['throttle:get_room_data']
             );
 
@@ -29,18 +30,21 @@ Route::name('rooms.')->prefix('rooms')->group(static function () {
                 Route::delete('/', 'destroy')->middleware('can:delete,room')->name('destroy');
                 Route::put('/', 'update')->middleware('can:update,room', 'throttle:update_room_data')
                     ->name('update');
-                Route::post('/leave', 'leave')->name('leave');
+                Route::post('/leave', [RoomMemberController::class, 'leave'])->name('leave');
 
-                Route::name('members.')->prefix('members')->group(static function () {
-                    Route::get('/', 'members')->name('index');
-                    Route::prefix('{user}')->group(static function () {
-                        Route::delete('/', 'kick')->middleware('can:kick,room')->name('kick');
+                Route::name('members.')->controller(RoomMemberController::class)
+                    ->prefix('members')->group(static function () {
+                        Route::get('/', 'getAll')->name('get-all');
+                        Route::prefix('{user}')->group(static function () {
+                            Route::delete('/', 'kick')
+                                ->middleware('can:kick,room')
+                                ->name('kick');
+                        });
                     });
-                });
 
-                Route::name('chat.')->prefix('chat')->controller(ChatController::class)->group(static function () {
+                Route::name('chat.')->prefix('chat')->controller(MessageController::class)->group(static function () {
                     Route::prefix('messages')->group(static function () {
-                        Route::get('/', 'index')->name('index')->middleware(
+                        Route::get('/', 'getAll')->name('get-all')->middleware(
                             ['throttle:get_all_messages']
                         );
                         Route::post('/', 'send')->name('send')->middleware(
@@ -50,7 +54,7 @@ Route::name('rooms.')->prefix('rooms')->group(static function () {
                 });
 
                 Route::name('orders.')->prefix('orders')->controller(OrderController::class)->group(static function () {
-                    Route::get('/', 'index')->name('index')->middleware(
+                    Route::get('/', 'getAll')->name('get-all')->middleware(
                         ['throttle:get_all_orders']
                     );
                     Route::post('/', 'add')->name('add')->middleware(
@@ -58,9 +62,6 @@ Route::name('rooms.')->prefix('rooms')->group(static function () {
                     );
                     Route::delete('/{order}', 'delete')->name('delete')->middleware(
                         ['throttle:delete_order', 'can:delete,App\Models\Order,room,order']
-                    );
-                    Route::get('/first', 'getFirst')->name('first')->middleware(
-                        ['throttle:get_first_order']
                     );
                 });
 

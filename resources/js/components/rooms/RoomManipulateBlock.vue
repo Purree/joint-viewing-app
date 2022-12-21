@@ -16,7 +16,7 @@
     <settings-row property-name="Can everyone control video and add new videos?">
         <o-switch v-model="form.can_everyone_control"></o-switch>
     </settings-row>
-    <settings-row property-name="Will the room be shown in the rooms list?">
+    <settings-row property-name="Will the room be hidden in the rooms list?">
         <o-switch v-model="form.is_private"></o-switch>
     </settings-row>
 

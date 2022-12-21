@@ -17,7 +17,7 @@ class OrderController extends Controller
     {
     }
 
-    public function index(Request $request, Room $room): JsonResponse
+    public function getAll(Request $request, Room $room): JsonResponse
     {
         return ResponseResult::success(
             OrderResource::collection($this->orderService->getOrders($room))
@@ -36,12 +36,5 @@ class OrderController extends Controller
         $this->orderService->deleteOrder($request->user(), $room, $order);
 
         return ResponseResult::success();
-    }
-
-    public function getFirst(Request $request, Room $room): JsonResponse
-    {
-        return ResponseResult::success(
-            $this->orderService->getOrders($room)->first()
-        );
     }
 }

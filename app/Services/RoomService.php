@@ -87,7 +87,7 @@ class RoomService
         return $room;
     }
 
-    public function show(Room $room): RoomResource
+    public function get(Room $room): RoomResource
     {
         return $this->getRoomData($room);
     }
