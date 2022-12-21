@@ -3,8 +3,8 @@
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PlayerController;
-use App\Http\Controllers\Room\RoomMemberController;
 use App\Http\Controllers\Room\RoomController;
+use App\Http\Controllers\Room\RoomMemberController;
 
 Route::name('rooms.')->prefix('rooms')->group(static function () {
     Route::controller(RoomController::class)->group(static function () {
