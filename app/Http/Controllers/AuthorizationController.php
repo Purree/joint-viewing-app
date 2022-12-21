@@ -35,7 +35,7 @@ class AuthorizationController extends Controller
             return ResponseResult::error(['auth' => [$exception->getMessage()]], Response::HTTP_UNAUTHORIZED);
         }
 
-        if (in_array('two-factor', $loginAttempt, true) && $loginAttempt['two-factor']) {
+        if (array_key_exists('two-factor', $loginAttempt) && $loginAttempt['two-factor']) {
             $request->session()->put(
                 TwoFactorLoginRequest::SESSION_TWO_FACTOR_NAME,
                 $loginAttempt['attempt_user']->id

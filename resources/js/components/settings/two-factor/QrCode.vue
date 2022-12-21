@@ -4,7 +4,6 @@
 </template>
 
 <script>
-import replaceDataInUri from "@/helpers/replaceDataInUri.js";
 import {mapState} from "vuex";
 import {API_TWO_FACTOR_GET_QR_CODE_URL} from "@/api/twoFactor.js";
 import apiRequest from "@/helpers/apiRequest";
@@ -38,7 +37,7 @@ export default {
 </script>
 
 <style scoped>
-    .b-skeleton {
-        width: auto;
-    }
+.b-skeleton {
+    width: auto;
+}
 </style>
