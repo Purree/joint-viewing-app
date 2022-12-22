@@ -124,7 +124,10 @@ export default {
     },
     watch: {
         videoId() {
-            this.parseVideoLink(this.player.loadVideoById(this.videoId));
+            this.player.stopVideo()
+            this.player.clearVideo()
+
+            this.player.loadVideoById(this.parseVideoLink(this.videoId));
         }
     },
     computed: {
