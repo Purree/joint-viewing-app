@@ -4,7 +4,6 @@ namespace App\Http\Controllers\TwoFactor;
 
 use App\Helpers\Results\ResponseResult;
 use App\Helpers\Secrets\TwoFactorSecret;
-use App\Helpers\TwoFactorAuthenticationProvider;
 use App\Helpers\TwoFactorSessionKeyNames;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;

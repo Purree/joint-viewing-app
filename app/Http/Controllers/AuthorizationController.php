@@ -8,7 +8,6 @@ use App\Helpers\TwoFactorSessionKeyNames;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RecoveryPasswordRequest;
 use App\Http\Requests\RegisterUserRequest;
-use App\Http\Requests\TwoFactorLoginRequest;
 use App\Services\AuthorizationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
