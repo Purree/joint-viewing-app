@@ -29,7 +29,7 @@ class TwoFactorAuthenticationController extends Controller
     {
         $secret = $request->session()->get(TwoFactorSessionKeyNames::TURNING_ON_ATTEMPT->value);
 
-        if (!TwoFactorAuthenticationProvider::verify(decrypt($secret), $request->code)) {
+        if (! TwoFactorAuthenticationProvider::verify(decrypt($secret), $request->code)) {
             return ResponseResult::error('The provided two factor authentication code was invalid.');
         }
 
