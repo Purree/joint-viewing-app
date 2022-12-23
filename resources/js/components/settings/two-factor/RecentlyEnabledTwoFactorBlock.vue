@@ -64,7 +64,7 @@ export default {
                 {'code': this.verifyCode}
             )
                 .then(() => {
-                    this.userEnableTwoFactor = true;
+                    this.$emit('twoFactorVerified');
                 })
                 .catch((errors) => {
                     this.errors = errorsHelper.methods.getFromResponse(errors);
@@ -72,7 +72,7 @@ export default {
                 })
         }
     },
-    emits: ['disableTwoFactor', 'updateRecoveryCodes'],
+    emits: ['disableTwoFactor', 'updateRecoveryCodes', 'twoFactorVerified'],
     props: ['disablePending', 'updateRecoveryCodesPending'],
     computed: {
         ...mapState('auth', ['user'])

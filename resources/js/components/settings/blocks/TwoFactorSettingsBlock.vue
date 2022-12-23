@@ -14,9 +14,13 @@
                                @enable-two-factor="usePending(enableTwoFactor, 'enablingPending')"
                                :pending="enablingPending"></disabled-two-factor-block>
 
-    <recently-enabled-two-factor-block v-if="userEnableTwoFactor"
+    <recently-enabled-two-factor-block v-if="userEnableTwoFactor && !userVerifyTwoFactor"
+                                       @two-factor-verified="onTwoFactorVerified"
                                        @disable-two-factor="usePending(disableTwoFactor, 'disablingPending')"
                                        :disable-pending="disablingPending"></recently-enabled-two-factor-block>
+
+    <recovery-codes v-if="userVerifyTwoFactor"
+                    :recovery-codes="recoveryCodes"></recovery-codes>
 
 </template>
 
@@ -33,16 +37,18 @@ import RecentlyEnabledTwoFactorBlock from "@/components/settings/two-factor/Rece
 import usePending from "@/mixins/usePending.js";
 import Divider from "@/components/Divider";
 import apiRequest from "@/helpers/apiRequest";
+import RecoveryCodes from "@/components/settings/two-factor/RecoveryCodes.vue";
 
 export default {
     name: "TwoFactorSettingsBlock",
-    components: {RecentlyEnabledTwoFactorBlock, DisabledTwoFactorBlock, EnabledTwoFactorBlock, Divider},
+    components: {RecoveryCodes, RecentlyEnabledTwoFactorBlock, DisabledTwoFactorBlock, EnabledTwoFactorBlock, Divider},
     computed: {
         ...mapState('auth', ['user'])
     },
     data() {
         return {
             userEnableTwoFactor: false,
+            userVerifyTwoFactor: false,
             recoveryCodes: [],
             enablingPending: false,
             disablingPending: false,
@@ -52,6 +58,11 @@ export default {
     },
     mixins: [usePending],
     methods: {
+        async onTwoFactorVerified() {
+            await this.updateRecoveryCodes();
+
+            this.userVerifyTwoFactor = true;
+        },
         enableTwoFactor() {
             return apiRequest(API_TWO_FACTOR_ENABLE_URL, {'user': this.user.id})
                 .then(() => {
