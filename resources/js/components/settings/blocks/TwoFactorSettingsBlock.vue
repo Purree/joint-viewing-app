@@ -15,13 +15,8 @@
                                :pending="enablingPending"></disabled-two-factor-block>
 
     <recently-enabled-two-factor-block v-if="userEnableTwoFactor"
-                                       @regenerate-codes="usePending(regenerateRecoveryCodes, 'regenerateRecoveryCodesPending')"
                                        @disable-two-factor="usePending(disableTwoFactor, 'disablingPending')"
-                                       @update-recovery-codes="usePending(updateRecoveryCodes, 'updateRecoveryCodesPending')"
-                                       :recovery-codes="recoveryCodes"
-                                       :disable-pending="disablingPending"
-                                       :recovery-codes-pending="regenerateRecoveryCodesPending"
-                                       :update-recovery-codes-pending="updateRecoveryCodesPending"></recently-enabled-two-factor-block>
+                                       :disable-pending="disablingPending"></recently-enabled-two-factor-block>
 
 </template>
 
@@ -29,7 +24,6 @@
 import {mapState} from "vuex";
 import EnabledTwoFactorBlock from "@/components/settings/two-factor/EnabledTwoFactorBlock.vue";
 import DisabledTwoFactorBlock from "@/components/settings/two-factor/DisabledTwoFactorBlock.vue";
-import replaceDataInUri from "@/helpers/replaceDataInUri.js";
 import {
     API_TWO_FACTOR_DISABLE_URL,
     API_TWO_FACTOR_ENABLE_URL, API_TWO_FACTOR_GET_RECOVERY_CODES_URL,
@@ -62,7 +56,6 @@ export default {
             return apiRequest(API_TWO_FACTOR_ENABLE_URL, {'user': this.user.id})
                 .then(() => {
                     this.userEnableTwoFactor = true;
-                    return this.updateRecoveryCodes();
                 })
                 .catch((errors) => {
                     console.log(errors.response);

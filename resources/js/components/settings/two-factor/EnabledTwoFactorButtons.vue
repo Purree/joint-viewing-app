@@ -6,21 +6,18 @@
                        :pending="regenerateCodesPending"
                        class="is-fullwidth"
                        :variant="'basic'"></submit-button>
-        <submit-button @click="this.$emit('disableTwoFactor')"
-                       :text="'Turn off two-factor'"
-                       :is-loading="disablePending"
-                       :pending="disablePending"
-                       class="is-fullwidth"
-                       :variant="'danger'"></submit-button>
+        <turn-off-two-factor-button @disable-two-factor="$emit('disableTwoFactor')"
+                                    :disable-pending="disablePending"></turn-off-two-factor-button>
     </div>
 </template>
 
 <script>
 import SubmitButton from "@/components/SubmitButton.vue";
+import TurnOffTwoFactorButton from "@/components/settings/two-factor/TurnOffTwoFactorButton.vue";
 
 export default {
     name: "EnabledTwoFactorButtons",
-    components: {SubmitButton},
+    components: {TurnOffTwoFactorButton, SubmitButton},
     emits: ['regenerateCodes', 'disableTwoFactor'],
     props: ['regenerateCodesPending', 'disablePending'],
 }

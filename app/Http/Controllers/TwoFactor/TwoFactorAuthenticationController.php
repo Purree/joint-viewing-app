@@ -4,7 +4,9 @@ namespace App\Http\Controllers\TwoFactor;
 
 use App\Helpers\Results\ResponseResult;
 use App\Helpers\Secrets\TwoFactorSecret;
+use App\Helpers\TwoFactorAuthenticationProvider;
 use App\Helpers\TwoFactorSessionKeyNames;
+use App\Http\Requests\EnableTwoFactorRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -23,10 +25,18 @@ class TwoFactorAuthenticationController extends Controller
      *
      * @throws JsonException
      */
-    public function store(Request $request, User $user): JsonResponse
+    public function store(EnableTwoFactorRequest $request, User $user): JsonResponse
     {
+        $secret = $request->session()->get(TwoFactorSessionKeyNames::TURNING_ON_ATTEMPT->value);
+
+        if (!TwoFactorAuthenticationProvider::verify(decrypt($secret), $request->code)) {
+            return ResponseResult::error('The provided two factor authentication code was invalid.');
+        }
+
+        $request->session()->forget(TwoFactorSessionKeyNames::TURNING_ON_ATTEMPT->value);
+
         $user->forceFill([
-            'two_factor_secret' => $request->session()->get(TwoFactorSessionKeyNames::TURNING_ON_ATTEMPT->value),
+            'two_factor_secret' => $secret,
             'two_factor_recovery_codes' => encrypt(
                 json_encode(
                     Collection::times(8, static function () {
@@ -49,6 +59,7 @@ class TwoFactorAuthenticationController extends Controller
      */
     public function destroy(Request $request, User $user): JsonResponse
     {
+        $request->session()->forget(TwoFactorSessionKeyNames::TURNING_ON_ATTEMPT->value);
         $user->disableTwoFactor();
 
         return ResponseResult::success();
