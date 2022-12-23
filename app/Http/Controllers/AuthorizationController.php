@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidArgumentException;
 use App\Helpers\Results\ResponseResult;
+use App\Helpers\TwoFactorSessionKeyNames;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RecoveryPasswordRequest;
 use App\Http\Requests\RegisterUserRequest;
@@ -37,7 +38,7 @@ class AuthorizationController extends Controller
 
         if (array_key_exists('two-factor', $loginAttempt) && $loginAttempt['two-factor']) {
             $request->session()->put(
-                TwoFactorLoginRequest::SESSION_TWO_FACTOR_NAME,
+                TwoFactorSessionKeyNames::LOGIN_ATTEMPT->value,
                 $loginAttempt['attempt_user']->id
             );
 

@@ -96,27 +96,6 @@ class User extends Authenticatable
         ])->save();
     }
 
-    public function twoFactorQrCodeSvg(): string
-    {
-        $svg = (new Writer(
-            new ImageRenderer(
-                new RendererStyle(192, 1, fill: Fill::uniformColor(new Rgb(255, 255, 255), new Rgb(45, 55, 72))),
-                new SvgImageBackEnd
-            )
-        ))->writeString($this->twoFactorQrCodeUrl());
-
-        return trim(substr($svg, strpos($svg, "\n") + 1));
-    }
-
-    public function twoFactorQrCodeUrl(): string
-    {
-        return TwoFactorAuthenticationProvider::qrCodeUrl(
-            config('app.name'),
-            $this->name,
-            decrypt($this->two_factor_secret)
-        );
-    }
-
     public function disableTwoFactor(): void
     {
         $this->forceFill([

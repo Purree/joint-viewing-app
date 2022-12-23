@@ -4,17 +4,21 @@ use App\Http\Controllers\TwoFactor\ConfirmedTwoFactorAuthenticationController;
 use App\Http\Controllers\TwoFactor\RecoveryCodeController;
 use App\Http\Controllers\TwoFactor\TwoFactorAuthenticatedSessionController;
 use App\Http\Controllers\TwoFactor\TwoFactorAuthenticationController;
-use App\Http\Controllers\TwoFactor\TwoFactorQrCodeController;
+use App\Http\Controllers\TwoFactor\TwoFactorAuthenticationSessionController;
+use App\Http\Controllers\TwoFactor\TwoFactorAuthenticationSessionQrCodeController;
 use App\Http\Controllers\TwoFactor\TwoFactorSecretKeyController;
 
 Route::middleware(['can:use-authenticated-route,user', 'auth:sanctum'])->group(static function () {
-    Route::post('/users/{user}/two-factor/authentication', [TwoFactorAuthenticationController::class, 'store'])
-        ->name('two-factor.enable');
+    Route::post('/users/{user}/two-factor/authentication', [TwoFactorAuthenticationSessionController::class, 'store'])
+        ->name('two-factor.create');
+
+    Route::put('/users/{user}/two-factor/authentication', [TwoFactorAuthenticationController::class, 'store'])
+        ->name('two-factor.store');
 
     Route::delete('/users/{user}/two-factor/authentication', [TwoFactorAuthenticationController::class, 'destroy'])
         ->name('two-factor.disable');
 
-    Route::get('/users/{user}/two-factor/qr-code', [TwoFactorQrCodeController::class, 'show'])
+    Route::get('/users/{user}/two-factor/qr-code', [TwoFactorAuthenticationSessionQrCodeController::class, 'show'])
         ->name('two-factor.qr-code');
 
     Route::get('/users/{user}/two-factor/secret-key', [TwoFactorSecretKeyController::class, 'show'])

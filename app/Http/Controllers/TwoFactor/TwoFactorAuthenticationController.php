@@ -5,6 +5,7 @@ namespace App\Http\Controllers\TwoFactor;
 use App\Helpers\Results\ResponseResult;
 use App\Helpers\Secrets\TwoFactorSecret;
 use App\Helpers\TwoFactorAuthenticationProvider;
+use App\Helpers\TwoFactorSessionKeyNames;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class TwoFactorAuthenticationController extends Controller
     public function store(Request $request, User $user): JsonResponse
     {
         $user->forceFill([
-            'two_factor_secret' => encrypt(TwoFactorAuthenticationProvider::generateSecretKey()),
+            'two_factor_secret' => $request->session()->get(TwoFactorSessionKeyNames::TURNING_ON_ATTEMPT->value),
             'two_factor_recovery_codes' => encrypt(
                 json_encode(
                     Collection::times(8, static function () {

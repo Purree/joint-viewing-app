@@ -28,8 +28,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('use-authenticated-route', static function (User $current_user, User $attempted_user) {
-            return Auth('sanctum')->check() && $attempted_user->id === $current_user->id;
+        Gate::define('use-authenticated-route', static function (User $currentUser, User $attemptedUser) {
+            return Auth('sanctum')->check() && $attemptedUser->id === $currentUser->id;
         });
     }
 }

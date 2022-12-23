@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Helpers\Results\ResponseResult;
 use App\Helpers\TwoFactorAuthenticationProvider;
+use App\Helpers\TwoFactorSessionKeyNames;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -19,8 +20,6 @@ class TwoFactorLoginRequest extends FormRequest
      * @var mixed
      */
     protected User $challengedUser;
-
-    public const SESSION_TWO_FACTOR_NAME = 'login.id';
 
     /**
      * Determine if the user is authorized to make this request.
@@ -60,7 +59,7 @@ class TwoFactorLoginRequest extends FormRequest
             ),
             function ($result) {
                 if ($result) {
-                    $this->session()->forget(self::SESSION_TWO_FACTOR_NAME);
+                    $this->session()->forget(TwoFactorSessionKeyNames::LOGIN_ATTEMPT->value);
                 }
             }
         );
@@ -85,7 +84,7 @@ class TwoFactorLoginRequest extends FormRequest
             }),
             function ($code) {
                 if ($code) {
-                    $this->session()->forget(self::SESSION_TWO_FACTOR_NAME);
+                    $this->session()->forget(TwoFactorSessionKeyNames::LOGIN_ATTEMPT->value);
                 }
             }
         );
@@ -102,8 +101,8 @@ class TwoFactorLoginRequest extends FormRequest
             return true;
         }
 
-        return $this->session()->has(self::SESSION_TWO_FACTOR_NAME) &&
-            User::find($this->session()->get(self::SESSION_TWO_FACTOR_NAME));
+        return $this->session()->has(TwoFactorSessionKeyNames::LOGIN_ATTEMPT->value) &&
+            User::find($this->session()->get(TwoFactorSessionKeyNames::LOGIN_ATTEMPT->value));
     }
 
     /**
@@ -117,8 +116,8 @@ class TwoFactorLoginRequest extends FormRequest
             return $this->challengedUser;
         }
 
-        if (! $this->session()->has(self::SESSION_TWO_FACTOR_NAME) ||
-            ! $user = User::find($this->session()->get(self::SESSION_TWO_FACTOR_NAME))) {
+        if (! $this->session()->has(TwoFactorSessionKeyNames::LOGIN_ATTEMPT->value) ||
+            ! $user = User::find($this->session()->get(TwoFactorSessionKeyNames::LOGIN_ATTEMPT->value))) {
             throw new HttpResponseException(
                 ResponseResult::error(
                     ['code' => ['The provided two factor authentication code was invalid.']],
