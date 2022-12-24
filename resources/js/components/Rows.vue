@@ -14,7 +14,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .column {
         display: flex;
         align-items: center;
