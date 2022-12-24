@@ -25,8 +25,8 @@
                      :last-synchronization-data="lastSynchronizationData"
                      :skip-next-event="this.skipNextEvent"></youtube>
         </div>
-        <div class="h-100 w-100" v-else>
-            <div class="has-text-centered" style="padding-top: 50%">
+        <div class="h-100 w-100 is-flex is-justify-content-center is-align-items-center" v-else>
+            <div class="has-text-centered">
                 Empty video.
             </div>
         </div>
