@@ -31,8 +31,6 @@
                                  class="is-radiusless"
                                  placeholder="https://youtube.com/watch?v=dQw4w9WgXcQ"
                                  type="url"
-                                 pattern="http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-_]*)(&(amp;)?[\w?=]*)?"
-                                 :useHtml5Validation="true"
                                  :disabled="addOrderPending"></o-input>
                     </div>
                     <div>

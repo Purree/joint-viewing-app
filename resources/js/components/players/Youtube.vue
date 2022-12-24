@@ -14,7 +14,7 @@ export default {
         }
     },
     props: {
-        videoId: {
+        videoUrl: {
             type: String,
             required: true,
         },
@@ -81,6 +81,9 @@ export default {
             const match = url.match(regExp);
             return match[2] || '';
         },
+        parsePlaylistLink(url) {
+            return new URL(url).searchParams.get('list')
+        },
     },
     beforeCreate() {
         if (window.onYouTubePlayerAPIReady) {
@@ -98,7 +101,7 @@ export default {
                 this.$store.commit('player/setPlayer', new YT.Player('ytplayer', {
                     height: '100%',
                     width: '100%',
-                    videoId: this.parseVideoLink(this.videoId),
+                    videoId: this.parseVideoLink(this.videoUrl),
                     events: {
                         'onReady': this.onPlayerReady,
                         'onStateChange': this.onPlayerStateChange,
@@ -108,7 +111,8 @@ export default {
                     playerVars: {
                         'showinfo': 0,
                         'rel': 0,
-                        'color': 'white'
+                        'color': 'white',
+                        list: this.parsePlaylistLink(this.videoUrl),
                     },
                 }));
                 this.$emit('requestSynchronization')
@@ -123,11 +127,17 @@ export default {
         this.$store.commit('player/setPlayer', null)
     },
     watch: {
-        videoId() {
+        videoUrl() {
             this.player.stopVideo()
             this.player.clearVideo()
 
-            this.player.loadVideoById(this.parseVideoLink(this.videoId));
+            const playlistId = this.parsePlaylistLink(this.videoUrl)
+
+            if (playlistId) {
+                this.player.loadPlaylist(playlistId)
+            } else {
+                this.player.loadVideoById(this.parseVideoLink(this.videoUrl))
+            }
         }
     },
     computed: {

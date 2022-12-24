@@ -20,7 +20,7 @@
                      @request-synchronization="usePending(requestSynchronization, 'synchronizationPending')"
                      @ignore-next-event="this.skipNextEvent = true"
                      @listen-next-event="this.skipNextEvent = false"
-                     :video-id="videoId"
+                     :video-url="videoId"
                      :can-control="canControl"
                      :last-synchronization-data="lastSynchronizationData"
                      :skip-next-event="this.skipNextEvent"></youtube>
