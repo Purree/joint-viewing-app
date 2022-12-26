@@ -25,6 +25,7 @@ class PlayerSynchronize implements ShouldBroadcast
         public bool $is_paused,
         public float $playback_rate,
         public int $synchronizer_timestamp,
+        public array $additional_data = []
     ) {
     }
 

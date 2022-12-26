@@ -28,6 +28,7 @@ class SynchronizationRequest extends FormRequest
             'is_paused' => 'required|boolean',
             'playback_rate' => 'required|numeric|min:0.07|max:16',
             'synchronizer_timestamp' => 'required|numeric|min:0',
+            'additional_data' => 'nullable|array',
         ];
     }
 }

@@ -4,6 +4,7 @@
 
 <script>
 import {mapState} from "vuex";
+import errorsHelper from "@/mixins/errors";
 
 export default {
     name: "Youtube",
@@ -11,6 +12,7 @@ export default {
         return {
             lastTime: 0,
             synchronizationInterval: null,
+            lastSynchronizationData: {},
         }
     },
     props: {
@@ -30,15 +32,79 @@ export default {
             type: Boolean,
             required: true,
         },
-        lastSynchronizationData: {
-            type: Object,
-            required: true,
-        },
     },
     emits: ['playerReady', 'synchronize', 'requestSynchronization', 'videoEnded', 'ignoreNextEvent', 'listenNextEvent'],
     methods: {
-        synchronize() {
-            this.$emit(this.canControl || this.isHost ? 'synchronize' : 'requestSynchronization')
+        synchronize(time, is_paused, playback_rate, synchronizer_timestamp, additional_data = {}) {
+            this.$emit('ignoreNextEvent');
+
+            this.lastSynchronizationData = {
+                'time': time,
+                'is_paused': is_paused,
+                'playback_rate': playback_rate,
+                'synchronizer_timestamp': synchronizer_timestamp,
+                'synchronizationTime': new Date().getTime(),
+                'synchronizationAttemptPerMinute':
+                    new Date().getMinutes() === new Date(this.lastSynchronizationData.synchronizationTime).getMinutes() ?
+                        ++this.lastSynchronizationData.synchronizationAttemptPerMinute :
+                        1
+            }
+
+            let timeWithUncertainty = is_paused ? time : time + (new Date().getTime() - synchronizer_timestamp) / 1000 * playback_rate;
+
+            if (this.lastSynchronizationData.synchronizationAttemptPerMinute > 30) {
+                errorsHelper.methods.openNotification('It looks like your player is syncing too often. Perhaps you or your leader has a video playback speed that is different from the speed set in the player, check this, if this does not help, then try to reduce the number of actions with the player. If so many requests come from you, we will be forced to block you for a short time.');
+            }
+
+            if (additional_data.playlistIndex !== null &&
+                additional_data.playlistIndex !== undefined &&
+                this.player.getPlaylistIndex() !== additional_data.playlistIndex) {
+                this.loadPlaylist(this.parsePlaylistLink(this.videoUrl), additional_data.playlistIndex, timeWithUncertainty);
+            }
+
+            if (this.player.getCurrentTime() < timeWithUncertainty - 3 || timeWithUncertainty + 3 < this.player.getCurrentTime()) {
+                this.player.seekTo(timeWithUncertainty, true);
+            }
+
+            if (is_paused) {
+                if (this.player.getPlayerState() !== 2) {
+                    this.player.seekTo(time, true);
+                    this.player.pauseVideo();
+                }
+            } else {
+                if (this.player.getPlayerState() !== 1) {
+                    this.player.seekTo(timeWithUncertainty, true);
+                    this.player.playVideo();
+                }
+            }
+
+            if (this.player.getPlaybackRate() !== playback_rate) {
+                this.player.setPlaybackRate(playback_rate);
+            }
+        },
+        loadPlaylist(listId, index = 0, startSeconds = 0) {
+            this.player.loadPlaylist({
+                'list': listId,
+                'listType': 'playlist',
+                'index': index,
+                'startSeconds': startSeconds,
+                'suggestedQuality': 'default'
+            });
+        },
+        sendSynchronizationEvent() {
+            let synchronizationParameters =
+                this.player.getPlaylistIndex() !== null && this.player.getPlaylistIndex() !== undefined ?
+                    {
+                        additional_data: {
+                            playlistIndex: this.player.getPlaylistIndex()
+                        }
+                    } : {};
+
+            if (this.canControl || this.isHost) {
+                this.$emit('synchronize', synchronizationParameters);
+            } else {
+                this.$emit('requestSynchronization')
+            }
         },
         onPlayerReady(event) {
             this.addVideoSeekListener()
@@ -58,7 +124,7 @@ export default {
                     this.$emit('listenNextEvent')
                 } else {
                     this.$emit('ignoreNextEvent')
-                    this.synchronize();
+                    this.sendSynchronizationEvent();
                 }
 
             }
@@ -66,14 +132,14 @@ export default {
         addVideoSeekListener() {
             this.synchronizationInterval = setInterval(() => {
                 if (this.lastTime !== 0 && Math.abs(this.player.getCurrentTime() - this.lastTime - (this.player.getPlayerState() !== YT.PlayerState.PLAYING * this.player.getPlaybackRate())) > 1.5) {
-                    this.synchronize();
+                    this.sendSynchronizationEvent();
                 }
                 this.lastTime = this.player.getCurrentTime()
             }, 1000)
         },
         addCheckForVideoChangeListener() {
             setInterval(() => {
-                this.synchronize();
+                this.sendSynchronizationEvent();
             }, 30000)
         },
         parseVideoLink(url) {
@@ -105,8 +171,8 @@ export default {
                     events: {
                         'onReady': this.onPlayerReady,
                         'onStateChange': this.onPlayerStateChange,
-                        'onPlaybackQualityChange': this.synchronize,
-                        'onPlaybackRateChange': this.synchronize,
+                        'onPlaybackQualityChange': this.sendSynchronizationEvent,
+                        'onPlaybackRateChange': this.sendSynchronizationEvent,
                     },
                     playerVars: {
                         'showinfo': 0,
@@ -134,7 +200,7 @@ export default {
             const playlistId = this.parsePlaylistLink(this.videoUrl)
 
             if (playlistId) {
-                this.player.loadPlaylist(playlistId)
+                this.loadPlaylist(playlistId)
             } else {
                 this.player.loadVideoById(this.parseVideoLink(this.videoUrl))
             }

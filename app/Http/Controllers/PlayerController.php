@@ -28,7 +28,8 @@ class PlayerController extends Controller
                 $request->time,
                 $request->is_paused,
                 $request->playback_rate,
-                $request->synchronizer_timestamp
+                $request->synchronizer_timestamp,
+                $request->additional_data ?? []
             )
         );
 
