@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import HttpError from "@/components/errors/HttpError.vue";
+import HttpError from '@/components/errors/HttpError.vue'
 export default {
-    name: "404",
-    components: {HttpError}
+    name: '404',
+    components: { HttpError }
 }
 </script>
 

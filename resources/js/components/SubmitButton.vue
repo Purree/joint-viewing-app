@@ -12,7 +12,7 @@
 <script>
 export default {
     props: ['pending', 'form', 'text', 'isLoading', 'variant'],
-    name: "SubmitButton"
+    name: 'SubmitButton'
 }
 </script>
 

@@ -19,30 +19,30 @@
 </template>
 
 <script>
-import SubmitButton from "@/components/SubmitButton.vue";
-import {API_SHOW_ALL_TOKENS_URL} from "@/api/tokens.js";
-import {mapState} from "vuex";
-import ErrorMessage from "@/components/errors/ErrorMessage.vue";
-import errorsHelper from "@/mixins/errors.js";
-import TokensContainer from "@/components/settings/auths/TokensContainer.vue";
-import LogoutAllAuthsButton from "@/components/settings/auths/LogoutAllAuthsButton.vue";
-import {API_SHOW_ALL_SESSIONS_URL} from "@/api/sessions.js";
-import replaceDataInUri from "@/helpers/replaceDataInUri.js";
-import SessionsContainer from "@/components/settings/auths/SessionsContainer.vue";
-import usePending from "@/mixins/usePending.js";
-import Divider from "@/components/Divider";
-import apiRequest from "@/helpers/apiRequest";
+import SubmitButton from '@/components/SubmitButton.vue'
+import { API_SHOW_ALL_TOKENS_URL } from '@/api/tokens.js'
+import { mapState } from 'vuex'
+import ErrorMessage from '@/components/errors/ErrorMessage.vue'
+import errorsHelper from '@/mixins/errors.js'
+import TokensContainer from '@/components/settings/auths/TokensContainer.vue'
+import LogoutAllAuthsButton from '@/components/settings/auths/LogoutAllAuthsButton.vue'
+import { API_SHOW_ALL_SESSIONS_URL } from '@/api/sessions.js'
+import replaceDataInUri from '@/helpers/replaceDataInUri.js'
+import SessionsContainer from '@/components/settings/auths/SessionsContainer.vue'
+import usePending from '@/mixins/usePending.js'
+import Divider from '@/components/Divider'
+import apiRequest from '@/helpers/apiRequest'
 
 export default {
-    name: "AuthsSettingsBlock",
-    components: {SessionsContainer, LogoutAllAuthsButton, TokensContainer, SubmitButton, ErrorMessage, Divider},
+    name: 'AuthsSettingsBlock',
+    components: { SessionsContainer, LogoutAllAuthsButton, TokensContainer, SubmitButton, ErrorMessage, Divider },
     mixins: [errorsHelper, replaceDataInUri, usePending],
     data() {
         return {
             isAuthsLoading: false,
             auths: {
-                'tokens': [],
-                'sessions': []
+                tokens: [],
+                sessions: []
             },
             errors: {},
             buttonText: 'Show authorizations'
@@ -54,31 +54,30 @@ export default {
             await this.loadSessions()
 
             this.buttonText = 'Update authorizations'
-
         },
         loadTokens() {
-            return apiRequest(API_SHOW_ALL_TOKENS_URL, {'id': this.user.id})
+            return apiRequest(API_SHOW_ALL_TOKENS_URL, { id: this.user.id })
                 .then(response => {
                     this.auths.tokens = response.data
                     this.errors = {}
                 })
                 .catch((errors) => {
-                    this.errors = errorsHelper.methods.getFromResponse(errors);
+                    this.errors = errorsHelper.methods.getFromResponse(errors)
                 })
         },
         loadSessions() {
-            return apiRequest(API_SHOW_ALL_SESSIONS_URL, {'id': this.user.id})
+            return apiRequest(API_SHOW_ALL_SESSIONS_URL, { id: this.user.id })
                 .then(response => {
                     this.auths.sessions = response.data
                     this.errors = {}
                 })
                 .catch((errors) => {
-                    this.errors = errorsHelper.methods.getFromResponse(errors);
+                    this.errors = errorsHelper.methods.getFromResponse(errors)
                 })
         }
     },
     computed: {
-        ...mapState('auth', ['user']),
+        ...mapState('auth', ['user'])
     }
 }
 </script>

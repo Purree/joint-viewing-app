@@ -1,4 +1,4 @@
-import store from "@/store/index.js";
+import store from '@/store/index.js'
 
 export default [
     {
@@ -35,7 +35,7 @@ export default [
     }
 ]
 
-export function addUnknownUsersRedirect (router) {
+export function addUnknownUsersRedirect(router) {
     const authRouteNames = ['Login', 'Register', 'ForgotPassword', 'TwoFactor']
 
     router.beforeEach((to, from, next) => {
@@ -43,7 +43,7 @@ export function addUnknownUsersRedirect (router) {
             if (!store.getters['auth/isLoggedIn']) {
                 return next({
                     name: 'Login',
-                    query: {redirect: to.fullPath},
+                    query: { redirect: to.fullPath },
                     replace: true
                 })
             }

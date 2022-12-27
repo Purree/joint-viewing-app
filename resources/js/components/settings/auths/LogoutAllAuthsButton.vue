@@ -5,17 +5,17 @@
 </template>
 
 <script>
-import SubmitButton from "@/components/SubmitButton.vue";
-import {API_DELETE_ALL_TOKENS_URL} from "@/api/tokens.js";
-import {mapState} from "vuex";
-import replaceDataInUri from "@/helpers/replaceDataInUri.js";
-import {API_DELETE_ALL_SESSIONS_URL} from "@/api/sessions.js";
-import usePending from "@/mixins/usePending.js";
-import apiRequest from "@/helpers/apiRequest";
+import SubmitButton from '@/components/SubmitButton.vue'
+import { API_DELETE_ALL_TOKENS_URL } from '@/api/tokens.js'
+import { mapState } from 'vuex'
+import replaceDataInUri from '@/helpers/replaceDataInUri.js'
+import { API_DELETE_ALL_SESSIONS_URL } from '@/api/sessions.js'
+import usePending from '@/mixins/usePending.js'
+import apiRequest from '@/helpers/apiRequest'
 
 export default {
-    name: "LogoutAllAuthsButton",
-    components: {SubmitButton},
+    name: 'LogoutAllAuthsButton',
+    components: { SubmitButton },
     mixins: [replaceDataInUri, usePending],
     data() {
         return {
@@ -31,12 +31,12 @@ export default {
             return this.$router.push({ name: 'Login' })
         },
         logoutTokens() {
-            return apiRequest(API_DELETE_ALL_TOKENS_URL, {'id': this.user.id}).catch(errors => {
+            return apiRequest(API_DELETE_ALL_TOKENS_URL, { id: this.user.id }).catch(errors => {
                 console.log(errors.response)
             })
         },
         logoutSessions() {
-            return apiRequest(API_DELETE_ALL_SESSIONS_URL, {'id': this.user.id}).catch(errors => {
+            return apiRequest(API_DELETE_ALL_SESSIONS_URL, { id: this.user.id }).catch(errors => {
                 console.log(errors.response)
             })
         }

@@ -12,7 +12,7 @@
 
 <script>
 export default {
-    name: "SuccessfulArticle",
+    name: 'SuccessfulArticle',
     props: ['showWhen', 'text']
 }
 </script>

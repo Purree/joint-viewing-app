@@ -6,13 +6,13 @@
 
 <script>
 export default {
-    name: "SystemChatMessage",
+    name: 'SystemChatMessage',
     props: {
         message: {
             type: Object,
-            required: true,
-        },
-    },
+            required: true
+        }
+    }
 }
 </script>
 

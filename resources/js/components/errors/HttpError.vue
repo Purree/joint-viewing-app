@@ -5,7 +5,7 @@
 <script>
 export default {
     props: ['errorCode', 'errorText'],
-    name: "HttpError"
+    name: 'HttpError'
 }
 </script>
 

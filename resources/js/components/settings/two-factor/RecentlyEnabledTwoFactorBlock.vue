@@ -26,27 +26,31 @@
 </template>
 
 <script>
-import TwoFactorHeader from "@/components/settings/two-factor/TwoFactorHeader.vue";
-import RecoveryCodes from "@/components/settings/two-factor/RecoveryCodes.vue";
-import TwoFactorContent from "@/components/settings/two-factor/TwoFactorContent.vue";
-import QrCode from "@/components/settings/two-factor/QrCode.vue";
-import EnabledTwoFactorButtons from "@/components/settings/two-factor/EnabledTwoFactorButtons.vue";
-import TurnOffTwoFactorButton from "@/components/settings/two-factor/TurnOffTwoFactorButton.vue";
-import SubmitButton from "@/components/SubmitButton.vue";
-import usePending from "@/mixins/usePending";
-import apiRequest from "@/helpers/apiRequest";
-import {API_TWO_FACTOR_VERIFY_URL} from "@/api/twoFactor";
-import errorsHelper from "@/mixins/errors";
-import ErrorMessage from "@/components/errors/ErrorMessage.vue";
-import {mapState} from "vuex";
+import TwoFactorHeader from '@/components/settings/two-factor/TwoFactorHeader.vue'
+import RecoveryCodes from '@/components/settings/two-factor/RecoveryCodes.vue'
+import TwoFactorContent from '@/components/settings/two-factor/TwoFactorContent.vue'
+import QrCode from '@/components/settings/two-factor/QrCode.vue'
+import EnabledTwoFactorButtons from '@/components/settings/two-factor/EnabledTwoFactorButtons.vue'
+import TurnOffTwoFactorButton from '@/components/settings/two-factor/TurnOffTwoFactorButton.vue'
+import SubmitButton from '@/components/SubmitButton.vue'
+import usePending from '@/mixins/usePending'
+import apiRequest from '@/helpers/apiRequest'
+import { API_TWO_FACTOR_VERIFY_URL } from '@/api/twoFactor'
+import errorsHelper from '@/mixins/errors'
+import ErrorMessage from '@/components/errors/ErrorMessage.vue'
+import { mapState } from 'vuex'
 
 export default {
-    name: "RecentlyEnabledTwoFactorBlock",
+    name: 'RecentlyEnabledTwoFactorBlock',
     components: {
         ErrorMessage,
         SubmitButton,
         TurnOffTwoFactorButton,
-        EnabledTwoFactorButtons, QrCode, TwoFactorContent, TwoFactorHeader, RecoveryCodes
+        EnabledTwoFactorButtons,
+        QrCode,
+        TwoFactorContent,
+        TwoFactorHeader,
+        RecoveryCodes
     },
     mixins: [usePending],
     data() {
@@ -60,15 +64,15 @@ export default {
         verifyTwoFactor() {
             return apiRequest(
                 API_TWO_FACTOR_VERIFY_URL,
-                {'user': this.user.id},
-                {'code': this.verifyCode}
+                { user: this.user.id },
+                { code: this.verifyCode }
             )
                 .then(() => {
-                    this.$emit('twoFactorVerified');
+                    this.$emit('twoFactorVerified')
                 })
                 .catch((errors) => {
-                    this.errors = errorsHelper.methods.getFromResponse(errors);
-                    console.log(errors.response);
+                    this.errors = errorsHelper.methods.getFromResponse(errors)
+                    console.log(errors.response)
                 })
         }
     },
@@ -76,7 +80,7 @@ export default {
     props: ['disablePending', 'updateRecoveryCodesPending'],
     computed: {
         ...mapState('auth', ['user'])
-    },
+    }
 }
 </script>
 

@@ -14,14 +14,14 @@
 </template>
 
 <script>
-import replaceDataInUri from "@/helpers/replaceDataInUri.js";
-import AuthContainer from "@/components/settings/auths/AuthContainer.vue";
-import formatDate from "@/mixins/formatDate.js";
-import {API_DELETE_TOKEN_URL} from "@/api/tokens.js";
+import replaceDataInUri from '@/helpers/replaceDataInUri.js'
+import AuthContainer from '@/components/settings/auths/AuthContainer.vue'
+import formatDate from '@/mixins/formatDate.js'
+import { API_DELETE_TOKEN_URL } from '@/api/tokens.js'
 
 export default {
-    name: "TokensContainer",
-    components: {AuthContainer},
+    name: 'TokensContainer',
+    components: { AuthContainer },
     emits: ['updateTokens'],
     props: ['tokens'],
     mixins: [replaceDataInUri, formatDate],

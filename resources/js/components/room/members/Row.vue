@@ -26,10 +26,10 @@
 </template>
 
 <script>
-import UserAvatar from "@/components/UserAvatar";
+import UserAvatar from '@/components/UserAvatar'
 export default {
-    name: "RoomMembersRow",
-    components: {UserAvatar},
+    name: 'RoomMembersRow',
+    components: { UserAvatar },
     emits: ['kick'],
     props: {
         member: {
@@ -52,7 +52,7 @@ export default {
             type: Boolean,
             required: true
         }
-    },
+    }
 }
 </script>
 

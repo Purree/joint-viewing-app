@@ -16,10 +16,10 @@
 
 <script>
 export default {
-    name: "AuthenticationLayout",
+    name: 'AuthenticationLayout',
     data() {
         return {
-            routes: ['Login', 'Register'],
+            routes: ['Login', 'Register']
         }
     }
 }

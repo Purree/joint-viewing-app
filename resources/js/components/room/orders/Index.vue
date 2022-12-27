@@ -50,17 +50,17 @@
 </template>
 
 <script>
-import OrdersRow from "@/components/room/orders/Row";
-import {mapState} from "vuex";
-import errorsHelper from "@/mixins/errors";
-import {API_ADD_ORDER_URL, API_DELETE_ORDER_URL, API_GET_ALL_ORDERS_URL} from "@/api/orders";
-import broadcastConnections from "@/mixins/broadcastConnections";
-import usePending from "@/mixins/usePending";
-import apiRequest from "@/helpers/apiRequest";
+import OrdersRow from '@/components/room/orders/Row'
+import { mapState } from 'vuex'
+import errorsHelper from '@/mixins/errors'
+import { API_ADD_ORDER_URL, API_DELETE_ORDER_URL, API_GET_ALL_ORDERS_URL } from '@/api/orders'
+import broadcastConnections from '@/mixins/broadcastConnections'
+import usePending from '@/mixins/usePending'
+import apiRequest from '@/helpers/apiRequest'
 
 export default {
-    name: "Orders",
-    components: {OrdersRow},
+    name: 'Orders',
+    components: { OrdersRow },
     mixins: [usePending],
     emits: ['closeOrders', 'changeCurrentVideo'],
     props: {
@@ -74,7 +74,7 @@ export default {
         }
     },
     computed: {
-        ...mapState('auth', ['user']),
+        ...mapState('auth', ['user'])
     },
     data() {
         return {
@@ -82,46 +82,44 @@ export default {
             orders: [],
             ordersPending: true,
             ordersToDelete: [],
-            addOrderPending: false,
+            addOrderPending: false
         }
     },
     methods: {
         getOrders() {
-            return apiRequest(API_GET_ALL_ORDERS_URL, {'roomId': this.room.id})
+            return apiRequest(API_GET_ALL_ORDERS_URL, { roomId: this.room.id })
                 .then(response => {
-                    return response;
+                    return response
                 }).catch(errors => {
-                    this.errors = errorsHelper.methods.getFromResponse(errors);
-                    errorsHelper.methods.openResponseNotification(errors);
-                });
+                    this.errors = errorsHelper.methods.getFromResponse(errors)
+                    errorsHelper.methods.openResponseNotification(errors)
+                })
         },
         addOrder() {
-            return apiRequest(API_ADD_ORDER_URL, {'roomId': this.room.id}, {'video_url': this.requestedUrl})
+            return apiRequest(API_ADD_ORDER_URL, { roomId: this.room.id }, { video_url: this.requestedUrl })
                 .then(() => {
-                    this.requestedUrl = '';
+                    this.requestedUrl = ''
                 }).catch(errors => {
-                    this.errors = errorsHelper.methods.getFromResponse(errors);
-                    errorsHelper.methods.openResponseNotification(errors);
-                });
-
+                    this.errors = errorsHelper.methods.getFromResponse(errors)
+                    errorsHelper.methods.openResponseNotification(errors)
+                })
         },
         deleteOrder(orderId) {
             if (this.ordersToDelete.includes(orderId)) {
-                return;
+                return
             }
             this.ordersToDelete.push(orderId)
 
-            return apiRequest(API_DELETE_ORDER_URL, {'roomId': this.room.id, 'orderId': orderId})
+            return apiRequest(API_DELETE_ORDER_URL, { roomId: this.room.id, orderId })
                 .then((response) => {
-                    return response;
+                    return response
                 }).catch(errors => {
-                    this.errors = errorsHelper.methods.getFromResponse(errors);
-                    errorsHelper.methods.openResponseNotification(errors);
+                    this.errors = errorsHelper.methods.getFromResponse(errors)
+                    errorsHelper.methods.openResponseNotification(errors)
                 }).then(() => {
-                    this.ordersToDelete = this.ordersToDelete.filter(id => id !== orderId);
-                });
-
-        },
+                    this.ordersToDelete = this.ordersToDelete.filter(id => id !== orderId)
+                })
+        }
     },
     watch: {
         orders(orders) {
@@ -130,23 +128,23 @@ export default {
     },
     mounted() {
         this.getOrders().then((response) => {
-            this.orders = response.data;
+            this.orders = response.data
         }).catch(() => {
         }).then(() => {
             this.ordersPending = false
-        });
+        })
 
         broadcastConnections.methods.connectToRoom(this.room.id)
             .listen('OrderAdd', response => {
-                this.orders.push(response.order);
+                this.orders.push(response.order)
             })
             .listen('OrderDelete', response => {
-                this.orders = this.orders.filter(order => order.id !== response.order.id);
+                this.orders = this.orders.filter(order => order.id !== response.order.id)
             })
             .listen('ChangePlayingVideo', response => {
                 this.$emit('changeCurrentVideo', response.order)
             })
-    },
+    }
 }
 </script>
 

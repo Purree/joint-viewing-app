@@ -22,12 +22,12 @@
 </template>
 
 <script>
-import Header from "@/components/Header";
-import ChangeThemeButton from "@/components/ChangeThemeButton";
+import Header from '@/components/Header'
+import ChangeThemeButton from '@/components/ChangeThemeButton'
 
 export default {
-    name: "Sidebar",
-    components: {ChangeThemeButton},
+    name: 'Sidebar',
+    components: { ChangeThemeButton },
     data() {
         return {
             tabs: {},
@@ -35,7 +35,7 @@ export default {
         }
     },
     mounted() {
-        this.tabs = {...this.tabs, ...Header.data().tabs}
+        this.tabs = { ...this.tabs, ...Header.data().tabs }
     }
 }
 </script>
@@ -44,7 +44,6 @@ export default {
 @import "@@/bulma/prefers-dark/utilities/mixins.sass"
 $sidebarBackgroundColor: #dee3ed
 $sidebarBackgroundColorDark: #2f3237
-
 
 +prefers-scheme(dark)
     .menu, .sidebar-opened-burger

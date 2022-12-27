@@ -1,7 +1,7 @@
-import {createStore} from "vuex";
-import user from "@/store/user.js";
-import rooms from "@/store/rooms.js";
-import player from "@/store/player";
+import { createStore } from 'vuex'
+import user from '@/store/user.js'
+import rooms from '@/store/rooms.js'
+import player from '@/store/player'
 
 const store = createStore({
     state: {
@@ -14,13 +14,13 @@ const store = createStore({
     },
     mutations: {
         setTheme: (state, theme) => {
-            localStorage.setItem('theme', theme);
-            state.theme = theme;
-            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme)
+            state.theme = theme
+            document.documentElement.setAttribute('data-theme', theme)
         }
     },
     actions: {},
-    modules: {auth: user, rooms: rooms, player: player},
+    modules: { auth: user, rooms, player }
 })
 
-export default store;
+export default store

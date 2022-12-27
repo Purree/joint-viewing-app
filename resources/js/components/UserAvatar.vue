@@ -6,10 +6,10 @@
 </template>
 
 <script>
-import asset from "@/mixins/asset";
+import asset from '@/mixins/asset'
 
 export default {
-    name: "UserAvatar",
+    name: 'UserAvatar',
     mixins: [asset],
     props: {
         avatarPath: {
@@ -19,8 +19,8 @@ export default {
         size: {
             type: String,
             required: false
-        },
-    },
+        }
+    }
 }
 </script>
 

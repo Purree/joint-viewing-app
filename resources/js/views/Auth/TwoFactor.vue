@@ -32,18 +32,18 @@
 </template>
 
 <script>
-import SubmitButton from "@/components/SubmitButton.vue";
-import FormInput from "@/components/authentication/FormInput.vue";
-import ErrorMessage from "@/components/errors/ErrorMessage.vue";
-import {API_TWO_FACTOR_LOGIN_URL} from "@/api/twoFactor.js";
-import errorsHelper from "@/mixins/errors.js";
-import loginUser from "@/mixins/loginUser.js";
-import usePending from "@/mixins/usePending.js";
-import apiRequest from "@/helpers/apiRequest";
+import SubmitButton from '@/components/SubmitButton.vue'
+import FormInput from '@/components/authentication/FormInput.vue'
+import ErrorMessage from '@/components/errors/ErrorMessage.vue'
+import { API_TWO_FACTOR_LOGIN_URL } from '@/api/twoFactor.js'
+import errorsHelper from '@/mixins/errors.js'
+import loginUser from '@/mixins/loginUser.js'
+import usePending from '@/mixins/usePending.js'
+import apiRequest from '@/helpers/apiRequest'
 
 export default {
-    name: "TwoFactor",
-    components: {SubmitButton, FormInput, ErrorMessage},
+    name: 'TwoFactor',
+    components: { SubmitButton, FormInput, ErrorMessage },
     mixins: [loginUser, usePending],
     data() {
         return {
@@ -57,14 +57,14 @@ export default {
     methods: {
         checkCode() {
             return apiRequest(API_TWO_FACTOR_LOGIN_URL, {},
-                this.is_recovery_codes_used ?
-                    {'recovery_code': this.recovery_code} :
-                    {'code': this.code})
+                this.is_recovery_codes_used
+                    ? { recovery_code: this.recovery_code }
+                    : { code: this.code })
                 .then(() => {
                     this.loginUser()
                 })
                 .catch(errors => {
-                    this.errors = errorsHelper.methods.getFromResponse(errors);
+                    this.errors = errorsHelper.methods.getFromResponse(errors)
                 })
         }
     }

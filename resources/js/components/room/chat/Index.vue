@@ -53,19 +53,19 @@
 </template>
 
 <script>
-import ChatMessage from "@/components/room/chat/Message";
-import {mapState} from "vuex";
-import errorsHelper from "@/mixins/errors";
-import replaceDataInUri from "@/helpers/replaceDataInUri";
-import {API_GET_ALL_MESSAGES_URL, API_SEND_MESSAGE_URL} from "@/api/chat";
-import usePending from "@/mixins/usePending";
-import broadcastConnections from "@/mixins/broadcastConnections";
-import apiRequest from "@/helpers/apiRequest";
-import SystemChatMessage from "@/components/room/chat/SystemMessage";
+import ChatMessage from '@/components/room/chat/Message'
+import { mapState } from 'vuex'
+import errorsHelper from '@/mixins/errors'
+import replaceDataInUri from '@/helpers/replaceDataInUri'
+import { API_GET_ALL_MESSAGES_URL, API_SEND_MESSAGE_URL } from '@/api/chat'
+import usePending from '@/mixins/usePending'
+import broadcastConnections from '@/mixins/broadcastConnections'
+import apiRequest from '@/helpers/apiRequest'
+import SystemChatMessage from '@/components/room/chat/SystemMessage'
 
 export default {
-    name: "Chat",
-    components: {SystemChatMessage, ChatMessage},
+    name: 'Chat',
+    components: { SystemChatMessage, ChatMessage },
     emits: ['closeChat', 'changeChatPosition'],
     mixins: [usePending],
     props: {
@@ -80,7 +80,7 @@ export default {
     },
     data() {
         return {
-            userMessage: "",
+            userMessage: '',
             showScrollDownButton: false,
             chatPending: true,
             sendMessagePending: false,
@@ -90,93 +90,92 @@ export default {
             totalMessagePages: 0,
             currentMessagePage: 0,
             is_chat_move_active: true
-        };
+        }
     },
     computed: {
         ...mapState('auth', ['user'])
     },
     methods: {
         getMessages(page = 1) {
-            return apiRequest(API_GET_ALL_MESSAGES_URL, {'roomId': this.room.id}, {params: {'page': page}})
+            return apiRequest(API_GET_ALL_MESSAGES_URL, { roomId: this.room.id }, { params: { page } })
                 .then(response => {
-                    this.totalMessagePages = response.data.pagination.total_pages;
-                    this.currentMessagePage = response.data.pagination.current_page;
-                    return response;
+                    this.totalMessagePages = response.data.pagination.total_pages
+                    this.currentMessagePage = response.data.pagination.current_page
+                    return response
                 }).catch(errors => {
-                    this.errors = errorsHelper.methods.getFromResponse(errors);
-                    errorsHelper.methods.openResponseNotification(errors);
-                });
+                    this.errors = errorsHelper.methods.getFromResponse(errors)
+                    errorsHelper.methods.openResponseNotification(errors)
+                })
         },
         sendMessage() {
-            return apiRequest(API_SEND_MESSAGE_URL, {'roomId': this.room.id}, {'message': this.userMessage})
+            return apiRequest(API_SEND_MESSAGE_URL, { roomId: this.room.id }, { message: this.userMessage })
                 .then(() => {
-                    this.userMessage = '';
+                    this.userMessage = ''
                 }).catch(errors => {
-                    this.errors = errorsHelper.methods.getFromResponse(errors);
-                    errorsHelper.methods.openResponseNotification(errors);
-                });
-
+                    this.errors = errorsHelper.methods.getFromResponse(errors)
+                    errorsHelper.methods.openResponseNotification(errors)
+                })
         },
         handleMessagesScroll() {
-            this.showScrollDownButton = !this.checkIsChatScrolledDown();
+            this.showScrollDownButton = !this.checkIsChatScrolledDown()
 
             if (
-                (this.$refs.messages.scrollHeight - this.$refs.messages.clientHeight) / 5 >= this.$refs.messages.scrollTop
-                && this.currentMessagePage < this.totalMessagePages && !this.addMessagePending
+                (this.$refs.messages.scrollHeight - this.$refs.messages.clientHeight) / 5 >= this.$refs.messages.scrollTop &&
+                this.currentMessagePage < this.totalMessagePages && !this.addMessagePending
             ) {
-                this.addMessagePending = true;
-                let scrollDifference = 0;
+                this.addMessagePending = true
+                let scrollDifference = 0
 
                 this.getMessages(this.currentMessagePage + 1)
                     .then((response) => {
                         scrollDifference = this.$refs.messages.scrollHeight - this.$refs.messages.scrollTop
                         this.messages.unshift(...response.data.data)
-                        this.addMessagePending = false;
+                        this.addMessagePending = false
                     })
                     .then(() => {
                         this.$nextTick(() => {
-                            this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight - scrollDifference;
-                        });
-                    });
+                            this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight - scrollDifference
+                        })
+                    })
             }
         },
         scrollToLastMessage() {
-            this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
+            this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight
         },
         checkIsChatScrolledDown() {
             return this.$refs.messages.scrollHeight -
                 this.$refs.messages.clientHeight -
-                this.$refs.messages.lastElementChild.clientHeight - 10 <= this.$refs.messages.scrollTop;
+                this.$refs.messages.lastElementChild.clientHeight - 10 <= this.$refs.messages.scrollTop
         },
         checkIsWindowSmall(windowWidth = document.body.clientWidth) {
-            this.is_chat_move_active = windowWidth > 600;
-        },
+            this.is_chat_move_active = windowWidth > 600
+        }
     },
     mounted() {
         this.getMessages().then((response) => {
-            this.messages = response.data.data;
-            this.chatPending = false;
+            this.messages = response.data.data
+            this.chatPending = false
         }).catch(() => {
-            this.chatPending = false;
+            this.chatPending = false
         }).then(() => {
-            this.$refs.messages.addEventListener('scroll', this.handleMessagesScroll);
-            this.scrollToLastMessage();
-        });
+            this.$refs.messages.addEventListener('scroll', this.handleMessagesScroll)
+            this.scrollToLastMessage()
+        })
 
         this.checkIsWindowSmall()
-        window.addEventListener('resize', () => {this.checkIsWindowSmall()})
+        window.addEventListener('resize', () => { this.checkIsWindowSmall() })
 
         broadcastConnections.methods.connectToRoom(this.room.id)
             .listen('MessageSent', response => {
-                this.messages.push(response.message);
+                this.messages.push(response.message)
 
                 this.$nextTick(() => {
                     if (this.checkIsChatScrolledDown()) {
-                        this.scrollToLastMessage();
+                        this.scrollToLastMessage()
                     }
-                });
-            });
-    },
+                })
+            })
+    }
 }
 </script>
 
@@ -184,7 +183,6 @@ export default {
 $box-border-size: 1.25rem;
 $input-height: 48px;
 $input-margin: 15px;
-
 
 .chat {
     margin-left: 10px;

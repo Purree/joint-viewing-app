@@ -12,14 +12,14 @@
 </template>
 
 <script>
-import SubmitButton from "@/components/SubmitButton.vue";
-import TurnOffTwoFactorButton from "@/components/settings/two-factor/TurnOffTwoFactorButton.vue";
+import SubmitButton from '@/components/SubmitButton.vue'
+import TurnOffTwoFactorButton from '@/components/settings/two-factor/TurnOffTwoFactorButton.vue'
 
 export default {
-    name: "EnabledTwoFactorButtons",
-    components: {TurnOffTwoFactorButton, SubmitButton},
+    name: 'EnabledTwoFactorButtons',
+    components: { TurnOffTwoFactorButton, SubmitButton },
     emits: ['regenerateCodes', 'disableTwoFactor'],
-    props: ['regenerateCodesPending', 'disablePending'],
+    props: ['regenerateCodesPending', 'disablePending']
 }
 </script>
 

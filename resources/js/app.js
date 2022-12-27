@@ -1,10 +1,10 @@
-import AppLayout from "./layouts/AppLayout.vue";
+import AppLayout from './layouts/AppLayout.vue'
 
-import './bootstrap';
+import './bootstrap'
 
-import "@@/app.scss"
+import '@@/app.scss'
 
-import { createApp } from 'vue/dist/vue.esm-bundler';
+import { createApp } from 'vue/dist/vue.esm-bundler'
 
 /* Oruga */
 import Oruga from '@oruga-ui/oruga-next'
@@ -13,20 +13,18 @@ import { bulmaConfig } from '@oruga-ui/theme-bulma'
 
 /* Oruga */
 
-
 /* Font awesome */
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-
-library.add(fas);
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 /* Font awesome */
 
-import store from "@/store/index.js";
-import router from "@/routes/index.js";
+import store from '@/store/index.js'
+import router from '@/routes/index.js'
 
-import App from "@/App.vue";
+import App from '@/App.vue'
 
+library.add(fas)
 
 const app = createApp(App)
     .use(store)
@@ -35,11 +33,10 @@ const app = createApp(App)
         ...bulmaConfig,
         iconPack: 'fas',
         iconComponent: 'vue-fontawesome'
-    });
+    })
 
-app.component("VueFontawesome", FontAwesomeIcon);
-app.component('AppLayout', AppLayout);
-app.mount('#app');
+app.component('VueFontawesome', FontAwesomeIcon)
+app.component('AppLayout', AppLayout)
+app.mount('#app')
 
-window.$oruga = app.config.globalProperties.$oruga;
-
+window.$oruga = app.config.globalProperties.$oruga

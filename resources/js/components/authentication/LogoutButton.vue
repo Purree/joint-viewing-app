@@ -5,19 +5,19 @@
 </template>
 
 <script>
-import usePending from "@/mixins/usePending.js";
+import usePending from '@/mixins/usePending.js'
 
 export default {
-    name: "LogoutButton",
+    name: 'LogoutButton',
     mixins: [usePending],
     data() {
         return {
-            pending: false,
+            pending: false
         }
     },
     methods: {
         logout() {
-            return this.$store.dispatch('auth/logout');
+            return this.$store.dispatch('auth/logout')
         }
     }
 }

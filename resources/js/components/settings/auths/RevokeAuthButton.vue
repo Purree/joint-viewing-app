@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import SubmitButton from "@/components/SubmitButton.vue";
+import SubmitButton from '@/components/SubmitButton.vue'
 
 export default {
-    name: "RevokeAuthButton",
-    components: {SubmitButton},
+    name: 'RevokeAuthButton',
+    components: { SubmitButton },
     props: ['authId', 'deletingAuths'],
     emits: ['delete'],
     methods: {

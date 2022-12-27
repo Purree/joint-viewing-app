@@ -18,17 +18,17 @@
 
 <script>
 export default {
-    name: "OrdersRow",
-    emits: ["deleteOrder"],
+    name: 'OrdersRow',
+    emits: ['deleteOrder'],
     props: {
         order: {
             type: Object,
             default: () => ({
-                "video_url": 'https://test.test',
-                "customer": {
-                    "id": 1,
-                    "name": 'Test user',
-                },
+                video_url: 'https://test.test',
+                customer: {
+                    id: 1,
+                    name: 'Test user'
+                }
             })
         },
         deletePending: {
@@ -38,7 +38,7 @@ export default {
         canControl: {
             type: Boolean,
             default: false
-        },
+        }
     }
 }
 </script>

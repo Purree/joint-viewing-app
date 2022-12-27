@@ -1,15 +1,14 @@
 export default {
     methods: {
-        async usePending(handler, key = 'pending', ...e)
-        {
+        async usePending(handler, key = 'pending', ...e) {
             if (this[key]) {
-                return;
+                return
             }
-            this[key] = true;
+            this[key] = true
 
-            await handler(...e);
+            await handler(...e)
 
-            this[key] = false;
+            this[key] = false
         }
     }
 }

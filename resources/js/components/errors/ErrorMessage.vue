@@ -22,7 +22,7 @@
 
 <script>
 export default {
-    name: "ErrorMessage",
+    name: 'ErrorMessage',
     props: ['errors', 'errorHeader']
 }
 </script>

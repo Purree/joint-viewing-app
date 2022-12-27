@@ -8,13 +8,13 @@
 </template>
 
 <script>
-import SubmitButton from "@/components/SubmitButton.vue";
+import SubmitButton from '@/components/SubmitButton.vue'
 
 export default {
-    components: {SubmitButton},
+    components: { SubmitButton },
     emits: ['disableTwoFactor'],
-    name: "TurnOffTwoFactorButton",
-    props: ['disablePending'],
+    name: 'TurnOffTwoFactorButton',
+    props: ['disablePending']
 }
 </script>
 

@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import { mapState } from 'vuex'
 
 export default {
-    name: "RecoveryCodes",
+    name: 'RecoveryCodes',
     props: ['recoveryCodes', 'pending'],
     computed: {
         ...mapState('auth', ['user'])

@@ -28,55 +28,55 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
-import SubmitButton from "@/components/SubmitButton";
-import RoomRow from "@/components/rooms/RoomRow";
-import Divider from "@/components/Divider";
-import RoomManipulateBlock from "@/components/rooms/RoomManipulateBlock";
-import errorsHelper from "@/mixins/errors";
-import {API_CREATE_ROOM_URL} from "@/api/rooms";
-import apiRequest from "@/helpers/apiRequest";
+import { mapState } from 'vuex'
+import SubmitButton from '@/components/SubmitButton'
+import RoomRow from '@/components/rooms/RoomRow'
+import Divider from '@/components/Divider'
+import RoomManipulateBlock from '@/components/rooms/RoomManipulateBlock'
+import errorsHelper from '@/mixins/errors'
+import { API_CREATE_ROOM_URL } from '@/api/rooms'
+import apiRequest from '@/helpers/apiRequest'
 
 export default {
-    name: "CurrentRoom",
-    components: {RoomManipulateBlock, SubmitButton, RoomRow, Divider},
+    name: 'CurrentRoom',
+    components: { RoomManipulateBlock, SubmitButton, RoomRow, Divider },
     data() {
         return {
             createRoomPending: false,
             wantToCreateRoom: false,
-            roomCreateErrors: {},
-        };
+            roomCreateErrors: {}
+        }
     },
     methods: {
         createRoom(form) {
             if (this.createRoomPending) {
-                return;
+                return
             }
-            this.createRoomPending = true;
+            this.createRoomPending = true
 
             if (!form.is_closed) {
-                delete form.password;
+                delete form.password
             }
 
             return apiRequest(API_CREATE_ROOM_URL, {}, form)
                 .then(response => {
-                    this.$store.commit('rooms/setCreatedRoom', response.data);
-                    this.$store.commit('rooms/setCurrentRoom', response.data);
-                    this.wantToCreateRoom = false;
+                    this.$store.commit('rooms/setCreatedRoom', response.data)
+                    this.$store.commit('rooms/setCurrentRoom', response.data)
+                    this.wantToCreateRoom = false
                 })
                 .catch(errors => {
-                    this.roomCreateErrors = errorsHelper.methods.getFromResponse(errors);
+                    this.roomCreateErrors = errorsHelper.methods.getFromResponse(errors)
                 }).then(() => {
-                    this.createRoomPending = false;
-                });
+                    this.createRoomPending = false
+                })
         },
         openRoom(room) {
-            this.$store.dispatch('rooms/open', room.link);
+            this.$store.dispatch('rooms/open', room.link)
         }
     },
     computed: {
         ...mapState('auth', ['user']),
-        ...mapState('rooms', ['current_room', 'created_room']),
+        ...mapState('rooms', ['current_room', 'created_room'])
     }
 }
 </script>

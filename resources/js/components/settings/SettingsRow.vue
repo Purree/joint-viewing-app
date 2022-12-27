@@ -11,7 +11,7 @@
 
 <script>
 export default {
-    name: "SettingsRow",
+    name: 'SettingsRow',
     props: ['propertyStyles', 'propertyName']
 }
 </script>

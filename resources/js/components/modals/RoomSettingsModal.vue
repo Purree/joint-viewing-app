@@ -12,13 +12,13 @@
 </template>
 
 <script>
-import RoomManipulateBlock from "@/components/rooms/RoomManipulateBlock";
-import errorsHelper from "@/mixins/errors";
-import SuccessfulArticle from "@/components/SuccessfulArticle";
+import RoomManipulateBlock from '@/components/rooms/RoomManipulateBlock'
+import errorsHelper from '@/mixins/errors'
+import SuccessfulArticle from '@/components/SuccessfulArticle'
 
 export default {
-    name: "RoomSettingsModal",
-    components: {RoomManipulateBlock, SuccessfulArticle},
+    name: 'RoomSettingsModal',
+    components: { RoomManipulateBlock, SuccessfulArticle },
     props: {
         room: {
             type: Object,
@@ -29,7 +29,7 @@ export default {
         return {
             errors: {},
             pending: false,
-            isSuccess: false,
+            isSuccess: false
         }
     },
     methods: {
@@ -37,22 +37,22 @@ export default {
             if (this.pending) {
                 return
             }
-            this.pending = true;
-            this.isSuccess = false;
-            this.errors = {};
+            this.pending = true
+            this.isSuccess = false
+            this.errors = {}
 
             if (!newRoomData.password || !newRoomData.is_closed) {
                 delete newRoomData.password
             }
-            newRoomData.id = this.room.id;
+            newRoomData.id = this.room.id
 
             try {
-                await this.$store.dispatch('rooms/update', newRoomData);
-                this.isSuccess = true;
+                await this.$store.dispatch('rooms/update', newRoomData)
+                this.isSuccess = true
             } catch (errors) {
-                this.errors = errorsHelper.methods.getFromResponse(errors);
+                this.errors = errorsHelper.methods.getFromResponse(errors)
             } finally {
-                this.pending = false;
+                this.pending = false
             }
         }
     }

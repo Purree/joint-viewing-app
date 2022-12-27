@@ -10,7 +10,7 @@
 <script>
 export default {
     props: ['columns'],
-    name: "Columns"
+    name: 'Columns'
 }
 </script>
 

@@ -1,10 +1,10 @@
-import {API_CURRENT_USER_URL} from "@/api/users.js";
-import apiRequest from "@/helpers/apiRequest";
+import { API_CURRENT_USER_URL } from '@/api/users.js'
+import apiRequest from '@/helpers/apiRequest'
 
 export default {
     methods: {
         loginUser() {
-            this.$store.commit('auth/setIsLoggedIn', true);
+            this.$store.commit('auth/setIsLoggedIn', true)
 
             apiRequest(API_CURRENT_USER_URL).then((response) => {
                 this.$store.commit('auth/setUser', response.data)

@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    name: "TwoFactorContent"
+    name: 'TwoFactorContent'
 }
 </script>
 

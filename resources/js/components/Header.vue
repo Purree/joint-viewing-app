@@ -36,27 +36,27 @@
 </template>
 
 <script>
-import LogoutButton from "@/components/authentication/LogoutButton.vue";
-import ChangeThemeButton from "@/components/ChangeThemeButton.vue";
-import {mapState} from "vuex";
-import UserAvatar from "@/components/UserAvatar";
+import LogoutButton from '@/components/authentication/LogoutButton.vue'
+import ChangeThemeButton from '@/components/ChangeThemeButton.vue'
+import { mapState } from 'vuex'
+import UserAvatar from '@/components/UserAvatar'
 
 export default {
-    name: "Header",
-    components: {UserAvatar, ChangeThemeButton, LogoutButton},
+    name: 'Header',
+    components: { UserAvatar, ChangeThemeButton, LogoutButton },
     data() {
         return {
             isDropdownActive: false,
             tabs: {
-                'Rooms':
+                Rooms:
                     {
-                        'route-name': 'Rooms',
-                        'text': 'Rooms'
+                    	'route-name': 'Rooms',
+                    	text: 'Rooms'
                     },
-                'Settings':
+                Settings:
                     {
-                        'route-name': 'Settings',
-                        'text': 'Settings'
+                    	'route-name': 'Settings',
+                    	text: 'Settings'
                     }
             }
         }

@@ -19,20 +19,20 @@
 </template>
 
 <script>
-import {API_REGISTRATION_URL} from '@/api/auth.js';
-import AuthenticationLayout from "@/layouts/AuthenticationLayout.vue";
-import SubmitButton from "@/components/SubmitButton.vue";
-import FormInput from "@/components/authentication/FormInput.vue";
-import ErrorMessage from "@/components/errors/ErrorMessage.vue";
-import UserSecretModal from "@/components/modals/UserSecretModal.vue";
-import SuccessfulArticle from "@/components/SuccessfulArticle.vue";
-import errorsHelper from "@/mixins/errors.js";
-import usePending from "@/mixins/usePending.js";
-import apiRequest from "@/helpers/apiRequest";
+import { API_REGISTRATION_URL } from '@/api/auth.js'
+import AuthenticationLayout from '@/layouts/AuthenticationLayout.vue'
+import SubmitButton from '@/components/SubmitButton.vue'
+import FormInput from '@/components/authentication/FormInput.vue'
+import ErrorMessage from '@/components/errors/ErrorMessage.vue'
+import UserSecretModal from '@/components/modals/UserSecretModal.vue'
+import SuccessfulArticle from '@/components/SuccessfulArticle.vue'
+import errorsHelper from '@/mixins/errors.js'
+import usePending from '@/mixins/usePending.js'
+import apiRequest from '@/helpers/apiRequest'
 
 export default {
     name: 'Register',
-    components: {SuccessfulArticle, ErrorMessage, FormInput, SubmitButton, AuthenticationLayout, UserSecretModal},
+    components: { SuccessfulArticle, ErrorMessage, FormInput, SubmitButton, AuthenticationLayout, UserSecretModal },
     data() {
         return {
             pending: false,
@@ -41,7 +41,7 @@ export default {
                 name: null,
                 email: null,
                 password: null,
-                password_confirmation: null,
+                password_confirmation: null
             },
             errors: {}
         }
@@ -52,7 +52,7 @@ export default {
             this.$oruga.modal.open({
                 component: UserSecretModal,
                 props: {
-                    secret: secret
+                    secret
                 },
                 trapFocus: true,
                 canCancel: false
@@ -61,13 +61,13 @@ export default {
         sendForm() {
             return apiRequest(API_REGISTRATION_URL, {}, this.form)
                 .then(response => {
-                    this.registered = true;
-                    this.errors = {};
+                    this.registered = true
+                    this.errors = {}
                     this.promptModal(response.data.secret_phrase)
                 })
                 .catch(errors => {
-                    this.registered = false;
-                    this.errors = errorsHelper.methods.getFromResponse(errors);
+                    this.registered = false
+                    this.errors = errorsHelper.methods.getFromResponse(errors)
                 })
         }
     }

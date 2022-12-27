@@ -4,7 +4,7 @@
 
 <script>
 export default {
-    name: "FileImage",
+    name: 'FileImage',
     props: ['fileUrl']
 }
 </script>

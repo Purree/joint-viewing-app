@@ -23,16 +23,16 @@
 </template>
 
 <script>
-import ErrorMessage from "@/components/errors/ErrorMessage";
-import SubmitButton from "@/components/SubmitButton";
-import usePending from "@/mixins/usePending";
-import FormInput from "@/components/authentication/FormInput";
-import errorsHelper from "@/mixins/errors";
-import {mapState} from "vuex";
+import ErrorMessage from '@/components/errors/ErrorMessage'
+import SubmitButton from '@/components/SubmitButton'
+import usePending from '@/mixins/usePending'
+import FormInput from '@/components/authentication/FormInput'
+import errorsHelper from '@/mixins/errors'
+import { mapState } from 'vuex'
 
 export default {
-    name: "Entrance",
-    components: {SubmitButton, ErrorMessage, FormInput},
+    name: 'Entrance',
+    components: { SubmitButton, ErrorMessage, FormInput },
     mixins: [usePending],
     data() {
         return {
@@ -40,20 +40,20 @@ export default {
             password: '',
             pending: false,
             room: {},
-            isLoading: true,
+            isLoading: true
         }
     },
     methods: {
         async tryToJoin() {
             try {
                 return await this.$store.dispatch('rooms/join', {
-                    'id': this.room.id,
-                    'link': this.room.link,
-                    'password': this.password
-                });
+                    id: this.room.id,
+                    link: this.room.link,
+                    password: this.password
+                })
             } catch (errors) {
-                this.errors = errorsHelper.methods.getFromResponse(errors);
-                return errors;
+                this.errors = errorsHelper.methods.getFromResponse(errors)
+                return errors
             }
         },
         throwError(error) {
@@ -74,17 +74,17 @@ export default {
         })
 
         if (!this.room.is_closed || this.current_room?.id) {
-            let joinAttempt = await this.tryToJoin();
+            const joinAttempt = await this.tryToJoin()
 
             if (joinAttempt?.response?.status >= 400) {
                 this.throwError(joinAttempt)
             }
         } else {
-            this.isLoading = false;
+            this.isLoading = false
         }
     },
     computed: {
-        ...mapState('rooms', ['current_room']),
+        ...mapState('rooms', ['current_room'])
     }
 }
 </script>

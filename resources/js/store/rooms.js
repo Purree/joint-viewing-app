@@ -1,7 +1,7 @@
-import replaceDataInUri from "@/helpers/replaceDataInUri";
-import {API_GET_ROOM_DATA_URL, API_JOIN_ROOM_URL, API_LEAVE_ROOM_URL, API_UPDATE_ROOM_URL} from "@/api/rooms";
-import router from "@/routes/index.js";
-import apiRequest from "@/helpers/apiRequest";
+import replaceDataInUri from '@/helpers/replaceDataInUri'
+import { API_GET_ROOM_DATA_URL, API_JOIN_ROOM_URL, API_LEAVE_ROOM_URL, API_UPDATE_ROOM_URL } from '@/api/rooms'
+import router from '@/routes/index.js'
+import apiRequest from '@/helpers/apiRequest'
 
 export default {
     state: {
@@ -14,62 +14,62 @@ export default {
         },
         setCreatedRoom(state, room) {
             state.created_room = room
-        },
+        }
     },
     actions: {
-        getData({_commit}, id) {
-            return apiRequest(API_GET_ROOM_DATA_URL, {'roomId': id})
+        getData({ _commit }, id) {
+            return apiRequest(API_GET_ROOM_DATA_URL, { roomId: id })
                 .then(response => {
-                    return response.data;
-                });
+                    return response.data
+                })
         },
-        changeCachedData({commit, state}, payload) {
-            if (payload['id'] === state.current_room?.id) {
-                commit('setCurrentRoom', payload);
+        changeCachedData({ commit, state }, payload) {
+            if (payload.id === state.current_room?.id) {
+                commit('setCurrentRoom', payload)
             }
 
-            if (payload['id'] === state.created_room?.id) {
-                commit('setCreatedRoom', payload);
+            if (payload.id === state.created_room?.id) {
+                commit('setCreatedRoom', payload)
             }
         },
-        clearCachedData({commit, state}, payload) {
-            if (payload['id'] === state.current_room?.id) {
-                commit('setCurrentRoom', null);
+        clearCachedData({ commit, state }, payload) {
+            if (payload.id === state.current_room?.id) {
+                commit('setCurrentRoom', null)
             }
 
-            if (payload['id'] === state.created_room?.id) {
-                commit('setCreatedRoom', null);
+            if (payload.id === state.created_room?.id) {
+                commit('setCreatedRoom', null)
             }
         },
-        join({commit, dispatch}, payload) {
-            return apiRequest(API_JOIN_ROOM_URL, {'roomId': payload['id']}, {
-                ...payload['password'] ? {password: payload['password']} : {}
+        join({ commit, dispatch }, payload) {
+            return apiRequest(API_JOIN_ROOM_URL, { roomId: payload.id }, {
+                ...payload.password ? { password: payload.password } : {}
             }).then((response) => {
-                commit('setCurrentRoom', response.data);
+                commit('setCurrentRoom', response.data)
 
-                if (payload['link']) {
-                    dispatch('open', payload['link']);
+                if (payload.link) {
+                    dispatch('open', payload.link)
                 }
             })
         },
-        leave({dispatch}, payload) {
-            return apiRequest(API_LEAVE_ROOM_URL, {'roomId': payload['id']})
+        leave({ dispatch }, payload) {
+            return apiRequest(API_LEAVE_ROOM_URL, { roomId: payload.id })
                 .then(() => {
-                    dispatch('clearCachedData', payload);
+                    dispatch('clearCachedData', payload)
 
-                    if (payload['redirectToRooms']) {
-                        router.push({'name': 'Rooms'});
+                    if (payload.redirectToRooms) {
+                        router.push({ name: 'Rooms' })
                     }
                 })
         },
-        update({dispatch}, payload) {
-            return apiRequest(API_UPDATE_ROOM_URL, {'roomId': payload['id']}, payload)
+        update({ dispatch }, payload) {
+            return apiRequest(API_UPDATE_ROOM_URL, { roomId: payload.id }, payload)
                 .then((response) => {
-                    dispatch('changeCachedData', response.data);
-                });
+                    dispatch('changeCachedData', response.data)
+                })
         },
-        open({_commit}, link) {
-            router.push({name: 'Room', params: {'link': link}});
+        open({ _commit }, link) {
+            router.push({ name: 'Room', params: { link } })
         }
     },
     namespaced: true

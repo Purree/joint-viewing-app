@@ -20,19 +20,19 @@
 </template>
 
 <script>
-import axios from 'axios';
-import {API_LOGIN_URL, API_LOGOUT_URL} from '@/api/auth.js';
-import SubmitButton from "@/components/SubmitButton.vue";
-import FormInput from "@/components/authentication/FormInput.vue";
-import ErrorMessage from "@/components/errors/ErrorMessage.vue";
-import errorsHelper from "@/mixins/errors.js";
-import loginUser from "@/mixins/loginUser.js";
-import usePending from "@/mixins/usePending.js";
-import apiRequest from "@/helpers/apiRequest";
+import axios from 'axios'
+import { API_LOGIN_URL, API_LOGOUT_URL } from '@/api/auth.js'
+import SubmitButton from '@/components/SubmitButton.vue'
+import FormInput from '@/components/authentication/FormInput.vue'
+import ErrorMessage from '@/components/errors/ErrorMessage.vue'
+import errorsHelper from '@/mixins/errors.js'
+import loginUser from '@/mixins/loginUser.js'
+import usePending from '@/mixins/usePending.js'
+import apiRequest from '@/helpers/apiRequest'
 
 export default {
     name: 'Login',
-    components: {SubmitButton, FormInput, ErrorMessage},
+    components: { SubmitButton, FormInput, ErrorMessage },
     mixins: [loginUser, usePending],
     data() {
         return {
@@ -54,8 +54,8 @@ export default {
             return axios.get('/sanctum/csrf-cookie').then(() => {
                 return apiRequest(API_LOGIN_URL, {}, this.form)
                     .then(response => {
-                        if (response.data["two-factor"]) {
-                            return this.$router.push({name: 'TwoFactor', query: this.$route.query})
+                        if (response.data['two-factor']) {
+                            return this.$router.push({ name: 'TwoFactor', query: this.$route.query })
                         }
 
                         this.loginUser()
@@ -66,11 +66,11 @@ export default {
                                 return this.tryToLogin(false)
                             }).catch((logoutErrors) => {
                                 console.log(logoutErrors)
-                            });
+                            })
                         }
 
-                        this.errors = errorsHelper.methods.getFromResponse(errors);
-                    });
+                        this.errors = errorsHelper.methods.getFromResponse(errors)
+                    })
             })
         }
     }

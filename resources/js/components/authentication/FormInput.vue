@@ -10,7 +10,7 @@
 <script>
 export default {
     props: ['label', 'placeholder', 'type', 'modelValue', 'errorCondition', 'passwordReveal'],
-    name: "FormInput"
+    name: 'FormInput'
 }
 </script>
 

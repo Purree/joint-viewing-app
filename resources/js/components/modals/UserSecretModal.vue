@@ -29,7 +29,7 @@
 
 <script>
 export default {
-    name: "UserSecretModal",
+    name: 'UserSecretModal',
     data() {
         return {
             timeToModalClose: 10
@@ -37,7 +37,7 @@ export default {
     },
     props: ['secret'],
     mounted() {
-        this.timeToModalClose = 10;
+        this.timeToModalClose = 10
 
         const countDown = setInterval(() => {
             if (this.timeToModalClose >= 1) {

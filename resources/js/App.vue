@@ -7,7 +7,7 @@
         <p v-else class="is-relative">
             <o-loading animation="fade"
                        :full-page="true"
-                       :active.sync="!isLoaded"
+                       v-model:active="!isLoaded"
                        :can-cancel="false"
                        icon="spinner"></o-loading>
         </p>
@@ -16,22 +16,22 @@
 
 <script>
 
-import {API_CURRENT_USER_URL} from "@/api/users.js";
-import changeTheme from "@/mixins/changeTheme.js";
-import {mapState} from "vuex";
-import UnableToAuthenticateModal from "@/components/modals/UnableToAuthenticateModal.vue";
-import apiRequest from "@/helpers/apiRequest";
+import { API_CURRENT_USER_URL } from '@/api/users.js'
+import changeTheme from '@/mixins/changeTheme.js'
+import { mapState } from 'vuex'
+import UnableToAuthenticateModal from '@/components/modals/UnableToAuthenticateModal.vue'
+import apiRequest from '@/helpers/apiRequest'
 
 export default {
     name: 'App',
-    components: {UnableToAuthenticateModal},
+    components: { UnableToAuthenticateModal },
     mixins: [changeTheme],
     mounted() {
         if (localStorage.getItem('theme') === 'dark' || (localStorage.getItem('theme') !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            this.changeTheme();
+            this.changeTheme()
         }
 
-        this.$store.commit('auth/setIsLoggedIn', localStorage.getItem('isLoggedIn'));
+        this.$store.commit('auth/setIsLoggedIn', localStorage.getItem('isLoggedIn'))
 
         if (this.isLoggedIn) {
             apiRequest(API_CURRENT_USER_URL).then((response) => {
@@ -40,17 +40,17 @@ export default {
                 console.log(error.response)
 
                 if (error.response.status === 401) {
-                    this.$store.commit('auth/setIsLoggedIn', false);
-                    this.$router.push('/login');
+                    this.$store.commit('auth/setIsLoggedIn', false)
+                    this.$router.push('/login')
 
-                    return;
+                    return
                 }
                 this.failedToLogin = true
             }).then(() => {
-                this.isLoaded = true;
-            });
+                this.isLoaded = true
+            })
         } else {
-            this.isLoaded = true;
+            this.isLoaded = true
         }
     },
     data() {

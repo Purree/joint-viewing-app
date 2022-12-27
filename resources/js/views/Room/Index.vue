@@ -32,21 +32,21 @@
 </template>
 
 <script>
-import {API_GET_ROOM_DATA_BY_LINK_URL} from "@/api/rooms";
-import errorsHelper from "@/mixins/errors.js";
-import {mapState} from "vuex";
-import Player from "@/components/room/Player";
-import Chat from "@/components/room/chat/Index";
-import Orders from "@/components/room/orders/Index";
-import broadcastConnections from "@/mixins/broadcastConnections";
-import RoomSettingsManipulatingBlock from "@/components/room/SettingsManipulatingBlock";
-import RoomSettingsModal from "@/components/modals/RoomSettingsModal";
-import RoomMembersModal from "@/components/modals/RoomMembersModal";
-import apiRequest from "@/helpers/apiRequest";
+import { API_GET_ROOM_DATA_BY_LINK_URL } from '@/api/rooms'
+import errorsHelper from '@/mixins/errors.js'
+import { mapState } from 'vuex'
+import Player from '@/components/room/Player'
+import Chat from '@/components/room/chat/Index'
+import Orders from '@/components/room/orders/Index'
+import broadcastConnections from '@/mixins/broadcastConnections'
+import RoomSettingsManipulatingBlock from '@/components/room/SettingsManipulatingBlock'
+import RoomSettingsModal from '@/components/modals/RoomSettingsModal'
+import RoomMembersModal from '@/components/modals/RoomMembersModal'
+import apiRequest from '@/helpers/apiRequest'
 
 export default {
-    name: "Index",
-    components: {RoomSettingsManipulatingBlock, Orders, Player, Chat},
+    name: 'Index',
+    components: { RoomSettingsManipulatingBlock, Orders, Player, Chat },
     data() {
         return {
             is_loaded: false,
@@ -57,37 +57,37 @@ export default {
             is_chat_closed: false,
             is_orders_closed: false,
             host_id: 0,
-            videoId: '',
+            videoId: ''
         }
     },
     async beforeCreate() {
         try {
-            await apiRequest(API_GET_ROOM_DATA_BY_LINK_URL, {'roomLink': this.$route.params.link})
+            await apiRequest(API_GET_ROOM_DATA_BY_LINK_URL, { roomLink: this.$route.params.link })
                 .then((response) => {
-                    this.room = response.data;
+                    this.room = response.data
                 })
         } catch (error) {
             errorsHelper.methods.openResponseNotification(error)
 
             if (error.response.status === 404) {
-                return this.$router.push('/404');
+                return this.$router.push('/404')
             }
         }
 
         if (this.current_room?.id !== this.room.id && this.created_room?.id !== this.room.id) {
-            errorsHelper.methods.openNotification('You are not in this room');
+            errorsHelper.methods.openNotification('You are not in this room')
 
-            return this.$router.push({'name': 'RoomEntrance', 'params': {'id': this.room.id}});
+            return this.$router.push({ name: 'RoomEntrance', params: { id: this.room.id } })
         }
 
         broadcastConnections.methods.connectToRoom(this.room.id)
             .here((users) => {
-                this.users = users;
+                this.users = users
 
-                this.updateHost();
+                this.updateHost()
             })
             .joining((user) => {
-                this.users.push(user);
+                this.users.push(user)
             })
             .leaving((user) => {
                 this.deleteMember(user.id)
@@ -95,35 +95,34 @@ export default {
                 if (!this.room.can_everyone_control && user.id === this.room.owner.id) {
                     this.player.pauseVideo()
                 } else {
-                    this.updateHost();
+                    this.updateHost()
                 }
             })
             .listen('RoomUpdate', (response) => {
-                this.$store.dispatch('rooms/changeCachedData', response.room);
-                this.room = response.room;
-                this.updateCanManipulateRoom();
+                this.$store.dispatch('rooms/changeCachedData', response.room)
+                this.room = response.room
+                this.updateCanManipulateRoom()
             })
             .listen('RoomMemberKick', (response) => {
                 if (response.user.id === this.user.id) {
-                    this.$store.dispatch('rooms/clearCachedData', {'id': this.room.id});
-                    errorsHelper.methods.openNotification('You were kicked from this room');
-                    this.$router.push({'name': 'Rooms'})
+                    this.$store.dispatch('rooms/clearCachedData', { id: this.room.id })
+                    errorsHelper.methods.openNotification('You were kicked from this room')
+                    this.$router.push({ name: 'Rooms' })
                 }
 
-                this.deleteMember(response.user.id);
+                this.deleteMember(response.user.id)
             })
 
-        this.updateCanManipulateRoom();
-        this.is_loaded = true;
+        this.updateCanManipulateRoom()
+        this.is_loaded = true
     },
     methods: {
         updateCanManipulateRoom() {
-            this.can_manipulate_room = !!this.room.can_everyone_control || this.room.owner.id === this.user.id;
+            this.can_manipulate_room = !!this.room.can_everyone_control || this.room.owner.id === this.user.id
         },
         deleteMember(memberId) {
-            let leavedUserIndex = this.users.findIndex(object => object.id === memberId);
-            if (leavedUserIndex !== -1)
-                this.users.splice(leavedUserIndex, 1)
+            const leavedUserIndex = this.users.findIndex(object => object.id === memberId)
+            if (leavedUserIndex !== -1) { this.users.splice(leavedUserIndex, 1) }
         },
         manipulateChatVisibility() {
             this.is_chat_closed = !this.is_chat_closed
@@ -135,9 +134,9 @@ export default {
             this.$oruga.modal.open({
                 component: RoomSettingsModal,
                 props: {
-                    room: this.room,
+                    room: this.room
                 },
-                trapFocus: true,
+                trapFocus: true
             })
         },
         openMembersModal() {
@@ -149,25 +148,25 @@ export default {
                     roomId: this.room.id,
                     host: this.host_id
                 },
-                trapFocus: true,
+                trapFocus: true
             })
         },
         updateHost() {
             if (!this.room.can_everyone_control) {
-                this.host_id = this.room.owner.id;
-                return;
+                this.host_id = this.room.owner.id
+                return
             }
 
-            this.host_id = this.users.map(user => user.id).includes(this.room.owner.id) ? this.room.owner.id : this.users[0].id;
+            this.host_id = this.users.map(user => user.id).includes(this.room.owner.id) ? this.room.owner.id : this.users[0].id
         },
         changeCurrentVideo(video) {
-            this.videoId = video?.video_url || '';
+            this.videoId = video?.video_url || ''
         }
     },
     computed: {
         ...mapState('auth', ['user']),
         ...mapState('rooms', ['current_room', 'created_room']),
-        ...mapState('player', ['player']),
+        ...mapState('player', ['player'])
     }
 }
 </script>

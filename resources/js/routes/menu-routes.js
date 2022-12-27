@@ -2,28 +2,28 @@ export default [
     {
         path: '/',
         name: 'Home',
-        redirect: {'name': 'Menu'}
+        redirect: { name: 'Menu' }
     },
     {
         path: '/menu',
         name: 'Menu',
         component: () => import('@/views/Menu/Index.vue'),
-        redirect: {'name': 'Rooms'},
+        redirect: { name: 'Rooms' },
         children: [
             {
                 path: 'settings',
                 name: 'Settings',
-                component: () => import('@/views/Menu/Settings.vue'),
+                component: () => import('@/views/Menu/Settings.vue')
             },
             {
                 path: 'rooms',
                 name: 'Rooms',
-                component: () => import('@/views/Menu/Rooms.vue'),
+                component: () => import('@/views/Menu/Rooms.vue')
             },
             {
                 path: '/room/entrance/:id',
                 name: 'RoomEntrance',
-                component: () => import('@/views/Room/Entrance.vue'),
+                component: () => import('@/views/Room/Entrance.vue')
             },
             {
                 path: '/room/:link',
@@ -38,6 +38,6 @@ export default [
             layout: 'MainLayout',
             transition: 'none',
             childTransition: 'slide'
-        },
+        }
     }
 ]

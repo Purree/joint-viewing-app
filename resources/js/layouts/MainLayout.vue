@@ -6,10 +6,10 @@
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
+import Header from '@/components/Header.vue'
 
 export default {
-    name: "MainLayout",
-    components: {Header}
+    name: 'MainLayout',
+    components: { Header }
 }
 </script>

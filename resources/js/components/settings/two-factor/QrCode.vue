@@ -4,12 +4,12 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
-import {API_TWO_FACTOR_GET_QR_CODE_URL} from "@/api/twoFactor.js";
-import apiRequest from "@/helpers/apiRequest";
+import { mapState } from 'vuex'
+import { API_TWO_FACTOR_GET_QR_CODE_URL } from '@/api/twoFactor.js'
+import apiRequest from '@/helpers/apiRequest'
 
 export default {
-    name: "QrCode",
+    name: 'QrCode',
     data() {
         return {
             QRCodeSVG: '',
@@ -17,7 +17,7 @@ export default {
         }
     },
     mounted() {
-        apiRequest(API_TWO_FACTOR_GET_QR_CODE_URL, {'user': this.user.id}).then(response => {
+        apiRequest(API_TWO_FACTOR_GET_QR_CODE_URL, { user: this.user.id }).then(response => {
             this.QRCodeSVG = response.data.svg
         }).catch(errors => {
             console.log(errors.response)

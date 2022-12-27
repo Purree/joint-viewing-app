@@ -1,7 +1,6 @@
 <template>
     <divider>User password</divider>
 
-
     <ErrorMessage :errors="errors"></ErrorMessage>
     <SuccessfulArticle :show-when="successed" :text="'Successfully change password'"></SuccessfulArticle>
 
@@ -21,28 +20,28 @@
 </template>
 
 <script>
-import SuccessfulArticle from "@/components/SuccessfulArticle.vue";
-import SubmitButton from "@/components/SubmitButton.vue";
-import SettingsRow from "@/components/settings/SettingsRow.vue";
-import ErrorMessage from "@/components/errors/ErrorMessage.vue";
-import {API_CHANGE_PASSWORD_URL} from "@/api/users.js";
-import {mapState} from "vuex";
-import errorsHelper from "@/mixins/errors.js";
-import replaceDataInUri from "@/helpers/replaceDataInUri.js";
-import usePending from "@/mixins/usePending.js";
-import Divider from "@/components/Divider";
-import apiRequest from "@/helpers/apiRequest";
+import SuccessfulArticle from '@/components/SuccessfulArticle.vue'
+import SubmitButton from '@/components/SubmitButton.vue'
+import SettingsRow from '@/components/settings/SettingsRow.vue'
+import ErrorMessage from '@/components/errors/ErrorMessage.vue'
+import { API_CHANGE_PASSWORD_URL } from '@/api/users.js'
+import { mapState } from 'vuex'
+import errorsHelper from '@/mixins/errors.js'
+import replaceDataInUri from '@/helpers/replaceDataInUri.js'
+import usePending from '@/mixins/usePending.js'
+import Divider from '@/components/Divider'
+import apiRequest from '@/helpers/apiRequest'
 
 export default {
-    name: "PasswordSettingsBlock",
-    components: {SuccessfulArticle, SubmitButton, SettingsRow, ErrorMessage, Divider},
+    name: 'PasswordSettingsBlock',
+    components: { SuccessfulArticle, SubmitButton, SettingsRow, ErrorMessage, Divider },
     mixins: [replaceDataInUri, usePending],
     data() {
         return {
             form: {
                 old_password: null,
                 password: null,
-                password_confirmation: null,
+                password_confirmation: null
             },
             pending: false,
             errors: {},
@@ -51,15 +50,15 @@ export default {
     },
     methods: {
         changePassword() {
-        this.successed = false;
-        return apiRequest(API_CHANGE_PASSWORD_URL, {'id': this.user.id}, this.form)
-            .then(() => {
-                this.errors = {};
-                this.successed = true;
-            })
-            .catch(errors => {
-                this.errors = errorsHelper.methods.getFromResponse(errors);
-            })
+            this.successed = false
+            return apiRequest(API_CHANGE_PASSWORD_URL, { id: this.user.id }, this.form)
+                .then(() => {
+                    this.errors = {}
+                    this.successed = true
+                })
+                .catch(errors => {
+                    this.errors = errorsHelper.methods.getFromResponse(errors)
+                })
         }
     },
     computed: {

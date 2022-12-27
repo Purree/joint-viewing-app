@@ -16,7 +16,7 @@
 
 <script>
 export default {
-    name: "RoomSettingsManipulatingBlock",
+    name: 'RoomSettingsManipulatingBlock',
     emits: ['openChat', 'openOrders', 'openSettings', 'openUsers'],
     props: {
         is_chat_closed: {
@@ -30,7 +30,7 @@ export default {
         is_user_owner: {
             type: Boolean,
             default: false
-        },
+        }
     }
 }
 </script>

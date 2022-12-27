@@ -19,13 +19,13 @@
 </template>
 
 <script>
-import asset from "@/mixins/asset";
-import formatDate from "@/mixins/formatDate";
-import UserAvatar from "@/components/UserAvatar";
+import asset from '@/mixins/asset'
+import formatDate from '@/mixins/formatDate'
+import UserAvatar from '@/components/UserAvatar'
 
 export default {
-    name: "ChatMessage",
-    components: {UserAvatar},
+    name: 'ChatMessage',
+    components: { UserAvatar },
     mixins: [asset, formatDate],
     props: {
         message: {
@@ -33,20 +33,20 @@ export default {
             required: true,
             default: () => ({
                 id: 1,
-                message: "test",
+                message: 'test',
                 created_at: Date.now(),
                 user: {
                     id: 1,
-                    name: "test",
-                },
+                    name: 'test'
+                }
             })
         },
         isSentByCurrentUser: {
             type: Boolean,
             required: true,
-            default: false,
-        },
-    },
+            default: false
+        }
+    }
 }
 </script>
 

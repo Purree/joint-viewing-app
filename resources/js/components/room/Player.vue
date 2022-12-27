@@ -33,17 +33,17 @@
 </template>
 
 <script>
-import Youtube from "@/components/players/Youtube";
-import apiRequest from "@/helpers/apiRequest";
-import {API_REQUEST_SYNCHRONIZATION_URL, API_SYNCHRONIZATION_URL} from "@/api/synchronization";
-import broadcastConnections from "@/mixins/broadcastConnections";
-import {mapState} from "vuex";
-import usePending from "@/mixins/usePending";
-import errorsHelper from "@/mixins/errors";
+import Youtube from '@/components/players/Youtube'
+import apiRequest from '@/helpers/apiRequest'
+import { API_REQUEST_SYNCHRONIZATION_URL, API_SYNCHRONIZATION_URL } from '@/api/synchronization'
+import broadcastConnections from '@/mixins/broadcastConnections'
+import { mapState } from 'vuex'
+import usePending from '@/mixins/usePending'
+import errorsHelper from '@/mixins/errors'
 
 export default {
-    name: "Player",
-    components: {Youtube},
+    name: 'Player',
+    components: { Youtube },
     mixins: [usePending],
     data() {
         return {
@@ -51,7 +51,7 @@ export default {
             synchronizationPending: false,
             synchronizationErrorText: '',
             synchronizationErrorPending: false,
-            skipNextEventTimeout: null,
+            skipNextEventTimeout: null
         }
     },
     props: {
@@ -61,26 +61,26 @@ export default {
         },
         canControl: {
             type: Boolean,
-            required: true,
+            required: true
         },
         videoId: {
             type: String,
-            required: true,
+            required: true
         },
         host: {
             type: Number,
-            required: true,
-        },
+            required: true
+        }
     },
     methods: {
         async sendSynchronizationToClients(...parameters) {
             await usePending.methods.usePending(this.synchronizeClients, 'synchronizationPending', ...parameters)
         },
         requestSynchronization() {
-            return apiRequest(API_REQUEST_SYNCHRONIZATION_URL, {'roomId': this.room.id})
+            return apiRequest(API_REQUEST_SYNCHRONIZATION_URL, { roomId: this.room.id })
                 .catch((error) => {
-                    errorsHelper.methods.openResponseNotification(error);
-                    this.synchronizationError = errorsHelper.methods.getFromResponse(error);
+                    errorsHelper.methods.openResponseNotification(error)
+                    this.synchronizationError = errorsHelper.methods.getFromResponse(error)
                 })
         },
         synchronizeClients(
@@ -92,16 +92,16 @@ export default {
                 additional_data = {}
             }
         ) {
-            return apiRequest(API_SYNCHRONIZATION_URL, {'roomId': this.room.id}, {
-                'time': time,
-                'is_paused': [-1, 0, 2, 5].includes(player_state),
-                'playback_rate': playback_rate,
-                'synchronizer_timestamp': timestamp,
-                'additional_data': additional_data
+            return apiRequest(API_SYNCHRONIZATION_URL, { roomId: this.room.id }, {
+                time,
+                is_paused: [-1, 0, 2, 5].includes(player_state),
+                playback_rate,
+                synchronizer_timestamp: timestamp,
+                additional_data
             })
                 .catch((error) => {
-                    errorsHelper.methods.openResponseNotification(error);
-                    this.synchronizationError = errorsHelper.methods.getFromResponse(error);
+                    errorsHelper.methods.openResponseNotification(error)
+                    this.synchronizationError = errorsHelper.methods.getFromResponse(error)
                 })
         },
         synchronize(time, is_paused, playback_rate, synchronizer_timestamp, additional_data = {}) {
@@ -111,9 +111,9 @@ export default {
             broadcastConnections.methods.connectToRoom(this.room.id)
                 .listen('PlayerSynchronizeRequest', () => {
                     if (this.host === this.user.id) {
-                        this.synchronizationPending = true;
+                        this.synchronizationPending = true
                         this.synchronizeClients({}).then(() => {
-                            this.synchronizationPending = false;
+                            this.synchronizationPending = false
                         })
                     }
                 })
@@ -128,41 +128,41 @@ export default {
                         )
                     }
                 })
-        },
+        }
     },
     computed: {
         ...mapState('auth', ['user']),
         ...mapState('player', ['player']),
         synchronizationError: {
-            get: function () {
-                return this.synchronizationErrorText;
+            get: function() {
+                return this.synchronizationErrorText
             },
-            set: function (error = '') {
-                this.synchronizationErrorText = error;
+            set: function(error = '') {
+                this.synchronizationErrorText = error
 
                 if (error !== '') {
-                    this.synchronizationErrorPending = true;
+                    this.synchronizationErrorPending = true
 
                     setTimeout(() => {
-                        this.synchronizationErrorPending = false;
+                        this.synchronizationErrorPending = false
                     }, 1000)
                 }
             }
         },
         skipNextEvent: {
-            get: function () {
-                return this.skipNextEventPending;
+            get: function() {
+                return this.skipNextEventPending
             },
-            set: function (value) {
-                clearTimeout(this.skipNextEventTimeout);
-                this.skipNextEventPending = value;
+            set: function(value) {
+                clearTimeout(this.skipNextEventTimeout)
+                this.skipNextEventPending = value
 
                 this.skipNextEventTimeout = setTimeout(() => {
-                    this.skipNextEventPending = false;
+                    this.skipNextEventPending = false
                 }, 5000)
             }
-        },
-    },
+        }
+    }
 }
 </script>
 

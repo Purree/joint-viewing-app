@@ -1,15 +1,15 @@
-window._ = import('lodash');
+import axios from 'axios'
+import Pusher from 'pusher-js'
 
-import axios from 'axios';
-window.axios = axios;
-import Pusher from 'pusher-js';
+import Echo from 'laravel-echo'
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.withCredentials = true;
+window._ = import('lodash')
+window.axios = axios
 
-import Echo from 'laravel-echo';
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+window.axios.defaults.withCredentials = true
 
-window.Pusher = Pusher;
+window.Pusher = Pusher
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
@@ -17,5 +17,5 @@ window.Echo = new Echo({
     wsHost: import.meta.env.VITE_PUSHER_HOST,
     wsPort: import.meta.env.VITE_PUSHER_PORT,
     forceTLS: false,
-    disableStats: true,
-});
+    disableStats: true
+})

@@ -20,19 +20,19 @@
 </template>
 
 <script>
-import SubmitButton from "@/components/SubmitButton.vue";
-import FormInput from "@/components/authentication/FormInput.vue";
-import ErrorMessage from "@/components/errors/ErrorMessage.vue";
-import UserSecretModal from "@/components/modals/UserSecretModal.vue";
-import {API_PASSWORD_RECOVERY_URL} from "@/api/auth.js";
-import SuccessfulArticle from "@/components/SuccessfulArticle.vue";
-import errorsHelper from "@/mixins/errors.js";
-import usePending from "@/mixins/usePending.js";
-import apiRequest from "@/helpers/apiRequest";
+import SubmitButton from '@/components/SubmitButton.vue'
+import FormInput from '@/components/authentication/FormInput.vue'
+import ErrorMessage from '@/components/errors/ErrorMessage.vue'
+import UserSecretModal from '@/components/modals/UserSecretModal.vue'
+import { API_PASSWORD_RECOVERY_URL } from '@/api/auth.js'
+import SuccessfulArticle from '@/components/SuccessfulArticle.vue'
+import errorsHelper from '@/mixins/errors.js'
+import usePending from '@/mixins/usePending.js'
+import apiRequest from '@/helpers/apiRequest'
 
 export default {
-    name: "PasswordRecovery",
-    components: {SubmitButton, FormInput, ErrorMessage, SuccessfulArticle},
+    name: 'PasswordRecovery',
+    components: { SubmitButton, FormInput, ErrorMessage, SuccessfulArticle },
     data() {
         return {
             pending: false,
@@ -41,7 +41,7 @@ export default {
                 email: null,
                 secret: null,
                 password: null,
-                password_confirmation: null,
+                password_confirmation: null
             },
             errors: {}
         }
@@ -52,7 +52,7 @@ export default {
             this.$oruga.modal.open({
                 component: UserSecretModal,
                 props: {
-                    secret: secret
+                    secret
                 },
                 trapFocus: true,
                 canCancel: false
@@ -61,15 +61,14 @@ export default {
         sendForm() {
             return apiRequest(API_PASSWORD_RECOVERY_URL, {}, this.form)
                 .then(response => {
-                    this.recovery = true;
-                    this.errors = {};
+                    this.recovery = true
+                    this.errors = {}
                     this.promptModal(response.data.new_secret_phrase)
                 })
                 .catch(errors => {
-                    this.recovery = false;
-                    this.errors = errorsHelper.methods.getFromResponse(errors);
+                    this.recovery = false
+                    this.errors = errorsHelper.methods.getFromResponse(errors)
                 })
-
         }
     }
 }

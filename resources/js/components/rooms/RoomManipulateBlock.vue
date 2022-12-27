@@ -28,13 +28,13 @@
 </template>
 
 <script>
-import SubmitButton from "@/components/SubmitButton";
-import ErrorMessage from "@/components/errors/ErrorMessage";
-import SettingsRow from "@/components/settings/SettingsRow";
+import SubmitButton from '@/components/SubmitButton'
+import ErrorMessage from '@/components/errors/ErrorMessage'
+import SettingsRow from '@/components/settings/SettingsRow'
 
 export default {
-    name: "RoomManipulateBlock",
-    components: {SettingsRow, ErrorMessage, SubmitButton},
+    name: 'RoomManipulateBlock',
+    components: { SettingsRow, ErrorMessage, SubmitButton },
     emits: ['updateRoom'],
     data() {
         return {
@@ -44,31 +44,31 @@ export default {
                 is_closed: !!this.roomData.is_closed || false,
                 password: this.roomData.password || '',
                 can_everyone_control: !!this.roomData.can_everyone_control || false,
-                is_private: !!this.roomData.is_private || false,
-            },
-        };
+                is_private: !!this.roomData.is_private || false
+            }
+        }
     },
     props: {
         isCreating: {
             type: Boolean,
-            default: false,
+            default: false
         },
         roomData: {
             type: Object,
-            default: () => ({}),
+            default: () => ({})
         },
         sendRequestButtonText: {
             type: String,
-            default: 'Update room',
+            default: 'Update room'
         },
         sendRequestPending: {
             type: Boolean,
-            default: false,
+            default: false
         },
         errors: {
             type: Object,
-            default: () => ({}),
-        },
+            default: () => ({})
+        }
     }
 }
 </script>

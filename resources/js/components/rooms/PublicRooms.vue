@@ -34,18 +34,18 @@
 </template>
 
 <script>
-import SubmitButton from "@/components/SubmitButton";
-import RoomRow from "@/components/rooms/RoomRow";
-import Divider from "@/components/Divider";
-import {API_ALL_ROOMS_URL} from "@/api/rooms";
-import usePending from "@/mixins/usePending";
-import {mapState} from "vuex";
-import errorsHelper from "@/mixins/errors";
-import apiRequest from "@/helpers/apiRequest";
+import SubmitButton from '@/components/SubmitButton'
+import RoomRow from '@/components/rooms/RoomRow'
+import Divider from '@/components/Divider'
+import { API_ALL_ROOMS_URL } from '@/api/rooms'
+import usePending from '@/mixins/usePending'
+import { mapState } from 'vuex'
+import errorsHelper from '@/mixins/errors'
+import apiRequest from '@/helpers/apiRequest'
 
 export default {
-    name: "PublicRooms",
-    components: {SubmitButton, RoomRow, Divider},
+    name: 'PublicRooms',
+    components: { SubmitButton, RoomRow, Divider },
     emits: ['updatePaginationPage'],
     mixins: [usePending],
     data() {
@@ -53,66 +53,66 @@ export default {
             rooms: [],
             pagination: {},
             pending: true,
-            roomToJoin: 0,
-        };
+            roomToJoin: 0
+        }
     },
     methods: {
         getPublicRooms(page = 1, count = 15) {
-            this.rooms = [];
-            this.pagination = [];
+            this.rooms = []
+            this.pagination = []
 
-            return apiRequest(API_ALL_ROOMS_URL, {}, {params: {'page': page, 'rooms_count': count}}).then((response) => {
-                history.pushState({}, null, `${this.$route.path}?page=${page}`);
-                this.rooms = response.data.data;
-                this.pagination = response.data.pagination;
+            return apiRequest(API_ALL_ROOMS_URL, {}, { params: { page, rooms_count: count } }).then((response) => {
+                history.pushState({}, null, `${this.$route.path}?page=${page}`)
+                this.rooms = response.data.data
+                this.pagination = response.data.pagination
 
                 if (this.pagination.count === 0 && this.pagination.current_page > 1) {
-                    this.getPublicRooms(this.pagination.total_pages);
+                    this.getPublicRooms(this.pagination.total_pages)
                 }
             }).catch((error) => {
-                console.log(error.response);
-            });
+                console.log(error.response)
+            })
         },
         async openRoom(room) {
             if (this.current_room?.id === room.id || this.created_room?.id === room.id) {
-                return this.$store.dispatch('rooms/open', room.link);
+                return this.$store.dispatch('rooms/open', room.link)
             }
 
             if (this.current_room?.id || this.created_room?.id) {
-                return errorsHelper.methods.openNotification('You are already in room');
+                return errorsHelper.methods.openNotification('You are already in room')
             }
 
             if (this.roomToJoin) {
-                return errorsHelper.methods.openNotification('You are already try to connect to another room');
+                return errorsHelper.methods.openNotification('You are already try to connect to another room')
             }
 
-            this.roomToJoin = room.id;
+            this.roomToJoin = room.id
 
             try {
-                let roomData = await this.$store.dispatch('rooms/getData', room.id);
+                const roomData = await this.$store.dispatch('rooms/getData', room.id)
                 if (roomData.is_closed) {
-                    await this.$router.push({name: 'RoomEntrance', params: {'id': room.id}});
+                    await this.$router.push({ name: 'RoomEntrance', params: { id: room.id } })
                 } else {
-                    await this.$store.dispatch('rooms/join', {'id': room.id, 'link': room.link});
+                    await this.$store.dispatch('rooms/join', { id: room.id, link: room.link })
                 }
             } catch (errors) {
-                errorsHelper.methods.openResponseNotification(errors);
+                errorsHelper.methods.openResponseNotification(errors)
             }
 
-            this.roomToJoin = 0;
+            this.roomToJoin = 0
         },
         removeRoom(id) {
-            this.rooms = this.rooms.filter((room) => room.id !== id);
+            this.rooms = this.rooms.filter((room) => room.id !== id)
         }
     },
     mounted() {
         this.getPublicRooms(this.$route.query.page).then(() => {
-            this.pending = false;
-        });
+            this.pending = false
+        })
     },
     computed: {
         ...mapState('auth', ['user']),
-        ...mapState('rooms', ['created_room', 'current_room']),
+        ...mapState('rooms', ['created_room', 'current_room'])
     }
 }
 </script>

@@ -45,25 +45,25 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
-import FileImage from "@/components/FileImage.vue";
-import asset from "@/mixins/asset.js";
-import SubmitButton from "@/components/SubmitButton.vue";
-import errorsHelper from "@/mixins/errors.js";
-import usePending from "@/mixins/usePending.js";
-import {API_DELETE_AVATAR_URL, API_UPDATE_AVATAR_URL} from "@/api/users.js";
-import replaceDataInUri from "@/helpers/replaceDataInUri.js";
-import ErrorMessage from "@/components/errors/ErrorMessage.vue";
-import Divider from "@/components/Divider";
-import apiRequest from "@/helpers/apiRequest";
+import { mapState } from 'vuex'
+import FileImage from '@/components/FileImage.vue'
+import asset from '@/mixins/asset.js'
+import SubmitButton from '@/components/SubmitButton.vue'
+import errorsHelper from '@/mixins/errors.js'
+import usePending from '@/mixins/usePending.js'
+import { API_DELETE_AVATAR_URL, API_UPDATE_AVATAR_URL } from '@/api/users.js'
+import replaceDataInUri from '@/helpers/replaceDataInUri.js'
+import ErrorMessage from '@/components/errors/ErrorMessage.vue'
+import Divider from '@/components/Divider'
+import apiRequest from '@/helpers/apiRequest'
 
 export default {
-    name: "AvatarSettingsBlock",
-    components: {SubmitButton, FileImage, ErrorMessage, Divider},
+    name: 'AvatarSettingsBlock',
+    components: { SubmitButton, FileImage, ErrorMessage, Divider },
     mixins: [asset, errorsHelper, usePending, replaceDataInUri],
     data() {
         return {
-            uploadedFile: new File([], ""),
+            uploadedFile: new File([], ''),
             avatarUploadPending: false,
             avatarDeletePending: false,
             errors: {}
@@ -74,10 +74,10 @@ export default {
             return URL.createObjectURL(file)
         },
         deleteDropFile() {
-            this.uploadedFile = new File([], "")
+            this.uploadedFile = new File([], '')
         },
         deleteAvatar() {
-            return apiRequest(API_DELETE_AVATAR_URL, {'id': this.user.id})
+            return apiRequest(API_DELETE_AVATAR_URL, { id: this.user.id })
                 .then(() => {
                     this.errors = {}
                     this.user.avatar = null
@@ -88,23 +88,23 @@ export default {
         updateAvatar() {
             if (this.uploadedFile.size / 1024 === 0) {
                 this.errors = {
-                    avatar: ["Please choose a file"]
+                    avatar: ['Please choose a file']
                 }
                 return
             }
 
             if (this.uploadedFile.size / 1024 > 2048) {
                 this.errors = {
-                    avatar: ["File is too big"]
+                    avatar: ['File is too big']
                 }
                 return
             }
 
-            let formData = new FormData();
-            formData.append("photo", this.uploadedFile);
+            const formData = new FormData()
+            formData.append('photo', this.uploadedFile)
 
             return apiRequest(API_UPDATE_AVATAR_URL,
-                {'id': this.user.id},
+                { id: this.user.id },
                 formData,
                 {
                     headers: {
@@ -112,15 +112,15 @@ export default {
                     }
                 })
                 .then((response) => {
-                    this.user.avatar = response.data.avatarPath;
+                    this.user.avatar = response.data.avatarPath
                     this.errors = {}
                 }).catch(errors => {
-                    this.errors = errorsHelper.methods.getFromResponse(errors);
+                    this.errors = errorsHelper.methods.getFromResponse(errors)
                 })
-        },
+        }
     },
     computed: {
-        ...mapState('auth', ['user']),
+        ...mapState('auth', ['user'])
     }
 }
 </script>

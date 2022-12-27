@@ -1,8 +1,7 @@
-import {createRouter, createWebHistory} from "vue-router";
-import authRoutes, {addUnknownUsersRedirect} from "@/routes/auth-routes.js";
-import menuRoutes from "@/routes/menu-routes.js";
-import {loadLayoutMiddleware} from "@/routes/middleware/loadLayout.js";
-
+import { createRouter, createWebHistory } from 'vue-router'
+import authRoutes, { addUnknownUsersRedirect } from '@/routes/auth-routes.js'
+import menuRoutes from '@/routes/menu-routes.js'
+import { loadLayoutMiddleware } from '@/routes/middleware/loadLayout.js'
 
 const routes = [
     ...authRoutes,
@@ -16,19 +15,17 @@ const routes = [
         }
     },
     {
-        path: "/:catchAll(.*)", // Unrecognized path automatically matches 404
-        redirect: {'name': 'PageNotExist'}
-    },
-];
+        path: '/:catchAll(.*)', // Unrecognized path automatically matches 404
+        redirect: { name: 'PageNotExist' }
+    }
+]
 
 const router = createRouter({
     history: createWebHistory(),
     routes
 })
 
-
-router.beforeEach(loadLayoutMiddleware);
+router.beforeEach(loadLayoutMiddleware)
 addUnknownUsersRedirect(router)
 
-
-export default router;
+export default router

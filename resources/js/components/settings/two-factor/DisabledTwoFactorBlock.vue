@@ -17,13 +17,13 @@
 </template>
 
 <script>
-import TwoFactorHeader from "@/components/settings/two-factor/TwoFactorHeader.vue";
-import TwoFactorContent from "@/components/settings/two-factor/TwoFactorContent.vue";
-import SubmitButton from "@/components/SubmitButton.vue";
+import TwoFactorHeader from '@/components/settings/two-factor/TwoFactorHeader.vue'
+import TwoFactorContent from '@/components/settings/two-factor/TwoFactorContent.vue'
+import SubmitButton from '@/components/SubmitButton.vue'
 
 export default {
-    name: "DisabledTwoFactorBlock",
-    components: {SubmitButton, TwoFactorContent, TwoFactorHeader},
+    name: 'DisabledTwoFactorBlock',
+    components: { SubmitButton, TwoFactorContent, TwoFactorHeader },
     props: ['pending'],
     emits: ['enableTwoFactor']
 }

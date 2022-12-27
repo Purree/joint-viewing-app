@@ -32,15 +32,15 @@
 </template>
 
 <script>
-import usePending from "@/mixins/usePending";
+import usePending from '@/mixins/usePending'
 
 export default {
-    name: "RoomRow",
+    name: 'RoomRow',
     emits: ['openRoom', 'deleteRoom'],
     mixins: [usePending],
     data() {
         return {
-            leavePending: false,
+            leavePending: false
         }
     },
     props: {
@@ -51,32 +51,35 @@ export default {
                 id: 0,
                 name: '',
                 link: '',
-                isLocked: false,
-            }),
-        }, isOwned: {
-            type: Boolean,
-            default: false,
-        }, isCurrent: {
-            type: Boolean,
-            default: false,
-        }, pending: {
-            type: Boolean,
-            default: false,
+                isLocked: false
+            })
         },
+        isOwned: {
+            type: Boolean,
+            default: false
+        },
+        isCurrent: {
+            type: Boolean,
+            default: false
+        },
+        pending: {
+            type: Boolean,
+            default: false
+        }
     },
     methods: {
         async leaveRoom() {
-            return this.$store.dispatch('rooms/leave', {'id': this.room.id}).then(async () => {
+            return this.$store.dispatch('rooms/leave', { id: this.room.id }).then(async() => {
                 try {
-                    let response = await this.$store.dispatch('rooms/getData', this.room.id)
+                    const response = await this.$store.dispatch('rooms/getData', this.room.id)
 
                     if (response.data.is_private) {
-                        this.$emit('deleteRoom', this.room.id);
+                        this.$emit('deleteRoom', this.room.id)
                     }
                 } catch (error) {
-                    this.$emit('deleteRoom', this.room.id);
+                    this.$emit('deleteRoom', this.room.id)
                 }
-            });
+            })
         }
     }
 }
