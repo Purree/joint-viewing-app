@@ -1,14 +1,14 @@
 <template>
     <main>
-        <UnableToAuthenticateModal :is-modal-active="failedToLogin" v-if="failedToLogin"></UnableToAuthenticateModal>
+        <UnableToAuthenticateModal v-model:is-modal-active="failedToLogin" v-if="failedToLogin"></UnableToAuthenticateModal>
         <AppLayout v-if="isLoaded">
             <router-view></router-view>
         </AppLayout>
         <p v-else class="is-relative">
-            <o-loading animation="fade"
-                       :full-page="true"
-                       v-model:active="!isLoaded"
+            <o-loading :active="!isLoaded"
                        :can-cancel="false"
+                       :full-page="true"
+                       animation="fade"
                        icon="spinner"></o-loading>
         </p>
     </main>

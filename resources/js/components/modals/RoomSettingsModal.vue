@@ -1,6 +1,6 @@
 <template>
     <div class="box box-bordered">
-        <SuccessfulArticle :show-when="isSuccess" text="Successfully update room"/>
+        <SuccessfulArticle v-if="isSuccess" text="Successfully update room"/>
 
         <room-manipulate-block :is-creating="false"
                                :room-data="room"
@@ -58,7 +58,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

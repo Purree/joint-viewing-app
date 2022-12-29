@@ -20,7 +20,7 @@ class PlayerSynchronizeRequest implements ShouldBroadcast
      */
     public function __construct(
         protected int $roomId,
-        public int $synchronizer_id,
+        public int $synchronizerId,
     ) {
     }
 

@@ -8,7 +8,7 @@
                 <o-button class="is-fullwidth" @click="isOpened=!isOpened" icon-right="close"></o-button>
                 <div class="menu-buttons h-100 w-100 is-flex is-flex-direction-column is-justify-content-space-between">
                     <ul class="menu-list">
-                        <li v-for="tab in tabs" class="is-clipped">
+                        <li :key="tab.text" v-for="tab in tabs" class="is-clipped">
                             <router-link :to="{'name': tab['route-name']}">
                                 {{ tab.text }}
                             </router-link>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import Header from '@/components/Header'
+import HeaderBlock from '@/components/Header'
 import ChangeThemeButton from '@/components/ChangeThemeButton'
 
 export default {
@@ -35,7 +35,7 @@ export default {
         }
     },
     mounted() {
-        this.tabs = { ...this.tabs, ...Header.data().tabs }
+        this.tabs = { ...this.tabs, ...HeaderBlock.data().tabs }
     }
 }
 </script>

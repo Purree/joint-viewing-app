@@ -86,26 +86,26 @@ export default {
         synchronizeClients(
             {
                 time = this.player.getCurrentTime(),
-                player_state = this.player.getPlayerState(),
-                playback_rate = this.player.getPlaybackRate(),
+                playerState = this.player.getPlayerState(),
+                playbackRate = this.player.getPlaybackRate(),
                 timestamp = new Date().getTime(),
-                additional_data = {}
+                additionalData = {}
             }
         ) {
             return apiRequest(API_SYNCHRONIZATION_URL, { roomId: this.room.id }, {
                 time,
-                is_paused: [-1, 0, 2, 5].includes(player_state),
-                playback_rate,
-                synchronizer_timestamp: timestamp,
-                additional_data
+                isPaused: [-1, 0, 2, 5].includes(playerState),
+                playbackRate,
+                synchronizerTimestamp: timestamp,
+                additionalData
             })
                 .catch((error) => {
                     errorsHelper.methods.openResponseNotification(error)
                     this.synchronizationError = errorsHelper.methods.getFromResponse(error)
                 })
         },
-        synchronize(time, is_paused, playback_rate, synchronizer_timestamp, additional_data = {}) {
-            this.$refs.player.synchronize(time, is_paused, playback_rate, synchronizer_timestamp, additional_data)
+        synchronize(time, isPaused, playbackRate, synchronizerTimestamp, additionalData = {}) {
+            this.$refs.player.synchronize(time, isPaused, playbackRate, synchronizerTimestamp, additionalData)
         },
         onPlayerReady() {
             broadcastConnections.methods.connectToRoom(this.room.id)
@@ -118,13 +118,13 @@ export default {
                     }
                 })
                 .listen('PlayerSynchronize', (response) => {
-                    if (response.synchronizer_id !== this.user.id) {
+                    if (response.synchronizerId !== this.user.id) {
                         this.synchronize(
                             response.time,
-                            response.is_paused,
-                            response.playback_rate,
-                            response.synchronizer_timestamp,
-                            response.additional_data ?? {}
+                            response.isPaused,
+                            response.playbackRate,
+                            response.synchronizerTimestamp,
+                            response.additionalData ?? {}
                         )
                     }
                 })

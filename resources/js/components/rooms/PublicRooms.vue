@@ -3,7 +3,8 @@
 
     <div v-if="!pending" class="is-flex is-flex-direction-column">
         <div v-if="this.rooms.length > 0">
-            <room-row v-for="room in rooms"
+            <room-row :key="room.id"
+                      v-for="room in rooms"
                       :pending="roomToJoin === room.id"
                       @delete-room="removeRoom"
                       @open-room="openRoom"
@@ -34,7 +35,6 @@
 </template>
 
 <script>
-import SubmitButton from '@/components/SubmitButton'
 import RoomRow from '@/components/rooms/RoomRow'
 import Divider from '@/components/Divider'
 import { API_ALL_ROOMS_URL } from '@/api/rooms'
@@ -45,7 +45,10 @@ import apiRequest from '@/helpers/apiRequest'
 
 export default {
     name: 'PublicRooms',
-    components: { SubmitButton, RoomRow, Divider },
+    components: {
+        RoomRow,
+        Divider
+    },
     emits: ['updatePaginationPage'],
     mixins: [usePending],
     data() {
@@ -61,7 +64,12 @@ export default {
             this.rooms = []
             this.pagination = []
 
-            return apiRequest(API_ALL_ROOMS_URL, {}, { params: { page, rooms_count: count } }).then((response) => {
+            return apiRequest(API_ALL_ROOMS_URL, {}, {
+                params: {
+                    page,
+                    rooms_count: count
+                }
+            }).then((response) => {
                 history.pushState({}, null, `${this.$route.path}?page=${page}`)
                 this.rooms = response.data.data
                 this.pagination = response.data.pagination
@@ -91,9 +99,15 @@ export default {
             try {
                 const roomData = await this.$store.dispatch('rooms/getData', room.id)
                 if (roomData.is_closed) {
-                    await this.$router.push({ name: 'RoomEntrance', params: { id: room.id } })
+                    await this.$router.push({
+                        name: 'RoomEntrance',
+                        params: { id: room.id }
+                    })
                 } else {
-                    await this.$store.dispatch('rooms/join', { id: room.id, link: room.link })
+                    await this.$store.dispatch('rooms/join', {
+                        id: room.id,
+                        link: room.link
+                    })
                 }
             } catch (errors) {
                 errorsHelper.methods.openResponseNotification(errors)

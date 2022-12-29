@@ -5,9 +5,9 @@
         </div>
         <div class="message-body">
             <ul>
-                <li v-for="errorGroup in errors">
+                <li :key="errorGroup.toString().slice(0, 5) + Math.random()" v-for="errorGroup in errors">
                     <ul v-if="errorGroup.length > 1">
-                        <li v-for="error in errorGroup">
+                        <li :key="error + Math.random()" v-for="error in errorGroup">
                             {{ error }}
                         </li>
                     </ul>
@@ -26,7 +26,3 @@ export default {
     props: ['errors', 'errorHeader']
 }
 </script>
-
-<style scoped>
-
-</style>

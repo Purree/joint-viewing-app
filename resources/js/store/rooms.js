@@ -1,4 +1,3 @@
-import replaceDataInUri from '@/helpers/replaceDataInUri'
 import { API_GET_ROOM_DATA_URL, API_JOIN_ROOM_URL, API_LEAVE_ROOM_URL, API_UPDATE_ROOM_URL } from '@/api/rooms'
 import router from '@/routes/index.js'
 import apiRequest from '@/helpers/apiRequest'

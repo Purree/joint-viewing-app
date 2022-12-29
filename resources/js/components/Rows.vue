@@ -1,6 +1,6 @@
 <template>
     <div class="columns">
-        <div class="column" v-for="column in columns">
+        <div :key="column" class="column" v-for="column in columns">
             {{ column }}
         </div>
         <slot></slot>

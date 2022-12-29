@@ -1,8 +1,8 @@
 <template>
-    <article v-if="showWhen" class="message is-primary">
+    <article v-if="show" class="message is-primary">
         <div class="message-header">
             Success
-            <button class="delete" @click="showWhen = false"></button>
+            <button class="delete" @click="show = false"></button>
         </div>
         <div class="message-body">
             {{ text }}
@@ -13,10 +13,11 @@
 <script>
 export default {
     name: 'SuccessfulArticle',
-    props: ['showWhen', 'text']
+    props: ['text'],
+    data() {
+        return {
+            show: true
+        }
+    }
 }
 </script>
-
-<style scoped>
-
-</style>

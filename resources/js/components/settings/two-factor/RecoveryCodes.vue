@@ -5,9 +5,11 @@
     </div>
     <div class="box has-text-centered">
         <o-skeleton v-if="pending" :animated="true" :count="8"></o-skeleton>
-        <p v-if="!pending" v-for="recoveryCode in recoveryCodes">
-            {{ recoveryCode }}
-        </p>
+        <div v-if="!pending">
+            <p :key="recoveryCode" v-for="recoveryCode in recoveryCodes">
+                {{ recoveryCode }}
+            </p>
+        </div>
     </div>
 </template>
 

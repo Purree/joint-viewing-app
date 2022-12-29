@@ -20,12 +20,12 @@ class PlayerSynchronize implements ShouldBroadcast
      */
     public function __construct(
         protected int $roomId,
-        public int $synchronizer_id,
+        public int $synchronizerId,
         public float $time,
-        public bool $is_paused,
-        public float $playback_rate,
-        public int $synchronizer_timestamp,
-        public array $additional_data = []
+        public bool $isPaused,
+        public float $playbackRate,
+        public int $synchronizerTimestamp,
+        public array $additionalData = []
     ) {
     }
 

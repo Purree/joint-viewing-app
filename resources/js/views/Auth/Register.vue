@@ -1,7 +1,7 @@
 <template>
     <ErrorMessage :errors="errors"></ErrorMessage>
 
-    <successful-article :show-when="registered" :text="'Successfully registered'"></successful-article>
+    <successful-article v-if="registered" :text="'Successfully registered'"></successful-article>
 
     <FormInput :label="'Username'" v-model="form.name" :placeholder="'pure'"
                :type="'text'" :error-condition="'name' in errors"/>
@@ -20,7 +20,6 @@
 
 <script>
 import { API_REGISTRATION_URL } from '@/api/auth.js'
-import AuthenticationLayout from '@/layouts/AuthenticationLayout.vue'
 import SubmitButton from '@/components/SubmitButton.vue'
 import FormInput from '@/components/authentication/FormInput.vue'
 import ErrorMessage from '@/components/errors/ErrorMessage.vue'
@@ -32,7 +31,7 @@ import apiRequest from '@/helpers/apiRequest'
 
 export default {
     name: 'Register',
-    components: { SuccessfulArticle, ErrorMessage, FormInput, SubmitButton, AuthenticationLayout, UserSecretModal },
+    components: { SuccessfulArticle, ErrorMessage, FormInput, SubmitButton },
     data() {
         return {
             pending: false,

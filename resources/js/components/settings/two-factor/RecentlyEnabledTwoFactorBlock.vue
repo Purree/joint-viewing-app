@@ -27,10 +27,8 @@
 
 <script>
 import TwoFactorHeader from '@/components/settings/two-factor/TwoFactorHeader.vue'
-import RecoveryCodes from '@/components/settings/two-factor/RecoveryCodes.vue'
 import TwoFactorContent from '@/components/settings/two-factor/TwoFactorContent.vue'
 import QrCode from '@/components/settings/two-factor/QrCode.vue'
-import EnabledTwoFactorButtons from '@/components/settings/two-factor/EnabledTwoFactorButtons.vue'
 import TurnOffTwoFactorButton from '@/components/settings/two-factor/TurnOffTwoFactorButton.vue'
 import SubmitButton from '@/components/SubmitButton.vue'
 import usePending from '@/mixins/usePending'
@@ -46,11 +44,9 @@ export default {
         ErrorMessage,
         SubmitButton,
         TurnOffTwoFactorButton,
-        EnabledTwoFactorButtons,
         QrCode,
         TwoFactorContent,
-        TwoFactorHeader,
-        RecoveryCodes
+        TwoFactorHeader
     },
     mixins: [usePending],
     data() {
@@ -83,7 +79,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

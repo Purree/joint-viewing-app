@@ -21,11 +21,13 @@
             </div>
             <div class="messages" ref="messages"
                  :class="{'is-flex is-justify-content-center is-align-items-center has-text-grey-light': messages.length === 0}">
-                <div v-for="message in messages" v-if="messages.length > 0">
-                    <chat-message v-if="message.user !== null"
-                                  :message="message"
-                                  :is-sent-by-current-user="message.user.id === this.user.id"></chat-message>
-                    <system-chat-message v-else :message="message"></system-chat-message>
+                <div v-if="messages.length > 0">
+                    <div v-for="message in messages" :key="message.id">
+                        <chat-message v-if="message.user !== null"
+                                      :message="message"
+                                      :is-sent-by-current-user="message.user.id === this.user.id"></chat-message>
+                        <system-chat-message v-else :message="message"></system-chat-message>
+                    </div>
                 </div>
                 <div v-else class="has-text-centered">
                     There are no messages yet, but you can send message using the form below.
@@ -56,7 +58,6 @@
 import ChatMessage from '@/components/room/chat/Message'
 import { mapState } from 'vuex'
 import errorsHelper from '@/mixins/errors'
-import replaceDataInUri from '@/helpers/replaceDataInUri'
 import { API_GET_ALL_MESSAGES_URL, API_SEND_MESSAGE_URL } from '@/api/chat'
 import usePending from '@/mixins/usePending'
 import broadcastConnections from '@/mixins/broadcastConnections'

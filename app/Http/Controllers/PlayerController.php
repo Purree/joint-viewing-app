@@ -26,10 +26,10 @@ class PlayerController extends Controller
                 $room->id,
                 $request->user()->id,
                 $request->time,
-                $request->is_paused,
-                $request->playback_rate,
-                $request->synchronizer_timestamp,
-                $request->additional_data ?? []
+                $request->isPaused,
+                $request->playbackRate,
+                $request->synchronizerTimestamp,
+                $request->additionalData ?? []
             )
         );
 

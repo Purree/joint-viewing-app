@@ -25,10 +25,10 @@ class SynchronizationRequest extends FormRequest
     {
         return [
             'time' => 'required|numeric|min:0',
-            'is_paused' => 'required|boolean',
-            'playback_rate' => 'required|numeric|min:0.07|max:16',
-            'synchronizer_timestamp' => 'required|numeric|min:0',
-            'additional_data' => 'nullable|array',
+            'isPaused' => 'required|boolean',
+            'playbackRate' => 'required|numeric|min:0.07|max:16',
+            'synchronizerTimestamp' => 'required|numeric|min:0',
+            'additionalData' => 'nullable|array',
         ];
     }
 }

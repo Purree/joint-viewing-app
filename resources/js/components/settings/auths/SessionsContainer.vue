@@ -7,7 +7,7 @@
                         {'name': 'last_activity', 'action': formatDate}
                     ]"
                     :auths="sessions"
-                    :deleting-auths="deletingSessions"
+                    v-model:deleting-auths="deletingSessions"
                     :delete-request-params="{'uri': deleteUri}"
                     @update="this.$emit('updateSessions')"></auth-container>
 </template>
@@ -32,7 +32,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

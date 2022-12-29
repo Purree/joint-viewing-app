@@ -35,14 +35,14 @@ export default {
     },
     emits: ['playerReady', 'synchronize', 'requestSynchronization', 'videoEnded', 'ignoreNextEvent', 'listenNextEvent'],
     methods: {
-        synchronize(time, is_paused, playback_rate, synchronizer_timestamp, additional_data = {}) {
+        synchronize(time, isPaused, playbackRate, synchronizerTimestamp, additionalData = {}) {
             this.$emit('ignoreNextEvent')
 
             this.lastSynchronizationData = {
                 time,
-                is_paused,
-                playback_rate,
-                synchronizer_timestamp,
+                isPaused,
+                playbackRate,
+                synchronizerTimestamp,
                 synchronizationTime: new Date().getTime(),
                 synchronizationAttemptPerMinute:
                     new Date().getMinutes() === new Date(this.lastSynchronizationData.synchronizationTime).getMinutes()
@@ -50,23 +50,23 @@ export default {
                         : 1
             }
 
-            const timeWithUncertainty = is_paused ? time : time + (new Date().getTime() - synchronizer_timestamp) / 1000 * playback_rate
+            const timeWithUncertainty = isPaused ? time : time + (new Date().getTime() - synchronizerTimestamp) / 1000 * playbackRate
 
             if (this.lastSynchronizationData.synchronizationAttemptPerMinute > 30) {
                 errorsHelper.methods.openNotification('It looks like your player is syncing too often. Perhaps you or your leader has a video playback speed that is different from the speed set in the player, check this, if this does not help, then try to reduce the number of actions with the player. If so many requests come from you, we will be forced to block you for a short time.')
             }
 
-            if (additional_data.playlistIndex !== null &&
-                additional_data.playlistIndex !== undefined &&
-                this.player.getPlaylistIndex() !== additional_data.playlistIndex) {
-                this.loadPlaylist(this.parsePlaylistLink(this.videoUrl), additional_data.playlistIndex, timeWithUncertainty)
+            if (additionalData.playlistIndex !== null &&
+                additionalData.playlistIndex !== undefined &&
+                this.player.getPlaylistIndex() !== additionalData.playlistIndex) {
+                this.loadPlaylist(this.parsePlaylistLink(this.videoUrl), additionalData.playlistIndex, timeWithUncertainty)
             }
 
             if (this.player.getCurrentTime() < timeWithUncertainty - 3 || timeWithUncertainty + 3 < this.player.getCurrentTime()) {
                 this.player.seekTo(timeWithUncertainty, true)
             }
 
-            if (is_paused) {
+            if (isPaused) {
                 if (this.player.getPlayerState() !== 2) {
                     this.player.seekTo(time, true)
                     this.player.pauseVideo()
@@ -78,8 +78,8 @@ export default {
                 }
             }
 
-            if (this.player.getPlaybackRate() !== playback_rate) {
-                this.player.setPlaybackRate(playback_rate)
+            if (this.player.getPlaybackRate() !== playbackRate) {
+                this.player.setPlaybackRate(playbackRate)
             }
         },
         loadPlaylist(listId, index = 0, startSeconds = 0) {
@@ -95,7 +95,7 @@ export default {
             const synchronizationParameters =
                 this.player.getPlaylistIndex() !== null && this.player.getPlaylistIndex() !== undefined
                     ? {
-                        additional_data: {
+                        additionalData: {
                             playlistIndex: this.player.getPlaylistIndex()
                         }
                     }
@@ -113,11 +113,11 @@ export default {
             this.$emit('playerReady')
         },
         onPlayerStateChange(event) {
-            if (event.data === YT.PlayerState.ENDED) {
+            if (event.data === window.YT.PlayerState.ENDED) {
                 this.$emit('videoEnded')
             }
-            if (event.data === YT.PlayerState.PLAYING || event.data === YT.PlayerState.PAUSED) {
-                if (!this.canControl && this.player.getPlayerState() !== YT.PlayerState.PAUSED && !!this.lastSynchronizationData?.is_paused) {
+            if (event.data === window.YT.PlayerState.PLAYING || event.data === window.YT.PlayerState.PAUSED) {
+                if (!this.canControl && this.player.getPlayerState() !== window.YT.PlayerState.PAUSED && !!this.lastSynchronizationData?.isPaused) {
                     this.player.pauseVideo()
                 }
 
@@ -131,7 +131,7 @@ export default {
         },
         addVideoSeekListener() {
             this.synchronizationInterval = setInterval(() => {
-                if (this.lastTime !== 0 && Math.abs(this.player.getCurrentTime() - this.lastTime - (this.player.getPlayerState() !== YT.PlayerState.PLAYING * this.player.getPlaybackRate())) > 1.5) {
+                if (this.lastTime !== 0 && Math.abs(this.player.getCurrentTime() - this.lastTime - (this.player.getPlayerState() !== window.YT.PlayerState.PLAYING * this.player.getPlaybackRate())) > 1.5) {
                     this.sendSynchronizationEvent()
                 }
                 this.lastTime = this.player.getCurrentTime()
@@ -164,7 +164,7 @@ export default {
             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
 
             window.onYouTubePlayerAPIReady = () => {
-                this.$store.commit('player/setPlayer', new YT.Player('ytplayer', {
+                this.$store.commit('player/setPlayer', new window.YT.Player('ytplayer', {
                     height: '100%',
                     width: '100%',
                     videoId: this.parseVideoLink(this.videoUrl),
@@ -211,7 +211,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

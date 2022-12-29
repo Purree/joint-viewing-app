@@ -1,7 +1,7 @@
 <template>
     <ErrorMessage :errors="errors"></ErrorMessage>
 
-    <successful-article :show-when="recovery" :text="'Successfully recovered'"></successful-article>
+    <successful-article v-if="recovery" :text="'Successfully recovered'"></successful-article>
 
     <FormInput :label="'Secret'" v-model:model-value="form.secret" :placeholder="'I love beautiful women'"
                :type="'text'" :error-condition="'secret' in errors"/>
@@ -73,7 +73,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

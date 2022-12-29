@@ -23,26 +23,33 @@
 import RevokeAuthButton from '@/components/settings/auths/RevokeAuthButton.vue'
 import Rows from '@/components/Rows.vue'
 import errorsHelper from '@/mixins/errors.js'
-import replaceDataInUri from '@/helpers/replaceDataInUri.js'
 import { mapState } from 'vuex'
 import Divider from '@/components/Divider'
 import apiRequest from '@/helpers/apiRequest'
 
 export default {
     name: 'AuthContainer',
-    components: { Rows, RevokeAuthButton, Divider },
-    emits: ['delete', 'update'],
+    components: {
+        Rows,
+        RevokeAuthButton,
+        Divider
+    },
+    emits: ['delete', 'update', 'update:deletingAuths'],
     props: ['auths', 'deletingAuths', 'dividerText', 'headerColumns', 'arrayKeys', 'deleteRequestParams'],
     methods: {
         deleteAuth(id) {
             if (this.deletingAuths.includes(id)) {
                 return
             }
+            this.$emit('update:deletingAuths', this.deletingAuths.concat(id))
 
             if (this.deleteRequestParams.uri) {
                 apiRequest(
                     this.deleteRequestParams.uri,
-                    { userId: this.user.id, authId: id }
+                    {
+                        userId: this.user.id,
+                        authId: id
+                    }
                 ).then((response) => {
                     if (response.data.logout) {
                         this.$store.dispatch('auth/logout')
@@ -52,7 +59,13 @@ export default {
                 }).catch(errors => {
                     errorsHelper.methods.openResponseNotification(errors)
                 }).then(() => {
-                    this.deletingAuths.splice(this.deletingAuths.indexOf(id), 1)
+                    const indexOfDeletingAuth = this.deletingAuths.indexOf(id)
+                    this.$emit('update:deletingAuths',
+                        [
+                            ...this.deletingAuths.slice(0, indexOfDeletingAuth),
+                            ...this.deletingAuths.slice(indexOfDeletingAuth + 1)
+                        ]
+                    )
                 })
             } else {
                 this.$emit('delete', id)
@@ -64,7 +77,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

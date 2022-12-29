@@ -2,7 +2,7 @@
     <divider>User password</divider>
 
     <ErrorMessage :errors="errors"></ErrorMessage>
-    <SuccessfulArticle :show-when="successed" :text="'Successfully change password'"></SuccessfulArticle>
+    <SuccessfulArticle v-if="successed" :text="'Successfully change password'"></SuccessfulArticle>
 
     <settings-row :property-name="'Old password'">
         <o-input password-reveal type="password" v-model="form.old_password"></o-input>
@@ -66,7 +66,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

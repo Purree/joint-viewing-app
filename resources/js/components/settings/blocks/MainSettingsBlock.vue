@@ -2,7 +2,7 @@
     <divider>User settings</divider>
 
     <ErrorMessage :errors="errors"></ErrorMessage>
-    <SuccessfulArticle :show-when="successed" :text="'Successfully change name'"></SuccessfulArticle>
+    <SuccessfulArticle v-if="successed" :text="'Successfully change name'"></SuccessfulArticle>
 
     <settings-row :property-name="'Email (hold to show)'" :property-styles="'is-spoiler'">
         {{ this.user.email }}
@@ -72,7 +72,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

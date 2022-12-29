@@ -11,7 +11,7 @@
 
         <div id="menuNavbar" class="navbar-menu container" :class="isDropdownActive ? 'is-active' : 'is-hidden-touch'">
             <div class="navbar-start">
-                <router-link v-for="tab in tabs" class="navbar-item is-tab" :to="{name: tab['route-name']}"
+                <router-link :key="tab.text" v-for="tab in tabs" class="navbar-item is-tab" :to="{name: tab['route-name']}"
                              :class="{'is-active' : tab['route-name'] === $route.name}">
                     {{ tab.text }}
                 </router-link>
@@ -42,7 +42,7 @@ import { mapState } from 'vuex'
 import UserAvatar from '@/components/UserAvatar'
 
 export default {
-    name: 'Header',
+    name: 'HeaderBlock',
     components: { UserAvatar, ChangeThemeButton, LogoutButton },
     data() {
         return {
@@ -50,13 +50,13 @@ export default {
             tabs: {
                 Rooms:
                     {
-                    	'route-name': 'Rooms',
-                    	text: 'Rooms'
+                        'route-name': 'Rooms',
+                        text: 'Rooms'
                     },
                 Settings:
                     {
-                    	'route-name': 'Settings',
-                    	text: 'Settings'
+                        'route-name': 'Settings',
+                        text: 'Settings'
                     }
             }
         }

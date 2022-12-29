@@ -2,7 +2,7 @@
     <form class="container is-max-desktop auth-form">
         <div class="box container">
             <div class="tabs is-fullwidth is-toggle">
-                <ul v-for="route in routes">
+                <ul :key="route" v-for="route in routes">
                     <li :class="{'is-active': route === this.$route.name}">
                         <router-link :to="{ name: route }">{{ route }}</router-link>
                     </li>

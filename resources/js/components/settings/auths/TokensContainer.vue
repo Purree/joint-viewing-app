@@ -8,7 +8,7 @@
                         {'name': 'last_used_at', 'action': (date) => date ? formatDate(date) : 'Never'}
                     ]"
                     :auths="tokens"
-                    :deleting-auths="deletingTokens"
+                    v-model:deleting-auths="deletingTokens"
                     :delete-request-params="{'uri': deleteUri}"
                     @update="this.$emit('updateTokens')"></auth-container>
 </template>
@@ -33,7 +33,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

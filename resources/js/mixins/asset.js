@@ -1,8 +1,8 @@
 export default {
     methods: {
         asset(path) {
-            const base_path = (window._asset || '') + 'storage/'
-            return base_path + path
+            const basePath = (window._asset || '') + 'storage/'
+            return basePath + path
         }
     }
 }
