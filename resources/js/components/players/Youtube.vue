@@ -16,6 +16,10 @@ export default {
         }
     },
     props: {
+        cachedSynchronizationParameters: {
+            type: Object,
+            required: true
+        },
         videoUrl: {
             type: String,
             required: true
@@ -33,7 +37,15 @@ export default {
             required: true
         }
     },
-    emits: ['playerReady', 'synchronize', 'requestSynchronization', 'videoEnded', 'ignoreNextEvent', 'listenNextEvent'],
+    emits: [
+        'playerReady',
+        'synchronize',
+        'requestSynchronization',
+        'videoEnded',
+        'ignoreNextEvent',
+        'listenNextEvent',
+        'update:cachedSynchronizationParameters'
+    ],
     methods: {
         synchronize(time, isPaused, playbackRate, synchronizerTimestamp, additionalData = {}) {
             this.$emit('ignoreNextEvent')
@@ -100,6 +112,8 @@ export default {
                         }
                     }
                     : {}
+
+            this.$emit('update:cachedSynchronizationParameters', synchronizationParameters)
 
             if (this.canControl || this.isHost) {
                 this.$emit('synchronize', synchronizationParameters)

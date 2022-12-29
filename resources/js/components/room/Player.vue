@@ -15,6 +15,7 @@
             </div>
             <youtube :is-host="host === user.id"
                      ref="player"
+                     v-model:cachedSynchronizationParameters="cachedPlayerSynchronizationParameters"
                      @player-ready="onPlayerReady"
                      @synchronize="sendSynchronizationToClients"
                      @request-synchronization="usePending(requestSynchronization, 'synchronizationPending')"
@@ -51,7 +52,8 @@ export default {
             synchronizationPending: false,
             synchronizationErrorText: '',
             synchronizationErrorPending: false,
-            skipNextEventTimeout: null
+            skipNextEventTimeout: null,
+            cachedPlayerSynchronizationParameters: {}
         }
     },
     props: {
@@ -112,9 +114,10 @@ export default {
                 .listen('PlayerSynchronizeRequest', () => {
                     if (this.host === this.user.id) {
                         this.synchronizationPending = true
-                        this.synchronizeClients({}).then(() => {
-                            this.synchronizationPending = false
-                        })
+                        this.synchronizeClients(this.cachedPlayerSynchronizationParameters)
+                            .then(() => {
+                                this.synchronizationPending = false
+                            })
                     }
                 })
                 .listen('PlayerSynchronize', (response) => {
