@@ -31,7 +31,7 @@ class TwoFactorAuthenticationProvider
         $svg = (new Writer(
             new ImageRenderer(
                 new RendererStyle(192, 1, fill: Fill::uniformColor(new Rgb(255, 255, 255), new Rgb(45, 55, 72))),
-                new SvgImageBackEnd
+                new SvgImageBackEnd()
             )
         ))->writeString($qrCodeUri);
 
