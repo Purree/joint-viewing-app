@@ -189,6 +189,7 @@ export default {
                         onPlaybackRateChange: this.sendSynchronizationEvent
                     },
                     playerVars: {
+                        autoplay: 1,
                         showinfo: 0,
                         rel: 0,
                         color: 'white',
