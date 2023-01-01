@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ImageFacade;
 use App\Helpers\Results\ResponseResult;
 use App\Http\Requests\ChangeAvatarRequest;
 use App\Http\Requests\ChangeNameRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use App\Services\ImageDecorator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -55,7 +55,7 @@ class UserController extends Controller
 
     public function changeAvatar(ChangeAvatarRequest $request, User $user): JsonResponse
     {
-        $image = ImageDecorator::make($request->photo)
+        $image = ImageFacade::make($request->photo)
             ->encode('jpg')
             ->resize(1024, 1024, true);
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Helpers;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Intervention\Image\Image as InterventionImage;
 
-class ImageDecorator
+class ImageFacade
 {
     public InterventionImage $image;
 
@@ -20,9 +20,9 @@ class ImageDecorator
 
     public static function checkIsAPNG(string $file): bool
     {
-        $img_bytes = file_get_contents($file);
+        $imgBytes = file_get_contents($file);
 
-        return ! ($img_bytes && str_contains(substr($img_bytes, 0, strpos($img_bytes, 'IDAT')), 'acTL'));
+        return ! ($imgBytes && str_contains(substr($imgBytes, 0, strpos($imgBytes, 'IDAT')), 'acTL'));
     }
 
     public static function make(string $file): self
@@ -33,7 +33,7 @@ class ImageDecorator
         return $self;
     }
 
-    public function resize(int $width, int $height, bool $keepProportions = false): ImageDecorator
+    public function resize(int $width, int $height, bool $keepProportions = false): ImageFacade
     {
         $this->image->resize(
             $width,
@@ -44,7 +44,7 @@ class ImageDecorator
         return $this;
     }
 
-    public function encode(string $encoding, int $quality = 50): ImageDecorator
+    public function encode(string $encoding, int $quality = 50): ImageFacade
     {
         $this->image->encode($encoding, $quality);
 

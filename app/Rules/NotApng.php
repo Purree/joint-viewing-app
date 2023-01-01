@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\Services\ImageDecorator;
+use App\Helpers\ImageFacade;
 use Illuminate\Contracts\Validation\Rule;
 
 class NotApng implements Rule
@@ -16,7 +16,7 @@ class NotApng implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        return ImageDecorator::checkIsAPNG($value);
+        return ImageFacade::checkIsAPNG($value);
     }
 
     /**
