@@ -115,6 +115,10 @@ export default {
 
             this.$emit('update:cachedSynchronizationParameters', synchronizationParameters)
 
+            if (!this.checkIsEventNeedToBeListenedAndReflectItsValue()) {
+                return
+            }
+
             if (this.canControl || this.isHost) {
                 this.$emit('synchronize', synchronizationParameters)
             } else {
@@ -135,10 +139,7 @@ export default {
                     this.player.pauseVideo()
                 }
 
-                if (this.skipNextEvent && !this.isHost && !this.canControl) {
-                    this.$emit('listenNextEvent')
-                } else {
-                    this.$emit('ignoreNextEvent')
+                if (this.checkIsEventNeedToBeListenedAndReflectItsValue()) {
                     this.sendSynchronizationEvent()
                 }
             }
@@ -146,7 +147,7 @@ export default {
         addVideoSeekListener() {
             this.synchronizationInterval = setInterval(() => {
                 if (this.lastTime !== 0 && Math.abs(this.player.getCurrentTime() - this.lastTime - (this.player.getPlayerState() !== window.YT.PlayerState.PLAYING * this.player.getPlaybackRate())) > 1.5) {
-                    this.sendSynchronizationEvent()
+                    this.player.pauseVideo()
                 }
                 this.lastTime = this.player.getCurrentTime()
             }, 1000)
@@ -163,6 +164,15 @@ export default {
         },
         parsePlaylistLink(url) {
             return new URL(url).searchParams.get('list')
+        },
+        checkIsEventNeedToBeListenedAndReflectItsValue() {
+            if (this.skipNextEvent && !this.isHost && !this.canControl) {
+                this.$emit('listenNextEvent')
+                return false
+            } else {
+                this.$emit('ignoreNextEvent')
+                return true
+            }
         }
     },
     beforeCreate() {
@@ -189,7 +199,6 @@ export default {
                         onPlaybackRateChange: this.sendSynchronizationEvent
                     },
                     playerVars: {
-                        autoplay: 1,
                         showinfo: 0,
                         rel: 0,
                         color: 'white',
