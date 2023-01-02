@@ -61,7 +61,7 @@ export default {
 
             const timeWithUncertainty = isPaused ? time : time + (new Date().getTime() - synchronizerTimestamp) / 1000 * playbackRate
 
-            if (this.lastSynchronizationData.synchronizationAttemptPerMinute > 30) {
+            if (this.lastSynchronizationData.synchronizationAttemptPerMinute > 60 && !this.isHost) {
                 errorsHelper.methods.openNotification('It looks like your player is syncing too often. Perhaps you or your leader has a video playback speed that is different from the speed set in the player, check this, if this does not help, then try to reduce the number of actions with the player. If so many requests come from you, we will be forced to block you for a short time.')
             }
 

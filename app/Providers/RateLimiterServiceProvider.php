@@ -3,11 +3,14 @@
 namespace App\Providers;
 
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
 class RateLimiterServiceProvider extends ServiceProvider
 {
+    private const MAX_SYNCHRONIZATION_ATTEMPTS_COUNT = 100;
+
     public function boot()
     {
         RateLimiter::for('auth', static function () {
@@ -74,12 +77,16 @@ class RateLimiterServiceProvider extends ServiceProvider
             return Limit::perMinute(100);
         });
 
-        RateLimiter::for('synchronization_request', static function () {
-            return Limit::perMinute(40);
+        RateLimiter::for('synchronization_request', static function (Request $request) {
+            if ($request->user()->createdRoom->id === $request->user()->currentRoom->id) {
+                return Limit::perMinute(self::MAX_SYNCHRONIZATION_ATTEMPTS_COUNT * 10);
+            }
+
+            return Limit::perMinute(self::MAX_SYNCHRONIZATION_ATTEMPTS_COUNT);
         });
 
         RateLimiter::for('synchronization', static function () {
-            return Limit::perMinute(400);
+            return Limit::perMinute(self::MAX_SYNCHRONIZATION_ATTEMPTS_COUNT*10);
         });
     }
 }
