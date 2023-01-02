@@ -151,8 +151,11 @@ export default {
                 if (
                     this.lastTime !== 0 &&
                     Math.abs(
-                        this.player.getCurrentTime() - this.lastTime - (this.player.getPlayerState() !==
-                            window.YT.PlayerState.PLAYING * this.player.getPlaybackRate())) > 1.5
+                        this.player.getCurrentTime() - this.lastTime - (
+                            this.player.getPlayerState() !==
+                            window.YT.PlayerState.PLAYING * this.player.getPlaybackRate()
+                        )
+                    ) > 1.5
                 ) {
                     this.synchronizationPending = true
                     this.player.pauseVideo()
