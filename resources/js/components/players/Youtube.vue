@@ -12,7 +12,8 @@ export default {
         return {
             lastTime: 0,
             synchronizationInterval: null,
-            lastSynchronizationData: {}
+            lastSynchronizationData: {},
+            synchronizationPending: false
         }
     },
     props: {
@@ -31,10 +32,6 @@ export default {
         isHost: {
             type: Boolean,
             required: true
-        },
-        skipNextEvent: {
-            type: Boolean,
-            required: true
         }
     },
     emits: [
@@ -48,7 +45,7 @@ export default {
     ],
     methods: {
         synchronize(time, isPaused, playbackRate, synchronizerTimestamp, additionalData = {}) {
-            this.$emit('ignoreNextEvent')
+            this.synchronizationPending = true
 
             this.lastSynchronizationData = {
                 time,
@@ -93,6 +90,8 @@ export default {
             if (this.player.getPlaybackRate() !== playbackRate) {
                 this.player.setPlaybackRate(playbackRate)
             }
+
+            this.synchronizationPending = false
         },
         loadPlaylist(listId, index = 0, startSeconds = 0) {
             this.player.loadPlaylist({
@@ -104,6 +103,10 @@ export default {
             })
         },
         sendSynchronizationEvent() {
+            if (this.synchronizationPending) {
+                return
+            }
+
             const synchronizationParameters =
                 this.player.getPlaylistIndex() !== null && this.player.getPlaylistIndex() !== undefined
                     ? {
@@ -114,10 +117,6 @@ export default {
                     : {}
 
             this.$emit('update:cachedSynchronizationParameters', synchronizationParameters)
-
-            if (!this.checkIsEventNeedToBeListenedAndReflectItsValue()) {
-                return
-            }
 
             if (this.canControl || this.isHost) {
                 this.$emit('synchronize', synchronizationParameters)
@@ -131,6 +130,10 @@ export default {
             this.$emit('playerReady')
         },
         onPlayerStateChange(event) {
+            if (this.synchronizationPending) {
+                return
+            }
+
             if (event.data === window.YT.PlayerState.ENDED) {
                 this.$emit('videoEnded')
             }
@@ -139,15 +142,22 @@ export default {
                     this.player.pauseVideo()
                 }
 
-                if (this.checkIsEventNeedToBeListenedAndReflectItsValue()) {
-                    this.sendSynchronizationEvent()
-                }
+                this.sendSynchronizationEvent()
             }
         },
         addVideoSeekListener() {
             this.synchronizationInterval = setInterval(() => {
-                if (this.lastTime !== 0 && Math.abs(this.player.getCurrentTime() - this.lastTime - (this.player.getPlayerState() !== window.YT.PlayerState.PLAYING * this.player.getPlaybackRate())) > 1.5) {
+                // If a player's time has been changed
+                if (
+                    this.lastTime !== 0 &&
+                    Math.abs(
+                        this.player.getCurrentTime() - this.lastTime - (this.player.getPlayerState() !==
+                            window.YT.PlayerState.PLAYING * this.player.getPlaybackRate())) > 1.5
+                ) {
+                    this.synchronizationPending = true
                     this.player.pauseVideo()
+                    this.sendSynchronizationEvent()
+                    this.synchronizationPending = false
                 }
                 this.lastTime = this.player.getCurrentTime()
             }, 1000)
@@ -164,15 +174,6 @@ export default {
         },
         parsePlaylistLink(url) {
             return new URL(url).searchParams.get('list')
-        },
-        checkIsEventNeedToBeListenedAndReflectItsValue() {
-            if (this.skipNextEvent && !this.isHost && !this.canControl) {
-                this.$emit('listenNextEvent')
-                return false
-            } else {
-                this.$emit('ignoreNextEvent')
-                return true
-            }
         }
     },
     beforeCreate() {

@@ -19,11 +19,9 @@
                      @player-ready="onPlayerReady"
                      @synchronize="sendSynchronizationToClients"
                      @request-synchronization="usePending(requestSynchronization, 'synchronizationPending')"
-                     @ignore-next-event="this.skipNextEvent = true"
-                     @listen-next-event="this.skipNextEvent = false"
                      :video-url="videoId"
                      :can-control="canControl"
-                     :skip-next-event="this.skipNextEvent"></youtube>
+                     ></youtube>
         </div>
         <div class="h-100 w-100 is-flex is-justify-content-center is-align-items-center" v-else>
             <div class="has-text-centered">
@@ -48,11 +46,9 @@ export default {
     mixins: [usePending],
     data() {
         return {
-            skipNextEventPending: false,
             synchronizationPending: false,
             synchronizationErrorText: '',
             synchronizationErrorPending: false,
-            skipNextEventTimeout: null,
             cachedPlayerSynchronizationParameters: {}
         }
     },
@@ -131,6 +127,8 @@ export default {
                         )
                     }
                 })
+
+            this.requestSynchronization()
         }
     },
     computed: {
@@ -150,19 +148,6 @@ export default {
                         this.synchronizationErrorPending = false
                     }, 1000)
                 }
-            }
-        },
-        skipNextEvent: {
-            get: function() {
-                return this.skipNextEventPending
-            },
-            set: function(value) {
-                clearTimeout(this.skipNextEventTimeout)
-                this.skipNextEventPending = value
-
-                this.skipNextEventTimeout = setTimeout(() => {
-                    this.skipNextEventPending = false
-                }, 5000)
             }
         }
     }
