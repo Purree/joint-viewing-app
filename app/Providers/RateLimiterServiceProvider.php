@@ -78,7 +78,7 @@ class RateLimiterServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('synchronization_request', static function (Request $request) {
-            if ($request->user()->createdRoom->id === $request->user()->currentRoom->id) {
+            if ($request->user()?->createdRoom?->id === $request->user()->currentRoom->id) {
                 return Limit::perMinute(self::MAX_SYNCHRONIZATION_ATTEMPTS_COUNT * 10);
             }
 
