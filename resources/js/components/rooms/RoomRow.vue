@@ -85,7 +85,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "~/bulma/sass/utilities/initial-variables.sass";
+
 .room-text-information {
     width: 95%;
     white-space: nowrap;
@@ -95,5 +97,6 @@ export default {
     margin-left: 5px;
     border-radius: 100%;
     background-color: cadetblue;
+    color: $white-ter;
 }
 </style>
